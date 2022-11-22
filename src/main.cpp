@@ -1,38 +1,67 @@
-#include <ESP8266WiFi.h>          //https://github.com/esp8266/Arduino
-
-//needed for library
-#include <DNSServer.h>
-#include <ESP8266WebServer.h>
 #include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
+#include <SPI.h>
+#include <FS.h>           // Nutze die SPIFFS library
 
+File myfile;                   // erstelle ein SPIFFS Handling Variable
 
-void setup() {
-    // put your setup code here, to run once:
-    Serial.begin(115200);
-
-    //WiFiManager
-    //Local intialization. Once its business is done, there is no need to keep it around
-    WiFiManager wifiManager;
-    //reset saved settings
-    //wifiManager.resetSettings();
-    
-    //set custom ip for portal
-    //wifiManager.setAPStaticIPConfig(IPAddress(10,0,1,1), IPAddress(10,0,1,1), IPAddress(255,255,255,0));
-
-    //fetches ssid and pass from eeprom and tries to connect
-    //if it does not connect it starts an access point with the specified name
-    //here  "AutoConnectAP"
-    //and goes into a blocking loop awaiting configuration
-    wifiManager.autoConnect("AutoConnectAP");
-    //or use this for auto generated name ESP + ChipID
-    //wifiManager.autoConnect();
-
-    
-    //if you get here you have connected to the WiFi
-    Serial.println("connected...yeey :)");
+boolean InitalizeFileSystem() 
+{
+  bool initok = false;
+  initok = SPIFFS.begin();
+  if (!(initok)) // Format SPIFS, of not formatted. - Try 1
+  {
+    Serial.println("Format SPIFFS");
+    SPIFFS.format();
+    initok = SPIFFS.begin();
+  }
+  if (!(initok)) // Format SPIFS, of not formatted. - Try 2
+  {
+    SPIFFS.format();
+    initok = SPIFFS.begin();
+  }
+  if (initok) { Serial.println("SPIFFS ist OK"); } else { Serial.println("SPIFFS ist nicht OK"); }
+  return initok;
 }
 
-void loop() {
-    // put your main code here, to run repeatedly:
-    
+void setup() 
+{
+  Serial.begin(9600);  
+  SPI.begin();                     
+  bool Result  = InitalizeFileSystem(); 
+  if (!(SPIFFS.exists ("/usage_log.csv") ))  //Prüfe ob Datei usage_log.csvschon exisiert.
+  {   
+    myfile = SPIFFS.open("/usage_log.csv", "w");  //Öffne die Datei usage_log.csv im Root Verzeichnis zum schreiben (w – write)
+    if (!myfile) 
+      {
+      Serial.println("Fehler beim schreiben der Datei");
+      }
+    Result = myfile.println("01.01.1980  12:00:00;Log cleared or deleted"); 
+    Result = myfile.println("01.01.1980  12:00:01;First Entry, second Line");
+    myfile.close();
+  } else
+  {
+   SPIFFS.remove("/usage_log.csv");  //Lösche Datei  
+   Serial.println("Datei usage_log.csv exisierte schon ! Sie wurde gelöscht.");
+  }
+}
+
+void loop() 
+{
+  myfile = SPIFFS.open("/usage_log.csv", "r");  //Öffne die Datei usage_log.csv im Root Verzeichnis zum lesen (r - read)
+  String content=myfile.readStringUntil('\n');
+  Serial.println("Methode: readStringUntil:");
+  while (myfile.position()<myfile.size())            // lese Dateiinhbalt Zeile für Zeile bis um Ende der Datei
+        {
+          content =myfile.readStringUntil('\n');
+          //Serial.println(content);
+        } 
+  int FileSize = myfile.size();
+  myfile.close();
+  Serial.print("Dateigroesse in Bytes:");           // gebe die aktuelle Dateigröße in Bytes aus
+  Serial.println(FileSize);                                     // gebe die aktuelle Dateigröße in Bytes aus
+  delay (50);
+  yield();               // interne ESP8266 Funktionen aufrufen
+  myfile = SPIFFS.open("/usage_log.csv", "a");  // Öffne Datei um Daten anzuhängen ! (a - append)
+  myfile.println("01.01.1980  12:00:xx;Zeile wurde hinzugefügt.");
+  myfile.close();
 }
