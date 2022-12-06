@@ -44,6 +44,15 @@ data.json:
 
 #### 
 
+### Webserver:
+- Asynchronous Webserver
+1. provides single page website
+
+#### Buttons:
+1. send HTTP Get Request to URL
+2. MC saves submitted name and recorded IR-Signal
+3. 
+
 
 ### Annotations:
 - #include <WiFiManager.h> in main.cpp otherwise error in library occures
