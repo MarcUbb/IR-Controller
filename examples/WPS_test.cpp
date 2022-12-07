@@ -1,5 +1,5 @@
 #include <ESP8266WiFi.h>
-#define WPS D4 //Pin für den WPS Taster
+#define WPS D6 //Pin für den WPS Taster
 
 
 //Startet die WPS Konfiguration

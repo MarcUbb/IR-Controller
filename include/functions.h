@@ -11,21 +11,21 @@
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 
-boolean capturing_workflow(String command_name);
+boolean recording_workflow(String command_name);
 boolean deleting_workflow(String command_name);
-boolean play_workflow(String command_name);
+boolean sending_workflow(String command_name);
 
 String captureSignal();
 DynamicJsonDocument convertToJSON(String result_string, String name);
 void saveCommand(String filename, DynamicJsonDocument doc);
 DynamicJsonDocument loadCommand(String filename);
 void sendCommand(DynamicJsonDocument doc);
-void listFiles(String directory);
+void checkFiles(String directory);
 boolean checkFile(String filename);
 void printFile(String filename);
 
-// TODO: testen
-boolean capturing_workflow(String command_name) {
+
+boolean recording_workflow(String command_name) {
   // 1. filename is generated:
   String filename = "/data/" + command_name + ".txt";
   // 2. signal is received:
@@ -41,7 +41,7 @@ boolean capturing_workflow(String command_name) {
   return(false);
 }
 
-// TODO: testen
+
 boolean deleting_workflow(String command_name) {
   // 1. filename is generated:
   String filename = "/data/" + command_name + ".txt";
@@ -57,8 +57,8 @@ boolean deleting_workflow(String command_name) {
   return(false);
 }
 
-// TODO: testen
-boolean play_workflow(String command_name) {
+
+boolean sending_workflow(String command_name) {
   // 1. filename is generated:
   String filename = "/data/" + command_name + ".txt";
   // 2. loads Command and saves it in JSON Object
@@ -170,16 +170,22 @@ void saveCommand(String filename, DynamicJsonDocument doc) {
 
   if (!myfile) {
     Serial.println(F("Failed to create file"));
+    myfile.close();
+    LittleFS.end();
     return;
   }
 
   // Serialize JSON to file
   if (serializeJson(doc, myfile) == 0) {
     Serial.println(F("Failed to write to file"));
+    myfile.close();
+    LittleFS.end();
+    return;
   }
   // Close the file
   myfile.close();
   LittleFS.end();
+  return;
 }
 
 
@@ -195,6 +201,8 @@ DynamicJsonDocument loadCommand(String filename) {
 
   if (!myfile) {
     Serial.println("Failed to read file!");
+    myfile.close();
+    LittleFS.end();
     return doc;
   }
 
@@ -203,6 +211,9 @@ DynamicJsonDocument loadCommand(String filename) {
   if (error) {
     Serial.println("Failed to read file, using default configuration");
     LittleFS.remove(filename);
+    myfile.close();
+    LittleFS.end();
+    return doc;
   }
 
   doc.shrinkToFit();
@@ -210,7 +221,6 @@ DynamicJsonDocument loadCommand(String filename) {
   myfile.close();
   LittleFS.end();
   return doc;
-
 }
 
 // TODO: zu call by reference ändern
@@ -241,6 +251,7 @@ void sendCommand(DynamicJsonDocument doc) {
   irsend.begin();
 
   irsend.sendRaw(command, length, 38);
+  return;
 }
 
 
@@ -260,7 +271,9 @@ void checkFiles(String directory) {
     else {
       filepath += "/" + dir.fileName();
     }
-    if(checkFile(filepath) == true) {
+    Serial.print(filepath + ": ");
+    boolean corrupted = true;  //checkFile(filepath);
+    if(corrupted == true) {
       Serial.print("true");
     }
     else{
@@ -269,6 +282,7 @@ void checkFiles(String directory) {
   }
   Serial.println();
   LittleFS.end();
+  return;
 }
 
 boolean checkFile(String filename) {
@@ -277,13 +291,14 @@ boolean checkFile(String filename) {
   File myfile = LittleFS.open(filename, "r");
 
   if (!myfile) {
+    myfile.close();
+    LittleFS.end();
     return false;
   }
 
   DynamicJsonDocument doc(3096);
   DeserializationError error = deserializeJson(doc, myfile);
   doc.shrinkToFit();
-  
   if (error) {
     myfile.close();
     LittleFS.end();
@@ -311,7 +326,6 @@ boolean checkFile(String filename) {
   LittleFS.end();
   doc.garbageCollect();
   return true;
-
 }
 
 void printFile(String filename) {
