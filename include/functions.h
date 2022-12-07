@@ -11,6 +11,10 @@
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 
+boolean capturing_workflow(String command_name);
+boolean deleting_workflow(String command_name);
+boolean play_workflow(String command_name);
+
 String captureSignal();
 DynamicJsonDocument convertToJSON(String result_string, String name);
 void saveCommand(String filename, DynamicJsonDocument doc);
@@ -20,8 +24,50 @@ void listFiles(String directory);
 boolean checkFile(String filename);
 void printFile(String filename);
 
+// TODO: testen
+boolean capturing_workflow(String command_name) {
+  // 1. filename is generated:
+  String filename = "/data/" + command_name + ".txt";
+  // 2. signal is received:
+  String raw_sequence = captureSignal();
+  // 3. if sinal was received successfully:
+  if (raw_sequence != "No Signal"){
+    // 3.1 signal String is serialized to JSON:
+    DynamicJsonDocument sequence_JSON = convertToJSON(raw_sequence, command_name);
+    // 3.2 JSON is written to file:
+    saveCommand(filename, sequence_JSON);
+    return(true);
+  }
+  return(false);
+}
 
-// TODO: Umschreiben, sodass alle Sequenzen in data/Sequenzname, also in eigener Datei gespeichert werden
+// TODO: testen
+boolean deleting_workflow(String command_name) {
+  // 1. filename is generated:
+  String filename = "/data/" + command_name + ".txt";
+  LittleFS.begin();
+  // 2. check if file exists:
+  if(LittleFS.exists(filename)){
+    // 2.1 delete file:
+    LittleFS.remove(filename);
+    LittleFS.end();
+    return(true);
+  }
+  LittleFS.end();
+  return(false);
+}
+
+// TODO: testen
+boolean play_workflow(String command_name) {
+  // 1. filename is generated:
+  String filename = "/data/" + command_name + ".txt";
+  // 2. loads Command and saves it in JSON Object
+  DynamicJsonDocument doc = loadCommand(filename);
+  // 3. (send command)
+  sendCommand(doc);
+  return(true);
+}
+
 // TODO: call by reference woimmer es Sinn macht und geht
 
 // TODO: 65535 (max int value) appears regulary (fix)
