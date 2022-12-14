@@ -1,0 +1,36 @@
+<!DOCTYPE HTML><html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IR Remote</title>
+  <style>
+    html {font-family: Arial; display: inline-block;}
+    body {max-width: 400px; margin:0px auto; padding-bottom: 25px;} 
+  </style>
+</head>
+<body>
+  <h2>IR-Remote</h2>
+  <form action="/get">
+    <select id="sequences" name="sequences"></select>
+    <input type="submit" value="send">
+  </form>
+
+  <form action="/get">
+    <label for="seqName">Sequence name:</label><br>
+    <input type="text" id="seqName" name="seqName" placeholder="sequence name"><br>
+    <input type="submit" value="+">
+  </form>
+
+  <form action="/get">
+    <select name="programs" id="programs"></select>
+    <input type="submit" value="activate">
+  </form>
+
+  <form action="/get">
+    <label for="progCode">Program code:</label><br>
+    <input type="text" id="progCode" name="progCode" placeholder="write your code here"><br>
+    <label for="progName">Program name:</label><br>
+    <input type="text" id="progName" name="progName" placeholder="program name"><br>
+    <input type="submit" value="+">
+  </form>
+</body>
+</html>

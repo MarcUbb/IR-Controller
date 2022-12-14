@@ -3,13 +3,13 @@ This repository contains the software for an infrared controller, the purpose of
 
 ### JSON-Format:
 ```
-data.json:
+Philips TV.txt:
 {
-  {
-    "name":"Philips TV", 
-    "sequence": [21,24,71,34,74,73,21,60,32]
-  }
+  "name":"Philips TV",
+  "length": 9, 
+  "sequence": "21,24,71,34,74,73,21,60,32"
 }
+
 ```
 ### Setup:
 #### WifiManager

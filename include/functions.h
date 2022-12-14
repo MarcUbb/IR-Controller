@@ -285,6 +285,7 @@ void checkFiles(String directory) {
   return;
 }
 
+// may be removed
 boolean checkFile(String filename) {
   LittleFS.begin();
 
