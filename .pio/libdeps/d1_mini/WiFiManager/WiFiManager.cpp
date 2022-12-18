@@ -749,22 +749,22 @@ void WiFiManager::handleReset() {
 
 /** Handle WPS */
 void WiFiManager::handleWPS() {
-  DEBUG_WM(F("Info"));
+  DEBUG_WM(F("Wps"));
 
   String page = FPSTR(HTTP_HEADER);
-  page.replace("{v}", "Info");
+  page.replace("{v}", "Credentials Saved");
   page += FPSTR(HTTP_SCRIPT);
   page += FPSTR(HTTP_STYLE);
   page += _customHeadElement;
   page += FPSTR(HTTP_HEADER_END);
-  page += F("Trying to connect to Router!");
+  page += "<div><br/>Trying to connect ESP to network.<br />If it fails the Access Point will restart and you will have to try again.<br />This can take up to 30 seconds.</div>";
   page += FPSTR(HTTP_END);
 
   server->sendHeader("Content-Length", String(page.length()));
   server->send(200, "text/html", page);
 
-  DEBUG_WM(F("Sent info page"));
-
+  DEBUG_WM(F("Trying WPS"));
+  delay(5000);
   WiFi.mode(WIFI_STA);
   bool wpsSuccess = WiFi.beginWPSConfig();
   if(wpsSuccess) {
@@ -772,11 +772,17 @@ void WiFiManager::handleWPS() {
     String newSSID = WiFi.SSID();
     if(newSSID.length() > 0) {
       // Nur wenn eine SSID gefunden wurde waren wir erfolgreich 
-      Serial.printf("WPS fertig. Erfolgreich angemeldet an SSID '%s'\n", newSSID.c_str());
+      DEBUG_WM(F("WPS Success"));
       ESP.reset();
     } else {
       wpsSuccess = false;
+      DEBUG_WM(F("WPS Failed"));
+      ESP.reset();
     }
+  }
+  else {
+    DEBUG_WM(F("WPS Failed"));
+    ESP.reset();
   }
 }
 

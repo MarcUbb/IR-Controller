@@ -1,4 +1,6 @@
-<!DOCTYPE HTML><html>
+#include <Arduino.h>
+
+const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IR Remote</title>
@@ -116,4 +118,4 @@
 
     </script>
 </body>
-</html>
+</html>)rawliteral";

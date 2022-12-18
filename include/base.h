@@ -7,13 +7,10 @@
 #include <IRutils.h>
 #include <IRsend.h>
 #include <WiFiManager.h>
-
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 
-boolean recording_workflow(String command_name);
-boolean deleting_workflow(String command_name);
-boolean sending_workflow(String command_name);
+
 
 String captureSignal();
 DynamicJsonDocument convertToJSON(String result_string, String name);
@@ -23,50 +20,8 @@ void sendCommand(DynamicJsonDocument doc);
 void checkFiles(String directory);
 boolean checkFile(String filename);
 void printFile(String filename);
-
-
-boolean recording_workflow(String command_name) {
-  // 1. filename is generated:
-  String filename = "/data/" + command_name + ".txt";
-  // 2. signal is received:
-  String raw_sequence = captureSignal();
-  // 3. if sinal was received successfully:
-  if (raw_sequence != "No Signal"){
-    // 3.1 signal String is serialized to JSON:
-    DynamicJsonDocument sequence_JSON = convertToJSON(raw_sequence, command_name);
-    // 3.2 JSON is written to file:
-    saveCommand(filename, sequence_JSON);
-    return(true);
-  }
-  return(false);
-}
-
-
-boolean deleting_workflow(String command_name) {
-  // 1. filename is generated:
-  String filename = "/data/" + command_name + ".txt";
-  LittleFS.begin();
-  // 2. check if file exists:
-  if(LittleFS.exists(filename)){
-    // 2.1 delete file:
-    LittleFS.remove(filename);
-    LittleFS.end();
-    return(true);
-  }
-  LittleFS.end();
-  return(false);
-}
-
-
-boolean sending_workflow(String command_name) {
-  // 1. filename is generated:
-  String filename = "/data/" + command_name + ".txt";
-  // 2. loads Command and saves it in JSON Object
-  DynamicJsonDocument doc = loadCommand(filename);
-  // 3. (send command)
-  sendCommand(doc);
-  return(true);
-}
+String get_files(String folderSequences, String folderPrograms);
+boolean check_if_file_exists(String filename);
 
 // TODO: call by reference woimmer es Sinn macht und geht
 
@@ -254,96 +209,50 @@ void sendCommand(DynamicJsonDocument doc) {
   return;
 }
 
+String get_files(String folderSequences, String folderPrograms){
+  String files = "";
+  boolean sequences = false;
+  boolean programs = false;
 
-// https://arduino.stackexchange.com/questions/76186/how-can-i-list-only-files-that-begin-with-log
-void checkFiles(String directory) {
   LittleFS.begin();
-  Dir dir = LittleFS.openDir(directory);
-
-  while(dir.next()){
-    Serial.println();
-    Serial.print(dir.fileName());
-    Serial.print(" - ");
-    String filepath = "";
-    if (directory != "/") {
-      filepath += directory + "/" + dir.fileName();
-    }
-    else {
-      filepath += "/" + dir.fileName();
-    }
-    Serial.print(filepath + ": ");
-    boolean corrupted = true;  //checkFile(filepath);
-    if(corrupted == true) {
-      Serial.print("true");
-    }
-    else{
-      Serial.print("false");
-    }
+  Dir dir = LittleFS.openDir(folderSequences);
+  while (dir.next()) {
+    sequences = true;
+    String filename = dir.fileName();
+    filename = filename.substring(0, filename.length() - 4);
+    files += filename;
+    files += ",";
   }
-  Serial.println();
+
+  // only remove last comma if there is one
+  if (sequences == true){
+    files = files.substring(0, files.length() - 1);
+  }
+
+  files += ";";
+
+  dir = LittleFS.openDir(folderPrograms);
+  while (dir.next()) {
+    programs = true;
+    String filename = dir.fileName();
+    filename = filename.substring(0, filename.length() - 4);
+    files += filename;
+    files += ",";
+  }
+
+  if (programs == true){
+    files = files.substring(0, files.length() - 1);
+  }
+  
+
   LittleFS.end();
-  return;
+  return files;
 }
 
-// may be removed
-boolean checkFile(String filename) {
+
+boolean check_if_file_exists(String filename) {
   LittleFS.begin();
-
-  File myfile = LittleFS.open(filename, "r");
-
-  if (!myfile) {
-    myfile.close();
-    LittleFS.end();
-    return false;
-  }
-
-  DynamicJsonDocument doc(3096);
-  DeserializationError error = deserializeJson(doc, myfile);
-  doc.shrinkToFit();
-  if (error) {
-    myfile.close();
-    LittleFS.end();
-    doc.garbageCollect();
-    return false;
-  }
-
-  if (doc["length"] < 12 || doc["length"] > 2048) {
-    myfile.close();
-    LittleFS.end();
-    doc.garbageCollect();
-    return false;
-  }
-
-  String sequence = doc["sequence"];
-  int length = sequence.length();
-  if (sequence.substring(length - 1) == "," || sequence.substring(0, 1) == ",") {
-    myfile.close();
-    LittleFS.end();
-    doc.garbageCollect();
-    return false;
-  }
-
-  myfile.close();
+  boolean exists = LittleFS.exists(filename);
   LittleFS.end();
-  doc.garbageCollect();
-  return true;
-}
-
-void printFile(String filename) {
-  LittleFS.begin();
-  File file2 = LittleFS.open(filename, "r");
-
-  if (!file2) {
-    Serial.println("Failed to open file for reading");
-    return;
-  }
-
-  Serial.println("");
-  Serial.println("JSON in file:");
-  while (file2.available()) {
-    Serial.write(file2.read());
-  }
-
-  file2.close();
-  LittleFS.end();
+  return exists;
 }

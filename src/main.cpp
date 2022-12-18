@@ -4,139 +4,145 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
-#include "functions.h"
-/*
-const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IR Remote</title>
-  <style>
-    html {font-family: Arial; display: inline-block;}
-    body {max-width: 400px; margin:0px auto; padding-bottom: 25px;} 
-  </style>
-</head>
-<body>
-  <h2>IR-Remote</h2>
-  <form action="/get">
-    <select id="sequences" name="sequences"></select>
-    <input type="submit" value="send">
-  </form>
-
-  <form action="/get">
-    <label for="seqName">Sequence name:</label><br>
-    <input type="text" id="seqName" name="seqName" placeholder="sequence name"><br>
-    <input type="submit" value="+">
-  </form>
-
-  <form action="/get">
-    <select name="programs" id="programs"></select>
-    <input type="submit" value="activate">
-  </form>
-
-  <form action="/get">
-    <label for="progCode">Program code:</label><br>
-    <input type="text" id="progCode" name="progCode" placeholder="write your code here"><br>
-    <label for="progName">Program name:</label><br>
-    <input type="text" id="progName" name="progName" placeholder="program name"><br>
-    <input type="submit" value="+">
-  </form>
-</body>
-</html>)rawliteral";
+#include "workflows.h"
+#include "website.h"
 
 
 ESP8266WebServer server(80);
 
 void handleRoot() {
- server.send(200, "text/html", index_html); //Send web page
+  server.send(200, "text/html", index_html); //Send web page
+}
+
+void handleNotFound(){
+  server.send(404, "text/plain", "404: Not found"); // Send HTTP status 404 (Not Found) when there's no handler for the URI in the request
 }
 
 void handleForm() {
+  String sequence = server.arg("sequence");
+  String send_sequence_button = server.arg("send_sequence_button"); 
+  String delete_sequence_button = server.arg("delete_sequence_button"); 
   String seqName = server.arg("seqName"); 
+  String add_sequence_button = server.arg("add_sequence_button");
+  String program = server.arg("program");
+  String play_program_button = server.arg("play_program_button"); 
   String progCode = server.arg("progCode");
   String progName = server.arg("progName"); 
+  String add_program_button = server.arg("add_program_button");
+  String delete_programs_butto = server.arg("delete_program_button");
 
-  Serial.println("seqName: " + seqName);
-  Serial.println("progCode: " + progCode);
-  Serial.println("progName: " + progName);
 
+  // sequence logic:
+  if (seqName != "" && add_sequence_button != "") {
+    boolean recording_error = false;
+    recording_error = recording_workflow(seqName);
+    if (!recording_error) {
+      Serial.println("failed to record sequence: " + seqName);
+    }
+    else {
+      Serial.println("successfully added sequence: " + seqName);
+    }
+  }
+
+  else if (sequence != "") {
+    if (send_sequence_button != "") {
+      boolean sending_error = false;
+      sending_error = sending_workflow(sequence);
+      if (!sending_error) {
+        Serial.println("failed to send sequence: " + sequence);
+      }
+      else {
+        Serial.println("successfully sent sequence: " + sequence);
+      }
+    }
+    else if (delete_sequence_button != "") {
+      boolean deleting_error = false;
+      deleting_error = deleting_workflow("sequences", sequence);
+      if (!deleting_error) {
+        Serial.println("failed to delete sequence: " + sequence);
+      }
+      else {
+        Serial.println("successfully deleted sequence: " + sequence);
+      }
+    }
+  }
+
+  // program logic:
+  else if (progName != "" && add_program_button != "" && progCode != "") {
+    boolean adding_error = false;
+    adding_error = adding_workflow(progName, progCode);
+    if (!adding_error) {
+      Serial.println("failed to add program: " + progName);
+    }
+    else {
+      Serial.println("successfully added program: " + progName);
+    }
+  }
+
+  else if (program != "") {
+    if (play_program_button != "") {
+      boolean playing_error = false;
+      playing_error = playing_workflow(program);
+      if (!playing_error) {
+        Serial.println("failed to play program: " + program);
+      }
+      else {
+        Serial.println("successfully played program: " + program);
+      }
+    }
+    else if (delete_programs_butto != "") {
+      boolean deleting_error = false;
+      deleting_error = deleting_workflow("programs", program);
+      if (!deleting_error) {
+        Serial.println("failed to delete program: " + program);
+      }
+      else {
+        Serial.println("successfully deleted program: " + program);
+      }
+    }
+  }
+  
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
 
+// TODO: send Error message to frontend (when signal file in Program cannot be found)
+
+
+void send_files() 
+{
+  String files = get_files("/sequences", "/programs");
+  Serial.println(files);
+  server.send(200, "text/plane", files);
+}
 
 
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(115200);
 
-  //WiFiManager
-  //Local intialization. Once its business is done, there is no need to keep it around
-  WiFiManager wifiManager;
   //reset saved settings
   //ESP.eraseConfig();
-  //wifiManager.resetSettings();
-  
-  //set custom ip for portal
-  //wifiManager.setAPStaticIPConfig(IPAddress(10,0,1,1), IPAddress(10,0,1,1), IPAddress(255,255,255,0));
-
-  //fetches ssid and pass from eeprom and tries to connect
-  //if it does not connect it starts an access point with the specified name
-  //here  "AutoConnectAP"
-  //and goes into a blocking loop awaiting configuration
+  WiFiManager wifiManager;
   wifiManager.autoConnect("IR-Remote");
-  //or use this for auto generated name ESP + ChipID
-  //wifiManager.autoConnect();
-
   
-  if (MDNS.begin("IRR")) { 
-    Serial.println("MDNS responder started"); 
+  if (!MDNS.begin("irr")) {
+    Serial.println("Error setting up MDNS responder!");
+    while (1) { delay(1000); }
   }
+  Serial.println("mDNS responder started");
 
   server.on("/", handleRoot);
   server.on("/get", handleForm);
+  server.on("/files", send_files);
+  server.onNotFound(handleNotFound);
 
   server.begin();
+  MDNS.addService("http", "tcp", 80);
 }
 
 void loop() {
   MDNS.update();
   server.handleClient();
-}
-*/
-
-
-
-void setup() {
-  Serial.begin(115200);
-  delay(3000);
-  checkFiles("/data");
-
-  boolean error_recording = false;
-  boolean error_sending = false;
-  boolean error_deleting = false;
-
-  error_recording = recording_workflow("Sequenz 2");
-  Serial.println(error_recording);
-  delay(1000);
-  checkFiles("/data");
-
-  if(error_recording) {
-    error_sending = sending_workflow("Sequenz 2");
-    Serial.println(error_sending);
-    delay(1000);
-    checkFiles("/data");
-  }
-
-  if(error_sending) {
-    error_deleting = deleting_workflow("Sequenz 2");
-    Serial.println(error_deleting);
-    delay(1000);
-    checkFiles("/data");
-  }
-}
-
-void loop() {
-  yield();
 }
 
