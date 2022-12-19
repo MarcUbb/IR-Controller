@@ -10,8 +10,6 @@
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 #include <ESP8266WiFi.h>
-#include <NTPClient.h>
-#include <WiFiUdp.h>
 
 
 String captureSignal();
@@ -22,18 +20,21 @@ void sendCommand(DynamicJsonDocument doc);
 
 String get_files(String folderSequences, String folderPrograms);
 boolean check_if_file_exists(String filename);
-String get_NTP_time(int timezone);
 String read_program(String program_name);
 String weekday_to_num (String weekday);
 
 boolean compare_time (String time, boolean weekday_included);
-void save_timezone(String timezone);
-int get_timezone();
+void save_time(String time, int offset);
+String get_time();
+String turn_seconds_in_time(int seconds);
+String add_time(String time, String offset_time);
 
 // TODO: call by reference woimmer es Sinn macht und geht
 
 // TODO: 65535 (max int value) appears regulary (fix)
 // receivePin = 14; captureBufferSize = 1024; timeoutSequence = 90; minUnknownSize = 12; timeoutRecording = 10000;
+
+// implementation of the signal capturing routing
 String captureSignal(){
   int receivePin = 14;
   int ledPin = 5;
@@ -95,7 +96,7 @@ String captureSignal(){
   return "No Signal";
 }
 
-
+// converts the captured signal to a JSON format
 DynamicJsonDocument convertToJSON(String result_string, String name){
 
   // extracts length and sequence from String
@@ -119,6 +120,7 @@ DynamicJsonDocument convertToJSON(String result_string, String name){
 }
 
 
+// saves the converted JSON to a file
 void saveCommand(String filename, DynamicJsonDocument doc) {
 
   LittleFS.begin();
@@ -151,6 +153,7 @@ void saveCommand(String filename, DynamicJsonDocument doc) {
 }
 
 
+// loads the JSON of a file
 DynamicJsonDocument loadCommand(String filename) {
   LittleFS.begin();
   // Open file for reading
@@ -185,7 +188,10 @@ DynamicJsonDocument loadCommand(String filename) {
   return doc;
 }
 
+
 // TODO: zu call by reference ändern
+
+// Implementation of the IR sending routine
 void sendCommand(DynamicJsonDocument doc) {
 
   int length = doc["length"];
@@ -216,6 +222,9 @@ void sendCommand(DynamicJsonDocument doc) {
   return;
 }
 
+
+// scans the LittleFS for files and returns a String with all files
+// this function is used to update the website list of sequences and programs
 String get_files(String folderSequences, String folderPrograms){
   String files = "";
   boolean sequences = false;
@@ -256,7 +265,7 @@ String get_files(String folderSequences, String folderPrograms){
   return files;
 }
 
-
+// checks if a file exists (used in multiple functions)
 boolean check_if_file_exists(String filename) {
   LittleFS.begin();
   boolean exists = LittleFS.exists(filename);
@@ -264,18 +273,8 @@ boolean check_if_file_exists(String filename) {
   return exists;
 }
 
-// TODO: fix occasional wrong time
-String get_NTP_time(int timezone){
-  WiFiUDP ntpUDP;
-  NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
-  timeClient.begin();
-  timeClient.setTimeOffset(timezone);
-  timeClient.update();
-  String time = timeClient.getFormattedTime();
-  int weekday = timeClient.getDay();
-  return(time + " " + weekday);
-}
 
+// reads a program from the LittleFS and returns it as a String
 String read_program(String program_name){
   String filename = "/programs/" + program_name + ".txt";
   String file_content = "";
@@ -289,6 +288,10 @@ String read_program(String program_name){
   return file_content;
 }
 
+
+// converts a weekday String to a number
+// function is used to compare the weekday of the program with the current weekday and the conversion is necessary because the user
+// enters the weekday as a String
 String weekday_to_num (String weekday){
   if (weekday == "Monday" || weekday == "monday"){
     return "1";
@@ -316,8 +319,10 @@ String weekday_to_num (String weekday){
   }
 }
 
+
+// elementary function of timed programs as it compares the current time with the time in the program
 boolean compare_time (String time, boolean weekday_included) {
-  String current_time = get_NTP_time(get_timezone());
+  String current_time = get_time();
   delay(500);
   Serial.println("Current time: " + current_time);
   Serial.println("Time to compare: " + time);
@@ -330,34 +335,126 @@ boolean compare_time (String time, boolean weekday_included) {
   }
 }
 
-void save_timezone(String timezone){
-  if (timezone == ""){
-    Serial.println("No timezone given");
+// TODO: millis() overflow fix
+// Saves time from website to LittleFS. Offset is not generated because it would create greater error
+void save_time(String time, int offset){
+  if (time == ""){
+    Serial.println("No time available");
     return;
   }
 
   LittleFS.begin();
-  File file = LittleFS.open("/timezone.txt", "w");
+  File file = LittleFS.open("/time.txt", "w");
   if (!file) {
     Serial.println("Failed to create file");
     return;
   }
-  file.println(timezone);
+  file.println(time + " " + offset);
   file.close();
   LittleFS.end();
   return;
 }
 
-int get_timezone(){
-  String timezone = "";
+
+// loads the time from the LittleFS, adds the current offset and returns the current time
+String get_time(){
+  String time = "";
   LittleFS.begin();
-  File file = LittleFS.open("/timezone.txt", "r");
+  File file = LittleFS.open("/time.txt", "r");
   while (file.available()) {
-    timezone += (char)file.read();
+    time += (char)file.read();
   }
   file.close();
   LittleFS.end();
-  int timezone_int = timezone.toInt();
-  timezone_int = timezone_int * 3600;
-  return timezone_int;
+
+  String offset = time.substring(time.indexOf(" ") + 3);
+  time = time.substring(0, time.indexOf(" ") + 2);
+
+  int current_offset = millis();
+
+  int effective_offset = current_offset - offset.toInt();
+  effective_offset = effective_offset / 1000;
+
+  String offset_time = turn_seconds_in_time(effective_offset);
+  time = add_time(time, offset_time);
+
+  return time;
+}
+
+// converts seconds to time format. Is used in get_time() to prepare millis() offset for comparison with saved time
+String turn_seconds_in_time(int input_seconds){
+  int hours = input_seconds / 3600;
+  int minutes = (input_seconds % 3600) / 60;
+  int seconds = input_seconds % 60;
+
+  String time = "";
+  if (hours < 10){
+    time += "0";
+  }
+  time += hours;
+  time += ":";
+  if (minutes < 10){
+    time += "0";
+  }
+  time += minutes;
+  time += ":";
+  if (seconds < 10){
+    time += "0";
+  }
+  time += seconds;
+
+  return time;
+}
+
+
+// adds two times together. Is used in get_time() to add the offset to the saved time
+String add_time(String time, String offset_time){
+  int hours = time.substring(0, time.indexOf(":")).toInt();
+  int minutes = time.substring(time.indexOf(":") + 1, time.indexOf(":") + 3).toInt();
+  int seconds = time.substring(time.indexOf(":") + 4, time.indexOf(":") + 6).toInt();
+  int weekday = time.substring(time.indexOf(" ") + 1).toInt();
+
+  int offset_hours = offset_time.substring(0, offset_time.indexOf(":")).toInt();
+  int offset_minutes = offset_time.substring(offset_time.indexOf(":") + 1, offset_time.indexOf(":") + 3).toInt();
+  int offset_seconds = offset_time.substring(offset_time.indexOf(":") + 4, offset_time.indexOf(":") + 6).toInt();
+
+  seconds += offset_seconds;
+  if (seconds >= 60){
+    seconds -= 60;
+    minutes += 1;
+  }
+  minutes += offset_minutes;
+  if (minutes >= 60){
+    minutes -= 60;
+    hours += 1;
+  }
+  hours += offset_hours;
+
+  while (hours >= 24){
+    hours -= 24;
+    weekday += 1;
+  }
+  while (weekday >= 7){
+    weekday -= 7;
+  }
+
+  String time_sum = "";
+
+  if (hours < 10){
+    time_sum += "0";
+  }
+  time_sum += hours;
+  time_sum += ":";
+  if (minutes < 10){
+    time_sum += "0";
+  }
+  time_sum += minutes;
+  time_sum += ":";
+  if (seconds < 10){
+    time_sum += "0";
+  }
+  time_sum += seconds;
+  time_sum += " ";
+  time_sum += weekday;
+  return (time_sum);
 }

@@ -14,26 +14,35 @@ void handleProgram();
 void handleError();
 void handleTime();
 
-
+// declared outside of setup() to make visible to handler functions
 ESP8266WebServer server(80);
 
+// global variables (used to hand over information about current state of website or state of function execution)
+// programname is used to hand over information about currently selected program
+// on /program, handleProgram() will access this variable and send program code and name to the frontend
 String programname = "";
+// message is used to hand over error messages (is set by website on /form) and updated in frontend on reload
 String message = "";
 
 void setup() {
   Serial.begin(115200);
 
-  //reset saved settings:
-  //ESP.eraseConfig();
+  // WiFiManager (is skipped if credentials are saved)
+  // reset saved settings:
+  // ESP.eraseConfig();
   WiFiManager wifiManager;
+  // WPS option was added to manager
   wifiManager.autoConnect("IR-Remote");
   
+  // start mDNS
   if (!MDNS.begin("irr")) {
     Serial.println("Error setting up MDNS responder!");
     while (1) { delay(1000); }
   }
   Serial.println("mDNS responder started");
 
+
+  // handler functions:
   server.on("/", handleRoot);
   server.on("/form", handleForm);
   server.on("/files", send_files);
@@ -42,6 +51,7 @@ void setup() {
   server.on("/time", handleTime);
   server.onNotFound(handleNotFound);
 
+  // start server
   server.begin();
   MDNS.addService("http", "tcp", 80);
 }
@@ -60,37 +70,51 @@ void loop() {
 
 //------------------ handlers ------------------//
 
+// serves index.html
 void handleRoot() {
   server.send(200, "text/html", index_html);
 }
 
+// serves 404 error
 void handleNotFound() {
   server.send(404, "text/plain", "404: Not found");
 }
 
-// Get request has to be on a separate page because esp hast to send back command because submit buttons trigger forwarding
+// the website is designed with form elements that trigger forwarding to /form. This is a problem because we can only communicate on that channel.
+// we have to communicate a back to the website to update the page. So in order to still be able to send data back to the website, on every reload 
+// the website will send a get request on /program. This will trigger handleProgram() which will send the program name and code back to the website.
 void handleProgram() {
   String programcode = read_program(programname);
   server.send(200, "text/plain", programname + ";" + programcode);
 }
 
+// Similarly to handleProgram(), the website will send a get request on /error to update the error message on reload.
+// The message is again written by handleForm().
 void handleError() {
   server.send(200, "text/plain", message);
 }
 
+// sends a list of all files in /sequences and /programs on reload
 void send_files() {
   String files = get_files("/sequences", "/programs");
   Serial.println(files);
   server.send(200, "text/plane", files);
 }
 
+// gets the time from the client via Date() and saves it together with the millis() offset to a file
+// the offset is important because only with millis() we can calculate the time that has passed between the synchronisation and the time of program execution.
+// this enabled the ESP to execute timed programs even if the wifi connection is lost.
 void handleTime() {
-  String timezone = server.arg("time_input");
-  save_timezone(timezone);
+  String time = server.arg("time_dummy");
+  int offset = millis();
+  save_time(time, offset);
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
+// handles all form elements on the website (sequences and programs)
+// also updates the error message and programname.
+// all the logic is handled here and the functions from workflows.h are called.
 void handleForm() {
   String sequence = server.arg("sequence");
   String send_sequence_button = server.arg("send_sequence_button"); 

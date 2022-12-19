@@ -12,6 +12,7 @@ boolean timed_workflow(String time_command);
 boolean day_workflow(String day_command);
 
 
+// recording workflow for sequences includes recording, converting to JSON and saving to file
 boolean recording_workflow(String command_name) {
   // 1. filename is generated:
   String filename = "/sequences/" + command_name + ".txt";
@@ -29,6 +30,7 @@ boolean recording_workflow(String command_name) {
 }
 
 
+// deleting workflow for sequences and programs deletthe corresponding file
 boolean deleting_workflow(String directory, String command_name) {
   // 1. filename is generated:
   String filename = "/" + directory + "/" + command_name + ".txt";
@@ -45,6 +47,7 @@ boolean deleting_workflow(String directory, String command_name) {
 }
 
 
+// sending workflow for sequences includes loading the file and sending the command
 boolean sending_workflow(String command_name) {
   // 1. filename is generated:
   String filename = "/sequences/" + command_name + ".txt";
@@ -60,6 +63,8 @@ boolean sending_workflow(String command_name) {
   return(true);
 }
 
+
+// adding workflow for programs writes the code to file
 boolean adding_workflow(String progName, String progCode) {
   // 1. filename is generated:
   String filename = "/programs/" + progName + ".txt";
@@ -87,6 +92,8 @@ boolean adding_workflow(String progName, String progCode) {
   return(true);
 }
 
+
+// playing workflow for programs includes loading the file, analyizing the codes structure and sending the commands
 boolean playing_workflow(String program) {
   // 1. filename is generated:
   String filename = "/programs/" + program + ".txt";
@@ -117,8 +124,8 @@ boolean playing_workflow(String program) {
       }
       Serial.println("successfully sent sequence: " + command_name);
     }
-
-    // TODO: implement Interrupt with button (use millis)
+    
+    
     else if (line.indexOf("wait") == 0){
       String delay_time = line.substring(5);
       try {
@@ -216,7 +223,9 @@ boolean playing_workflow(String program) {
   return(true);
 }
 
-// 12:00:13 Sequence1
+
+// handles the timed workflow which means it waits for a certain time to be reached. 
+// The time is given in the format hh:mm:ss sequence_name
 boolean timed_workflow(String time_command) {
   // 12:00:13
   String time = time_command.substring(0, time_command.indexOf(" "));
@@ -248,8 +257,8 @@ boolean timed_workflow(String time_command) {
   return(true);
 }
 
-
-// Wednesday 12:00:13 Sequence1
+// handles the daytimed workflow which means it waits for a certain day and time to be reached.
+// The time is given in the format day(String) hh:mm:ss sequence_name
 boolean day_workflow(String day_command) {
   // Wednesday
   String day = day_command.substring(0, day_command.indexOf(" "));

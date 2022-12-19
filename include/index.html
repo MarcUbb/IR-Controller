@@ -54,11 +54,10 @@
   </form>
 
   <br><br>
-
   <form action="/time">
-    <label for="time_input">Please enter your timezone for time programs:</label><br>
-    <input type="text" id="time_input" name="time_input" placeholder="timezone">
-    <input type="submit" name="time_button" value="save">
+    <input type="submit" name="time_sync_button" value="sync time">
+    <!-- on reload time is written in invisible input field of form-->
+    <input style="visibility: hidden" id="time_dummy" name="time_dummy" type="text" placeholder>
   </form>
   <br><br>
   <div id="error_message">System message: error message</div>
@@ -75,6 +74,11 @@
     // https://circuitdigest.com/microcontroller-projects/ajax-with-esp8266-dynamic-web-page-update-without-reloading
     
     function getData() {
+      var today = new Date()
+      var timestamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " " + today.getDay();
+      console.log(timestamp);
+      document.getElementById("time_dummy").value = timestamp;
+
       if (localStorage.getItem("hasCodeRunBefore") === null) {
           alert("Welcome to the IR-Remote! Here you can read and play infrared sequences and write small programs which play your sequences automatically.")
           localStorage.setItem("hasCodeRunBefore", true);
@@ -146,10 +150,8 @@
     }
 
     function infoProgram (){
-      alert("A program is a sequence of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. The code is structured as follows: Command Value. Currently the following commands are supported: play and wait.");
+      alert("A program is a sequence of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n\nPlease write every command in a new line. Have Fun!");
     }
-
-
 
     </script>
 </body>
