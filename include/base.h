@@ -9,7 +9,9 @@
 #include <WiFiManager.h>
 #include <ArduinoJson.h>
 #include <LittleFS.h>
-
+#include <ESP8266WiFi.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 
 
 String captureSignal();
@@ -17,11 +19,16 @@ DynamicJsonDocument convertToJSON(String result_string, String name);
 void saveCommand(String filename, DynamicJsonDocument doc);
 DynamicJsonDocument loadCommand(String filename);
 void sendCommand(DynamicJsonDocument doc);
-void checkFiles(String directory);
-boolean checkFile(String filename);
-void printFile(String filename);
+
 String get_files(String folderSequences, String folderPrograms);
 boolean check_if_file_exists(String filename);
+String get_NTP_time(int timezone);
+String read_program(String program_name);
+String weekday_to_num (String weekday);
+
+boolean compare_time (String time, boolean weekday_included);
+void save_timezone(String timezone);
+int get_timezone();
 
 // TODO: call by reference woimmer es Sinn macht und geht
 
@@ -255,4 +262,102 @@ boolean check_if_file_exists(String filename) {
   boolean exists = LittleFS.exists(filename);
   LittleFS.end();
   return exists;
+}
+
+// TODO: fix occasional wrong time
+String get_NTP_time(int timezone){
+  WiFiUDP ntpUDP;
+  NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
+  timeClient.begin();
+  timeClient.setTimeOffset(timezone);
+  timeClient.update();
+  String time = timeClient.getFormattedTime();
+  int weekday = timeClient.getDay();
+  return(time + " " + weekday);
+}
+
+String read_program(String program_name){
+  String filename = "/programs/" + program_name + ".txt";
+  String file_content = "";
+  LittleFS.begin();
+  File file = LittleFS.open(filename, "r");
+  while (file.available()) {
+    file_content += (char)file.read();
+  }
+  file.close();
+  LittleFS.end();
+  return file_content;
+}
+
+String weekday_to_num (String weekday){
+  if (weekday == "Monday" || weekday == "monday"){
+    return "1";
+  }
+  else if (weekday == "Tuesday" || weekday == "tuesday"){
+    return "2";
+  }
+  else if (weekday == "Wednesday" || weekday == "wednesday"){
+    return "3";
+  }
+  else if (weekday == "Thursday" || weekday == "thursday"){
+    return "4";
+  }
+  else if (weekday == "Friday" || weekday == "friday"){
+    return "5";
+  }
+  else if (weekday == "Saturday" || weekday == "saturday"){
+    return "6";
+  }
+  else if (weekday == "Sunday" || weekday == "sunday"){
+    return "0";
+  }
+  else {
+    return "error";
+  }
+}
+
+boolean compare_time (String time, boolean weekday_included) {
+  String current_time = get_NTP_time(get_timezone());
+  delay(500);
+  Serial.println("Current time: " + current_time);
+  Serial.println("Time to compare: " + time);
+
+  if (weekday_included == true) {
+    return(time == current_time);
+  }
+  else {
+    return(time == current_time.substring(0, current_time.indexOf(" ")));
+  }
+}
+
+void save_timezone(String timezone){
+  if (timezone == ""){
+    Serial.println("No timezone given");
+    return;
+  }
+
+  LittleFS.begin();
+  File file = LittleFS.open("/timezone.txt", "w");
+  if (!file) {
+    Serial.println("Failed to create file");
+    return;
+  }
+  file.println(timezone);
+  file.close();
+  LittleFS.end();
+  return;
+}
+
+int get_timezone(){
+  String timezone = "";
+  LittleFS.begin();
+  File file = LittleFS.open("/timezone.txt", "r");
+  while (file.available()) {
+    timezone += (char)file.read();
+  }
+  file.close();
+  LittleFS.end();
+  int timezone_int = timezone.toInt();
+  timezone_int = timezone_int * 3600;
+  return timezone_int;
 }

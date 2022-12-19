@@ -15,18 +15,18 @@
   </style>
 </head>
 <body onload="getData()">
-  <h2>IR-Remote Hub</h2>
+  <h2>IR-Controller</h2>
   <br>
   <h3>Signals:</h3>
 
-  <form action="/get">
+  <form action="/form">
     <label for="seqName">Signal name:</label> <br>
     <input type="text" id="seqName" name="seqName" placeholder="signal name">
-    <input type="submit" name="add_sequence_button" value="add">
+    <input type="submit" name="add_sequence_button" value="save">
     <button onclick="infoSequence()">help</button>
   </form>
 
-  <form action="/get">
+  <form action="/form">
     <label for="sequence">Choose your signal and action:</label> <br>
     <select id="sequences" name="sequence"></select>
     <input type="submit" name="send_sequence_button" value="send">
@@ -36,21 +36,32 @@
 
   <h3>Programs:</h3>
 
-  <form action="/get">
+  <form action="/form">
     <label for="progName">Program name:</label><br>
     <input type="text" id="progName" name="progName" placeholder="program name">
-    <input type="submit" name="add_program_button" value="add">
+    <input type="submit" name="add_program_button" value="save">
     <button onclick="infoProgram()">help</button> <br>
     <label for="progCode">Program code:</label><br>
-    <textarea name="progCode" placeholder="write your code here"></textarea><br>
+    <textarea id="progCode" name="progCode" placeholder="write your code here"></textarea><br>
   </form>
 
-  <form action="/get">
+  <form action="/form">
     <label for="sequence">Choose your sequence and action:</label> <br>
     <select id="programs" name="program"></select>
     <input type="submit" name="play_program_button" value="play">
     <input type="submit" name="delete_program_button" value="delete">
+    <input type="submit" name="edit_program_button" value="edit">
   </form>
+
+  <br><br>
+
+  <form action="/time">
+    <label for="time_input">Please enter your timezone for time programs:</label><br>
+    <input type="text" id="time_input" name="time_input" placeholder="timezone">
+    <input type="submit" name="time_button" value="save">
+  </form>
+  <br><br>
+  <div id="error_message">System message: error message</div>
 
   <script>
     // https://stackoverflow.com/questions/3364493/how-do-i-clear-all-options-in-a-dropdown-box
@@ -65,12 +76,12 @@
     
     function getData() {
       if (localStorage.getItem("hasCodeRunBefore") === null) {
-          alert("Welcome to the IR-Remote Hub! Here you can read and play infrared sequences and write small programs which play your sequences automatically.")
+          alert("Welcome to the IR-Remote! Here you can read and play infrared sequences and write small programs which play your sequences automatically.")
           localStorage.setItem("hasCodeRunBefore", true);
       }
 
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
+      var xhttpFiles = new XMLHttpRequest();
+      xhttpFiles.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           removeOptions(document.getElementById("sequences"));
           removeOptions(document.getElementById("programs"));
@@ -78,12 +89,8 @@
           // preprocessing of string data
           var files = this.responseText;
           var fileArray = files.split(";");
-          console.log(fileArray);
-          
           var sequences = fileArray[0].split(",");
           var programs = fileArray[1].split(",");
-          console.log(sequences);
-          console.log(programs);
 
           // adds sequences to dropdown
           for (const val of sequences) {
@@ -102,8 +109,36 @@
           }
         }
       };
-      xhttp.open("GET", "files", true);
-      xhttp.send();
+      xhttpFiles.open("GET", "files", true);
+      xhttpFiles.send();
+
+      
+      var xhttpProgram = new XMLHttpRequest();
+      xhttpProgram.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var response = this.responseText;
+          response = response.split(";");
+          console.log(response)
+          var programname = response[0];
+          var programcode = response[1];
+
+          document.getElementById("progName").value = programname;
+          document.getElementById("progCode").value = programcode;
+        }
+      };
+      xhttpProgram.open("GET", "program", true);
+      xhttpProgram.send();
+
+
+      var xhttpError = new XMLHttpRequest();
+      xhttpError.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var response = this.responseText;
+          document.getElementById("error_message").innerHTML = "System message: '" + response + "'";
+        }
+      };
+      xhttpError.open("GET", "error", true);
+      xhttpError.send();
     }
 
     function infoSequence (){
@@ -113,6 +148,8 @@
     function infoProgram (){
       alert("A program is a sequence of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. The code is structured as follows: Command Value. Currently the following commands are supported: play and wait.");
     }
+
+
 
     </script>
 </body>

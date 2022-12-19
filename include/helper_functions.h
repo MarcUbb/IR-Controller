@@ -1,8 +1,7 @@
+
+
 #include <Arduino.h>
-#include <ArduinoJson.h>
 #include <LittleFS.h>
-
-
 // https://arduino.stackexchange.com/questions/76186/how-can-i-list-only-files-that-begin-with-log
 void checkFiles(String directory) {
   LittleFS.begin();

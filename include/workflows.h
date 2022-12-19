@@ -1,6 +1,5 @@
-#include <Arduino.h>
-#include <ArduinoJson.h>
 #include "base.h"
+#include "helper_functions.h"
 
 boolean recording_workflow(String command_name);
 boolean deleting_workflow(String command_name);
@@ -8,6 +7,9 @@ boolean sending_workflow(String command_name);
 
 boolean adding_workflow(String progName, String progCode);
 boolean playing_workflow(String program);
+
+boolean timed_workflow(String time_command);
+boolean day_workflow(String day_command);
 
 
 boolean recording_workflow(String command_name) {
@@ -100,12 +102,12 @@ boolean playing_workflow(String program) {
   String filecontent = myfile.readString();
   myfile.close();
   LittleFS.end();
+  String line = "";
 
   while (filecontent.indexOf("\n") != -1){
-    String line = filecontent.substring(0, filecontent.indexOf("\n") - 1);
+    line = filecontent.substring(0, filecontent.indexOf("\n") - 1);
     filecontent = filecontent.substring(filecontent.indexOf("\n") + 1);
 
-    // TODO: send error message if file is not found
     if (line.indexOf("play") == 0){
       String command_name = line.substring(5);
       boolean success = sending_workflow(command_name);
@@ -115,20 +117,51 @@ boolean playing_workflow(String program) {
       }
       Serial.println("successfully sent sequence: " + command_name);
     }
+
+    // TODO: implement Interrupt with button (use millis)
     else if (line.indexOf("wait") == 0){
       String delay_time = line.substring(5);
       try {
-        delay(delay_time.toInt());
+        int period = delay_time.toInt();
+        unsigned long time_now = millis();
+        const int Interrupt_Button = 12;
+        pinMode(Interrupt_Button, INPUT_PULLUP);
+        while(millis() < time_now + period){
+          if (digitalRead(Interrupt_Button) == LOW) {
+            return(false);
+          }
+        }
+
       }
       catch (const std::exception& e) {
         Serial.println("delay failed");
         return(false);
       }
     }
+
+    else if (line.indexOf("0") == 0 || line.indexOf("1") == 0 || line.indexOf("2") == 0) {
+      String time_command = line;
+      boolean success = timed_workflow(time_command);
+      if (success == false) {
+        Serial.println("sending workflow failed");
+        return(false);
+      }
+      Serial.println("successfully sent timed sequence: " + time_command);
+    }
+
+    else if (line.indexOf("monday") == 0 || line.indexOf("tuesday") == 0 || line.indexOf("wednesday") == 0 || line.indexOf("thursday") == 0 || line.indexOf("friday") == 0 || line.indexOf("saturday") == 0 || line.indexOf("sunday") == 0 || line.indexOf("Monday") == 0 || line.indexOf("Tuesday") == 0 || line.indexOf("Wednesday") == 0 || line.indexOf("Thursday") == 0 || line.indexOf("Friday") == 0 || line.indexOf("Saturday") == 0 || line.indexOf("Sunday") == 0) {
+      String day_command = line;
+      boolean success = day_workflow(day_command);
+      if (success == false) {
+        Serial.println("sending workflow failed");
+        return(false);
+      }
+      Serial.println("successfully sent daytimed sequence: " + day_command);
+    }
   }
 
   // an extra time because the last line does not have a \n
-  String line = filecontent;
+  line = filecontent;
 
   if (line.indexOf("play") == 0){
     String command_name = line.substring(5);
@@ -142,13 +175,121 @@ boolean playing_workflow(String program) {
   else if (line.indexOf("wait") == 0){
     String delay_time = line.substring(5);
     try {
-        delay(delay_time.toInt());
+      int period = delay_time.toInt();
+      unsigned long time_now = millis();
+      const int Interrupt_Button = 12;
+      pinMode(Interrupt_Button, INPUT_PULLUP);
+      while(millis() < time_now + period){
+        if (digitalRead(Interrupt_Button) == LOW) {
+          return(false);
+        }
       }
-      catch (const std::exception& e) {
-        Serial.println("delay failed");
-        return(false);
-      } 
+
+    }
+    catch (const std::exception& e) {
+      Serial.println("delay failed");
+      return(false);
+    }
   }
+
+  else if (line.indexOf("0") == 0 || line.indexOf("1") == 0 || line.indexOf("2") == 0) {
+    String time_command = line;
+    boolean success = timed_workflow(time_command);
+    if (success == false) {
+      Serial.println("sending workflow failed");
+      return(false);
+    }
+    Serial.println("successfully sent timed sequence: " + time_command);
+  }
+
+  else if (line.indexOf("monday") == 0 || line.indexOf("tuesday") == 0 || line.indexOf("wednesday") == 0 || line.indexOf("thursday") == 0 || line.indexOf("friday") == 0 || line.indexOf("saturday") == 0 || line.indexOf("sunday") == 0 || line.indexOf("Monday") == 0 || line.indexOf("Tuesday") == 0 || line.indexOf("Wednesday") == 0 || line.indexOf("Thursday") == 0 || line.indexOf("Friday") == 0 || line.indexOf("Saturday") == 0 || line.indexOf("Sunday") == 0) {
+    String day_command = line;
+    boolean success = day_workflow(day_command);
+    if (success == false) {
+      Serial.println("sending workflow failed");
+      return(false);
+    }
+    Serial.println("successfully sent daytimed sequence: " + day_command);
+  }
+
 
   return(true);
 }
+
+// 12:00:13 Sequence1
+boolean timed_workflow(String time_command) {
+  // 12:00:13
+  String time = time_command.substring(0, time_command.indexOf(" "));
+  // Sequence1
+  String command_name = time_command.substring(time_command.indexOf(" ") + 1);
+  // /sequences/Sequence1.txt
+  String filename = "/sequences/" + command_name + ".txt";
+  const int Interrupt_Button = 12;
+  pinMode(Interrupt_Button, INPUT_PULLUP);
+
+  // checks beforehand if file exists (not to waste time)
+  if (check_if_file_exists(filename) == false) {
+    Serial.println("file does not exist");
+    return(false);
+  }
+
+  // loop waits for time to be reached or button to be pressed
+  while(true) {
+    if (compare_time(time, false) == true) {
+      break;
+    }
+    if (digitalRead(Interrupt_Button) == LOW) {
+      return(false);
+    }
+  }
+
+  sending_workflow(command_name);
+
+  return(true);
+}
+
+
+// Wednesday 12:00:13 Sequence1
+boolean day_workflow(String day_command) {
+  // Wednesday
+  String day = day_command.substring(0, day_command.indexOf(" "));
+  // 3
+  day = weekday_to_num(day);
+  if (day == "error") {
+    Serial.println("day not found");
+    return(false);
+  }
+  // 12:00:13 Sequence1
+  String time_command = day_command.substring(day_command.indexOf(" ") + 1);
+  // 12:00:13
+  String time = time_command.substring(0, time_command.indexOf(" "));
+  // Sequence1
+  String command_name = time_command.substring(time_command.indexOf(" ") + 1);
+  // 12:00:13 3
+  String day_time = time + " " + day;;
+  // /sequences/Sequence1.txt
+  String filename = "/sequences/" + command_name + ".txt";
+  const int Interrupt_Button = 12;
+  pinMode(Interrupt_Button, INPUT_PULLUP);
+
+  // checks beforehand if file exists (not to waste time)
+  if (check_if_file_exists(filename) == false) {
+    Serial.println("file does not exist");
+    return(false);
+  }
+
+  // loop waits for day to be reached or button to be pressed
+  while(true) {
+    if (compare_time(day_time, true) == true) {
+      break;
+    }
+    if (digitalRead(Interrupt_Button) == LOW) {
+      return(false);
+    }
+  }
+
+  sending_workflow(command_name);
+
+  return(true);
+}
+
