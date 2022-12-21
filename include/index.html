@@ -75,7 +75,7 @@
     
     function getData() {
       var today = new Date()
-      var timestamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " " + today.getDay();
+      var timestamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " " + today.getDay() + " " + today.getTimezoneOffset();
       console.log(timestamp);
       document.getElementById("time_dummy").value = timestamp;
 
@@ -153,6 +153,6 @@
       alert("A program is a sequence of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n\nPlease write every command in a new line. Have Fun!");
     }
 
-    </script>
+  </script>
 </body>
 </html>

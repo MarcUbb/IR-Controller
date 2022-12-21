@@ -41,6 +41,7 @@ void setup() {
   }
   Serial.println("mDNS responder started");
 
+  boolean time_saved = init_time();// TODO: init time with NPT server call and millis() offset default time is GMT until user synchronizes time
 
   // handler functions:
   server.on("/", handleRoot);
@@ -106,7 +107,7 @@ void send_files() {
 // this enabled the ESP to execute timed programs even if the wifi connection is lost.
 void handleTime() {
   String time = server.arg("time_dummy");
-  int offset = millis();
+  unsigned long offset = millis();
   save_time(time, offset);
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");

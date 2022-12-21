@@ -5,10 +5,6 @@
 
 #include <Arduino.h>
 #include <LittleFS.h>
-/*
-#include <NTPClient.h>
-#include <WiFiUdp.h>
-*/
 
 // https://arduino.stackexchange.com/questions/76186/how-can-i-list-only-files-that-begin-with-log
 void checkFiles(String directory) {
@@ -101,18 +97,3 @@ void printFile(String filename) {
   myfile.close();
   LittleFS.end();
 }
-
-
-/*
-// TODO: fix occasional wrong time (remove)
-String get_NTP_time(int timezone){
-  WiFiUDP ntpUDP;
-  NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
-  timeClient.begin();
-  timeClient.setTimeOffset(timezone);
-  timeClient.update();
-  String time = timeClient.getFormattedTime();
-  int weekday = timeClient.getDay();
-  return(time + " " + weekday);
-}
-*/

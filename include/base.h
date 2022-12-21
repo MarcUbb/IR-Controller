@@ -10,12 +10,14 @@
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 #include <ESP8266WiFi.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 
 
 String captureSignal();
 DynamicJsonDocument convertToJSON(String result_string, String name);
-void saveCommand(String filename, DynamicJsonDocument doc);
-DynamicJsonDocument loadCommand(String filename);
+void save_json(String filename, DynamicJsonDocument doc);
+DynamicJsonDocument load_json(String filename);
 void sendCommand(DynamicJsonDocument doc);
 
 String get_files(String folderSequences, String folderPrograms);
@@ -24,10 +26,14 @@ String read_program(String program_name);
 String weekday_to_num (String weekday);
 
 boolean compare_time (String time, boolean weekday_included);
-void save_time(String time, int offset);
+void save_time(String time, unsigned long offset);
 String get_time();
 String turn_seconds_in_time(int seconds);
 String add_time(String time, String offset_time);
+
+DynamicJsonDocument get_NTP_time(int timezone);
+boolean init_time();
+void check_and_update_offset()
 
 // TODO: call by reference woimmer es Sinn macht und geht
 
@@ -53,14 +59,14 @@ String captureSignal(){
   irrecv.setTolerance(tolerancePercentage);  // Override the default tolerance.
   irrecv.enableIRIn();  // Start the receiver
 
-  int start_time = millis();
-  int timestamp = millis() - start_time;
+  unsigned long start_time = millis();
+  unsigned long timestamp = millis() - start_time;
   digitalWrite(ledPin, HIGH);
   //Serial.begin(115200);
   while(timestamp < 10000){
     timestamp = millis() - start_time;
     if (timestamp % 1000 == 0){
-      Serial.println((int)timestamp/1000);
+      Serial.println((unsigned long)timestamp/1000);
       delay(1);
     }
     // Check if the IR code has been received.
@@ -119,9 +125,8 @@ DynamicJsonDocument convertToJSON(String result_string, String name){
   return doc;
 }
 
-
 // saves the converted JSON to a file
-void saveCommand(String filename, DynamicJsonDocument doc) {
+void save_json(String filename, DynamicJsonDocument doc) {
 
   LittleFS.begin();
 
@@ -154,7 +159,7 @@ void saveCommand(String filename, DynamicJsonDocument doc) {
 
 
 // loads the JSON of a file
-DynamicJsonDocument loadCommand(String filename) {
+DynamicJsonDocument load_json(String filename) {
   LittleFS.begin();
   // Open file for reading
   File myfile = LittleFS.open(filename, "r");
@@ -322,6 +327,10 @@ String weekday_to_num (String weekday){
 
 // elementary function of timed programs as it compares the current time with the time in the program
 boolean compare_time (String time, boolean weekday_included) {
+
+  // checks if millis() overflowed and updates time if necessary
+  check_and_update_offset();
+
   String current_time = get_time();
   delay(500);
   Serial.println("Current time: " + current_time);
@@ -335,47 +344,58 @@ boolean compare_time (String time, boolean weekday_included) {
   }
 }
 
-// TODO: millis() overflow fix
+
 // Saves time from website to LittleFS. Offset is not generated because it would create greater error
-void save_time(String time, int offset){
+void save_time(String time, unsigned long offset){
   if (time == ""){
     Serial.println("No time available");
     return;
   }
 
-  LittleFS.begin();
-  File file = LittleFS.open("/time.txt", "w");
-  if (!file) {
-    Serial.println("Failed to create file");
-    return;
-  }
-  file.println(time + " " + offset);
-  file.close();
-  LittleFS.end();
+  DynamicJsonDocument time_json(1024);
+
+  int hours = time.substring(0, time.indexOf(":")).toInt();
+  int minutes = time.substring(time.indexOf(":") + 1, time.indexOf(":") + 3).toInt();
+  int seconds = time.substring(time.indexOf(":") + 4, time.indexOf(":") + 6).toInt();
+  int weekday = time.substring(time.indexOf(" ") + 1, time.indexOf(" ") + 2).toInt();
+  int timezone = time.substring(time.indexOf(" ") + 3).toInt();
+
+  time_json["hours"] = hours;
+  time_json["minutes"] = minutes;
+  time_json["seconds"] = seconds;
+  time_json["weekday"] = weekday;
+  time_json["init_offset"] = offset;
+  time_json["timezone"] = timezone;
+
+  // check if this can cause problems with overflow
+  time_json["last_offset"] = millis();
+  time_json.shrinkToFit();
+
+  save_json("/time.txt", time_json);
   return;
 }
 
 
 // loads the time from the LittleFS, adds the current offset and returns the current time
 String get_time(){
-  String time = "";
-  LittleFS.begin();
-  File file = LittleFS.open("/time.txt", "r");
-  while (file.available()) {
-    time += (char)file.read();
-  }
-  file.close();
-  LittleFS.end();
+  DynamicJsonDocument time_json = load_json("/time.txt");
 
-  String offset = time.substring(time.indexOf(" ") + 3);
-  time = time.substring(0, time.indexOf(" ") + 2);
+  String time =  time_json["hours"].as<String>();
+  time += ":";
+  time += time_json["minutes"].as<String>();
+  time += ":";
+  time += time_json["seconds"].as<String>();
+  time += " ";
+  time += time_json["weekday"].as<String>();
 
-  int current_offset = millis();
+  
+  unsigned long init_offset = time_json["init_offset"].as<unsigned long>();
 
-  int effective_offset = current_offset - offset.toInt();
-  effective_offset = effective_offset / 1000;
 
-  String offset_time = turn_seconds_in_time(effective_offset);
+  unsigned long effective_offset = millis() - init_offset;
+  unsigned long effective_offset_seconds = effective_offset / 1000;
+
+  String offset_time = turn_seconds_in_time(effective_offset_seconds);
   time = add_time(time, offset_time);
 
   return time;
@@ -457,4 +477,109 @@ String add_time(String time, String offset_time){
   time_sum += " ";
   time_sum += weekday;
   return (time_sum);
+}
+
+
+// only used in intital setup to get the time from the web without user interaction
+DynamicJsonDocument get_NTP_time(int timezone){
+  WiFiUDP ntpUDP;
+  NTPClient timeClient(ntpUDP, "pool.ntp.org", timezone);
+  timeClient.begin();
+  timeClient.update();
+  String time = timeClient.getFormattedTime();
+  int weekday = timeClient.getDay();
+  time = time + " " + weekday;
+
+  DynamicJsonDocument time_json(1024);
+
+  int hours = time.substring(0, time.indexOf(":")).toInt();
+  int minutes = time.substring(time.indexOf(":") + 1, time.indexOf(":") + 3).toInt();
+  int seconds = time.substring(time.indexOf(":") + 4, time.indexOf(":") + 6).toInt();
+  int weekday = time.substring(time.indexOf(" ") + 1).toInt();
+
+  time_json["hours"] = hours;
+  time_json["minutes"] = minutes;
+  time_json["seconds"] = seconds;
+  time_json["weekday"] = weekday;
+  time_json["init_offset"] = millis();
+  time_json["timezone"] = timezone;
+
+  time_json["last_offset"] = millis();
+  time_json.shrinkToFit();
+
+  return(time_json);
+}
+
+boolean init_time(){
+
+  // loads the time from time.txt
+  DynamicJsonDocument current_values = load_json("/time.txt");
+
+  // no time was saved yet (first boot)
+  if (current_values.isNull()){
+    save_json("/time.txt", get_NTP_time(0));
+    return false;
+  }
+
+  // if there is a time saved: update it according to the timezone and overwrite offsets with current offset
+  else {
+    save_json("/time.txt", get_NTP_time(current_values["timezone"]));
+    return true;
+  }
+}
+
+
+// checks if overflow occured and updates time if necessary
+// generates current_offset and compares to last offset
+// if current_offset < last_offset: overflow occured and last_offset is resetted
+void check_and_update_offset() {
+  DynamicJsonDocument current_values = load_json("/time.txt");
+  unsigned long last_offset = current_values["last_offset"];
+  unsigned long current_offset = millis();
+
+  // no overflow occured:
+  if (current_offset > last_offset){
+    current_values["last_offset"] = current_offset;
+    save_json("/time.txt", current_values);
+    Serial.println("no overflow occured");
+    return;
+  }
+  // overflow occured:
+  else if (current_offset < last_offset){
+    unsigned long overflow_seconds = 4294967;
+    String overflow_time = turn_seconds_in_time(overflow_seconds);
+
+    DynamicJsonDocument init_values = load_json("/time.txt");
+
+    String init_time = init_values["hours"].as<String>();
+    init_time += ":";
+    init_time += init_values["minutes"].as<String>();
+    init_time += ":";
+    init_time += init_values["seconds"].as<String>();
+    init_time += " ";
+    init_time += init_values["weekday"].as<String>();
+
+    String current_time = add_time(init_time, overflow_time);
+
+    unsigned long current_offset = millis();
+    unsigned long current_offset_seconds = current_offset/1000;
+    String overflowed_time = turn_seconds_in_time(current_offset_seconds);
+    current_time = add_time(current_time, overflowed_time);
+
+    current_values["hours"] = current_time.substring(0, current_time.indexOf(":")).toInt();
+    current_values["minutes"] = current_time.substring(current_time.indexOf(":") + 1, current_time.indexOf(":") + 3).toInt();
+    current_values["seconds"] = current_time.substring(current_time.indexOf(":") + 4, current_time.indexOf(":") + 6).toInt();
+    current_values["weekday"] = current_time.substring(current_time.indexOf(" ") + 1).toInt();
+    current_values["last_offset"] = current_offset;
+    current_values["init_offset"] = current_offset;
+    current_values["timezone"] = current_values["timezone"];
+
+    save_json("/time.txt", current_values);
+    Serial.println("overflow occured! Time was updated.");
+    return;
+  }
+  // no change occured:
+  else {
+    return;
+  }
 }

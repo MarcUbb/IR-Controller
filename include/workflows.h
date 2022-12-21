@@ -23,7 +23,7 @@ boolean recording_workflow(String command_name) {
     // 3.1 signal String is serialized to JSON:
     DynamicJsonDocument sequence_JSON = convertToJSON(raw_sequence, command_name);
     // 3.2 JSON is written to file:
-    saveCommand(filename, sequence_JSON);
+    save_json(filename, sequence_JSON);
     return(true);
   }
   return(false);
@@ -57,7 +57,7 @@ boolean sending_workflow(String command_name) {
     return(false);
   }
   // 2. loads Command and saves it in JSON Object
-  DynamicJsonDocument doc = loadCommand(filename);
+  DynamicJsonDocument doc = load_json(filename);
   // 3. (send command)
   sendCommand(doc);
   return(true);
@@ -129,11 +129,12 @@ boolean playing_workflow(String program) {
     else if (line.indexOf("wait") == 0){
       String delay_time = line.substring(5);
       try {
-        int period = delay_time.toInt();
+        unsigned long period = delay_time.toInt();
         unsigned long time_now = millis();
         const int Interrupt_Button = 12;
         pinMode(Interrupt_Button, INPUT_PULLUP);
         while(millis() < time_now + period){
+          check_and_update_offset();
           if (digitalRead(Interrupt_Button) == LOW) {
             return(false);
           }
@@ -182,11 +183,12 @@ boolean playing_workflow(String program) {
   else if (line.indexOf("wait") == 0){
     String delay_time = line.substring(5);
     try {
-      int period = delay_time.toInt();
+      unsigned long period = delay_time.toInt();
       unsigned long time_now = millis();
       const int Interrupt_Button = 12;
       pinMode(Interrupt_Button, INPUT_PULLUP);
       while(millis() < time_now + period){
+        check_and_update_offset();
         if (digitalRead(Interrupt_Button) == LOW) {
           return(false);
         }
