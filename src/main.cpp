@@ -41,7 +41,7 @@ void setup() {
   }
   Serial.println("mDNS responder started");
 
-  boolean time_saved = init_time();// TODO: init time with NPT server call and millis() offset default time is GMT until user synchronizes time
+  boolean time_saved = init_time();
 
   // handler functions:
   server.on("/", handleRoot);
@@ -95,9 +95,9 @@ void handleError() {
   server.send(200, "text/plain", message);
 }
 
-// sends a list of all files in /sequences and /programs on reload
+// sends a list of all files in /signals and /programs on reload
 void send_files() {
-  String files = get_files("/sequences", "/programs");
+  String files = get_files("/signals", "/programs");
   Serial.println(files);
   server.send(200, "text/plane", files);
 }
@@ -106,14 +106,13 @@ void send_files() {
 // the offset is important because only with millis() we can calculate the time that has passed between the synchronisation and the time of program execution.
 // this enabled the ESP to execute timed programs even if the wifi connection is lost.
 void handleTime() {
-  String time = server.arg("time_dummy");
-  unsigned long offset = millis();
-  save_time(time, offset);
+  String timezone = server.arg("time_dummy");
+  update_timezone(timezone.toInt());
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
-// handles all form elements on the website (sequences and programs)
+// handles all form elements on the website (signals and programs)
 // also updates the error message and programname.
 // all the logic is handled here and the functions from workflows.h are called.
 void handleForm() {
@@ -131,20 +130,20 @@ void handleForm() {
   String edit_program_button = server.arg("edit_program_button");
 
 
-  // sequence logic:
+  // signal logic:
   if (seqName != "" && add_sequence_button != "") {
     boolean recording_error = false;
     recording_error = recording_workflow(seqName);
     if (!recording_error) {
-      message = "failed to record sequence: " + seqName;
+      message = "failed to record signal: " + seqName;
     }
     else {
-      message = "successfully added sequence: " + seqName;
+      message = "successfully added signal: " + seqName;
     }
   }
 
   else if (seqName == "" && add_sequence_button != "") {
-    message = "no sequence name given";
+    message = "no signal name given";
   }
 
   else if (sequence != "") {
@@ -152,30 +151,30 @@ void handleForm() {
       boolean sending_error = false;
       sending_error = sending_workflow(sequence);
       if (!sending_error) {
-        message = "failed to send sequence: " + sequence;
+        message = "failed to send signal: " + sequence;
       }
       else {
-        message = "successfully sent sequence: " + sequence;
+        message = "successfully sent signal: " + sequence;
       }
     }
     else if (delete_sequence_button != "") {
       boolean deleting_error = false;
-      deleting_error = deleting_workflow("sequences", sequence);
+      deleting_error = deleting_workflow("signals", sequence);
       if (!deleting_error) {
-        message = "failed to delete sequence: " + sequence;
+        message = "failed to delete signal: " + sequence;
       }
       else {
-        message = "successfully deleted sequence: " + sequence;
+        message = "successfully deleted signal: " + sequence;
       }
     }
   }
 
   else if (sequence == "" && send_sequence_button != "") {
-    message = "no sequence selected";
+    message = "no signal selected";
   }
 
   else if (sequence == "" && delete_sequence_button != "") {
-    message = "no sequence selected";
+    message = "no signal selected";
   }
 
   // program logic:

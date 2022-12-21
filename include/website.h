@@ -77,9 +77,9 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     
     function getData() {
       var today = new Date()
-      var timestamp = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds() + " " + today.getDay() + " " + today.getTimezoneOffset();
-      console.log(timestamp);
-      document.getElementById("time_dummy").value = timestamp;
+      var timezone = today.getTimezoneOffset();
+      console.log(timezone);
+      document.getElementById("time_dummy").value = timezone;
 
       if (localStorage.getItem("hasCodeRunBefore") === null) {
           alert("Welcome to the IR-Remote! Here you can read and play infrared sequences and write small programs which play your sequences automatically.")

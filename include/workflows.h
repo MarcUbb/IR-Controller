@@ -15,7 +15,7 @@ boolean day_workflow(String day_command);
 // recording workflow for sequences includes recording, converting to JSON and saving to file
 boolean recording_workflow(String command_name) {
   // 1. filename is generated:
-  String filename = "/sequences/" + command_name + ".txt";
+  String filename = "/signals/" + command_name + ".json";
   // 2. signal is received:
   String raw_sequence = captureSignal();
   // 3. if sinal was received successfully:
@@ -33,7 +33,7 @@ boolean recording_workflow(String command_name) {
 // deleting workflow for sequences and programs deletthe corresponding file
 boolean deleting_workflow(String directory, String command_name) {
   // 1. filename is generated:
-  String filename = "/" + directory + "/" + command_name + ".txt";
+  String filename = "/" + directory + "/" + command_name + ".json";
   LittleFS.begin();
   // 2. check if file exists:
   if(LittleFS.exists(filename)){
@@ -50,7 +50,7 @@ boolean deleting_workflow(String directory, String command_name) {
 // sending workflow for sequences includes loading the file and sending the command
 boolean sending_workflow(String command_name) {
   // 1. filename is generated:
-  String filename = "/sequences/" + command_name + ".txt";
+  String filename = "/signals/" + command_name + ".json";
 
   if (check_if_file_exists(filename) == false) {
     Serial.println("file does not exist");
@@ -67,7 +67,7 @@ boolean sending_workflow(String command_name) {
 // adding workflow for programs writes the code to file
 boolean adding_workflow(String progName, String progCode) {
   // 1. filename is generated:
-  String filename = "/programs/" + progName + ".txt";
+  String filename = "/programs/" + progName + ".json";
   // 2. if file does not exist:
   LittleFS.begin();
 
@@ -96,7 +96,7 @@ boolean adding_workflow(String progName, String progCode) {
 // playing workflow for programs includes loading the file, analyizing the codes structure and sending the commands
 boolean playing_workflow(String program) {
   // 1. filename is generated:
-  String filename = "/programs/" + program + ".txt";
+  String filename = "/programs/" + program + ".json";
   
   LittleFS.begin();
   File myfile = LittleFS.open(filename, "r");
@@ -233,8 +233,8 @@ boolean timed_workflow(String time_command) {
   String time = time_command.substring(0, time_command.indexOf(" "));
   // Sequence1
   String command_name = time_command.substring(time_command.indexOf(" ") + 1);
-  // /sequences/Sequence1.txt
-  String filename = "/sequences/" + command_name + ".txt";
+  // /signals/Sequence1.json
+  String filename = "/signals/" + command_name + ".json";
   const int Interrupt_Button = 12;
   pinMode(Interrupt_Button, INPUT_PULLUP);
 
@@ -278,8 +278,8 @@ boolean day_workflow(String day_command) {
   String command_name = time_command.substring(time_command.indexOf(" ") + 1);
   // 12:00:13 3
   String day_time = time + " " + day;;
-  // /sequences/Sequence1.txt
-  String filename = "/sequences/" + command_name + ".txt";
+  // /signals/Sequence1.json
+  String filename = "/signals/" + command_name + ".json";
   const int Interrupt_Button = 12;
   pinMode(Interrupt_Button, INPUT_PULLUP);
 
