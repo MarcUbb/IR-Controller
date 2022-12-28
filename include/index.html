@@ -146,11 +146,11 @@
     }
 
     function info_signal (){
-      alert("To add an infrared signal you have to enter a name and then click on 'add'. A red LED lights up on the device, which signals that the signal can now be read in. Hold your remote control to the device and press the button to be read in. If an error has occurred, the LED flashes 3 times. Then please try again. Otherwise the signal is now saved!");
+      alert("To add an infrared signal you have to enter a name and then click on 'add'. A red LED lights up on the device, which signals that the signal can now be read in. Hold your remote control to the device and press the button to be read in. If an error has occurred, the LED flashes 3 times. Then please try again. Otherwise the signal is now saved! For more information: https://github.com/MarcUbb/IR-Controller .");
     }
-
+    // TODO: add info for new commands
     function infoProgram (){
-      alert("A program is a signal of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n\nPlease write every command in a new line. Have Fun!");
+      alert("A program is a signal of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n5. skip  Example: 'skip 3' to skip 3 days (72h)\n6. loop-command  Example:\n'loop 4\nplay signal1\nend'\nto loop a part of the program for a specified amount of times (if you write inf instead of a number it will loop indefinatelly)\n\nPlease write every command in a new line. Have Fun! For more information: https://github.com/MarcUbb/IR-Controller .");
     }
 
   </script>

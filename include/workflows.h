@@ -1,40 +1,40 @@
 #include "base.h"
 #include "helper_functions.h"
 
-boolean recording_workflow(String command_name);
-boolean deleting_workflow(String command_name);
-boolean sending_workflow(String command_name);
+String recording_workflow(String command_name);
+String deleting_workflow(String command_name);
+String sending_workflow(String command_name);
 
-boolean adding_workflow(String progName, String progCode);
-boolean playing_workflow(String program);
+String adding_workflow(String progName, String progCode);
+String playing_workflow(String program);
 
-boolean program_parser(String code);
+String program_parser(String code);
 
-boolean handle_wait(unsigned long waiting_time);
-boolean handle_time(String time_command);
-boolean handle_day(String day_command);
+String handle_wait(unsigned long waiting_time);
+String handle_time(String time_command);
+String handle_day(String day_command);
 
 
 // recording workflow for sequences includes recording, converting to JSON and saving to file
-boolean recording_workflow(String command_name) {
+String recording_workflow(String command_name) {
   // 1. filename is generated:
   String filename = "/signals/" + command_name + ".json";
   // 2. signal is received:
   String raw_sequence = captureSignal();
   // 3. if sinal was received successfully:
-  if (raw_sequence != "No Signal"){
-    // 3.1 signal String is serialized to JSON:
-    DynamicJsonDocument sequence_JSON = convertToJSON(raw_sequence, command_name);
-    // 3.2 JSON is written to file:
-    save_json(filename, sequence_JSON);
-    return(true);
+  if (raw_sequence == "No Signal"){
+    return("failed to record signal");
   }
-  return(false);
+  // 3.1 signal String is serialized to JSON:
+  DynamicJsonDocument sequence_JSON = convertToJSON(raw_sequence, command_name);
+  // 3.2 JSON is written to file:
+  save_json(filename, sequence_JSON);
+  return("sucessfully saved signal: " + command_name);
 }
 
 
 // deleting workflow for sequences and programs deletthe corresponding file
-boolean deleting_workflow(String directory, String command_name) {
+String deleting_workflow(String directory, String command_name) {
   // 1. filename is generated:
   String filename = "/" + directory + "/" + command_name + ".json";
   LittleFS.begin();
@@ -43,34 +43,33 @@ boolean deleting_workflow(String directory, String command_name) {
     // 2.1 delete file:
     LittleFS.remove(filename);
     LittleFS.end();
-    return(true);
+    return("successfully deleted " + directory + ": " + command_name);
   }
   LittleFS.end();
-  return(false);
+  return("could not find " + directory + ": " + command_name);
 }
 
 
 // sending workflow for sequences includes loading the file and sending the command
-boolean sending_workflow(String command_name) {
+String sending_workflow(String command_name) {
   // 1. filename is generated:
   String filename = "/signals/" + command_name + ".json";
 
   if (check_if_file_exists(filename) == false) {
-    Serial.println("file does not exist");
-    return(false);
+    return("could not find command: " + command_name);
   }
   // 2. loads Command and saves it in JSON Object
   DynamicJsonDocument doc = load_json(filename);
   // 3. (send command)
   sendCommand(doc);
-  return(true);
+  return("successfully sent command: " + command_name);
 }
 
 
 // adding workflow for programs writes the code to file
-boolean adding_workflow(String progName, String progCode) {
+String adding_workflow(String program_name, String program_code) {
   // 1. filename is generated:
-  String filename = "/programs/" + progName + ".json";
+  String filename = "/programs/" + program_name + ".json";
   // 2. if file does not exist:
   LittleFS.begin();
 
@@ -82,52 +81,54 @@ boolean adding_workflow(String progName, String progCode) {
   
 
   if (!myfile) {
-    Serial.println(F("Failed to create file"));
+    Serial.println("Failed to create file");
     myfile.close();
     LittleFS.end();
-    return(false);
+    return("failed to create file");
   }
   // 3. write code to file:
-  myfile.write(progCode.c_str());
+  myfile.write(program_code.c_str());
   // Close the file
   myfile.close();
   LittleFS.end();
-  return(true);
+  return("successfully saved program: " + program_name);
 }
 
 
 // playing workflow for programs includes loading the file, analyizing the codes structure and sending the commands
-boolean playing_workflow(String program) {
+String playing_workflow(String program) {
   // 1. filename is generated:
   String filename = "/programs/" + program + ".json";
   
+  if (check_if_file_exists(filename) == false) {
+    return("could not find program: " + program);
+  }
+
   LittleFS.begin();
   File myfile = LittleFS.open(filename, "r");
 
   if (!myfile) {
-    Serial.println("Failed to open file for reading");
-    return(false);
+    return("Failed to open file for reading");
   }
 
   // adds " \n" to the end of the file to make sure the last line is read
   String filecontent = myfile.readString() + " \n";
   myfile.close();
   LittleFS.end();
-  boolean success = program_parser(filecontent);
-  if (success == false) {
-    Serial.println("error in program");
-    return(false);
+  String message = program_parser(filecontent);
+  if (message.indexOf("success") == -1){
+    return(message);
   }
   else {
-    return(true);
+    return("successfully played program: " + program);
   }
 }
 
 
 // this part is split into a function to be able to call it recursively (for loops)
-boolean program_parser(String code){
+String program_parser(String code){
   String line = "";
-  boolean success = true;
+  String error_message = "";
 
   while (code.indexOf("\n") != -1){
     line = code.substring(0, code.indexOf("\n") - 1);
@@ -138,38 +139,36 @@ boolean program_parser(String code){
 
     if (line.indexOf("play") == 0){
       String command_name = line.substring(5);
-      success = sending_workflow(command_name);
+      error_message = sending_workflow(command_name);
     }
     
     else if (line.indexOf("wait") == 0){
       String delay_time = line.substring(5);
       unsigned long delay_time_long = atol(delay_time.c_str());
-      success = handle_wait(delay_time_long);
+      error_message = handle_wait(delay_time_long);
     }
 
     else if (line.indexOf("0") == 0 || line.indexOf("1") == 0 || line.indexOf("2") == 0) {
       String time_command = line;
-      success = handle_time(time_command);
+      error_message = handle_time(time_command);
     }
 
     else if (line.indexOf("monday") == 0 || line.indexOf("tuesday") == 0 || line.indexOf("wednesday") == 0 || line.indexOf("thursday") == 0 || line.indexOf("friday") == 0 || line.indexOf("saturday") == 0 || line.indexOf("sunday") == 0 || line.indexOf("Monday") == 0 || line.indexOf("Tuesday") == 0 || line.indexOf("Wednesday") == 0 || line.indexOf("Thursday") == 0 || line.indexOf("Friday") == 0 || line.indexOf("Saturday") == 0 || line.indexOf("Sunday") == 0) {
       String day_command = line;
-      success = handle_day(day_command);
+      error_message = handle_day(day_command);
     }
 
     else if (line.indexOf("skip") == 0) {
       String skip_days = line.substring(5);
       unsigned long days = atoi(skip_days.c_str());
       if (days == 0) {
-        Serial.println("invalid number of days");
-        return(false);
+        return("failed to execute skip command: no days given");
       }
       if (days > 49) {
-        Serial.println("too many days");
-        return(false);
+        return("failed to execute skip command: too many days given");
       }
       days = days * 86400000; // days in milliseconds
-      success = handle_wait(days);
+      error_message = handle_wait(days);
     }
 
     // code is split in loop part and part that follows (if loop is not repeated infinitely)
@@ -177,45 +176,42 @@ boolean program_parser(String code){
     // after loop is executed, the part after the loop is given back to method
     else if (line.indexOf("loop") == 0) {
       String loop_time = line.substring(5);
-      String loop_code = code.substring(0, code.indexOf("end") - 1) + "\n";
+      String loop_code = code.substring(0, code.lastIndexOf("end") - 1) + "\n";
 
       // skip line with "end":
-      code = code.substring(code.indexOf("end"));
+      code = code.substring(code.lastIndexOf("end"));
       code = code.substring(code.indexOf("\n") + 1);
 
       // if loop is repeated indefinitely, the code after the loop is not executed
       if (loop_time == "inf") {
         while(true) {
-          success = program_parser(loop_code);
-          if (success == false) {
-            Serial.println("error in loop code");
-          return(false);
+          error_message = program_parser(loop_code);
+          if (error_message.indexOf("success") == -1) {
+            return(error_message);
           }
         }
       }
       else {
         unsigned long loop_time_long = atol(loop_time.c_str());
         for (unsigned long i = 0; i < loop_time_long; i++) {
-          success = program_parser(loop_code);
-          if (success == false) {
-            Serial.println("error in loop code");
-            return(false);
+          error_message = program_parser(loop_code);
+          if (error_message.indexOf("success") == -1) {
+            return(error_message);
           }
         }
       }
     }
 
-    if (success == false) {
-      Serial.println("playing workflow failed");
-      return(false);
+    if (error_message.indexOf("success") == -1) {
+      return(error_message);
     }
   }
 
-  return(true);
+  return("success");
 }
 
 // handels both the wait command and the skip command
-boolean handle_wait(unsigned long waiting_time) {
+String handle_wait(unsigned long waiting_time) {
   unsigned long time_now = millis();
   const int Interrupt_Button = 12;
   pinMode(Interrupt_Button, INPUT_PULLUP);
@@ -229,15 +225,13 @@ boolean handle_wait(unsigned long waiting_time) {
     while(millis() != 0) {
       check_and_update_offset();
       if (digitalRead(Interrupt_Button) == LOW) {
-        Serial.println("program was canceled by the user.");
-        return(false);
+        return("program was canceled by the user.");
       }
     }
     while(millis() < extra_wait){
       check_and_update_offset();
       if (digitalRead(Interrupt_Button) == LOW) {
-        Serial.println("program was canceled by the user.");
-        return(false);
+        return("program was canceled by the user.");
       }
     }
   }
@@ -247,17 +241,17 @@ boolean handle_wait(unsigned long waiting_time) {
     while(millis() < time_now + waiting_time){
       check_and_update_offset();
       if (digitalRead(Interrupt_Button) == LOW) {
-        return(false);
+        return("program was canceled by the user.");
       }
     }
   }
-  return(true);
+  return("success");
 }
 
 
 // handles the timed workflow which means it waits for a certain time to be reached. 
 // The time is given in the format hh:mm:ss sequence_name
-boolean handle_time(String time_command) {
+String handle_time(String time_command) {
   // 12:00:13
   String time = time_command.substring(0, time_command.indexOf(" "));
   // Sequence1
@@ -269,8 +263,7 @@ boolean handle_time(String time_command) {
 
   // checks beforehand if file exists (not to waste time)
   if (check_if_file_exists(filename) == false) {
-    Serial.println("file does not exist");
-    return(false);
+    return("command in command " + command_name + " not found");
   }
 
   // loop waits for time to be reached or button to be pressed
@@ -279,26 +272,23 @@ boolean handle_time(String time_command) {
       break;
     }
     if (digitalRead(Interrupt_Button) == LOW) {
-      Serial.println("program was canceled by the user.");
-      return(false);
+      return("program was canceled by the user.");
     }
   }
 
   sending_workflow(command_name);
-
-  return(true);
+  return("success");
 }
 
 // handles the daytimed workflow which means it waits for a certain day and time to be reached.
 // The time is given in the format day(String) hh:mm:ss sequence_name
-boolean handle_day(String day_command) {
+String handle_day(String day_command) {
   // Wednesday
   String day = day_command.substring(0, day_command.indexOf(" "));
   // 3
   day = weekday_to_num(day);
   if (day == "error") {
-    Serial.println("day not found");
-    return(false);
+    return("could not identify day in command");
   }
   // 12:00:13 Sequence1
   String time_command = day_command.substring(day_command.indexOf(" ") + 1);
@@ -315,8 +305,7 @@ boolean handle_day(String day_command) {
 
   // checks beforehand if file exists (not to waste time)
   if (check_if_file_exists(filename) == false) {
-    Serial.println("file does not exist");
-    return(false);
+    return("command in command " + day_command + " not found");
   }
 
   // loop waits for day to be reached or button to be pressed
@@ -325,12 +314,10 @@ boolean handle_day(String day_command) {
       break;
     }
     if (digitalRead(Interrupt_Button) == LOW) {
-      Serial.println("program was canceled by the user.");
-      return(false);
+      return("program was canceled by the user.");
     }
   }
 
   sending_workflow(command_name);
-
-  return(true);
+  return("success");
 }

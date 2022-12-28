@@ -72,14 +72,12 @@ String captureSignal(){
     // Check if the IR code has been received.
     if (irrecv.decode(&results)){
       if (results.overflow == false){
-        Serial.println("captured raw sequence:");
-        Serial.println(resultToSourceCode(&results));
         digitalWrite(ledPin, LOW);
         delay(100);
         digitalWrite(ledPin, HIGH);
         delay(100);
         digitalWrite(ledPin, LOW);
-        return resultToSourceCode(&results);
+        return(resultToSourceCode(&results));
       }
     }
   }
@@ -98,8 +96,7 @@ String captureSignal(){
   delay(100);
   digitalWrite(ledPin, LOW);
 
-  Serial.println("No signal received");
-  return "No Signal";
+  return("No Signal");
 }
 
 // converts the captured signal to a JSON format

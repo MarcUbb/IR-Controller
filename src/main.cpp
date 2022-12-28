@@ -151,14 +151,7 @@ void handleForm() {
 
   // signal logic:
   if (signal_name != "" && add_signal_button != "") {
-    boolean recording_error = false;
-    recording_error = recording_workflow(signal_name);
-    if (!recording_error) {
-      message = "failed to record signal: " + signal_name;
-    }
-    else {
-      message = "successfully added signal: " + signal_name;
-    }
+    message = recording_workflow(signal_name);
   }
 
   else if (signal_name == "" && add_signal_button != "") {
@@ -167,24 +160,10 @@ void handleForm() {
 
   else if (signal != "") {
     if (send_signal_button != "") {
-      boolean sending_error = false;
-      sending_error = sending_workflow(signal);
-      if (!sending_error) {
-        message = "failed to send signal: " + signal;
-      }
-      else {
-        message = "successfully sent signal: " + signal;
-      }
+      message = sending_workflow(signal);
     }
     else if (delete_signal_button != "") {
-      boolean deleting_error = false;
-      deleting_error = deleting_workflow("signals", signal);
-      if (!deleting_error) {
-        message = "failed to delete signal: " + signal;
-      }
-      else {
-        message = "successfully deleted signal: " + signal;
-      }
+      message = deleting_workflow("signals", signal);
     }
   }
 
@@ -198,14 +177,7 @@ void handleForm() {
 
   // program logic:
   else if (program_name != "" && add_program_button != "" && program_code != "") {
-    boolean adding_error = false;
-    adding_error = adding_workflow(program_name, program_code);
-    if (!adding_error) {
-      message = "failed to add program: " + program_name;
-    }
-    else {
-      message = "successfully added program: " + program_name;
-    }
+    message = adding_workflow(program_name, program_code);
   }
 
   else if (program_name == "" && add_program_button != "") {
@@ -218,24 +190,10 @@ void handleForm() {
 
   else if (program != "") {
     if (play_program_button != "") {
-      boolean playing_error = false;
-      playing_error = playing_workflow(program);
-      if (!playing_error) {
-        message = "failed to play program: " + program;
-      }
-      else {
-        message = "successfully played program: " + program;
-      }
+      message = playing_workflow(program);
     }
     else if (delete_programs_button != "") {
-      boolean deleting_error = false;
-      deleting_error = deleting_workflow("programs", program);
-      if (!deleting_error) {
-        message = "failed to delete program: " + program;
-      }
-      else {
-        message = "successfully deleted program: " + program;
-      }
+      message = deleting_workflow("programs", program);
     }
     // provides data for separate Get request
     else if (edit_program_button != "") {
@@ -260,6 +218,7 @@ void handleForm() {
     programname = "";
   }
   
+  // sends user back to the website
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
