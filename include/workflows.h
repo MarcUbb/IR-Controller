@@ -8,8 +8,11 @@ boolean sending_workflow(String command_name);
 boolean adding_workflow(String progName, String progCode);
 boolean playing_workflow(String program);
 
-boolean timed_workflow(String time_command);
-boolean day_workflow(String day_command);
+boolean program_parser(String code);
+
+boolean handle_wait(unsigned long waiting_time);
+boolean handle_time(String time_command);
+boolean handle_day(String day_command);
 
 
 // recording workflow for sequences includes recording, converting to JSON and saving to file
@@ -106,129 +109,155 @@ boolean playing_workflow(String program) {
     return(false);
   }
 
-  String filecontent = myfile.readString();
+  // adds " \n" to the end of the file to make sure the last line is read
+  String filecontent = myfile.readString() + " \n";
   myfile.close();
   LittleFS.end();
-  String line = "";
+  boolean success = program_parser(filecontent);
+  if (success == false) {
+    Serial.println("error in program");
+    return(false);
+  }
+  else {
+    return(true);
+  }
+}
 
-  while (filecontent.indexOf("\n") != -1){
-    line = filecontent.substring(0, filecontent.indexOf("\n") - 1);
-    filecontent = filecontent.substring(filecontent.indexOf("\n") + 1);
+
+// this part is split into a function to be able to call it recursively (for loops)
+boolean program_parser(String code){
+  String line = "";
+  boolean success = true;
+
+  while (code.indexOf("\n") != -1){
+    line = code.substring(0, code.indexOf("\n") - 1);
+    code = code.substring(code.indexOf("\n") + 1);
+
+    Serial.println("current line: " + line);
+    Serial.println("remaining code: " + code);
 
     if (line.indexOf("play") == 0){
       String command_name = line.substring(5);
-      boolean success = sending_workflow(command_name);
-      if (success == false) {
-        Serial.println("sending workflow failed");
-        return(false);
-      }
-      Serial.println("successfully sent sequence: " + command_name);
+      success = sending_workflow(command_name);
     }
-    
     
     else if (line.indexOf("wait") == 0){
       String delay_time = line.substring(5);
-      try {
-        unsigned long period = delay_time.toInt();
-        unsigned long time_now = millis();
-        const int Interrupt_Button = 12;
-        pinMode(Interrupt_Button, INPUT_PULLUP);
-        while(millis() < time_now + period){
-          check_and_update_offset();
-          if (digitalRead(Interrupt_Button) == LOW) {
-            return(false);
-          }
-        }
-
-      }
-      catch (const std::exception& e) {
-        Serial.println("delay failed");
-        return(false);
-      }
+      unsigned long delay_time_long = atol(delay_time.c_str());
+      success = handle_wait(delay_time_long);
     }
 
     else if (line.indexOf("0") == 0 || line.indexOf("1") == 0 || line.indexOf("2") == 0) {
       String time_command = line;
-      boolean success = timed_workflow(time_command);
-      if (success == false) {
-        Serial.println("sending workflow failed");
-        return(false);
-      }
-      Serial.println("successfully sent timed sequence: " + time_command);
+      success = handle_time(time_command);
     }
 
     else if (line.indexOf("monday") == 0 || line.indexOf("tuesday") == 0 || line.indexOf("wednesday") == 0 || line.indexOf("thursday") == 0 || line.indexOf("friday") == 0 || line.indexOf("saturday") == 0 || line.indexOf("sunday") == 0 || line.indexOf("Monday") == 0 || line.indexOf("Tuesday") == 0 || line.indexOf("Wednesday") == 0 || line.indexOf("Thursday") == 0 || line.indexOf("Friday") == 0 || line.indexOf("Saturday") == 0 || line.indexOf("Sunday") == 0) {
       String day_command = line;
-      boolean success = day_workflow(day_command);
-      if (success == false) {
-        Serial.println("sending workflow failed");
+      success = handle_day(day_command);
+    }
+
+    else if (line.indexOf("skip") == 0) {
+      String skip_days = line.substring(5);
+      unsigned long days = atoi(skip_days.c_str());
+      if (days == 0) {
+        Serial.println("invalid number of days");
         return(false);
       }
-      Serial.println("successfully sent daytimed sequence: " + day_command);
+      if (days > 49) {
+        Serial.println("too many days");
+        return(false);
+      }
+      days = days * 86400000; // days in milliseconds
+      success = handle_wait(days);
     }
-  }
 
-  // an extra time because the last line does not have a \n
-  line = filecontent;
+    // code is split in loop part and part that follows (if loop is not repeated infinitely)
+    // loop part is executed the given amount of time / or indefinitely
+    // after loop is executed, the part after the loop is given back to method
+    else if (line.indexOf("loop") == 0) {
+      String loop_time = line.substring(5);
+      String loop_code = code.substring(0, code.indexOf("end") - 1) + "\n";
 
-  if (line.indexOf("play") == 0){
-    String command_name = line.substring(5);
-    boolean success = sending_workflow(command_name);
-    if (success == false) {
-      Serial.println("sending workflow failed");
-      return(false);
-    }
-    Serial.println("successfully sent sequence: " + command_name);
-  }
-  else if (line.indexOf("wait") == 0){
-    String delay_time = line.substring(5);
-    try {
-      unsigned long period = delay_time.toInt();
-      unsigned long time_now = millis();
-      const int Interrupt_Button = 12;
-      pinMode(Interrupt_Button, INPUT_PULLUP);
-      while(millis() < time_now + period){
-        check_and_update_offset();
-        if (digitalRead(Interrupt_Button) == LOW) {
+      // skip line with "end":
+      code = code.substring(code.indexOf("end"));
+      code = code.substring(code.indexOf("\n") + 1);
+
+      // if loop is repeated indefinitely, the code after the loop is not executed
+      if (loop_time == "inf") {
+        while(true) {
+          success = program_parser(loop_code);
+          if (success == false) {
+            Serial.println("error in loop code");
           return(false);
+          }
         }
       }
-
+      else {
+        unsigned long loop_time_long = atol(loop_time.c_str());
+        for (unsigned long i = 0; i < loop_time_long; i++) {
+          success = program_parser(loop_code);
+          if (success == false) {
+            Serial.println("error in loop code");
+            return(false);
+          }
+        }
+      }
     }
-    catch (const std::exception& e) {
-      Serial.println("delay failed");
-      return(false);
-    }
-  }
 
-  else if (line.indexOf("0") == 0 || line.indexOf("1") == 0 || line.indexOf("2") == 0) {
-    String time_command = line;
-    boolean success = timed_workflow(time_command);
     if (success == false) {
-      Serial.println("sending workflow failed");
+      Serial.println("playing workflow failed");
       return(false);
     }
-    Serial.println("successfully sent timed sequence: " + time_command);
   }
 
-  else if (line.indexOf("monday") == 0 || line.indexOf("tuesday") == 0 || line.indexOf("wednesday") == 0 || line.indexOf("thursday") == 0 || line.indexOf("friday") == 0 || line.indexOf("saturday") == 0 || line.indexOf("sunday") == 0 || line.indexOf("Monday") == 0 || line.indexOf("Tuesday") == 0 || line.indexOf("Wednesday") == 0 || line.indexOf("Thursday") == 0 || line.indexOf("Friday") == 0 || line.indexOf("Saturday") == 0 || line.indexOf("Sunday") == 0) {
-    String day_command = line;
-    boolean success = day_workflow(day_command);
-    if (success == false) {
-      Serial.println("sending workflow failed");
-      return(false);
+  return(true);
+}
+
+// handels both the wait command and the skip command
+boolean handle_wait(unsigned long waiting_time) {
+  unsigned long time_now = millis();
+  const int Interrupt_Button = 12;
+  pinMode(Interrupt_Button, INPUT_PULLUP);
+
+  // overflow will occur:
+  if (time_now + waiting_time < time_now) {
+    Serial.println("overflow will occur in wait command");
+    unsigned long extra_wait = time_now + waiting_time;
+
+    // wait for overflow to occur:
+    while(millis() != 0) {
+      check_and_update_offset();
+      if (digitalRead(Interrupt_Button) == LOW) {
+        Serial.println("program was canceled by the user.");
+        return(false);
+      }
     }
-    Serial.println("successfully sent daytimed sequence: " + day_command);
+    while(millis() < extra_wait){
+      check_and_update_offset();
+      if (digitalRead(Interrupt_Button) == LOW) {
+        Serial.println("program was canceled by the user.");
+        return(false);
+      }
+    }
   }
 
-
+  // no overflow will occur:
+  else{
+    while(millis() < time_now + waiting_time){
+      check_and_update_offset();
+      if (digitalRead(Interrupt_Button) == LOW) {
+        return(false);
+      }
+    }
+  }
   return(true);
 }
 
 
 // handles the timed workflow which means it waits for a certain time to be reached. 
 // The time is given in the format hh:mm:ss sequence_name
-boolean timed_workflow(String time_command) {
+boolean handle_time(String time_command) {
   // 12:00:13
   String time = time_command.substring(0, time_command.indexOf(" "));
   // Sequence1
@@ -250,6 +279,7 @@ boolean timed_workflow(String time_command) {
       break;
     }
     if (digitalRead(Interrupt_Button) == LOW) {
+      Serial.println("program was canceled by the user.");
       return(false);
     }
   }
@@ -261,7 +291,7 @@ boolean timed_workflow(String time_command) {
 
 // handles the daytimed workflow which means it waits for a certain day and time to be reached.
 // The time is given in the format day(String) hh:mm:ss sequence_name
-boolean day_workflow(String day_command) {
+boolean handle_day(String day_command) {
   // Wednesday
   String day = day_command.substring(0, day_command.indexOf(" "));
   // 3
@@ -295,6 +325,7 @@ boolean day_workflow(String day_command) {
       break;
     }
     if (digitalRead(Interrupt_Button) == LOW) {
+      Serial.println("program was canceled by the user.");
       return(false);
     }
   }
@@ -303,4 +334,3 @@ boolean day_workflow(String day_command) {
 
   return(true);
 }
-

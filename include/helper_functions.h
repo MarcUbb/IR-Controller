@@ -36,7 +36,7 @@ void checkFiles(String directory) {
   return;
 }
 
-// may be removed
+// could work now (not tested)
 boolean checkFile(String filename) {
   LittleFS.begin();
 
@@ -54,14 +54,12 @@ boolean checkFile(String filename) {
   if (error) {
     myfile.close();
     LittleFS.end();
-    doc.garbageCollect();
     return false;
   }
 
   if (doc["length"] < 12 || doc["length"] > 2048) {
     myfile.close();
     LittleFS.end();
-    doc.garbageCollect();
     return false;
   }
 
@@ -70,13 +68,11 @@ boolean checkFile(String filename) {
   if (sequence.substring(length - 1) == "," || sequence.substring(0, 1) == ",") {
     myfile.close();
     LittleFS.end();
-    doc.garbageCollect();
     return false;
   }
 
   myfile.close();
   LittleFS.end();
-  doc.garbageCollect();
   return true;
 }
 

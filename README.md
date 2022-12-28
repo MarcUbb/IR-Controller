@@ -42,7 +42,7 @@ Philips TV.txt:
   
 2. plays entered sequence
 
-#### 
+####
 
 ### Webserver:
 - Asynchronous Webserver
@@ -53,6 +53,24 @@ Philips TV.txt:
 2. MC saves submitted name and recorded IR-Signal
 3. 
 
+### Programs:
+
+#### Commands:
+
+1. play
+  - plays a signal
+2. wait
+  - waits a specific amount of ms
+3. time
+  - plays a signal at the next time a specified time is reached
+4. date
+  - plays a signal the next time a specific date and time is reached
+5. skip
+  - skips a specified amount of days
+6. loop
+  - loops a part of the program a specified amount of times or indefinitely
+7. end
+  - marks the end of a loop
 
 ### Annotations:
 - #include <WiFiManager.h> in main.cpp otherwise error in library occures

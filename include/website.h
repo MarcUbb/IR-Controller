@@ -6,7 +6,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
   <title>IR Remote</title>
   <style>
     html {font-family: Arial; display: inline-block;}
-    body {max-width: 400px; margin: 10%; padding-bottom: 25px;} 
+    body {max-width: 400px; margin: 5%; padding-bottom: 25px;} 
     label {padding: 8px 8px 8px 0px; display: inline-block;}
     select {width: 100%; margin: 0px 0px 10px; padding: 10px 10px 10px; border: none; border-radius: 4px; background-color: #f1f1f1;}
     textarea {width: 100%; height: 150px; padding: 12px 20px; box-sizing: border-box; border: 2px solid #ccc; border-radius: 4px; background-color: #f8f8f8; font-size: 16px; resize: none;}
@@ -22,33 +22,33 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
   <h3>Signals:</h3>
 
   <form action="/form">
-    <label for="seqName">Signal name:</label> <br>
-    <input type="text" id="seqName" name="seqName" placeholder="signal name">
-    <input type="submit" name="add_sequence_button" value="save">
-    <button onclick="infoSequence()">help</button>
+    <label for="signal_name">Signal name:</label> <br>
+    <input type="text" id="signal_name" name="signal_name" placeholder="signal name">
+    <input type="submit" name="add_signal_button" value="save">
+    <button onclick="info_signal()">help</button>
   </form>
 
   <form action="/form">
-    <label for="sequence">Choose your signal and action:</label> <br>
-    <select id="sequences" name="sequence"></select>
-    <input type="submit" name="send_sequence_button" value="send">
-    <input type="submit" name="delete_sequence_button" value="delete">
+    <label for="signal">Choose your signal and action:</label> <br>
+    <select id="signal" name="signal"></select>
+    <input type="submit" name="send_signal_button" value="send">
+    <input type="submit" name="delete_signal_button" value="delete">
   </form>
   <br><br>
 
   <h3>Programs:</h3>
 
   <form action="/form">
-    <label for="progName">Program name:</label><br>
-    <input type="text" id="progName" name="progName" placeholder="program name">
+    <label for="program_name">Program name:</label><br>
+    <input type="text" id="program_name" name="program_name" placeholder="program name">
     <input type="submit" name="add_program_button" value="save">
     <button onclick="infoProgram()">help</button> <br>
-    <label for="progCode">Program code:</label><br>
-    <textarea id="progCode" name="progCode" placeholder="write your code here"></textarea><br>
+    <label for="program_code">Program code:</label><br>
+    <textarea id="program_code" name="program_code" placeholder="write your code here"></textarea><br>
   </form>
 
   <form action="/form">
-    <label for="sequence">Choose your sequence and action:</label> <br>
+    <label for="program">Choose your program and action:</label> <br>
     <select id="programs" name="program"></select>
     <input type="submit" name="play_program_button" value="play">
     <input type="submit" name="delete_program_button" value="delete">
@@ -82,28 +82,28 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       document.getElementById("time_dummy").value = timezone;
 
       if (localStorage.getItem("hasCodeRunBefore") === null) {
-          alert("Welcome to the IR-Remote! Here you can read and play infrared sequences and write small programs which play your sequences automatically.")
+          alert("Welcome to the IR-Remote! Here you can read and play infrared signals and write small programs which play your signals automatically.")
           localStorage.setItem("hasCodeRunBefore", true);
       }
 
       var xhttpFiles = new XMLHttpRequest();
       xhttpFiles.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-          removeOptions(document.getElementById("sequences"));
+          removeOptions(document.getElementById("signal"));
           removeOptions(document.getElementById("programs"));
 
           // preprocessing of string data
           var files = this.responseText;
           var fileArray = files.split(";");
-          var sequences = fileArray[0].split(",");
+          var signals = fileArray[0].split(",");
           var programs = fileArray[1].split(",");
 
-          // adds sequences to dropdown
-          for (const val of sequences) {
+          // adds signals to dropdown
+          for (const val of signals) {
             var option = document.createElement("option");
             option.value = val;
             option.text = val;
-            document.getElementById("sequences").appendChild(option)
+            document.getElementById("signal").appendChild(option)
           }
 
           // adds programs to dropdown
@@ -128,8 +128,8 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
           var programname = response[0];
           var programcode = response[1];
 
-          document.getElementById("progName").value = programname;
-          document.getElementById("progCode").value = programcode;
+          document.getElementById("program_name").value = programname;
+          document.getElementById("program_code").value = programcode;
         }
       };
       xhttpProgram.open("GET", "program", true);
@@ -147,12 +147,12 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       xhttpError.send();
     }
 
-    function infoSequence (){
+    function info_signal (){
       alert("To add an infrared signal you have to enter a name and then click on 'add'. A red LED lights up on the device, which signals that the signal can now be read in. Hold your remote control to the device and press the button to be read in. If an error has occurred, the LED flashes 3 times. Then please try again. Otherwise the signal is now saved!");
     }
 
     function infoProgram (){
-      alert("A program is a sequence of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n\nPlease write every command in a new line. Have Fun!");
+      alert("A program is a signal of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n\nPlease write every command in a new line. Have Fun!");
     }
 
   </script>

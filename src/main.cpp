@@ -5,6 +5,9 @@
 #include <ESP8266mDNS.h>
 #include "workflows.h"
 #include "website.h"
+#include <test.h>
+
+
 
 void handleRoot();
 void handleNotFound();
@@ -26,6 +29,7 @@ String message = "";
 
 void setup() {
   Serial.begin(115200);
+  test();
 
   // WiFiManager (is skipped if credentials are saved)
   // reset saved settings:
@@ -112,88 +116,103 @@ void handleTime() {
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
+// TODO: change return value to String and return a more precise error message directly
 // handles all form elements on the website (signals and programs)
 // also updates the error message and programname.
 // all the logic is handled here and the functions from workflows.h are called.
 void handleForm() {
-  String sequence = server.arg("sequence");
-  String send_sequence_button = server.arg("send_sequence_button"); 
-  String delete_sequence_button = server.arg("delete_sequence_button"); 
-  String seqName = server.arg("seqName"); 
-  String add_sequence_button = server.arg("add_sequence_button");
+  String signal = server.arg("signal");
+  String send_signal_button = server.arg("send_signal_button"); 
+  String delete_signal_button = server.arg("delete_signal_button"); 
+  String signal_name = server.arg("signal_name"); 
+  String add_signal_button = server.arg("add_signal_button");
   String program = server.arg("program");
   String play_program_button = server.arg("play_program_button"); 
-  String progCode = server.arg("progCode");
-  String progName = server.arg("progName"); 
+  String program_code = server.arg("program_code");
+  String program_name = server.arg("program_name"); 
   String add_program_button = server.arg("add_program_button");
   String delete_programs_button = server.arg("delete_program_button");
   String edit_program_button = server.arg("edit_program_button");
 
+  /*
+  Serial.println("signal: " + signal);
+  Serial.println("send_signal_button: " + send_signal_button);
+  Serial.println("delete_signal_button: " + delete_signal_button);
+  Serial.println("signal_name: " + signal_name);
+  Serial.println("add_signal_button: " + add_signal_button);
+  Serial.println("program: " + program);
+  Serial.println("play_program_button: " + play_program_button);
+  Serial.println("program_code: " + program_code);
+  Serial.println("program_name: " + program_name);
+  Serial.println("add_program_button: " + add_program_button);
+  Serial.println("delete_programs_button: " + delete_programs_button);
+  Serial.println("edit_program_button: " + edit_program_button);
+  */
 
   // signal logic:
-  if (seqName != "" && add_sequence_button != "") {
+  if (signal_name != "" && add_signal_button != "") {
     boolean recording_error = false;
-    recording_error = recording_workflow(seqName);
+    recording_error = recording_workflow(signal_name);
     if (!recording_error) {
-      message = "failed to record signal: " + seqName;
+      message = "failed to record signal: " + signal_name;
     }
     else {
-      message = "successfully added signal: " + seqName;
+      message = "successfully added signal: " + signal_name;
     }
   }
 
-  else if (seqName == "" && add_sequence_button != "") {
+  else if (signal_name == "" && add_signal_button != "") {
     message = "no signal name given";
   }
 
-  else if (sequence != "") {
-    if (send_sequence_button != "") {
+  else if (signal != "") {
+    if (send_signal_button != "") {
       boolean sending_error = false;
-      sending_error = sending_workflow(sequence);
+      sending_error = sending_workflow(signal);
       if (!sending_error) {
-        message = "failed to send signal: " + sequence;
+        message = "failed to send signal: " + signal;
       }
       else {
-        message = "successfully sent signal: " + sequence;
+        message = "successfully sent signal: " + signal;
       }
     }
-    else if (delete_sequence_button != "") {
+    else if (delete_signal_button != "") {
       boolean deleting_error = false;
-      deleting_error = deleting_workflow("signals", sequence);
+      deleting_error = deleting_workflow("signals", signal);
       if (!deleting_error) {
-        message = "failed to delete signal: " + sequence;
+        message = "failed to delete signal: " + signal;
       }
       else {
-        message = "successfully deleted signal: " + sequence;
+        message = "successfully deleted signal: " + signal;
       }
     }
   }
 
-  else if (sequence == "" && send_sequence_button != "") {
+  else if (signal == "" && send_signal_button != "") {
     message = "no signal selected";
   }
 
-  else if (sequence == "" && delete_sequence_button != "") {
+  else if (signal == "" && delete_signal_button != "") {
     message = "no signal selected";
   }
 
   // program logic:
-  else if (progName != "" && add_program_button != "" && progCode != "") {
+  else if (program_name != "" && add_program_button != "" && program_code != "") {
     boolean adding_error = false;
-    adding_error = adding_workflow(progName, progCode);
+    adding_error = adding_workflow(program_name, program_code);
     if (!adding_error) {
-      message = "failed to add program: " + progName;
+      message = "failed to add program: " + program_name;
     }
     else {
-      message = "successfully added program: " + progName;
+      message = "successfully added program: " + program_name;
     }
   }
 
-  else if (progName == "" && add_program_button != "") {
+  else if (program_name == "" && add_program_button != "") {
     message = "no program name given";
   }
 
-  else if (progCode == "" && add_program_button != "") {
+  else if (program_code == "" && add_program_button != "") {
     message = "no program code given";
   }
 
