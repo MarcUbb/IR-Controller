@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include <LittleFS.h>
+#include <ArduinoJson.h>
 
 // https://arduino.stackexchange.com/questions/76186/how-can-i-list-only-files-that-begin-with-log
 void checkFiles(String directory) {

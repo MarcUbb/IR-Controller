@@ -1,4 +1,4 @@
 tzapu/WiFiManager@^0.16.0
-crankyoldgit/IRremoteESP8266@^2.8.4
 arduino-libraries/NTPClient@^3.2.1
+crankyoldgit/IRremoteESP8266@^2.8.4
 bblanchon/ArduinoJson@^6.19.4

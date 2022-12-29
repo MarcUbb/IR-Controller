@@ -1,53 +1,33 @@
-#include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <ESP8266WebServer.h>
-#include <ESP8266mDNS.h>
-#include "workflows.h"
-#include "website.h"
-#include <test.h>
+#include "main.h"
 
-
-
-void handleRoot();
-void handleNotFound();
-void handleForm();
-void send_files();
-void handleProgram();
-void handleError();
-void handleTime();
-
-// declared outside of setup() to make visible to handler functions
-ESP8266WebServer server(80);
-
-// global variables (used to hand over information about current state of website or state of function execution)
-// programname is used to hand over information about currently selected program
-// on /program, handleProgram() will access this variable and send program code and name to the frontend
-String programname = "";
-// message is used to hand over error messages (is set by website on /form) and updated in frontend on reload
-String message = "";
 
 void setup() {
   Serial.begin(115200);
   test();
 
   // WiFiManager (is skipped if credentials are saved)
-  // reset saved settings:
-  // ESP.eraseConfig();
+  //ESP.eraseConfig();
   WiFiManager wifiManager;
-  // WPS option was added to manager
   wifiManager.autoConnect("IR-Remote");
   
   // start mDNS
-  if (!MDNS.begin("irr")) {
+  if (MDNS.begin("irr") == false) {
     Serial.println("Error setting up MDNS responder!");
+    control_led_output("no_mDNS");
+    // stalls program execution if mDNS fails
     while (1) { delay(1000); }
   }
-  Serial.println("mDNS responder started");
+  Serial.println("mDNS responder started!");
 
-  boolean time_saved = init_time();
+  // initiate time via NTP
+  if (init_time() == false){
+    message = "Error initiating time!";
+  }
+  else {
+    message = "Time initiated!";
+  }
 
-  // handler functions:
+  // declare handler functions
   server.on("/", handleRoot);
   server.on("/form", handleForm);
   server.on("/files", send_files);
@@ -65,11 +45,6 @@ void loop() {
   MDNS.update();
   server.handleClient();
 }
-
-
-
-
-
 
 
 
@@ -116,7 +91,6 @@ void handleTime() {
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
-// TODO: change return value to String and return a more precise error message directly
 // handles all form elements on the website (signals and programs)
 // also updates the error message and programname.
 // all the logic is handled here and the functions from workflows.h are called.

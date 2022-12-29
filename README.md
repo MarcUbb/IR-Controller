@@ -53,6 +53,9 @@ Philips TV.txt:
 2. MC saves submitted name and recorded IR-Signal
 3. 
 
+### Signals:
+- depending on the device, a wait-command is needed between 2 Signals to make sure the signals are received correctly
+
 ### Programs:
 
 #### Commands:
