@@ -1,7 +1,9 @@
 
+/*
+In this file, functions are saved which are not used in the current version of the project 
+but could be useful in the future or when debugging.
+*/
 
-
-// unused functions which could be useful in the future or when debugging are saved here
 
 #include <Arduino.h>
 #include <LittleFS.h>

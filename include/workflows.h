@@ -10,6 +10,6 @@ String playing_workflow(String program_name);
 
 String program_parser(String code);
 
-String handle_wait(unsigned long waiting_time);
-String handle_time(String time_command);
-String handle_day(String day_command);
+String handle_wait_command(unsigned long waiting_time);
+String handle_time_command(String time_command);
+String handle_day_command(String day_command);

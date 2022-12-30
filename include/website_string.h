@@ -1,5 +1,9 @@
 #include <Arduino.h>
 
+/*
+In this file, the website is stored as a string.
+*/
+
 const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">

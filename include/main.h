@@ -10,13 +10,13 @@
 #include <test.h>
 
 // forward declarations
-void handleRoot();
-void handleNotFound();
-void handleProgram();
-void handleError();
-void send_files();
-void handleTime();
-void handleForm();
+void handle_root();
+void handle_not_found();
+void handle_program();
+void handle_error();
+void handle_files();
+void handle_time();
+void handle_form();
 
 // declared outside of setup() to make visible to handler functions
 ESP8266WebServer server(80);
@@ -24,6 +24,6 @@ ESP8266WebServer server(80);
 // global variables (used to hand over information about current state of website or state of function execution)
 // programname is used to hand over information about currently selected program
 // on /program, handleProgram() will access this variable and send program code and name to the frontend
-String programname = "";
+String PROGRAMNAME = "";
 // message is used to hand over error messages (is set by website on /form) and updated in frontend on reload
-String message = "";
+String MESSAGE = "";

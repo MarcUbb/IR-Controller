@@ -1,9 +1,13 @@
 #include "main.h"
 
+/*
+In this file, you find the main procedures of the program.
+*/
 
 void setup() {
   Serial.begin(115200);
-  test();
+  delay(500);
+  //test();
 
   // WiFiManager (is skipped if credentials are saved)
   //ESP.eraseConfig();
@@ -21,20 +25,21 @@ void setup() {
 
   // initiate time via NTP
   if (init_time() == false){
-    message = "Error initiating time!";
+    MESSAGE = "Error initiating time!";
+    control_led_output("no_init_time");
   }
   else {
-    message = "Time initiated!";
+    MESSAGE = "Time initiated!";
   }
 
   // declare handler functions
-  server.on("/", handleRoot);
-  server.on("/form", handleForm);
-  server.on("/files", send_files);
-  server.on("/program", handleProgram);
-  server.on("/error", handleError);
-  server.on("/time", handleTime);
-  server.onNotFound(handleNotFound);
+  server.on("/", handle_root);
+  server.on("/form", handle_form);
+  server.on("/files", handle_files);
+  server.on("/program", handle_program);
+  server.on("/error", handle_error);
+  server.on("/time", handle_time);
+  server.onNotFound(handle_not_found);
 
   // start server
   server.begin();
@@ -48,34 +53,42 @@ void loop() {
 
 
 
+
+
+
+
+// TODO: write comments inside functions
 //------------------ handlers ------------------//
 
 // serves index.html
-void handleRoot() {
+void handle_root() {
   server.send(200, "text/html", index_html);
 }
 
 // serves 404 error
-void handleNotFound() {
+void handle_not_found() {
   server.send(404, "text/plain", "404: Not found");
 }
 
-// the website is designed with form elements that trigger forwarding to /form. This is a problem because we can only communicate on that channel.
-// we have to communicate a back to the website to update the page. So in order to still be able to send data back to the website, on every reload 
-// the website will send a get request on /program. This will trigger handleProgram() which will send the program name and code back to the website.
-void handleProgram() {
-  String programcode = read_program(programname);
-  server.send(200, "text/plain", programname + ";" + programcode);
+// the website is designed with form elements that trigger forwarding to /form. 
+// This is a problem because we can only communicate on that channel.
+// we have to communicate a back to the website to update the page. 
+// So in order to still be able to send data back to the website, on every reload the website will send a get request on /program which triggers this function. 
+// The data that is sent back is the name of the currently selected program and the code of that program.
+// It is only sent back if the "edit" button was pressed. (if not, the variables "PROGRAMNAME" and "PROGRAMCODE" will be empty)
+void handle_program() {
+  String PROGRAMCODE = read_program(PROGRAMNAME);
+  server.send(200, "text/plain", PROGRAMNAME + ";" + PROGRAMCODE);
 }
 
-// Similarly to handleProgram(), the website will send a get request on /error to update the error message on reload.
-// The message is again written by handleForm().
-void handleError() {
-  server.send(200, "text/plain", message);
+// Similarly to handle_program(), the website will send a get request on /error to update the error message on reload.
+// The MESSAGE is again written by handle_form().
+void handle_error() {
+  server.send(200, "text/plain", MESSAGE);
 }
 
 // sends a list of all files in /signals and /programs on reload
-void send_files() {
+void handle_files() {
   String files = get_files("/signals", "/programs");
   Serial.println(files);
   server.send(200, "text/plane", files);
@@ -84,17 +97,18 @@ void send_files() {
 // gets the time from the client via Date() and saves it together with the millis() offset to a file
 // the offset is important because only with millis() we can calculate the time that has passed between the synchronisation and the time of program execution.
 // this enabled the ESP to execute timed programs even if the wifi connection is lost.
-void handleTime() {
+void handle_time() {
   String timezone = server.arg("time_dummy");
   update_timezone(timezone.toInt());
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
+// TODO: change form names to be more descriptive
 // handles all form elements on the website (signals and programs)
-// also updates the error message and programname.
+// also updates the error message and PROGRAMNAME.
 // all the logic is handled here and the functions from workflows.h are called.
-void handleForm() {
+void handle_form() {
   String signal = server.arg("signal");
   String send_signal_button = server.arg("send_signal_button"); 
   String delete_signal_button = server.arg("delete_signal_button"); 
@@ -125,71 +139,71 @@ void handleForm() {
 
   // signal logic:
   if (signal_name != "" && add_signal_button != "") {
-    message = recording_workflow(signal_name);
+    MESSAGE = recording_workflow(signal_name);
   }
 
   else if (signal_name == "" && add_signal_button != "") {
-    message = "no signal name given";
+    MESSAGE = "no signal name given";
   }
 
   else if (signal != "") {
     if (send_signal_button != "") {
-      message = sending_workflow(signal);
+      MESSAGE = sending_workflow(signal);
     }
     else if (delete_signal_button != "") {
-      message = deleting_workflow("signals", signal);
+      MESSAGE = deleting_workflow("signals", signal);
     }
   }
 
   else if (signal == "" && send_signal_button != "") {
-    message = "no signal selected";
+    MESSAGE = "no signal selected";
   }
 
   else if (signal == "" && delete_signal_button != "") {
-    message = "no signal selected";
+    MESSAGE = "no signal selected";
   }
 
   // program logic:
   else if (program_name != "" && add_program_button != "" && program_code != "") {
-    message = adding_workflow(program_name, program_code);
+    MESSAGE = adding_workflow(program_name, program_code);
   }
 
   else if (program_name == "" && add_program_button != "") {
-    message = "no program name given";
+    MESSAGE = "no program name given";
   }
 
   else if (program_code == "" && add_program_button != "") {
-    message = "no program code given";
+    MESSAGE = "no program code given";
   }
 
   else if (program != "") {
     if (play_program_button != "") {
-      message = playing_workflow(program);
+      MESSAGE = playing_workflow(program);
     }
     else if (delete_programs_button != "") {
-      message = deleting_workflow("programs", program);
+      MESSAGE = deleting_workflow("programs", program);
     }
     // provides data for separate Get request
     else if (edit_program_button != "") {
-      programname = program;
-      message = "successfully loaded program: " + program;
+      PROGRAMNAME = program;
+      MESSAGE = "successfully loaded program: " + program;
     }
   }
 
   else if (program == "" && play_program_button != "") {
-    message = "no program selected";
+    MESSAGE = "no program selected";
   }
 
   else if (program == "" && delete_programs_button != "") {
-    message = "no program selected";
+    MESSAGE = "no program selected";
   }
 
   else if (program == "" && edit_program_button != "") {
-    message = "no program selected";
+    MESSAGE = "no program selected";
   }
 
   if (edit_program_button == "") {
-    programname = "";
+    PROGRAMNAME = "";
   }
   
   // sends user back to the website
