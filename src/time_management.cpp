@@ -30,6 +30,7 @@ String weekday_to_num (String weekday){
     in which the time is saved.
   */
 
+  // uppercase starting letters are also accepted
   if (weekday == "Monday" || weekday == "monday"){
     return "1";
   }
@@ -83,14 +84,20 @@ boolean compare_time (String time, boolean weekday_included) {
   - handle_day_command (in src/workflows.cpp) used to check if the current time is equal to the time in the program
   */
   
+  // delay to reduce the number of operations inside the while(true) loop
   delay(500);
+
+  // check for millis() overflow
   check_and_update_offset();
 
+  // get current time
   String current_time = get_current_time();
 
+  // compare time for day-command
   if (weekday_included == true) {
     return(time == current_time);
   }
+  // compare time for time-command
   else {
     return(time == current_time.substring(0, current_time.indexOf(" ")));
   }
@@ -119,12 +126,17 @@ void update_timezone(int timezone){
   - handle_time (in src/main.cpp) used to save the timezone to the LittleFS
   */
 
+  // convert timezone to seconds
   timezone = timezone * (-60);
 
+  // load time from LittleFS
   DynamicJsonDocument time_json = load_json("/time.json");
 
+  // update timezone
   time_json["timezone"] = timezone;
   time_json.shrinkToFit();
+
+  // save updated time to LittleFS
   save_json("/time.json", time_json);
   return;
 }
@@ -152,8 +164,10 @@ String get_current_time(){
   - compare_time (in src/time_management.cpp) used to check if the current time is equal to the time in the program
   */
 
+  // load time from LittleFS
   DynamicJsonDocument time_json = load_json("/time.json");
 
+  // convert json to string
   String time =  time_json["hours"].as<String>();
   time += ":";
   time += time_json["minutes"].as<String>();
@@ -162,16 +176,18 @@ String get_current_time(){
   time += " ";
   time += time_json["weekday"].as<String>();
 
-  
+  // check initial offset
   unsigned long init_offset = time_json["init_offset"].as<unsigned long>();
 
-
+  // calculate effective offset in seconds (time since time initialization)
   unsigned long effective_offset = millis() - init_offset;
   unsigned long effective_offset_seconds = effective_offset / 1000;
 
+  // add offset to time
   String offset_time = turn_seconds_in_time(effective_offset_seconds);
   time = add_time(time, offset_time);
 
+  // return current time
   return time;
 }
 
@@ -198,11 +214,14 @@ String turn_seconds_in_time(unsigned long input_seconds){
   - check_and_update_offset (in src/time_management.cpp) used to adjust time after millis() overflow
   */
 
+  // variables
   int hours = input_seconds / 3600;
   int minutes = (input_seconds % 3600) / 60;
   int seconds = input_seconds % 60;
 
   String time = "";
+
+  // add leading zeros and build string
   if (hours < 10){
     time += "0";
   }
@@ -246,6 +265,7 @@ String add_time(String time, String offset_time){
   - check_and_update_offset (in src/time_management.cpp) used to adjust time after millis() overflow
   */
 
+  // split time in ints
   int hours = time.substring(0, time.indexOf(":")).toInt();
   int minutes = time.substring(time.indexOf(":") + 1, time.indexOf(":") + 3).toInt();
   int seconds = time.substring(time.indexOf(":") + 4, time.indexOf(":") + 6).toInt();
@@ -255,26 +275,33 @@ String add_time(String time, String offset_time){
   int offset_minutes = offset_time.substring(offset_time.indexOf(":") + 1, offset_time.indexOf(":") + 3).toInt();
   int offset_seconds = offset_time.substring(offset_time.indexOf(":") + 4, offset_time.indexOf(":") + 6).toInt();
 
+  // sum up seconds and add overflow to minutes
   seconds += offset_seconds;
   if (seconds >= 60){
     seconds -= 60;
     minutes += 1;
   }
+
+  // sum up minutes and add overflow to hours
   minutes += offset_minutes;
   if (minutes >= 60){
     minutes -= 60;
     hours += 1;
   }
-  hours += offset_hours;
 
+  // sum up hours and add overflow to weekday (multiple overflows are possible)
+  hours += offset_hours;
   while (hours >= 24){
     hours -= 24;
     weekday += 1;
   }
+
+  // adjust weekday
   while (weekday >= 7){
     weekday -= 7;
   }
 
+  // build string with leading zeros
   String time_sum = "";
 
   if (hours < 10){
@@ -293,6 +320,8 @@ String add_time(String time, String offset_time){
   time_sum += seconds;
   time_sum += " ";
   time_sum += weekday;
+
+  // return sum
   return (time_sum);
 }
 
@@ -326,16 +355,21 @@ DynamicJsonDocument get_NTP_time(int timezone){
   called by:
   - init_time (in src/time_management.cpp) to implement time retrieval in the initial setup
   */
+
+  // initialize NTP client
   WiFiUDP ntpUDP;
   NTPClient timeClient(ntpUDP, "pool.ntp.org", timezone);
   timeClient.begin();
   timeClient.update();
+
+  // get time and weekday
   String time = timeClient.getFormattedTime();
   int weekday = timeClient.getDay();
   timeClient.end();
 
   Serial.println("Init time: " + time + " " + weekday);
 
+  // build json
   DynamicJsonDocument time_json(1024);
 
   int hours = time.substring(0, time.indexOf(":")).toInt();
@@ -352,6 +386,7 @@ DynamicJsonDocument get_NTP_time(int timezone){
   time_json["last_offset"] = millis();
   time_json.shrinkToFit();
 
+  // return json
   return(time_json);
 }
 
@@ -379,10 +414,10 @@ boolean init_time(){
   - setup (in src/main.cpp) to initialize the time after WifiManager setup
   */
 
-  // loads the time from time.json
+  // load time from time.json
   DynamicJsonDocument current_values = load_json("/time.json");
 
-  // no time was saved yet (first boot)
+  // no time was saved yet (timezone is set to 0)
   if (current_values.isNull()){
     save_json("/time.json", get_NTP_time(0));
     return false;
@@ -425,21 +460,31 @@ void check_and_update_offset() {
   - handle_wait_command (in src/workflows.cpp) to check for overflow in wait and skip commands
   */
 
+  // load time from time.json
   DynamicJsonDocument current_values = load_json("/time.json");
+
+  // get offsets
   unsigned long last_offset = current_values["last_offset"];
   unsigned long current_offset = millis();
 
-  // no overflow occured:
+  // if no overflow occured update last_offset
   if (current_offset > last_offset){
     current_values["last_offset"] = current_offset;
     save_json("/time.json", current_values);
     return;
   }
-  // overflow occured:
+
+  // if overflow occured update time
   else if (current_offset < last_offset){
+    
+    // calculate time until overflow
     unsigned long overflow_seconds = 4294967;
+    unsigned long init_offset = current_values["init_offset"];
+    unsigned long init_offset_seconds = init_offset/1000;
+    overflow_seconds = overflow_seconds - init_offset_seconds;
     String overflow_time = turn_seconds_in_time(overflow_seconds);
 
+    // turn initial time into string
     DynamicJsonDocument init_values = load_json("/time.json");
 
     String init_time = init_values["hours"].as<String>();
@@ -450,13 +495,18 @@ void check_and_update_offset() {
     init_time += " ";
     init_time += init_values["weekday"].as<String>();
 
+    // add overflow time to initial time (result is time at moment of overflow)
     String current_time = add_time(init_time, overflow_time);
 
+    // calculate time since overflow
     unsigned long current_offset = millis();
     unsigned long current_offset_seconds = current_offset/1000;
     String overflowed_time = turn_seconds_in_time(current_offset_seconds);
+
+    // add overflowed time to time at moment of overflow (result is current time)
     current_time = add_time(current_time, overflowed_time);
 
+    // write current time to json
     current_values["hours"] = current_time.substring(0, current_time.indexOf(":")).toInt();
     current_values["minutes"] = current_time.substring(current_time.indexOf(":") + 1, current_time.indexOf(":") + 3).toInt();
     current_values["seconds"] = current_time.substring(current_time.indexOf(":") + 4, current_time.indexOf(":") + 6).toInt();
@@ -465,9 +515,11 @@ void check_and_update_offset() {
     current_values["init_offset"] = current_offset;
     current_values["timezone"] = current_values["timezone"];
 
+    // save json
     save_json("/time.json", current_values);
     return;
   }
+  
   // no change in time occured (called too quickly after last call)
   else {
     return;

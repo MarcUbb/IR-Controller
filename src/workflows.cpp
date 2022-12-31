@@ -29,16 +29,21 @@ String deleting_workflow(String directory, String command_name) {
   called by:
   - handle_form (in src/main.cpp) to delete a sequence or program
   */
-  // 1. filename is generated:
+  
+  // generate filename
   String filename = "/" + directory + "/" + command_name + ".json";
+
+  // start filesystem
   LittleFS.begin();
-  // 2. check if file exists:
+
+  // check if file exists and delet if found
   if(LittleFS.exists(filename)){
-    // 2.1 delete file:
     LittleFS.remove(filename);
     LittleFS.end();
     return("successfully deleted " + directory + ": " + command_name);
   }
+
+  // return error message if file was not found
   LittleFS.end();
   return("could not find " + directory + ": " + command_name);
 }
@@ -62,25 +67,33 @@ String recording_workflow(String command_name) {
 
   calls:
   - capture_signal (in src/filesystem.cpp) to capture a signal
-  - convert_to_JSON (in src/filesystem.cpp) to convert the signal to JSON and add the name
+  - save_signal (in src/filesystem.cpp) to convert the signal to JSON and add the name
   - save_json (in src/filesystem.cpp) to save the JSON to a file
 
   called by:
   - handle_form (in src/main.cpp) to record a sequence
   */
-  // 1. filename is generated:
-  String filename = "/signals/" + command_name + ".json";
-  // 2. signal is received:
+  
+  // receive signal sequence
   String raw_sequence = capture_signal();
-  // 3. if sinal was received successfully:
+
+  // return error message if no signal was captured
   if (raw_sequence == "no_signal"){
     return("failed to record signal");
   }
-  // 3.1 signal String is serialized to JSON:
-  DynamicJsonDocument sequence_JSON = convert_to_JSON(raw_sequence, command_name);
-  // 3.2 JSON is written to file:
-  save_json(filename, sequence_JSON);
-  return("sucessfully saved signal: " + command_name);
+
+  // save signal to file
+  String message = save_signal(raw_sequence, command_name);
+
+  // return success message if signal was saved
+  if (message == "success"){
+    return("successfully recorded signal: " + command_name);
+  }
+
+  // return error message if signal could not be saved
+  else {
+    return(message);
+  }
 }
 
 
@@ -107,15 +120,19 @@ String sending_workflow(String command_name) {
   called by:
   - handle_form (in src/main.cpp) to send a signal
   */
-  // 1. filename is generated:
+ 
+  // generate filename
   String filename = "/signals/" + command_name + ".json";
 
+  // check if file exists
   if (check_if_file_exists(filename) == false) {
     return("could not find command: " + command_name);
   }
-  // 2. loads Command and saves it in JSON Object
+
+  // load signal from file
   DynamicJsonDocument doc = load_json(filename);
-  // 3. (send command)
+
+  // send signal
   send_signal(doc);
   return("successfully sent command: " + command_name);
 }
@@ -144,28 +161,33 @@ String adding_workflow(String program_name, String program_code) {
   called by:
   - handle_form (in src/main.cpp) to add a program
   */
-  // 1. filename is generated:
+
+  // generate filename
   String filename = "/programs/" + program_name + ".json";
-  // 2. if file does not exist:
+
+  // start filesystem
   LittleFS.begin();
 
+  // check if file exists and delete if found (to overwrite old file)
   if (LittleFS.exists(filename)) {
     LittleFS.remove(filename);
   }
 
+  // create or recreate file
   File myfile = LittleFS.open(filename, "w");
   
-
+  // return error message if file could not be created
   if (!myfile) {
     myfile.close();
     LittleFS.end();
     return("failed to create file");
   }
-  // 3. write code to file:
+
+  // write code to file
   myfile.write(program_code.c_str());
-  // Close the file
   myfile.close();
   LittleFS.end();
+
   return("successfully saved program: " + program_name);
 }
 
@@ -195,28 +217,37 @@ String playing_workflow(String program_name) {
   called by:
   - handle_form (in src/main.cpp) to play a program
   */
-  // 1. filename is generated:
+
+  // generate filename
   String filename = "/programs/" + program_name + ".json";
-  
+
+  // check if file exists 
   if (check_if_file_exists(filename) == false) {
     return("could not find program: " + program_name);
   }
 
+  // load program from file
   LittleFS.begin();
   File myfile = LittleFS.open(filename, "r");
 
+  // return error message if file could not be opened
   if (!myfile) {
     return("Failed to open file for reading");
   }
 
-  // adds " \n" to the end of the file to make sure the last line is read
+  // read file and add " \n" to the end of the file to be able to read lines more easily in loop
   String filecontent = myfile.readString() + " \n";
   myfile.close();
   LittleFS.end();
+
+  // hand program to parser and catch error message
   String message = program_parser(filecontent);
+  
+  // return error message if error occured
   if (message.indexOf("success") == -1){
     return(message);
   }
+
   else {
     return("successfully played program: " + program_name);
   }
@@ -250,73 +281,110 @@ String program_parser(String code){
   - handle_day_command (in src/workflows.cpp) to wait until a certain time and day (for day command)
   */
 
+  // initialize variables
   String line = "";
   String error_message = "";
 
+  // loop through code line by line (until no more newlines are found)
   while (code.indexOf("\n") != -1){
+    // get current line and remaining code
     line = code.substring(0, code.indexOf("\n") - 1);
     code = code.substring(code.indexOf("\n") + 1);
 
-    Serial.println("current line: " + line);
-    Serial.println("remaining code: " + code);
+    //Serial.println("current line: " + line);
+    //Serial.println("remaining code: " + code);
 
+    // play command was found
     if (line.indexOf("play") == 0){
+      // slice command name from line
       String command_name = line.substring(5);
+
+      // send signal
       error_message = sending_workflow(command_name);
     }
     
+    // wait command was found
     else if (line.indexOf("wait") == 0){
+      // slice delay time from line
       String delay_time = line.substring(5);
       unsigned long delay_time_long = atol(delay_time.c_str());
+
+      // wait for delay time
       error_message = handle_wait_command(delay_time_long);
     }
 
+    // time command was found
     else if (line.indexOf("0") == 0 || line.indexOf("1") == 0 || line.indexOf("2") == 0) {
+      // whole line is passed to handler
       String time_command = line;
       error_message = handle_time_command(time_command);
     }
 
+    // day command was found
     else if (line.indexOf("monday") == 0 || line.indexOf("tuesday") == 0 || line.indexOf("wednesday") == 0 || line.indexOf("thursday") == 0 || line.indexOf("friday") == 0 || line.indexOf("saturday") == 0 || line.indexOf("sunday") == 0 || line.indexOf("Monday") == 0 || line.indexOf("Tuesday") == 0 || line.indexOf("Wednesday") == 0 || line.indexOf("Thursday") == 0 || line.indexOf("Friday") == 0 || line.indexOf("Saturday") == 0 || line.indexOf("Sunday") == 0) {
+      // whole line is passed to handler
       String day_command = line;
       error_message = handle_day_command(day_command);
     }
 
+    // skip command was found
     else if (line.indexOf("skip") == 0) {
+      // slice days from line
       String skip_days = line.substring(5);
       unsigned long days = atoi(skip_days.c_str());
+
+      // check if amount of days is valid (49 days in ms is limit for unsigned long)
       if (days == 0) {
         return("failed to execute skip command: no days given");
       }
       if (days > 49) {
         return("failed to execute skip command: too many days given");
       }
-      days = days * 86400000; // days in milliseconds
+
+      // convert days to milliseconds
+      days = days * 86400000; 
+
+      // pass to handler
       error_message = handle_wait_command(days);
     }
 
     // code is split in loop part and part that follows (if loop is not repeated infinitely)
     // loop part is executed the given amount of time / or indefinitely
     // after loop is executed, the part after the loop is given back to method
+
+    // loop command was found
     else if (line.indexOf("loop") == 0) {
+      // slice loop time from line
       String loop_time = line.substring(5);
+
+      // slice loop code from code
       String loop_code = code.substring(0, code.lastIndexOf("end") - 1) + "\n";
 
-      // skip line with "end":
+      // slice remaining code from code
       code = code.substring(code.lastIndexOf("end"));
       code = code.substring(code.indexOf("\n") + 1);
 
-      // if loop is repeated indefinitely, the code after the loop is not executed
+      // loop is repeated indefinitely
       if (loop_time == "inf") {
         while(true) {
+          // execute loop code with parser indefinitely
           error_message = program_parser(loop_code);
+
+          // check for error since end of this parser is not reached
           if (error_message.indexOf("success") == -1) {
             return(error_message);
           }
         }
       }
+
+      // loop is repeated a certain amount of times
       else {
+        // convert loop time to unsigned long
         unsigned long loop_time_long = atol(loop_time.c_str());
+
+        // loop is repeated the given amount of times
         for (unsigned long i = 0; i < loop_time_long; i++) {
+          // code is passed again to parser and checked for errors
           error_message = program_parser(loop_code);
           if (error_message.indexOf("success") == -1) {
             return(error_message);
@@ -325,6 +393,7 @@ String program_parser(String code){
       }
     }
 
+    // at the end the parser checks if the current command wrote to the error message
     if (error_message.indexOf("success") == -1) {
       return(error_message);
     }
@@ -359,35 +428,49 @@ String handle_wait_command(unsigned long waiting_time) {
   called by:
   - program_parser (in src/workflows.cpp) to execute wait or skip command
   */
+
+  // initialize variables:
   unsigned long time_now = millis();
   const int Interrupt_Button = 12;
   pinMode(Interrupt_Button, INPUT_PULLUP);
 
-  // overflow will occur:
+  // check if overflow will occur (if yes:)
   if (time_now + waiting_time < time_now) {
     Serial.println("overflow will occur in wait command");
+
+    // calculate time to wait after overflow
     unsigned long extra_wait = time_now + waiting_time;
 
-    // wait for overflow to occur (buffer of 1s not to miss it):
+    // wait for overflow to occur (buffer of 1s not to miss it)
     while(millis() > 1000) {
+      // update time
       check_and_update_offset();
+
+      // check if user pressed interrupt button
       if (digitalRead(Interrupt_Button) == LOW) {
         return("program was canceled by the user.");
       }
     }
-    // wait the extra time:
+
+    // wait the extra time (after overflow)
     while(millis() < extra_wait){
+      // update time
       check_and_update_offset();
+
+      // check if user pressed interrupt button
       if (digitalRead(Interrupt_Button) == LOW) {
         return("program was canceled by the user.");
       }
     }
   }
 
-  // no overflow will occur:
+  // no overflow will occur
   else{
+    // wait the given time
     while(millis() < time_now + waiting_time){
       check_and_update_offset(); // no trusting my own code haha
+
+      // check if user pressed interrupt button
       if (digitalRead(Interrupt_Button) == LOW) {
         return("program was canceled by the user.");
       }
@@ -397,6 +480,8 @@ String handle_wait_command(unsigned long waiting_time) {
 }
 
 // TODO: merge handle_time_command and handle_day_command into one function
+// TODO: comment
+// (add a parameter to differentiate between time and day command)
 String handle_time_command(String time_command) {
   /*
   parameters:
@@ -420,6 +505,7 @@ String handle_time_command(String time_command) {
   called by:
   - program_parser (in src/workflows.cpp) to execute time command
   */
+
   // 12:00:13
   String time = time_command.substring(0, time_command.indexOf(" "));
   // Sequence1

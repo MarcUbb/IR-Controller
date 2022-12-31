@@ -76,6 +76,7 @@
       var today = new Date()
       var timezone = today.getTimezoneOffset();
       console.log(timezone);
+      // TODO: only input timezone in dummy field
       document.getElementById("time_dummy").value = timezone;
 
       if (localStorage.getItem("hasCodeRunBefore") === null) {

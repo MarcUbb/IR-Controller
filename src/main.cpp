@@ -59,56 +59,92 @@ void loop() {
 
 // TODO: write comments inside functions
 //------------------ handlers ------------------//
-
-// serves index.html
+ 
 void handle_root() {
+  /*
+  serves index.html (from include/website_string.h)
+  */
   server.send(200, "text/html", index_html);
 }
 
-// serves 404 error
 void handle_not_found() {
+  /*
+  serves 404 error
+  */
   server.send(404, "text/plain", "404: Not found");
 }
 
-// the website is designed with form elements that trigger forwarding to /form. 
-// This is a problem because we can only communicate on that channel.
-// we have to communicate a back to the website to update the page. 
-// So in order to still be able to send data back to the website, on every reload the website will send a get request on /program which triggers this function. 
-// The data that is sent back is the name of the currently selected program and the code of that program.
-// It is only sent back if the "edit" button was pressed. (if not, the variables "PROGRAMNAME" and "PROGRAMCODE" will be empty)
 void handle_program() {
+  /*
+  The website is designed with form elements that trigger forwarding to /form. 
+  This is a problem because we can only communicate on that channel and we already 
+  have to communicate a back to the website to update the page. 
+  So in order to still be able to send data back to the website, on every reload the 
+  website will send a get request on /program which triggers this function. 
+  The data that is sent back is the name of the currently selected program and the code of that program.
+  It is only sent back if the "edit" button was pressed. (if not, the variables "PROGRAMNAME" 
+  and "PROGRAMCODE" will be empty)
+  */
+
+  // read code of selected program
   String PROGRAMCODE = read_program(PROGRAMNAME);
+
+  // send name and code of selected program
   server.send(200, "text/plain", PROGRAMNAME + ";" + PROGRAMCODE);
 }
 
-// Similarly to handle_program(), the website will send a get request on /error to update the error message on reload.
-// The MESSAGE is again written by handle_form().
 void handle_error() {
+  /*
+  Similarly to handle_program(), the website will send a get request on /error to 
+  update the error message on reload. The MESSAGE is then written again by handle_form().
+  */
   server.send(200, "text/plain", MESSAGE);
 }
 
-// sends a list of all files in /signals and /programs on reload
 void handle_files() {
+  /*
+  Sends a list of all files in /signals and /programs on reload to be displayed on the website.
+  */
+
+  // generate list of files in /signals and /programs
   String files = get_files("/signals", "/programs");
-  Serial.println(files);
+
+  //Serial.println(files);
+
+  // send list of files
   server.send(200, "text/plane", files);
 }
 
-// gets the time from the client via Date() and saves it together with the millis() offset to a file
-// the offset is important because only with millis() we can calculate the time that has passed between the synchronisation and the time of program execution.
-// this enabled the ESP to execute timed programs even if the wifi connection is lost.
 void handle_time() {
+  /*
+  Gets the time from the client via Date() and saves it together with the millis() offset 
+  to the LittleFS.
+  The offset is important because only with millis() we can calculate the time that has passed 
+  between the synchronisation and the time of program execution.
+  This enabled the ESP to execute timed programs even if the wifi connection is lost.
+  */
+
+  // get time from client (saved in hidden dummy text input field on website)
   String timezone = server.arg("time_dummy");
+
+  // update only timezone because NTP time is more precise
   update_timezone(timezone.toInt());
+
+  // redirect to root
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
 // TODO: change form names to be more descriptive
-// handles all form elements on the website (signals and programs)
-// also updates the error message and PROGRAMNAME.
-// all the logic is handled here and the functions from workflows.h are called.
+// 
 void handle_form() {
+  /*
+  Handles all form elements on the website (signals and programs) also updates 
+  the error message and PROGRAMNAME.
+  All the user interaction with the website is handled here and the functions 
+  from workflows.h are called.
+  */
+
   String signal = server.arg("signal");
   String send_signal_button = server.arg("send_signal_button"); 
   String delete_signal_button = server.arg("delete_signal_button"); 
@@ -137,76 +173,100 @@ void handle_form() {
   Serial.println("edit_program_button: " + edit_program_button);
   */
 
-  // signal logic:
+  // SIGNAL LOGIC:
+  // signal is added
   if (signal_name != "" && add_signal_button != "") {
     MESSAGE = recording_workflow(signal_name);
   }
 
+  // signal name is missing
   else if (signal_name == "" && add_signal_button != "") {
     MESSAGE = "no signal name given";
   }
 
+  // signal is selcted
   else if (signal != "") {
+
+    // send button is pressed
     if (send_signal_button != "") {
       MESSAGE = sending_workflow(signal);
     }
+
+    // delete button is pressed
     else if (delete_signal_button != "") {
       MESSAGE = deleting_workflow("signals", signal);
     }
   }
 
+  // no signal is selected
   else if (signal == "" && send_signal_button != "") {
     MESSAGE = "no signal selected";
   }
 
+  // no signal is selected
   else if (signal == "" && delete_signal_button != "") {
     MESSAGE = "no signal selected";
   }
 
-  // program logic:
+  // PROGRAM LOGIC:
+  // program is added
   else if (program_name != "" && add_program_button != "" && program_code != "") {
     MESSAGE = adding_workflow(program_name, program_code);
   }
 
+  // program name is missing
   else if (program_name == "" && add_program_button != "") {
     MESSAGE = "no program name given";
   }
 
+  // program code is missing
   else if (program_code == "" && add_program_button != "") {
     MESSAGE = "no program code given";
   }
 
+  // program is selected
   else if (program != "") {
+
+    // play button is pressed
     if (play_program_button != "") {
       MESSAGE = playing_workflow(program);
     }
+
+    // delete button is pressed
     else if (delete_programs_button != "") {
       MESSAGE = deleting_workflow("programs", program);
     }
-    // provides data for separate Get request
+
+    // edit button is pressed
     else if (edit_program_button != "") {
+
+      // data is saved in global variable PROGRAMNAME and is used in handle_program() to display on website
       PROGRAMNAME = program;
       MESSAGE = "successfully loaded program: " + program;
     }
   }
 
+  // no program is selected
   else if (program == "" && play_program_button != "") {
     MESSAGE = "no program selected";
   }
 
+  // no program is selected
   else if (program == "" && delete_programs_button != "") {
     MESSAGE = "no program selected";
   }
 
+  // no program is selected
   else if (program == "" && edit_program_button != "") {
     MESSAGE = "no program selected";
   }
 
+  // edit button is not pressed and therefor PROGRAMNAME is reset
   if (edit_program_button == "") {
     PROGRAMNAME = "";
   }
   
-  // sends user back to the website
+  // sends user back to root
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");
 }

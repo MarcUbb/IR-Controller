@@ -15,7 +15,7 @@
 
 
 String capture_signal();
-DynamicJsonDocument convert_to_JSON(String result_string, String name);
+String save_signal(String result_string, String name);
 void save_json(String filename, DynamicJsonDocument doc);
 DynamicJsonDocument load_json(String filename);
 void send_signal(DynamicJsonDocument doc);
