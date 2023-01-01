@@ -18,12 +18,12 @@ void handle_files();
 void handle_time();
 void handle_form();
 
-// declared outside of setup() to make visible to handler functions
+// server declared in header file to make visible to handler functions
 ESP8266WebServer server(80);
 
-// global variables (used to hand over information about current state of website or state of function execution)
-// programname is used to hand over information about currently selected program
-// on /program, handleProgram() will access this variable and send program code and name to the frontend
+// holds the name of the currently selected program if the edit button was pressed
+// gets updated on /form and called on /program
 String PROGRAMNAME = "";
+
 // message is used to hand over error messages (is set by website on /form) and updated in frontend on reload
 String MESSAGE = "";

@@ -33,8 +33,8 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
   </form>
 
   <form action="/form">
-    <label for="signal">Choose your signal and action:</label> <br>
-    <select id="signal" name="signal"></select>
+    <label for="selected_signal">Choose your signal and action:</label> <br>
+    <select id="selected_signal" name="selected_signal"></select>
     <input type="submit" name="send_signal_button" value="send">
     <input type="submit" name="delete_signal_button" value="delete">
   </form>
@@ -52,8 +52,8 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
   </form>
 
   <form action="/form">
-    <label for="program">Choose your program and action:</label> <br>
-    <select id="programs" name="program"></select>
+    <label for="selected_program">Choose your program and action:</label> <br>
+    <select id="selected_program" name="selected_program"></select>
     <input type="submit" name="play_program_button" value="play">
     <input type="submit" name="delete_program_button" value="delete">
     <input type="submit" name="edit_program_button" value="edit">
@@ -69,34 +69,55 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
   <div id="error_message">System message: error message</div>
 
   <script>
-    // https://stackoverflow.com/questions/3364493/how-do-i-clear-all-options-in-a-dropdown-box
     function removeOptions(selectElement) {
+      /*
+      This function removes all options from a dropdown element.
+      It is used to update the dropdowns with the current signals and programs.
+      Thanks to: https://stackoverflow.com/questions/3364493/how-do-i-clear-all-options-in-a-dropdown-box
+      */
+
       var i, L = selectElement.options.length - 1;
       for(i = L; i >= 0; i--) {
           selectElement.remove(i);
       }
     }
 
-    // https://circuitdigest.com/microcontroller-projects/ajax-with-esp8266-dynamic-web-page-update-without-reloading
+    // Inspired by: https://circuitdigest.com/microcontroller-projects/ajax-with-esp8266-dynamic-web-page-update-without-reloading
     function getData() {
+      /*
+      This function gets called on page load and therefore does multiple things:
+      - gets the current time zone of the user
+      - checks if this is the first time the user opens the website (shows welcome message)
+      - updates the dropdowns with the current signals and programs
+      - inserts the code name and code in the corresponding fields if the user wants to edit a program
+      - updates the error message
+      */
+
+      // gets current time zone
       var today = new Date()
       var timezone = today.getTimezoneOffset();
-      console.log(timezone);
+
+      // writes time zone to invisible input field
       document.getElementById("time_dummy").value = timezone;
 
+      // checks if this is the first time the user opens the website
       if (localStorage.getItem("hasCodeRunBefore") === null) {
+          // shows welcome message
           alert("Welcome to the IR-Remote! Here you can read and play infrared signals and write small programs which play your signals automatically.")
+          // sets flag to true
           localStorage.setItem("hasCodeRunBefore", true);
       }
       
-      // gets list of signals and programs from backend
+      // creates get request for signals and programs list
       var xhttpFiles = new XMLHttpRequest();
       xhttpFiles.onreadystatechange = function() {
+        // checks if request is finished and successful
         if (this.readyState == 4 && this.status == 200) {
-          removeOptions(document.getElementById("signal"));
-          removeOptions(document.getElementById("programs"));
+          // removes all options from dropdowns
+          removeOptions(document.getElementById("selected_signal"));
+          removeOptions(document.getElementById("selected_program"));
 
-          // preprocessing of string data
+          // splits response into signals and programs
           var files = this.responseText;
           var fileArray = files.split(";");
           var signals = fileArray[0].split(",");
@@ -107,7 +128,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
             var option = document.createElement("option");
             option.value = val;
             option.text = val;
-            document.getElementById("signal").appendChild(option)
+            document.getElementById("selected_signal").appendChild(option)
           }
 
           // adds programs to dropdown
@@ -115,7 +136,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
             var option = document.createElement("option");
             option.value = val;
             option.text = val;
-            document.getElementById("programs").appendChild(option)
+            document.getElementById("selected_program").appendChild(option)
           }
         }
       };
@@ -123,16 +144,17 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       xhttpFiles.send();
 
       // gets program name and code from backend
-      // sent data is empty if user did not click on edit button
       var xhttpProgram = new XMLHttpRequest();
       xhttpProgram.onreadystatechange = function() {
+        // receives backend response (sent data is empty if user did not click on edit button)
         if (this.readyState == 4 && this.status == 200) {
+          // splits response into program name and code
           var response = this.responseText;
           response = response.split(";");
-          console.log(response)
           var programname = response[0];
           var programcode = response[1];
 
+          // writes program name and code to corresponding fields
           document.getElementById("program_name").value = programname;
           document.getElementById("program_code").value = programcode;
         }
@@ -145,6 +167,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       xhttpError.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           var response = this.responseText;
+          // writes error message to error message field
           document.getElementById("error_message").innerHTML = "System message: '" + response + "'";
         }
       };

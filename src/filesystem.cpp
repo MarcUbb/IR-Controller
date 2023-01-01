@@ -5,9 +5,7 @@ In this file, all functions related to the filesystem are defined.
 */
 
 
-// TODO: call by reference woimmer es Sinn macht (wenn ein Objekt übergeben wird und verändert werden soll)
-// TODO: Inputs jeweils auf Sinnhaftigkeit checken (überall)
-// TODO: comment header files
+// TODO: Inputs jeweils auf Sinnhaftigkeit checken (überall und in Verknüpfung mit Unit Tests)
 
 
 String capture_signal(){

@@ -57,7 +57,6 @@ void loop() {
 
 
 
-// TODO: write comments inside functions
 //------------------ handlers ------------------//
  
 void handle_root() {
@@ -135,8 +134,6 @@ void handle_time() {
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
-// TODO: change form names to be more descriptive
-// 
 void handle_form() {
   /*
   Handles all form elements on the website (signals and programs) also updates 
@@ -145,12 +142,12 @@ void handle_form() {
   from workflows.h are called.
   */
 
-  String signal = server.arg("signal");
+  String selected_signal = server.arg("selected_signal");
   String send_signal_button = server.arg("send_signal_button"); 
   String delete_signal_button = server.arg("delete_signal_button"); 
   String signal_name = server.arg("signal_name"); 
   String add_signal_button = server.arg("add_signal_button");
-  String program = server.arg("program");
+  String selected_program = server.arg("selected_program");
   String play_program_button = server.arg("play_program_button"); 
   String program_code = server.arg("program_code");
   String program_name = server.arg("program_name"); 
@@ -185,26 +182,26 @@ void handle_form() {
   }
 
   // signal is selcted
-  else if (signal != "") {
+  else if (selected_signal != "") {
 
     // send button is pressed
     if (send_signal_button != "") {
-      MESSAGE = sending_workflow(signal);
+      MESSAGE = sending_workflow(selected_signal);
     }
 
     // delete button is pressed
     else if (delete_signal_button != "") {
-      MESSAGE = deleting_workflow("signals", signal);
+      MESSAGE = deleting_workflow("signals", selected_signal);
     }
   }
 
   // no signal is selected
-  else if (signal == "" && send_signal_button != "") {
+  else if (selected_signal == "" && send_signal_button != "") {
     MESSAGE = "no signal selected";
   }
 
   // no signal is selected
-  else if (signal == "" && delete_signal_button != "") {
+  else if (selected_signal == "" && delete_signal_button != "") {
     MESSAGE = "no signal selected";
   }
 
@@ -225,39 +222,39 @@ void handle_form() {
   }
 
   // program is selected
-  else if (program != "") {
+  else if (selected_program != "") {
 
     // play button is pressed
     if (play_program_button != "") {
-      MESSAGE = playing_workflow(program);
+      MESSAGE = playing_workflow(selected_program);
     }
 
     // delete button is pressed
     else if (delete_programs_button != "") {
-      MESSAGE = deleting_workflow("programs", program);
+      MESSAGE = deleting_workflow("programs", selected_program);
     }
 
     // edit button is pressed
     else if (edit_program_button != "") {
 
       // data is saved in global variable PROGRAMNAME and is used in handle_program() to display on website
-      PROGRAMNAME = program;
-      MESSAGE = "successfully loaded program: " + program;
+      PROGRAMNAME = selected_program;
+      MESSAGE = "successfully loaded program: " + selected_program;
     }
   }
 
   // no program is selected
-  else if (program == "" && play_program_button != "") {
+  else if (selected_program == "" && play_program_button != "") {
     MESSAGE = "no program selected";
   }
 
   // no program is selected
-  else if (program == "" && delete_programs_button != "") {
+  else if (selected_program == "" && delete_programs_button != "") {
     MESSAGE = "no program selected";
   }
 
   // no program is selected
-  else if (program == "" && edit_program_button != "") {
+  else if (selected_program == "" && edit_program_button != "") {
     MESSAGE = "no program selected";
   }
 

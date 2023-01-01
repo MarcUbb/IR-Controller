@@ -317,14 +317,14 @@ String program_parser(String code){
     else if (line.indexOf("0") == 0 || line.indexOf("1") == 0 || line.indexOf("2") == 0) {
       // whole line is passed to handler
       String time_command = line;
-      error_message = handle_time_command(time_command);
+      error_message = handle_times_commands(time_command, false);
     }
 
     // day command was found
     else if (line.indexOf("monday") == 0 || line.indexOf("tuesday") == 0 || line.indexOf("wednesday") == 0 || line.indexOf("thursday") == 0 || line.indexOf("friday") == 0 || line.indexOf("saturday") == 0 || line.indexOf("sunday") == 0 || line.indexOf("Monday") == 0 || line.indexOf("Tuesday") == 0 || line.indexOf("Wednesday") == 0 || line.indexOf("Thursday") == 0 || line.indexOf("Friday") == 0 || line.indexOf("Saturday") == 0 || line.indexOf("Sunday") == 0) {
       // whole line is passed to handler
       String day_command = line;
-      error_message = handle_day_command(day_command);
+      error_message = handle_times_commands(day_command, true);
     }
 
     // skip command was found
@@ -479,14 +479,13 @@ String handle_wait_command(unsigned long waiting_time) {
   return("success");
 }
 
-// TODO: merge handle_time_command and handle_day_command into one function
-// TODO: comment
-// (add a parameter to differentiate between time and day command)
-String handle_time_command(String time_command) {
+
+String handle_times_commands(String command, boolean day_included) {
   /*
   parameters:
-    String time_command:
-      time to wait for in format "hh:mm:ss signal_name"
+    String command:
+      "day hh:mm:ss signal_name" - if day_included is true
+      "hh:mm:ss signal_name" - if day_included is false
 
   return:
     String:
@@ -495,60 +494,7 @@ String handle_time_command(String time_command) {
         "error message" - if command was interrupted by the user
 
   description:
-  This function waits until a certain time is reached and then sends the given signal.
-
-  calls:
-  - check_if_file_exists (in src/filesystem.cpp) to check if the file exists
-  - compare_time (in src/time_management.cpp) to compare the given time with the current time
-  - sending_workflow (in src/workflows.cpp) to send the given signal
-
-  called by:
-  - program_parser (in src/workflows.cpp) to execute time command
-  */
-
-  // 12:00:13
-  String time = time_command.substring(0, time_command.indexOf(" "));
-  // Sequence1
-  String command_name = time_command.substring(time_command.indexOf(" ") + 1);
-  // /signals/Sequence1.json
-  String filename = "/signals/" + command_name + ".json";
-  const int Interrupt_Button = 12;
-  pinMode(Interrupt_Button, INPUT_PULLUP);
-
-  // checks beforehand if file exists (not to waste time)
-  if (check_if_file_exists(filename) == false) {
-    return("command in command " + command_name + " not found");
-  }
-
-  // loop waits for time to be reached or button to be pressed
-  while(true) {
-    if (compare_time(time, false) == true) {
-      break;
-    }
-    if (digitalRead(Interrupt_Button) == LOW) {
-      return("program was canceled by the user.");
-    }
-  }
-
-  sending_workflow(command_name);
-  return("success");
-}
-
-
-String handle_day_command(String day_command) {
-  /*
-  parameters:
-    String day_command:
-      day and time to wait for in format "day hh:mm:ss signal_name"
-
-  return:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if command was executed successfully
-        "error message" - if command was interrupted by the user
-
-  description:
-  This function waits until a certain day and time is reached and then executes the given signal.
+  This function waits until a certain day and/or time is reached and then executes the given signal.
 
   calls:
   - check_if_file_exists (in src/filesystem.cpp) to check if the file exists
@@ -560,34 +506,61 @@ String handle_day_command(String day_command) {
   called by:
   - program_parser (in src/workflows.cpp) to execute day command
   */
-  // Wednesday
-  String day = day_command.substring(0, day_command.indexOf(" "));
-  // 3
-  day = weekday_to_num(day);
-  if (day == "error") {
-    return("could not identify day in command");
-  }
-  // 12:00:13 Sequence1
-  String time_command = day_command.substring(day_command.indexOf(" ") + 1);
-  // 12:00:13
-  String time = time_command.substring(0, time_command.indexOf(" "));
-  // Sequence1
-  String command_name = time_command.substring(time_command.indexOf(" ") + 1);
-  // 12:00:13 3
-  String day_time = time + " " + day;;
-  // /signals/Sequence1.json
-  String filename = "/signals/" + command_name + ".json";
+
+  // variable declaration
+  String day = "";
+  String command_name = "";
+  String timestamp = "";
   const int Interrupt_Button = 12;
   pinMode(Interrupt_Button, INPUT_PULLUP);
+  
+  // input command format: "day hh:mm:ss command_name" (day command)
+  if (day_included == true) {
+    // extract weekday
+    day = command.substring(0, command.indexOf(" "));
+
+    // convert weekday to number
+    day = weekday_to_num(day);
+
+    // check if day was converted correctly
+    if (day == "error") {
+      return("could not identify day in command");
+    }
+
+    // extract time and command name (hh:mm:ss command_name)
+    String command = command.substring(command.indexOf(" ") + 1);
+    
+    // extract time (hh:mm:ss)
+    String time = command.substring(0, command.indexOf(" "));
+
+    // extract command name (command_name)
+    command_name = command.substring(command.indexOf(" ") + 1);
+
+    // create timestamp (hh:mm:ss day)
+    timestamp = time + " " + day;
+  }
+
+  // input command format: "hh:mm:ss command_name" (time command)
+  else {
+    // extract time (hh:mm:ss)
+    timestamp = command.substring(0, command.indexOf(" "));
+
+    // extract command name (command_name)
+    String command_name = command.substring(command.indexOf(" ") + 1);
+  }
+
+  
+  // generate filename
+  String filename = "/signals/" + command_name + ".json";
 
   // checks beforehand if file exists (not to waste time)
   if (check_if_file_exists(filename) == false) {
-    return("command in command " + day_command + " not found");
+    return("command in command " + command + " not found");
   }
 
-  // loop waits for day to be reached or button to be pressed
+  // loop waits for day and/or time to be reached or button to be pressed
   while(true) {
-    if (compare_time(day_time, true) == true) {
+    if (compare_time(timestamp, day_included) == true) {
       break;
     }
     if (digitalRead(Interrupt_Button) == LOW) {
@@ -595,6 +568,7 @@ String handle_day_command(String day_command) {
     }
   }
 
+  // send signal
   sending_workflow(command_name);
   return("success");
 }

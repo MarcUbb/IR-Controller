@@ -6,27 +6,25 @@
 #include <IRtext.h>
 #include <IRutils.h>
 #include <IRsend.h>
-#include <WiFiManager.h>
 #include <ArduinoJson.h>
 #include <LittleFS.h>
 #include <ESP8266WiFi.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 
-
+// forward declarations
+// filesystem
 String capture_signal();
 String save_signal(String result_string, String name);
 void save_json(String filename, DynamicJsonDocument doc);
 DynamicJsonDocument load_json(String filename);
 void send_signal(DynamicJsonDocument doc);
-
 String get_files(String folder_signals, String folder_programs);
 boolean check_if_file_exists(String filename);
 String read_program(String program_name);
-
 void control_led_output(String signal);
 
-
+// time management
 String weekday_to_num (String weekday);
 boolean compare_time (String time, boolean weekday_included);
 void update_timezone(int timezone);
