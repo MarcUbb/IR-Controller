@@ -1469,7 +1469,7 @@ const uint16_t kClimaButlerBits = 52;
 // See: https://github.com/crankyoldgit/IRremoteESP8266/issues/667
 #define F(x) x
 #endif  // F
-typedef std::string String;
+//typedef std::string String;
 #endif  // UNIT_TEST
 
 #endif  // IRREMOTEESP8266_H_

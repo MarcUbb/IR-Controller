@@ -16,6 +16,8 @@ void handle_program();
 void handle_error();
 void handle_files();
 void handle_time();
+void handle_credentials();
+void handle_apmode();
 void handle_form();
 
 // server declared in header file to make visible to handler functions
@@ -27,3 +29,6 @@ String PROGRAMNAME = "";
 
 // message is used to hand over error messages (is set by website on /form) and updated in frontend on reload
 String MESSAGE = "";
+
+// stores session value (if AP-Mode is activated or not)
+String SESSION_AP = "";

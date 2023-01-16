@@ -9,11 +9,45 @@ void setup() {
   delay(500);
   //test();
 
-  // WiFiManager (is skipped if credentials are saved)
-  //ESP.eraseConfig();
-  WiFiManager wifiManager;
-  wifiManager.autoConnect("IR-Remote");
-  
+  // read config file (if ESP is in AP mode or not)
+
+  // start LittleFS
+  LittleFS.begin();
+
+  // read config file
+  File configFile = LittleFS.open("/config.txt", "r");
+
+  // get content of file
+  String content = configFile.readString();
+  configFile.close();
+
+  // end LittleFS
+  LittleFS.end();
+
+  // start AP
+  if (content == "AP: true") {
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP("IR-Remote");
+    Serial.println("AP started");
+
+    // set session variable
+    SESSION_AP = "true";
+
+    // notify user to synchronize time (not automatic since no NTP server is available)
+    MESSAGE = "Device in AP-Mode. Please synchronize time before using timed Programs!";
+  }
+  // start WiFiManager if AP is not set
+  else {
+    // WiFiManager (is skipped if credentials are saved)
+    WiFiManager wifiManager;
+    wifiManager.autoConnect("IR-Remote");
+
+    // set session variable
+    SESSION_AP = "false";
+    
+    MESSAGE = "Please synchronize timezone if not done yet!";
+  }
+
   // start mDNS
   if (MDNS.begin("irr") == false) {
     Serial.println("Error setting up MDNS responder!");
@@ -23,14 +57,9 @@ void setup() {
   }
   Serial.println("mDNS responder started!");
 
-  // initiate time via NTP
-  if (init_time() == false){
-    MESSAGE = "Error initiating time!";
-    control_led_output("no_init_time");
-  }
-  else {
-    MESSAGE = "Time initiated!";
-  }
+  // initiate time via NTP (00:00:00 4 in AP Mode)
+  init_time();
+  
 
   // declare handler functions
   server.on("/", handle_root);
@@ -39,6 +68,8 @@ void setup() {
   server.on("/program", handle_program);
   server.on("/error", handle_error);
   server.on("/time", handle_time);
+  server.on("/credentials", handle_credentials);
+  server.on("/apmode", handle_apmode);
   server.onNotFound(handle_not_found);
 
   // start server
@@ -114,6 +145,8 @@ void handle_files() {
   server.send(200, "text/plane", files);
 }
 
+
+// TODO: split server.arg in time and timezone and call different function with each (AP-Mode on/off)
 void handle_time() {
   /*
   Gets the time from the client via Date() and saves it together with the millis() offset 
@@ -126,8 +159,84 @@ void handle_time() {
   // get time from client (saved in hidden dummy text input field on website)
   String timezone = server.arg("time_dummy");
 
+  /*
+  if(SESSION_AP == "true") {
+    // update time and timezone
+    update_time(timestamp.toInt());
+  }
+  else {
+    // update only timezone because NTP time is more precise
+    update_timezone(timezone.toInt());
+  }*/
+
   // update only timezone because NTP time is more precise
   update_timezone(timezone.toInt());
+
+  // update MESSAGE
+  MESSAGE = "Time synchronized!";
+
+  // redirect to root
+  server.sendHeader("Location", "/");
+  server.send(302, "text/plain", "Updated– Press Back Button");
+}
+
+void handle_credentials() {
+  /*
+  erases the wifi credentials saved on the ESP
+  */
+
+  ESP.eraseConfig();
+
+  MESSAGE = "Credentials erased! You will need to reconnect to the Wifi on reboot (if you are not in AP-Mode).";
+
+  // redirect to root
+  server.sendHeader("Location", "/");
+  server.send(302, "text/plain", "Updated– Press Back Button");
+}
+
+void handle_apmode() {
+  /*
+  checks config file and switches between AP mode and normal mode
+  */
+
+  // start LittleFS
+  LittleFS.begin();
+
+  // open config file
+  File configFile = LittleFS.open("/config.txt", "r");
+  if (!configFile) {
+    MESSAGE = "Failed to open config file";
+  }
+
+  // read config file
+  String config = configFile.readString();
+
+  // close config file
+  configFile.close();
+
+  // switch value:
+  if(config == "AP: true") {
+    // write new config
+    File configFile = LittleFS.open("/config.txt", "w");
+    if (!configFile) {
+      MESSAGE = "Failed to open config file";
+    }
+    configFile.print("AP: false");
+    configFile.close();
+
+    MESSAGE = "AP mode disabled! You will need to reconfigure the ESP the your Wifi on reboot if no credentials are saved already.";
+  }
+  else {
+    // write new config
+    File configFile = LittleFS.open("/config.txt", "w");
+    if (!configFile) {
+      MESSAGE = "Failed to open config file";
+    }
+    configFile.print("AP: true");
+    configFile.close();
+
+    MESSAGE = "AP mode enabled! Dont forget to synchronize your time on next reboot.";
+  }
 
   // redirect to root
   server.sendHeader("Location", "/");
@@ -173,7 +282,13 @@ void handle_form() {
   // SIGNAL LOGIC:
   // signal is added
   if (signal_name != "" && add_signal_button != "") {
-    MESSAGE = recording_workflow(signal_name);
+    // check if signal name is alphanumeric
+    if (check_if_string_is_alphanumeric (signal_name) == true) {
+      MESSAGE = recording_workflow(signal_name);
+    }
+    else {
+      MESSAGE = "signal name must be alphanumeric";
+    }
   }
 
   // signal name is missing
@@ -208,7 +323,13 @@ void handle_form() {
   // PROGRAM LOGIC:
   // program is added
   else if (program_name != "" && add_program_button != "" && program_code != "") {
-    MESSAGE = adding_workflow(program_name, program_code);
+    // check if program name is alphanumeric
+    if (check_if_string_is_alphanumeric (program_name) == true) {
+      MESSAGE = adding_workflow(program_name, program_code);
+    }
+    else {
+      MESSAGE = "program name must be alphanumeric";
+    }
   }
 
   // program name is missing

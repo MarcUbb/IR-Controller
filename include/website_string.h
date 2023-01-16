@@ -61,11 +61,20 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 
   <br><br>
   <form action="/time">
-    <input type="submit" name="time_sync_button" value="sync time">
+    <input type="submit" name="time_sync_button" value="sync timezone">
     <!-- on reload time is written in invisible input field of form-->
     <input style="visibility: hidden" id="time_dummy" name="time_dummy" type="text" placeholder>
   </form>
-  <br><br>
+  <br>
+  <form action="/credentials">
+    <input type="submit" name="reset_credentials_button" value="reset WiFi credentials">
+  </form>
+  <br>
+  <form action="/apmode">
+    <input type="submit" name="apmode_button" value="switch AP-Mode">
+  </form>
+  <br>
+  <br>
   <div id="error_message">System message: error message</div>
 
   <script>

@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <IRrecv.h>
 #include <IRremoteESP8266.h>
-#include <IRac.h>
 #include <IRtext.h>
 #include <IRutils.h>
 #include <IRsend.h>
@@ -23,8 +22,9 @@ String get_files(String folder_signals, String folder_programs);
 boolean check_if_file_exists(String filename);
 String read_program(String program_name);
 void control_led_output(String signal);
+boolean check_if_string_is_alphanumeric (String word);
 
-// time management
+// time_management
 String weekday_to_num (String weekday);
 boolean compare_time (String time, boolean weekday_included);
 void update_timezone(int timezone);
@@ -32,5 +32,5 @@ String get_current_time();
 String turn_seconds_in_time(unsigned long input_seconds);
 String add_time(String time, String offset_time);
 DynamicJsonDocument get_NTP_time(int timezone);
-boolean init_time();
+void init_time();
 void check_and_update_offset();

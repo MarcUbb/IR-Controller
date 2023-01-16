@@ -58,6 +58,7 @@ String capture_signal(){
   // turn on the LED to signalize the user that the capture process has started
   digitalWrite(led_pin, HIGH);
   
+
   // 10s timer (works also if overflow occurs)
   while(timestamp < 10000){
     // signal was captured:
@@ -70,6 +71,7 @@ String capture_signal(){
       }
     }
     timestamp = millis() - start_time;
+    yield();
   }
 
   // no signal was captured in 10s:
@@ -106,6 +108,10 @@ String save_signal(String result_string, String name){
   // check if name is specified
   if (name == ""){
     return("Error: No name specified");
+  }
+
+  if (name.indexOf("/") != -1 || name.indexOf("\\") != -1 || name.indexOf(":") != -1 || name.indexOf("*") != -1 || name.indexOf("?") != -1 || name.indexOf("\"") != -1 || name.indexOf("<") != -1 || name.indexOf(">") != -1 || name.indexOf("|") != -1 || name.indexOf(".") != -1 || name.indexOf("\t") != -1 || name.indexOf("\r") != -1 || name.indexOf("\n") != -1 || name.indexOf(" ") != -1 || name.indexOf("\x0B") != -1){
+    return("Error: Name contains invalid character");
   }
 
   // extract length from String
@@ -224,7 +230,6 @@ DynamicJsonDocument load_json(String filename) {
   - get_current_time (in src/time_management.cpp) to load time and offset from /time.json
   - init_time (in src/time_management.cpp) to check if time in /time.json is already set
   - check_and_update_offset (in src/time_management.cpp) to load time from /time.json for overflow checking
-
   */
 
   // initialize LittleFS
@@ -302,6 +307,7 @@ void send_signal(DynamicJsonDocument doc) {
   // convert string to array of integers (thanks to https://stackoverflow.com/questions/48409822/convert-a-string-to-an-integer-array)
   unsigned int data_num = 0;
   uint16_t command[length];
+
   // loop as long as a comma is found in the string
   while(sequence.indexOf(",")!=-1){
     // take the substring from the start to the first occurence of a comma, convert it to int and save it in the array
@@ -444,6 +450,11 @@ String read_program(String program_name){
   String filename = "/programs/" + program_name + ".json";
   String file_content = "";
 
+  // check if file exists
+  if (check_if_file_exists(filename) == false){
+    return("");
+  }
+
   // read file and save content to String
   LittleFS.begin();
   File file = LittleFS.open(filename, "r");
@@ -466,7 +477,6 @@ void control_led_output(String signal) {
       String serves as code for the signal received:
         "no_signal" - LED blinks 3 times
         "no_mDNS" - LED blinks 3 times
-        "no_init_time" - LED blinks 3 times
         "signal_received" - LED blinks once
 
   returns:
@@ -483,7 +493,7 @@ void control_led_output(String signal) {
   called by:
   - capture_signal (in src/filesystem.cpp) to signal when the ESP is ready for receiving a signal,
     when a signal was sucessfully received or when no signal was received
-  - setup (in src/main.cpp) to signal when the mDNS setup failed and to signal when the time could not be set
+  - setup (in src/main.cpp) to signal when the mDNS setup failed
   */
 
   // declare variables
@@ -491,7 +501,7 @@ void control_led_output(String signal) {
   pinMode(led_pin, OUTPUT);
 
   // 3 blinks:
-  if (signal == "no_signal" || signal == "no_mDNS" || signal == "no_init_time") {
+  if (signal == "no_signal" || signal == "no_mDNS") {
     digitalWrite(led_pin, LOW);
     delay(100);
     digitalWrite(led_pin, HIGH);
@@ -517,4 +527,38 @@ void control_led_output(String signal) {
   }
 
   return;
+}
+
+
+boolean check_if_string_is_alphanumeric (String word) {
+  /*
+  parameters:
+    String word:
+      String to be checked
+
+  returns:
+    boolean:
+      true if the String is alphanumeric, false if not
+
+  description:
+  This function checks if a String is alphanumeric.
+
+  calls:
+    ---
+
+  called by:
+  - handle_form (in src/main.cpp) to check if the name of a new signal or program is alphanumeric
+  */
+
+  // check if String is alphanumeric
+  for (unsigned int i = 0; i < word.length(); i++) {
+    if (isalnum(word[i]) == false) {
+      // spaces, dashes or underscores are also allowed
+      if (word[i] != ' ' && word[i] != '-' && word[i] != '_') {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }

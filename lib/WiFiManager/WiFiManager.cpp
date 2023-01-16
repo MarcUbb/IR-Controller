@@ -150,6 +150,7 @@ void WiFiManager::setupConfigPortal() {
   server->on(String(F("/i")).c_str(), std::bind(&WiFiManager::handleInfo, this));
   server->on(String(F("/r")).c_str(), std::bind(&WiFiManager::handleReset, this));
   server->on(String(F("/w")).c_str(), std::bind(&WiFiManager::handleWPS, this));
+  server->on(String(F("/ap")).c_str(), std::bind(&WiFiManager::handleAP, this));
   //server->on("/generate_204", std::bind(&WiFiManager::handle204, this));  //Android/Chrome OS captive portal check.
   server->on(String(F("/fwlink")).c_str(), std::bind(&WiFiManager::handleRoot, this));  //Microsoft captive portal. Maybe not needed. Might be handled by notFound handler.
   server->onNotFound (std::bind(&WiFiManager::handleNotFound, this));
@@ -764,7 +765,7 @@ void WiFiManager::handleWPS() {
   server->send(200, "text/html", page);
 
   DEBUG_WM(F("Trying WPS"));
-  delay(5000);
+  delay(3000);
   WiFi.mode(WIFI_STA);
   bool wpsSuccess = WiFi.beginWPSConfig();
   if(wpsSuccess) {
@@ -773,6 +774,8 @@ void WiFiManager::handleWPS() {
     if(newSSID.length() > 0) {
       // Nur wenn eine SSID gefunden wurde waren wir erfolgreich 
       DEBUG_WM(F("WPS Success"));
+      Serial.println(newSSID.c_str());
+      delay(2000);
       ESP.reset();
     } else {
       wpsSuccess = false;
@@ -784,6 +787,28 @@ void WiFiManager::handleWPS() {
     DEBUG_WM(F("WPS Failed"));
     ESP.reset();
   }
+}
+
+void WiFiManager::handleAP() {
+  
+  // start LittleFS
+  LittleFS.begin();
+
+  // write true in config file
+  File configFile = LittleFS.open("/config.txt", "w");
+  if (!configFile) {
+    DEBUG_WM(F("Failed to open config file for writing"));
+  }
+  configFile.print("AP: true");
+  configFile.close();
+
+  // end LittleFS
+  LittleFS.end();
+
+  DEBUG_WM(F("Config file written"));
+
+  // restart ESP
+  ESP.reset();
 }
 
 void WiFiManager::handleNotFound() {

@@ -391,7 +391,7 @@ DynamicJsonDocument get_NTP_time(int timezone){
 }
 
 
-boolean init_time(){
+void init_time(){
   /*
   parameters:
     ---
@@ -420,14 +420,14 @@ boolean init_time(){
   // no time was saved yet (timezone is set to 0)
   if (current_values.isNull()){
     save_json("/time.json", get_NTP_time(0));
-    return false;
+    return;
   }
 
   // if there is a time saved: update it according to the timezone and overwrite offsets with current offset
   else {
     Serial.println("init timezone: " + current_values["timezone"].as<String>());
     save_json("/time.json", get_NTP_time(current_values["timezone"]));
-    return true;
+    return;
   }
 }
 

@@ -149,6 +149,8 @@ void WiFiManager::setupConfigPortal() {
   server->on(String(F("/wifisave")).c_str(), std::bind(&WiFiManager::handleWifiSave, this));
   server->on(String(F("/i")).c_str(), std::bind(&WiFiManager::handleInfo, this));
   server->on(String(F("/r")).c_str(), std::bind(&WiFiManager::handleReset, this));
+  server->on(String(F("/w")).c_str(), std::bind(&WiFiManager::handleWPS, this));
+  server->on(String(F("/ap")).c_str(), std::bind(&WiFiManager::handleAP, this));
   //server->on("/generate_204", std::bind(&WiFiManager::handle204, this));  //Android/Chrome OS captive portal check.
   server->on(String(F("/fwlink")).c_str(), std::bind(&WiFiManager::handleRoot, this));  //Microsoft captive portal. Maybe not needed. Might be handled by notFound handler.
   server->onNotFound (std::bind(&WiFiManager::handleNotFound, this));
@@ -744,6 +746,63 @@ void WiFiManager::handleReset() {
   delay(5000);
   ESP.reset();
   delay(2000);
+}
+
+/** Handle WPS */
+void WiFiManager::handleWPS() {
+  DEBUG_WM(F("Wps"));
+
+  String page = FPSTR(HTTP_HEADER);
+  page.replace("{v}", "Credentials Saved");
+  page += FPSTR(HTTP_SCRIPT);
+  page += FPSTR(HTTP_STYLE);
+  page += _customHeadElement;
+  page += FPSTR(HTTP_HEADER_END);
+  page += "<div><br/>Trying to connect ESP to network.<br />If it fails the Access Point will restart and you will have to try again.<br />This can take up to 30 seconds.</div>";
+  page += FPSTR(HTTP_END);
+
+  server->sendHeader("Content-Length", String(page.length()));
+  server->send(200, "text/html", page);
+
+  DEBUG_WM(F("Trying WPS"));
+  delay(3000);
+  WiFi.mode(WIFI_STA);
+  bool wpsSuccess = WiFi.beginWPSConfig();
+  if(wpsSuccess) {
+    // Muss nicht immer erfolgreich heißen! Nach einem Timeout bist die SSID leer
+    String newSSID = WiFi.SSID();
+    if(newSSID.length() > 0) {
+      // Nur wenn eine SSID gefunden wurde waren wir erfolgreich 
+      DEBUG_WM(F("WPS Success"));
+      delay(5000);
+      connect = true;
+    } else {
+      DEBUG_WM(F("WPS Failed"));
+      connect = false;
+    }
+  }
+}
+
+void WiFiManager::handleAP() {
+  
+  // start LittleFS
+  LittleFS.begin();
+
+  // write true in config file
+  File configFile = LittleFS.open("/config.txt", "w");
+  if (!configFile) {
+    DEBUG_WM(F("Failed to open config file for writing"));
+  }
+  configFile.print("AP: true");
+  configFile.close();
+
+  // end LittleFS
+  LittleFS.end();
+
+  DEBUG_WM(F("Config file written"));
+
+  // restart ESP
+  ESP.reset();
 }
 
 void WiFiManager::handleNotFound() {
