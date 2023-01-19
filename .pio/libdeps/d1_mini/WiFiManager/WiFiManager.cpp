@@ -774,7 +774,6 @@ void WiFiManager::handleWPS() {
     if(newSSID.length() > 0) {
       // Nur wenn eine SSID gefunden wurde waren wir erfolgreich 
       DEBUG_WM(F("WPS Success"));
-      delay(5000);
       connect = true;
     } else {
       DEBUG_WM(F("WPS Failed"));

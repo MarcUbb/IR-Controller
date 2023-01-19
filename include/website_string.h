@@ -61,7 +61,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 
   <br><br>
   <form action="/time">
-    <input type="submit" name="time_sync_button" value="sync timezone">
+    <input type="submit" name="time_sync_button" value="sync time">
     <!-- on reload time is written in invisible input field of form-->
     <input style="visibility: hidden" id="time_dummy" name="time_dummy" type="text" placeholder>
   </form>
@@ -102,6 +102,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       - updates the error message
       */
 
+      // TODO: send time and weekday (for AP-Mode)
       // gets current time zone
       var today = new Date()
       var timezone = today.getTimezoneOffset();

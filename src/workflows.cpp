@@ -528,13 +528,13 @@ String handle_times_commands(String command, boolean day_included) {
     }
 
     // extract time and command name (hh:mm:ss command_name)
-    String command = command.substring(command.indexOf(" ") + 1);
+    String time_command = command.substring(command.indexOf(" ") + 1);
     
     // extract time (hh:mm:ss)
-    String time = command.substring(0, command.indexOf(" "));
+    String time = time_command.substring(0, time_command.indexOf(" "));
 
     // extract command name (command_name)
-    command_name = command.substring(command.indexOf(" ") + 1);
+    command_name = time_command.substring(time_command.indexOf(" ") + 1);
 
     // create timestamp (hh:mm:ss day)
     timestamp = time + " " + day;
@@ -555,7 +555,7 @@ String handle_times_commands(String command, boolean day_included) {
 
   // checks beforehand if file exists (not to waste time)
   if (check_if_file_exists(filename) == false) {
-    return("command in command " + command + " not found");
+    return("signal in command " + command + " not found");
   }
 
   // loop waits for day and/or time to be reached or button to be pressed
