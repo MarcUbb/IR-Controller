@@ -93,9 +93,6 @@ boolean compare_time (String time, boolean weekday_included) {
   // get current time
   String current_time = get_current_time();
 
-  Serial.println("current time: " + current_time);
-  Serial.println("time to compare: " + time);
-
   // compare time for day-command
   if (weekday_included == true) {
     return(time == current_time);

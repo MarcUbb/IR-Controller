@@ -31,7 +31,7 @@ void setup() {
     Serial.println("AP started");
 
     // set session variable
-    SESSION_AP = "true";
+    SESSION_AP = true;
 
     // notify user to synchronize time (not automatic since no NTP server is available)
     MESSAGE = "Device in AP-Mode. Please synchronize time before using timed Programs!";
@@ -43,7 +43,7 @@ void setup() {
     wifiManager.autoConnect("IR-Remote");
 
     // set session variable
-    SESSION_AP = "false";
+    SESSION_AP = false;
     
     MESSAGE = "Please synchronize timezone if not done yet!";
   }
@@ -161,17 +161,7 @@ void handle_time() {
   String time = server.arg("time_dummy");
 
   // update time (update only timezone when not in AP-mode because NTP time is more precise)
-  if (SESSION_AP == "true") {
-    update_time(time, true);
-  }
-  else if (SESSION_AP == "false")
-  {
-    update_time(time, false);
-  }
-  else
-  {
-    MESSAGE = "Error: SESSION_AP not set!";
-  }  
+  update_time(time, SESSION_AP);  
 
   // update MESSAGE
   MESSAGE = "Time synchronized!";

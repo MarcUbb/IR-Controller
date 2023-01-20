@@ -20,7 +20,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     button {padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
   </style>
 </head>
-<body onload="getData()">
+<body onload="get_data();">
   <h2>IR-Controller</h2>
   <br>
   <h3>Signals:</h3>
@@ -34,7 +34,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 
   <form action="/form">
     <label for="selected_signal">Choose your signal and action:</label> <br>
-    <select id="selected_signal" name="selected_signal"></select>
+    <select id="selected_signal" name="selected_signal" selected=""></select>
     <input type="submit" name="send_signal_button" value="send">
     <input type="submit" name="delete_signal_button" value="delete">
   </form>
@@ -46,7 +46,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     <label for="program_name">Program name:</label><br>
     <input type="text" id="program_name" name="program_name" placeholder="program name">
     <input type="submit" name="add_program_button" value="save">
-    <button onclick="infoProgram()">help</button> <br>
+    <button onclick="info_program()">help</button> <br>
     <label for="program_code">Program code:</label><br>
     <textarea id="program_code" name="program_code" placeholder="write your code here"></textarea><br>
   </form>
@@ -78,21 +78,29 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
   <div id="error_message">System message: error message</div>
 
   <script>
-    function removeOptions(selectElement) {
+    function removeOptions(select_element) {
       /*
       This function removes all options from a dropdown element.
       It is used to update the dropdowns with the current signals and programs.
-      Thanks to: https://stackoverflow.com/questions/3364493/how-do-i-clear-all-options-in-a-dropdown-box
       */
 
-      var i, L = selectElement.options.length - 1;
-      for(i = L; i >= 0; i--) {
-          selectElement.remove(i);
+      var i = select_element.options.length;
+      for(i = i; i > 0; i--) {
+          select_element.remove(i);
       }
     }
 
+    // saves selection of dropdowns in local storage
+    document.getElementById('selected_signal').onchange = function() {
+      localStorage.setItem('current_signal', document.getElementById('selected_signal').value);
+    };
+
+    document.getElementById('selected_program').onchange = function() {
+      localStorage.setItem('current_program', document.getElementById('selected_program').value);
+    };
+
     // Inspired by: https://circuitdigest.com/microcontroller-projects/ajax-with-esp8266-dynamic-web-page-update-without-reloading
-    function getData() {
+    function get_data() {
       /*
       This function gets called on page load and therefore does multiple things:
       - gets the current time zone of the user
@@ -102,7 +110,6 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       - updates the error message
       */
 
-      // TODO: send time and weekday (for AP-Mode)
       // gets current time zone
       var today = new Date()
       var weekday_time = today.getDay() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
@@ -139,6 +146,10 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
             var option = document.createElement("option");
             option.value = val;
             option.text = val;
+            // checks if 
+            if (localStorage.getItem('current_signal') == val) {
+              option.selected = "selected";
+            }
             document.getElementById("selected_signal").appendChild(option)
           }
 
@@ -147,6 +158,10 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
             var option = document.createElement("option");
             option.value = val;
             option.text = val;
+            // set selected if in local storage
+            if (localStorage.getItem('current_program') == val) {
+              option.selected = "selected";
+            }
             document.getElementById("selected_program").appendChild(option)
           }
         }
@@ -188,12 +203,12 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 
 
     // displays help message for signal
-    function info_signal (){
+    function info_signal(){
       alert("To add an infrared signal you have to enter a name and then click on 'add'. A red LED lights up on the device, which signals that the signal can now be read in. Hold your remote control to the device and press the button to be read in. If an error has occurred, the LED flashes 3 times. Then please try again. Otherwise the signal is now saved! For more information: https://github.com/MarcUbb/IR-Controller .");
     }
     
     // displays help message for program
-    function infoProgram (){
+    function info_program(){
       alert("A program is a signal of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n5. skip-command  Example: 'skip 3' to skip 3 days (72h)\n6. loop-command  Example:\n'loop 4\nplay signal1\nend'\nto loop a part of the program for a specified amount of times (if you write 'inf' instead of a number it will loop indefinatelly)\n\nPlease write every command in a new line. Have Fun! For more information: https://github.com/MarcUbb/IR-Controller .");
     }
 

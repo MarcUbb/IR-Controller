@@ -31,4 +31,4 @@ String PROGRAMNAME = "";
 String MESSAGE = "";
 
 // stores session value (if AP-Mode is activated or not)
-String SESSION_AP = "";
+boolean SESSION_AP = true;
