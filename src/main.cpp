@@ -157,20 +157,21 @@ void handle_time() {
   */
 
   // get time from client (saved in hidden dummy text input field on website)
-  String timezone = server.arg("time_dummy");
+  // time in format: "weekday hh:mm:ss timezone"
+  String time = server.arg("time_dummy");
 
-  /*
-  if(SESSION_AP == "true") {
-    // update time and timezone
-    update_time(timestamp.toInt());
+  // update time (update only timezone when not in AP-mode because NTP time is more precise)
+  if (SESSION_AP == "true") {
+    update_time(time, true);
   }
-  else {
-    // update only timezone because NTP time is more precise
-    update_timezone(timezone.toInt());
-  }*/
-
-  // update only timezone because NTP time is more precise
-  update_timezone(timezone.toInt());
+  else if (SESSION_AP == "false")
+  {
+    update_time(time, false);
+  }
+  else
+  {
+    MESSAGE = "Error: SESSION_AP not set!";
+  }  
 
   // update MESSAGE
   MESSAGE = "Time synchronized!";

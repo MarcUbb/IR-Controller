@@ -27,7 +27,7 @@ boolean check_if_string_is_alphanumeric (String word);
 // time_management
 String weekday_to_num (String weekday);
 boolean compare_time (String time, boolean weekday_included);
-void update_timezone(int timezone);
+void update_time(String time, boolean AP_mode);
 String get_current_time();
 String turn_seconds_in_time(unsigned long input_seconds);
 String add_time(String time, String offset_time);

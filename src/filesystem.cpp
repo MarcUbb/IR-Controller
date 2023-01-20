@@ -166,7 +166,7 @@ void save_json(String filename, DynamicJsonDocument doc) {
 
   called by:
   - recording_workflow (in src/workflows.cpp) to save the JSON document containing the captured signal to its file
-  - update_timezone (in src/time_management.cpp) to update timezone in /time.json
+  - update_time (in src/time_management.cpp) to update time in /time.json
   - init_time (in src/time_management.cpp) to save NTP time to /time.json
   - check_and_update_offset (in src/time_management.cpp) to update millis() offset to /time.json
   */
@@ -226,7 +226,7 @@ DynamicJsonDocument load_json(String filename) {
 
   called by:
   - sending_workflow (in src/workflows.cpp) to load the JSON document containing the signal to be sent
-  - update_timezone (in src/time_management.cpp) to load timezone from /time.json
+  - update_time (in src/time_management.cpp) to load time from /time.json
   - get_current_time (in src/time_management.cpp) to load time and offset from /time.json
   - init_time (in src/time_management.cpp) to check if time in /time.json is already set
   - check_and_update_offset (in src/time_management.cpp) to load time from /time.json for overflow checking

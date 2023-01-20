@@ -99,10 +99,11 @@
       // TODO: send time and weekday (for AP-Mode)
       // gets current time zone
       var today = new Date()
+      var weekday_time = today.getDay() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
       var timezone = today.getTimezoneOffset();
 
       // writes time zone to invisible input field
-      document.getElementById("time_dummy").value = timezone;
+      document.getElementById("time_dummy").value = weekday_time + " " + timezone;
 
       // checks if this is the first time the user opens the website
       if (localStorage.getItem("hasCodeRunBefore") === null) {

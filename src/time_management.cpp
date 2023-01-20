@@ -93,6 +93,9 @@ boolean compare_time (String time, boolean weekday_included) {
   // get current time
   String current_time = get_current_time();
 
+  Serial.println("current time: " + current_time);
+  Serial.println("time to compare: " + time);
+
   // compare time for day-command
   if (weekday_included == true) {
     return(time == current_time);
@@ -104,11 +107,13 @@ boolean compare_time (String time, boolean weekday_included) {
 }
 
 
-void update_timezone(int timezone){
+void update_time(String time, boolean AP_mode){
   /*
   parameters:
-    int timezone:
-      timezone-offset in minutes
+    int time:
+      time data from user
+    boolean AP_mode:
+      true if the device is in AP mode, false if not
   
   returns:
     void
@@ -126,15 +131,33 @@ void update_timezone(int timezone){
   - handle_time (in src/main.cpp) used to save the timezone to the LittleFS
   */
 
-  // convert timezone to seconds
+  // extrace information from String
+  String time_timezone = time.substring(time.indexOf(" ") + 1);
+  int weekday = time.substring(0, time.indexOf(" ")).toInt();
+  String time_only = time_timezone.substring(0, time_timezone.indexOf(" "));
+  int timezone = time_timezone.substring(time_timezone.indexOf(" ") + 1).toInt();
   timezone = timezone * (-60);
 
   // load time from LittleFS
   DynamicJsonDocument time_json = load_json("/time.json");
 
-  // update timezone
-  time_json["timezone"] = timezone;
-  time_json.shrinkToFit();
+  // update only timezon when not in AP mode
+  if(AP_mode == false) {
+    time_json["timezone"] = timezone;
+    time_json.shrinkToFit();
+  }
+  else {
+    // update time and timezone when in AP mode
+    time_json["hours"] = time_only.substring(0, time_only.indexOf(":")).toInt();
+    time_json["minutes"] = time_only.substring(time_only.indexOf(":") + 1, time_only.lastIndexOf(":")).toInt();
+    time_json["seconds"] = time_only.substring(time_only.lastIndexOf(":") + 1).toInt();
+    time_json["weekday"] = weekday;
+    time_json["timezone"] = timezone;
+    time_json["init_offset"] = millis();
+    time_json["last_offset"] = millis();
+    time_json.shrinkToFit();
+  }
+  
 
   // save updated time to LittleFS
   save_json("/time.json", time_json);
