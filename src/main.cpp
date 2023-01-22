@@ -174,8 +174,6 @@ void handle_files() {
   server.send(200, "text/plane", files);
 }
 
-
-// TODO: split server.arg in time and timezone and call different function with each (AP-Mode on/off)
 void handle_time() {
   /*
   Gets the time from the client via Date() and saves it together with the millis() offset 

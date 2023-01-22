@@ -17,13 +17,14 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     input[type=text] {padding:5px; border:2px solid #ccc; -webkit-border-radius: 5px; border-radius: 5px;}
     input[type=submit] {padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
     h2 {text-align: center;}
+    p {text-align: center; color: #aaa !important; font-size: 14px;}
     div[id=error_message] {color: red; text-align: center;}
     button {padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
   </style>
 </head>
 <body onload="get_data();">
   <h2>IR-Controller</h2>
-  <br>
+  <p id="apinfo">AP-Mode</p>
   <div id="error_message">System message: error message</div>
   <br>
   <h3>Signals:</h3>
@@ -228,24 +229,32 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 
           // checks if AP mode is enabled
           if (response == "true") {
+            // change button texts
             document.getElementById("apmode_button").value = "Disable AP mode";
+            documant.getElementById("sync_button").value = "Sync time";
+
             // show password form
             document.getElementById("change_password").style.display = "block";
+
+            // change apinfo
+            document.getElementById("apinfo").innerHTML = "AP-Mode";
           } 
           else if (response == "false") {
+            // change button texts
             document.getElementById("apmode_button").value = "Enable AP mode";
+            documant.getElementById("sync_button").value = "Sync timezone";
+
             // hide password form
             document.getElementById("change_password").style.display = "none";
+
+            // change apinfo
+            document.getElementById("apinfo").innerHTML = "Station-Mode";
           }
         }
       };
       xhttpAP.open("GET", "apinfo", true);
       xhttpAP.send();
     }
-
-    // TODO: pasword handler (only sets new password if both entries are the same)
-    // sends data to backend where its processed
-
 
     // displays help message for signal
     function info_signal(){
