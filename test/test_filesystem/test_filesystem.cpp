@@ -1,6 +1,5 @@
-#include "unity.h"
-#include "base.h"
-#include <WiFiManager.h>
+#include <unity.h>
+#include "main.h"
 
 void setUp(void) {
   // set stuff up here
@@ -11,11 +10,11 @@ void tearDown(void) {
 }
 
 void test_function_should_doBlahAndBlah(void) {
-  TEST_ASSERT_EQUAL(13, 13);
+  // test stuff
 }
 
 void test_function_should_doAlsoDoBlah(void) {
-  TEST_ASSERT_EQUAL(13, 13);
+  // more test stuff
 }
 
 int runUnityTests(void) {
@@ -23,6 +22,15 @@ int runUnityTests(void) {
   RUN_TEST(test_function_should_doBlahAndBlah);
   RUN_TEST(test_function_should_doAlsoDoBlah);
   return UNITY_END();
+}
+
+// WARNING!!! PLEASE REMOVE UNNECESSARY MAIN IMPLEMENTATIONS //
+
+/**
+  * For native dev-platform or for some embedded frameworks
+  */
+int main(void) {
+  return runUnityTests();
 }
 
 /**
@@ -36,3 +44,10 @@ void setup() {
   runUnityTests();
 }
 void loop() {}
+
+/**
+  * For ESP-IDF framework
+  */
+void app_main() {
+  runUnityTests();
+}
