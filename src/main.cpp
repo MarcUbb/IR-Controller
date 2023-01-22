@@ -7,8 +7,6 @@ In this file, you find the main procedures of the program.
 void setup() {
   Serial.begin(115200);
   delay(500);
-  //test();
-
   // read config file (if ESP is in AP mode or not)
 
   // start LittleFS
@@ -21,39 +19,55 @@ void setup() {
   String content = configFile.readString();
   configFile.close();
 
+  // read password file
+  File passwordFile = LittleFS.open("/password.txt", "r");
+  String password = passwordFile.readString();
+  passwordFile.close();
+
+  // set password to default if empty
+  if(password == "") {
+	password = "12345678";
+  }
+
   // end LittleFS
   LittleFS.end();
 
   // start AP
   if (content == "AP: true") {
-    WiFi.mode(WIFI_AP);
-    WiFi.softAP("IR-Remote");
-    Serial.println("AP started");
+	WiFi.mode(WIFI_AP);
+	WiFi.softAP("IR-Remote", password);
+	Serial.println("AP started");
 
-    // set session variable
-    SESSION_AP = true;
+	// set session variable
+	SESSION_AP = true;
+	AP_SETTING = true;
 
-    // notify user to synchronize time (not automatic since no NTP server is available)
-    MESSAGE = "Device in AP-Mode. Please synchronize time before using timed Programs!";
+	// notify user to synchronize time (not automatic since no NTP server is available)
+	MESSAGE = "Device in AP-Mode. Please synchronize time before using timed Programs!";
   }
   // start WiFiManager if AP is not set
   else {
-    // WiFiManager (is skipped if credentials are saved)
-    WiFiManager wifiManager;
-    wifiManager.autoConnect("IR-Remote");
+	// TODO: try to connect first via:
+	//WiFi.begin(WiFi.SSID().c_str(),WiFi.psk().c_str());
+	// if failed continue with wifiManager
 
-    // set session variable
-    SESSION_AP = false;
-    
-    MESSAGE = "Please synchronize timezone if not done yet!";
+	// WiFiManager (is skipped if credentials are saved)
+	WiFiManager wifiManager;
+	wifiManager.autoConnect("IR-Remote");
+
+	// set session variable
+	SESSION_AP = false;
+	AP_SETTING = false;
+	
+	MESSAGE = "Please synchronize timezone if not done yet!";
   }
 
   // start mDNS
   if (MDNS.begin("irr") == false) {
-    Serial.println("Error setting up MDNS responder!");
-    control_led_output("no_mDNS");
-    // stalls program execution if mDNS fails
-    while (1) { delay(1000); }
+	Serial.println("Error setting up MDNS responder!");
+	control_led_output("no_mDNS");
+	// stalls program execution if mDNS fails
+	while (1) { delay(1000); }
   }
   Serial.println("mDNS responder started!");
 
@@ -70,6 +84,8 @@ void setup() {
   server.on("/time", handle_time);
   server.on("/credentials", handle_credentials);
   server.on("/apmode", handle_apmode);
+  server.on("/apinfo", handle_apinfo);
+	server.on("password", handle_password);
   server.onNotFound(handle_not_found);
 
   // start server
@@ -196,7 +212,7 @@ void handle_apmode() {
   // open config file
   File configFile = LittleFS.open("/config.txt", "r");
   if (!configFile) {
-    MESSAGE = "Failed to open config file";
+	MESSAGE = "Failed to open config file";
   }
 
   // read config file
@@ -207,28 +223,90 @@ void handle_apmode() {
 
   // switch value:
   if(config == "AP: true") {
-    // write new config
-    File configFile = LittleFS.open("/config.txt", "w");
-    if (!configFile) {
-      MESSAGE = "Failed to open config file";
-    }
-    configFile.print("AP: false");
-    configFile.close();
+	// write new config
+	File configFile = LittleFS.open("/config.txt", "w");
+	if (!configFile) {
+	  MESSAGE = "Failed to open config file";
+	}
+	configFile.print("AP: false");
+	configFile.close();
 
-    MESSAGE = "AP mode disabled! You will need to reconfigure the ESP the your Wifi on reboot if no credentials are saved already.";
+	// set variable for frontend
+	AP_SETTING = false;
+	MESSAGE = "AP mode disabled! You will need to reconfigure the ESP the your Wifi on reboot if no credentials are saved already.";
+  }
+
+  else {
+	// write new config
+	File configFile = LittleFS.open("/config.txt", "w");
+	if (!configFile) {
+	  MESSAGE = "Failed to open config file";
+	}
+	configFile.print("AP: true");
+	configFile.close();
+
+	// set variable for frontend
+	AP_SETTING = true;
+	MESSAGE = "AP mode enabled! Dont forget to synchronize your time on next reboot.";
+  }
+
+  // redirect to root
+  server.sendHeader("Location", "/");
+  server.send(302, "text/plain", "Updated– Press Back Button");
+}
+
+void handle_apinfo() {
+  /*
+  send SESSION_AP to website
+  */
+
+  if(AP_SETTING == true) {
+		server.send(200, "text/plain", "true");
+  }
+  else if(AP_SETTING == false) {
+		server.send(200, "text/plain", "false");
+  }
+	else {
+		MESSAGE = "undefined AP-mode";
+	}
+}
+
+void handle_password() {
+	/*
+	receives new password entries from frontend and changes password
+	if entries are the same (to prevent typos).
+	*/
+
+	// get data
+	String first_entry = server.arg("first_entry");
+	String second_entry = server.arg("second_entry");
+
+  // check if entries are the same
+  if(first_entry == second_entry) {
+    // write new password to password file
+    LittleFS.begin();
+
+    File passwordFile = LittleFS.open("/password.txt", "w");
+
+    // handle error
+    if (!passwordFile) {
+      LittleFS.end();
+      MESSAGE = "Failed to open password file";
+    }
+
+    else {
+      // write new password
+      passwordFile.print(first_entry);
+      passwordFile.close();
+
+      MESSAGE = "Password changed successfully!"; 
+      LittleFS.end();
+    }
   }
   else {
-    // write new config
-    File configFile = LittleFS.open("/config.txt", "w");
-    if (!configFile) {
-      MESSAGE = "Failed to open config file";
-    }
-    configFile.print("AP: true");
-    configFile.close();
-
-    MESSAGE = "AP mode enabled! Dont forget to synchronize your time on next reboot.";
+    MESSAGE = "Passwords do not match!"; 
   }
-
+	
   // redirect to root
   server.sendHeader("Location", "/");
   server.send(302, "text/plain", "Updated– Press Back Button");
@@ -273,106 +351,106 @@ void handle_form() {
   // SIGNAL LOGIC:
   // signal is added
   if (signal_name != "" && add_signal_button != "") {
-    // check if signal name is alphanumeric
-    if (check_if_string_is_alphanumeric (signal_name) == true) {
-      MESSAGE = recording_workflow(signal_name);
-    }
-    else {
-      MESSAGE = "signal name must be alphanumeric";
-    }
+	// check if signal name is alphanumeric
+	if (check_if_string_is_alphanumeric (signal_name) == true) {
+	  MESSAGE = recording_workflow(signal_name);
+	}
+	else {
+	  MESSAGE = "signal name must be alphanumeric";
+	}
   }
 
   // signal name is missing
   else if (signal_name == "" && add_signal_button != "") {
-    MESSAGE = "no signal name given";
+	MESSAGE = "no signal name given";
   }
 
   // signal is selcted
   else if (selected_signal != "") {
 
-    // send button is pressed
-    if (send_signal_button != "") {
-      MESSAGE = sending_workflow(selected_signal);
-    }
+	// send button is pressed
+	if (send_signal_button != "") {
+	  MESSAGE = sending_workflow(selected_signal);
+	}
 
-    // delete button is pressed
-    else if (delete_signal_button != "") {
-      MESSAGE = deleting_workflow("signals", selected_signal);
-    }
+	// delete button is pressed
+	else if (delete_signal_button != "") {
+	  MESSAGE = deleting_workflow("signals", selected_signal);
+	}
   }
 
   // no signal is selected
   else if (selected_signal == "" && send_signal_button != "") {
-    MESSAGE = "no signal selected";
+	MESSAGE = "no signal selected";
   }
 
   // no signal is selected
   else if (selected_signal == "" && delete_signal_button != "") {
-    MESSAGE = "no signal selected";
+	MESSAGE = "no signal selected";
   }
 
   // PROGRAM LOGIC:
   // program is added
   else if (program_name != "" && add_program_button != "" && program_code != "") {
-    // check if program name is alphanumeric
-    if (check_if_string_is_alphanumeric (program_name) == true) {
-      MESSAGE = adding_workflow(program_name, program_code);
-    }
-    else {
-      MESSAGE = "program name must be alphanumeric";
-    }
+	// check if program name is alphanumeric
+	if (check_if_string_is_alphanumeric (program_name) == true) {
+	  MESSAGE = adding_workflow(program_name, program_code);
+	}
+	else {
+	  MESSAGE = "program name must be alphanumeric";
+	}
   }
 
   // program name is missing
   else if (program_name == "" && add_program_button != "") {
-    MESSAGE = "no program name given";
+	MESSAGE = "no program name given";
   }
 
   // program code is missing
   else if (program_code == "" && add_program_button != "") {
-    MESSAGE = "no program code given";
+	MESSAGE = "no program code given";
   }
 
   // program is selected
   else if (selected_program != "") {
 
-    // play button is pressed
-    if (play_program_button != "") {
-      MESSAGE = playing_workflow(selected_program);
-    }
+	// play button is pressed
+	if (play_program_button != "") {
+	  MESSAGE = playing_workflow(selected_program);
+	}
 
-    // delete button is pressed
-    else if (delete_programs_button != "") {
-      MESSAGE = deleting_workflow("programs", selected_program);
-    }
+	// delete button is pressed
+	else if (delete_programs_button != "") {
+	  MESSAGE = deleting_workflow("programs", selected_program);
+	}
 
-    // edit button is pressed
-    else if (edit_program_button != "") {
+	// edit button is pressed
+	else if (edit_program_button != "") {
 
-      // data is saved in global variable PROGRAMNAME and is used in handle_program() to display on website
-      PROGRAMNAME = selected_program;
-      MESSAGE = "successfully loaded program: " + selected_program;
-    }
+	  // data is saved in global variable PROGRAMNAME and is used in handle_program() to display on website
+	  PROGRAMNAME = selected_program;
+	  MESSAGE = "successfully loaded program: " + selected_program;
+	}
   }
 
   // no program is selected
   else if (selected_program == "" && play_program_button != "") {
-    MESSAGE = "no program selected";
+	MESSAGE = "no program selected";
   }
 
   // no program is selected
   else if (selected_program == "" && delete_programs_button != "") {
-    MESSAGE = "no program selected";
+	MESSAGE = "no program selected";
   }
 
   // no program is selected
   else if (selected_program == "" && edit_program_button != "") {
-    MESSAGE = "no program selected";
+	MESSAGE = "no program selected";
   }
 
   // edit button is not pressed and therefor PROGRAMNAME is reset
   if (edit_program_button == "") {
-    PROGRAMNAME = "";
+	PROGRAMNAME = "";
   }
   
   // sends user back to root

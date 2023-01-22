@@ -1,5 +1,6 @@
 #include "unity.h"
 #include "base.h"
+#include <WiFiManager.h>
 
 void setUp(void) {
   // set stuff up here
@@ -10,11 +11,11 @@ void tearDown(void) {
 }
 
 void test_function_should_doBlahAndBlah(void) {
-  // test stuff
+  TEST_ASSERT_EQUAL(13, 13);
 }
 
 void test_function_should_doAlsoDoBlah(void) {
-  // more test stuff
+  TEST_ASSERT_EQUAL(13, 13);
 }
 
 int runUnityTests(void) {

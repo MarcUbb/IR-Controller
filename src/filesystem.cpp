@@ -297,6 +297,8 @@ void send_signal(DynamicJsonDocument doc) {
   // extract data from JSON document
   int length = doc["length"];
   String sequence = doc["sequence"];
+
+  Serial.println(sequence);
   
   // set GPIO to be used for sending the signal
   int kIrLed = 4;

@@ -17,11 +17,14 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     input[type=text] {padding:5px; border:2px solid #ccc; -webkit-border-radius: 5px; border-radius: 5px;}
     input[type=submit] {padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
     h2 {text-align: center;}
+    div[id=error_message] {color: red; text-align: center;}
     button {padding:5px 15px; background:#ccc; border:0 none; cursor:pointer; -webkit-border-radius: 5px; border-radius: 5px;}
   </style>
 </head>
 <body onload="get_data();">
   <h2>IR-Controller</h2>
+  <br>
+  <div id="error_message">System message: error message</div>
   <br>
   <h3>Signals:</h3>
 
@@ -38,7 +41,8 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     <input type="submit" name="send_signal_button" value="send">
     <input type="submit" name="delete_signal_button" value="delete">
   </form>
-  <br><br>
+
+  <br><hr>
 
   <h3>Programs:</h3>
 
@@ -59,23 +63,38 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     <input type="submit" name="edit_program_button" value="edit">
   </form>
 
-  <br><br>
+  <br><hr><br>
+
   <form action="/time">
     <input type="submit" name="time_sync_button" value="sync time">
     <!-- on reload time is written in invisible input field of form-->
     <input style="visibility: hidden" id="time_dummy" name="time_dummy" type="text" placeholder>
   </form>
+
   <br>
+
   <form action="/credentials">
     <input type="submit" name="reset_credentials_button" value="reset WiFi credentials">
   </form>
+
   <br>
+
   <form action="/apmode">
-    <input type="submit" name="apmode_button" value="switch AP-Mode">
+    <input type="submit" name="apmode_button" id="apmode_button" value="switch AP-Mode">
   </form>
-  <br>
-  <br>
-  <div id="error_message">System message: error message</div>
+
+  <br><br>
+
+  <form action="/password" id="change_password">
+    <label for="change_password_button">Change password for AP:</label>
+    <br>
+    <input type="text" id="first_entry" name="first_entry" placeholder="new password">
+    <br><br>
+    <input type="text" id="second_entry" name="second_entry" placeholder="repeat new password">
+    <br><br>
+    <input type="submit" name="change_password_button" value="change password">
+  </form>
+
 
   <script>
     function removeOptions(select_element) {
@@ -199,7 +218,33 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       };
       xhttpError.open("GET", "error", true);
       xhttpError.send();
+
+      // gets AP-mode status from backend
+      var xhttpAP = new XMLHttpRequest();
+      xhttpAP.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var response = this.responseText;
+          console.log(response);
+
+          // checks if AP mode is enabled
+          if (response == "true") {
+            document.getElementById("apmode_button").value = "Disable AP mode";
+            // show password form
+            document.getElementById("change_password").style.display = "block";
+          } 
+          else if (response == "false") {
+            document.getElementById("apmode_button").value = "Enable AP mode";
+            // hide password form
+            document.getElementById("change_password").style.display = "none";
+          }
+        }
+      };
+      xhttpAP.open("GET", "apinfo", true);
+      xhttpAP.send();
     }
+
+    // TODO: pasword handler (only sets new password if both entries are the same)
+    // sends data to backend where its processed
 
 
     // displays help message for signal

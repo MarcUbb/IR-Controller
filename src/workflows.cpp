@@ -81,6 +81,7 @@ String recording_workflow(String command_name) {
   if (raw_sequence == "no_signal"){
     return("failed to record signal");
   }
+  Serial.println(raw_sequence);
 
   // save signal to file
   String message = save_signal(raw_sequence, command_name);

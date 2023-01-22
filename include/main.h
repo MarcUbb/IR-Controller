@@ -18,6 +18,8 @@ void handle_files();
 void handle_time();
 void handle_credentials();
 void handle_apmode();
+void handle_apinfo();
+void handle_password();
 void handle_form();
 
 // server declared in header file to make visible to handler functions
@@ -32,3 +34,6 @@ String MESSAGE = "";
 
 // stores session value (if AP-Mode is activated or not)
 boolean SESSION_AP = true;
+
+// tracks which setting to be used on reboot
+boolean AP_SETTING = true;
