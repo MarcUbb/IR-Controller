@@ -774,7 +774,18 @@ void WiFiManager::handleWPS() {
     if(newSSID.length() > 0) {
       // Nur wenn eine SSID gefunden wurde waren wir erfolgreich 
       DEBUG_WM(F("WPS Success"));
-      connect = true;
+      unsigned long start = millis();
+      while (WiFi.status() != WL_CONNECTED && millis() - start < 30000) {
+        yield();
+      }
+      if (WiFi.status() == WL_CONNECTED) {
+        DEBUG_WM(F("WPS Connected"));
+        connect = true;
+        ESP.reset();
+      } else {
+        DEBUG_WM(F("WPS Failed"));
+        connect = false;
+      }
     } else {
       DEBUG_WM(F("WPS Failed"));
       connect = false;

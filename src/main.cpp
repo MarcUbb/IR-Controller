@@ -6,6 +6,7 @@ In this file, you find the main procedures of the program.
 
 void setup() {
   Serial.begin(115200);
+  Serial.setDebugOutput(true);
   delay(500);
   // read config file (if ESP is in AP mode or not)
 
@@ -19,47 +20,59 @@ void setup() {
   String content = configFile.readString();
   configFile.close();
 
-  // read password file
-  File passwordFile = LittleFS.open("/password.txt", "r");
-  String password = passwordFile.readString();
-  passwordFile.close();
-
-  // set password to default if empty
-  if(password == "") {
-	password = "12345678";
-  }
-
   // end LittleFS
   LittleFS.end();
 
-  // start AP
+  // AP is true
   if (content == "AP: true") {
-	WiFi.mode(WIFI_AP);
-	WiFi.softAP("IR-Remote", password);
-	Serial.println("AP started");
+    // read password file
+    File passwordFile = LittleFS.open("/password.txt", "r");
+    String password = passwordFile.readString();
+    passwordFile.close();
 
-	// set session variable
-	SESSION_AP = true;
-	AP_SETTING = true;
+    // set password to default if empty
+    if(password == "") {
+      password = "12345678";
+    }
 
-	// notify user to synchronize time (not automatic since no NTP server is available)
-	MESSAGE = "Device in AP-Mode. Please synchronize time before using timed Programs!";
+    WiFi.mode(WIFI_AP);
+    WiFi.softAP("IR-Remote", password);
+    Serial.println("AP started");
+
+    // set session variable
+    SESSION_AP = true;
+    AP_SETTING = true;
+
+    // notify user to synchronize time (not automatic since no NTP server is available)
+    MESSAGE = "Device in AP-Mode. Please synchronize time before using timed Programs!";
+    control_led_output("AP_on");
   }
-  // start WiFiManager if AP is not set
+
+  // AP is false
   else {
-	// TODO: try to connect first via:
-	//WiFi.begin(WiFi.SSID().c_str(),WiFi.psk().c_str());
-	// if failed continue with wifiManager
+    // try to connect to saved credentials
+    WiFi.mode(WIFI_STA);
+    WiFi.begin(WiFi.SSID().c_str(),WiFi.psk().c_str());
 
-	// WiFiManager (is skipped if credentials are saved)
-	WiFiManager wifiManager;
-	wifiManager.autoConnect("IR-Remote");
+    unsigned long start = millis();
+    while((WiFi.status() == WL_DISCONNECTED || WiFi.status() == WL_IDLE_STATUS) && millis() - start < 5000){
+      delay(100);
+    }
 
-	// set session variable
-	SESSION_AP = false;
-	AP_SETTING = false;
-	
-	MESSAGE = "Please synchronize timezone if not done yet!";
+    // use WifiManager if connection fails
+    if (WiFi.status() == WL_DISCONNECTED || WiFi.status() == WL_IDLE_STATUS) {
+      control_led_output("no_wifi");
+      // WiFiManager (is skipped if credentials are saved)
+      WiFiManager wifiManager;
+      wifiManager.autoConnect("IR-Remote");
+    }
+
+    // set session variable
+    SESSION_AP = false;
+    AP_SETTING = false;
+    
+    MESSAGE = "Please synchronize timezone if not done yet!";
+    control_led_output("AP_off");
   }
 
   // start mDNS
@@ -85,7 +98,7 @@ void setup() {
   server.on("/credentials", handle_credentials);
   server.on("/apmode", handle_apmode);
   server.on("/apinfo", handle_apinfo);
-	server.on("password", handle_password);
+	server.on("/password", handle_password);
   server.onNotFound(handle_not_found);
 
   // start server
@@ -281,6 +294,14 @@ void handle_password() {
 	String first_entry = server.arg("first_entry");
 	String second_entry = server.arg("second_entry");
 
+  // check if password is long enough
+  if(first_entry.length() < 8) {
+    MESSAGE = "Password must be at least 8 characters long!";
+    server.sendHeader("Location", "/");
+    server.send(302, "text/plain", "Updated– Press Back Button");
+    return;
+  }
+
   // check if entries are the same
   if(first_entry == second_entry) {
     // write new password to password file
@@ -303,6 +324,7 @@ void handle_password() {
       LittleFS.end();
     }
   }
+
   else {
     MESSAGE = "Passwords do not match!"; 
   }

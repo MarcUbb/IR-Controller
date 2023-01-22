@@ -213,6 +213,7 @@
       xhttpError.open("GET", "error", true);
       xhttpError.send();
 
+      // TODO: if in ap mode: write sync time and if not in ap mode: write sync timezone
       // gets AP-mode status from backend
       var xhttpAP = new XMLHttpRequest();
       xhttpAP.onreadystatechange = function() {

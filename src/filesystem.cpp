@@ -503,7 +503,7 @@ void control_led_output(String signal) {
   pinMode(led_pin, OUTPUT);
 
   // 3 blinks:
-  if (signal == "no_signal" || signal == "no_mDNS") {
+  if (signal == "no_signal" || signal == "no_mDNS" || signal == "no_wifi") {
     digitalWrite(led_pin, LOW);
     delay(100);
     digitalWrite(led_pin, HIGH);
@@ -519,8 +519,21 @@ void control_led_output(String signal) {
     digitalWrite(led_pin, LOW);
   }
 
+  // 2 blinks:
+  else if (signal == "AP_on") {
+    digitalWrite(led_pin, LOW);
+    delay(100);
+    digitalWrite(led_pin, HIGH);
+    delay(100);
+    digitalWrite(led_pin, LOW);
+    delay(100);
+    digitalWrite(led_pin, HIGH);
+    delay(100);
+    digitalWrite(led_pin, LOW);
+  }
+
   // 1 blink:
-  else if (signal == "signal_received") {
+  else if (signal == "signal_received" || signal == "AP_off") {
     digitalWrite(led_pin, LOW);
     delay(100);
     digitalWrite(led_pin, HIGH);
