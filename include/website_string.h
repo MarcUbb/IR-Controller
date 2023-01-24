@@ -231,24 +231,24 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
           if (response == "true") {
             // change button texts
             document.getElementById("apmode_button").value = "Disable AP mode";
-            documant.getElementById("sync_button").value = "Sync time";
+            document.getElementById("sync_button").value = "Sync time";
 
             // show password form
-            document.getElementById("change_password").style.display = "block";
+            document.getElementById("change_password").style.visibility= "visible";
 
             // change apinfo
-            document.getElementById("apinfo").innerHTML = "AP-Mode";
+            document.getElementById("apinfo").value = "AP-Mode";
           } 
           else if (response == "false") {
             // change button texts
             document.getElementById("apmode_button").value = "Enable AP mode";
-            documant.getElementById("sync_button").value = "Sync timezone";
+            document.getElementById("sync_button").value = "Sync timezone";
 
             // hide password form
-            document.getElementById("change_password").style.display = "none";
+            document.getElementById("change_password").style.visibility= "hidden";
 
             // change apinfo
-            document.getElementById("apinfo").innerHTML = "Station-Mode";
+            document.getElementById("apinfo").value = "Station-Mode";
           }
         }
       };

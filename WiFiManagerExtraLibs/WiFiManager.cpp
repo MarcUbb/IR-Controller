@@ -769,8 +769,10 @@ void WiFiManager::handleWPS() {
   WiFi.mode(WIFI_STA);
   bool wpsSuccess = WiFi.beginWPSConfig();
   if(wpsSuccess) {
+    // Muss nicht immer erfolgreich heißen! Nach einem Timeout bist die SSID leer
     String newSSID = WiFi.SSID();
     if(newSSID.length() > 0) {
+      // Nur wenn eine SSID gefunden wurde waren wir erfolgreich 
       DEBUG_WM(F("WPS Success"));
       unsigned long start = millis();
       while (WiFi.status() != WL_CONNECTED && millis() - start < 30000) {
