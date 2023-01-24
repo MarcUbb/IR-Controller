@@ -122,7 +122,7 @@ String save_signal(String result_string, String name){
   int first = result_string.indexOf("[");
   int last = result_string.indexOf("]");
   if (first == -1 || last == -1 || first > last || last - first > 4 || last - first < 2){
-    return("Error: Could not extract length and sequence from String");
+    return("Error: could not extract length from String");
   }
   String length = result_string.substring (first +1,last);
 
@@ -130,7 +130,7 @@ String save_signal(String result_string, String name){
   first = result_string.indexOf("{");
   last = result_string.indexOf("}");
   if (first == -1 || last == -1 || first > last || last - first < 2){
-    return("Error: Could not extract sequence from String");
+    return("Error: could not extract sequence from String");
   }
   String sequence = result_string.substring (first +1,last);
 
@@ -304,6 +304,11 @@ String send_signal(DynamicJsonDocument doc) {
   // extract data from JSON document
   int length = doc["length"];
   String sequence = doc["sequence"];
+
+  // check if length and sequence are valid
+  if (length == 0 || sequence == "") {
+    return("Error: invalid signal");
+  }
   
   // set GPIO to be used for sending the signal
   int kIrLed = 4;
@@ -463,7 +468,7 @@ String read_program(String program_name){
 
   // check if file exists
   if (check_if_file_exists(filename) == false){
-    return("");
+    return("Error: Program not found!");
   }
 
   // read file and save content to String
@@ -572,6 +577,7 @@ boolean check_if_string_is_alphanumeric (String word) {
 
   called by:
   - handle_form (in src/main.cpp) to check if the name of a new signal or program is alphanumeric
+  - save_signal (in src/filesystem.cpp) to check if the name of a new signal is alphanumeric
   */
 
   // check if String is alphanumeric

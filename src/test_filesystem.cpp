@@ -17,13 +17,13 @@ boolean test_capture_signal() {
 	// checks if return value is correct and if execution time is normal
   if (return_val == "no_signal" && elapsed_time > 10000 && elapsed_time < 11000) {
     Serial.println("\e[0;32mtest_capture_signal: PASSED\e[0;37m");
-    return true; 
+    return(true); 
   }
   // prints error message if test failed
   else {
     Serial.println("\e[0;31mtest_capture_signal: FAILED");
     Serial.println("return value: " + return_val + " , elapsed time: " + elapsed_time + "\e[0;37m");
-    return false;
+    return(false);
   }
 }
 
@@ -36,7 +36,7 @@ boolean test_save_signal() {
   String name1 = "___test123"; // should work
   String name2 = "___üäöß"; // should not work
   String name3 = "___/"; // should not work
-  String name4 = "___ "; // should not work
+  String name4 = "___ "; // should work
   String name5 = "________10________20________30________40"; // should not work
   String name6 = ""; // should not work
 
@@ -58,41 +58,95 @@ boolean test_save_signal() {
 	String result_strings[10] = {result_string1, result_string2, result_string3, result_string4, result_string5, result_string6, result_string7, result_string8, result_string9, result_string10};
 
 	// create array of expected return values for names
-	String expected_return_values_names[6] = {"success", "Error: name is not alphanumeric", "Error: name is not alphanumeric", "Error: name is not alphanumeric", "Error: name exceeds 32 characters", "Error: name is empthy"};
+	String expected_return_values_names[6] = {"success", "Error: name is not alphanumeric", "Error: name is not alphanumeric", "success", "Error: name exceeds 32 characters", "Error: name is empthy"};
 	
 	// create array of expected return values for result_strings (where success = "success", error with [length] = "Error: could not extract length from String" and error with {sequence} = "Error: could not extract sequence from String")
 	String expected_return_values_result_strings[10] = {"success", "success", "Error: could not extract length from String", "Error: could not extract length from String", "Error: could not extract length from String", "Error: could not extract length from String", "Error: could not extract length from String", "Error: could not extract sequence from String", "Error: could not extract sequence from String", "Error: could not extract sequence from String"};
 
 	// loops through all names with result_string1 and checks if return value is correct
 	for (int i = 0; i < 6; i++) {
-		String return_value = save_signal(names[i], result_string1);
+		String return_value = save_signal(result_string1, names[i]);
 		if (return_value != expected_return_values_names[i]) {
 			Serial.println("\e[0;31mtest_save_signal: FAILED");
 			Serial.println("name: " + names[i] + " , result_string: " + result_string1 + " , expected return value: " + expected_return_values_names[i] + " , actual return value: " + return_value + "\e[0;37m");
-			return false;
+      clean_LittleFS();
+			return(false);
 		}
 	}
 
 	// loops through all result_strings with name1 and checks if return value is correct
 	for (int i = 0; i < 10; i++) {
-		String return_value = save_signal(name1, result_strings[i]);
+		String return_value = save_signal(result_strings[i], name1);
 		if (return_value != expected_return_values_result_strings[i]) {
 			Serial.println("\e[0;31mtest_save_signal: FAILED");
 			Serial.println("name: " + name1 + " , result_string: " + result_strings[i] + " , expected return value: " + expected_return_values_result_strings[i] + " , actual return value: " + return_value + "\e[0;37m");
-			return false;
+      clean_LittleFS();
+			return(false);
 		}
 	}
 
 	//prints success message and return true
 	Serial.println("\e[0;32mtest_save_signal: PASSED\e[0;37m");
-	return true;
+  clean_LittleFS();
+	return(true);
 }
 
 boolean test_save_json() {
 	/*
 	- checks if file is created
+  - checks if file is overwritten if it already exists
 	- checks if JSON-Document is correctly written to file
 	*/
-
+	return(true);
 }
 
+boolean test_load_json() {
+  /*
+  - checks if data is correctly loaded from file
+  - checks if empthy JSON Doc is returned if file does not exist
+  - checks if empthy JSON Doc is returned if file is empthy
+  - checks if empthy JSON Doc is returned if file is not in JSON format
+  */
+  return(true);
+}
+
+boolean test_send_signal() {
+  /*
+  - checks if invalid JSON Doc without length or sequence is accepted
+  - checks if length matches length of sequence
+  */
+  return(true);
+}
+
+boolean test_get_files() {
+  /*
+  - checks if files are returned correctly
+  */
+  return(true);
+}
+
+boolean test_check_if_file_exists() {
+  /*
+  - checks return values for existing and non-existing files
+  */
+  return(true);
+}
+
+boolean test_read_program() {
+  /*
+  - checks if program is read correctly
+  - checks if error is returned if program does not exist
+  */
+  return(true);
+}
+
+boolean test_control_led_output() {
+  return(true);
+}
+
+boolean test_check_if_string_is_alphanumeric() {
+  /*
+  - checks sample Strings
+  */
+  return(true);
+}

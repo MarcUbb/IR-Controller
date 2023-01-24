@@ -2,7 +2,7 @@
 #include "base.h"
 #include "workflows.h"
 
-
+void clean_LittleFS();
 
 boolean test_capture_signal();
 boolean test_save_signal();

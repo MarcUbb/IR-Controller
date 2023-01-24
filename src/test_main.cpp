@@ -117,9 +117,10 @@ void run_all_tests() {
 
   boolean check = true;
 
+	// only run tests if above tests passed
   check = run_all_filesystem_tests();
-  if(check != true) {check = run_all_time_management_tests();}
-  if(check != true) {check = run_all_workflows_tests();}
+  if(check == true) {check = run_all_time_management_tests();}
+  if(check == true) {check = run_all_workflows_tests();}
   
 
   if(check != true) {

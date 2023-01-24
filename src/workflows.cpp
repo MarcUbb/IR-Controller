@@ -557,6 +557,8 @@ String handle_times_commands(String command, boolean day_included) {
     String command_name = command.substring(command.indexOf(" ") + 1);
   }
 
+  // TODO: check if anything is valid
+
   
   // generate filename
   String filename = "/signals/" + command_name + ".json";

@@ -151,6 +151,10 @@ void handle_program() {
   // read code of selected program
   String PROGRAMCODE = read_program(PROGRAMNAME);
 
+  if (PROGRAMCODE.indexOf("Error") != -1) {
+    MESSAGE = PROGRAMCODE;
+  }
+
   // send name and code of selected program
   server.send(200, "text/plain", PROGRAMNAME + ";" + PROGRAMCODE);
 }
