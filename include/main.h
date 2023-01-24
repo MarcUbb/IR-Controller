@@ -7,7 +7,7 @@
 #include "workflows.h"
 #include "website_string.h"
 
-//#include "tests.h"
+#include "tests.h"
 
 // forward declarations
 void handle_root();

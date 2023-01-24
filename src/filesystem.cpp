@@ -107,17 +107,21 @@ String save_signal(String result_string, String name){
 
   // check if name is specified
   if (name == ""){
-    return("Error: No name specified");
+    return("Error: name is empthy");
   }
 
-  if (name.indexOf("/") != -1 || name.indexOf("\\") != -1 || name.indexOf(":") != -1 || name.indexOf("*") != -1 || name.indexOf("?") != -1 || name.indexOf("\"") != -1 || name.indexOf("<") != -1 || name.indexOf(">") != -1 || name.indexOf("|") != -1 || name.indexOf(".") != -1 || name.indexOf("\t") != -1 || name.indexOf("\r") != -1 || name.indexOf("\n") != -1 || name.indexOf(" ") != -1 || name.indexOf("\x0B") != -1){
-    return("Error: Name contains invalid character");
+  if (check_if_string_is_alphanumeric(name) == false){
+    return("Error: name is not alphanumeric");
+  }
+
+  if (name.length() > 32){
+    return("Error: name exceeds 32 characters");
   }
 
   // extract length from String
   int first = result_string.indexOf("[");
   int last = result_string.indexOf("]");
-  if (first == -1 || last == -1){
+  if (first == -1 || last == -1 || first > last || last - first > 4 || last - first < 2){
     return("Error: Could not extract length and sequence from String");
   }
   String length = result_string.substring (first +1,last);
@@ -125,7 +129,7 @@ String save_signal(String result_string, String name){
   // extract sequence from String
   first = result_string.indexOf("{");
   last = result_string.indexOf("}");
-  if (first == -1 || last == -1){
+  if (first == -1 || last == -1 || first > last || last - first < 2){
     return("Error: Could not extract sequence from String");
   }
   String sequence = result_string.substring (first +1,last);
@@ -165,6 +169,7 @@ void save_json(String filename, DynamicJsonDocument doc) {
     ---
 
   called by:
+  - save_signal (in src/filesystem.cpp) to save the JSON document containing the captured signal to its file
   - recording_workflow (in src/workflows.cpp) to save the JSON document containing the captured signal to its file
   - update_time (in src/time_management.cpp) to update time in /time.json
   - init_time (in src/time_management.cpp) to save NTP time to /time.json
@@ -269,7 +274,7 @@ DynamicJsonDocument load_json(String filename) {
 }
 
 
-void send_signal(DynamicJsonDocument doc) {
+String send_signal(DynamicJsonDocument doc) {
   /*
   parameters:
     DynamicJsonDocument doc:
@@ -281,7 +286,9 @@ void send_signal(DynamicJsonDocument doc) {
         }
   
   returns:
-    void
+    String:
+      "success" if sending was successful
+      "Error: ..." if sending failed
   
   description:
   This function sends a signal provided in JSON format. It uses the IRremoteESP8266 library and is based
@@ -297,8 +304,6 @@ void send_signal(DynamicJsonDocument doc) {
   // extract data from JSON document
   int length = doc["length"];
   String sequence = doc["sequence"];
-
-  Serial.println(sequence);
   
   // set GPIO to be used for sending the signal
   int kIrLed = 4;
@@ -321,10 +326,14 @@ void send_signal(DynamicJsonDocument doc) {
   // get the last value out of the string, which has no more commas in it
   command[ data_num ] = sequence.toInt();
 
+  if (data_num != length-1) {
+    return("Error: length of sequence does not match length in JSON document! Please save signal again.");
+  }
+
   // send signal with IRsend object
   irsend.begin();
   irsend.sendRaw(command, length, 38);
-  return;
+  return("success");
 }
 
 

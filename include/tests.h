@@ -1,83 +1,40 @@
-#include <assert.h>
 #include <Arduino.h>
 #include "base.h"
 #include "workflows.h"
 
-// tests for filesystem.cpp
 
-boolean test_capture_signal() {
-  /*
-  Tests capture_signal() function
-  - checks if execution time is normal
-  - checks if return value is correct (no random noise signal is received)
-  */
-  unsigned long start_time = millis();
-  String return_val = capture_signal();
-  unsigned long end_time = millis();
 
-  unsigned long elapsed_time = end_time - start_time;
+boolean test_capture_signal();
+boolean test_save_signal();
+boolean test_save_json();
+boolean test_load_json();
+boolean test_send_signal();
+boolean test_get_files();
+boolean test_check_if_file_exists();
+boolean test_read_program();
+boolean test_control_led_output();
+boolean test_check_if_string_is_alphanumeric();
 
-  if (return_val == "no_signal" && elapsed_time > 10000 && elapsed_time < 12000) {
-    Serial.println("\e[0;32mtest_capture_signal: PASSED\e[0;37m");
-    return true; 
-  }
-  else {
-    Serial.println("\e[0;31mtest_capture_signal: FAILED");
-    Serial.println("return value: " + return_val + " , elapsed time: " + elapsed_time + "\e[0;37m");)
-    return false;
-  }
-}
+boolean test_weekday_to_num();
+boolean test_compare_time();
+boolean test_update_time();
+boolean test_get_current_time();
+boolean test_turn_seconds_in_time();
+boolean test_add_time();
+boolean test_get_NTP_time();
+boolean test_init_time();
+boolean test_check_and_update_offset();
 
-boolean run_all_filesystem_tests() {
-  Serial.println("\nTesting filesystem.cpp");
-  boolean check = true;
-  check =  test_capture_signal();
-  // ...
+boolean test_deleding_workflow();
+boolean test_recording_workflow();
+boolean test_sending_workflow();
+boolean test_adding_workflow();
+boolean test_playing_workflow();
+boolean test_program_parser();
+boolean test_handle_wait_command();
+boolean test_handle_times_commands();
 
-  return check;
-}
-
-// tests for time_management.cpp
-
-boolean run_all_time_management_tests() {
-  Serial.println("\nTesting time_management.cpp");
-  boolean check = true;
-  // ...
-
-  return check;
-}
-
-// tests for workflows.cpp
-
-boolean run_all_workflows_tests() {
-  Serial.println("\nTesting workflows.cpp");
-  boolean check = true;
-  // ...
-
-  return check;
-}
-
-// run all tests (calles in main.cpp)
-void run_all_tests() {
-  boolean check = true;
-  Serial.println("\nRunning all tests...");
-
-  check = run_all_filesystem_tests();
-  check = run_all_time_management_tests();
-  check = run_all_workflows_tests();
-
-  if(check != true) {
-    Serial.println("\n\e[0;31m----------------------------------------");
-    Serial.println("At least one test failed!");
-    Serial.println("Your code will not be executed. Please fix the errors and try again.\e[0;37m\n");
-    while(true) {
-      delay(1000);
-    }
-  }
-  else {
-    Serial.println("\n\e[0;32m----------------------------------------");
-    Serial.println("All tests passed!");
-    Serial.println("Your code will now continue to run.\e[0;37m\n");
-  }
-
-}
+boolean run_all_filesystem_tests();
+boolean run_all_time_management_tests();
+boolean run_all_workflows_tests();
+void run_all_tests();

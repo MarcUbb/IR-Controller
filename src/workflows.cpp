@@ -134,8 +134,15 @@ String sending_workflow(String command_name) {
   DynamicJsonDocument doc = load_json(filename);
 
   // send signal
-  send_signal(doc);
-  return("successfully sent command: " + command_name);
+
+  String message = send_signal(doc);
+
+  if (message.indexOf("success") != -1) {
+    return("successfully sent command: " + command_name);
+  }
+  else {
+    return(message);
+  }
 }
 
 

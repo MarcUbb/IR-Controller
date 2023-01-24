@@ -17,7 +17,7 @@ String capture_signal();
 String save_signal(String result_string, String name);
 void save_json(String filename, DynamicJsonDocument doc);
 DynamicJsonDocument load_json(String filename);
-void send_signal(DynamicJsonDocument doc);
+String send_signal(DynamicJsonDocument doc);
 String get_files(String folder_signals, String folder_programs);
 boolean check_if_file_exists(String filename);
 String read_program(String program_name);

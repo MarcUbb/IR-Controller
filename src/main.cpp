@@ -11,7 +11,7 @@ void setup() {
   // read config file (if ESP is in AP mode or not)
 
   // optional: run tests (uncomment "include tests.h" in main.h before production)
-  //run_all_tests();
+  run_all_tests();
 
   // start LittleFS
   LittleFS.begin();
