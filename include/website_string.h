@@ -67,7 +67,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
   <br><hr><br>
 
   <form action="/time">
-    <input type="submit" name="time_sync_button" value="sync time">
+    <input id="sync_button" type="submit" name="time_sync_button" value="sync time">
     <!-- on reload time is written in invisible input field of form-->
     <input style="visibility: hidden" id="time_dummy" name="time_dummy" type="text" placeholder>
   </form>
@@ -237,7 +237,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
             document.getElementById("change_password").style.visibility= "visible";
 
             // change apinfo
-            document.getElementById("apinfo").value = "AP-Mode";
+            document.getElementById("apinfo").innerHTML = "AP-Mode";
           } 
           else if (response == "false") {
             // change button texts
@@ -248,7 +248,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
             document.getElementById("change_password").style.visibility= "hidden";
 
             // change apinfo
-            document.getElementById("apinfo").value = "Station-Mode";
+            document.getElementById("apinfo").innerHTML = "Station-Mode";
           }
         }
       };
