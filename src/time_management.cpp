@@ -108,7 +108,7 @@ void update_time(String time, boolean AP_mode){
   /*
   parameters:
     int time:
-      time data from user
+      String data from user in format "weekday hh:mm:ss timezone"
     boolean AP_mode:
       true if the device is in AP mode, false if not
   
