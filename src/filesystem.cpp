@@ -468,7 +468,7 @@ String read_program(String program_name){
 
   // check if file exists
   if (check_if_file_exists(filename) == false){
-    return("Error: Program not found!");
+    return("Error: program does not exist");
   }
 
   // read file and save content to String

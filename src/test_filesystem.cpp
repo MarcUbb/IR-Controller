@@ -1,7 +1,7 @@
 #include "tests.h"
 
-// tests for filesystem.cpp
 
+// tests for filesystem.cpp
 
 boolean test_capture_signal() {
   /*
@@ -94,10 +94,67 @@ boolean test_save_signal() {
 boolean test_save_json() {
 	/*
 	- checks if file is created
+  - checks if JSON-Document is correctly written to file
   - checks if file is overwritten if it already exists
-	- checks if JSON-Document is correctly written to file
+  - no check if filename or data is correct (this is checked by higher level)
 	*/
-	return(true);
+
+  // test names
+  String name1 = "test_file"; 
+
+  // test JSON-Documents
+  DynamicJsonDocument doc1(512);
+  doc1["length"] = 3;
+  doc1["sequence"] = "1234, 5678, 412";
+  doc1.shrinkToFit();
+
+  DynamicJsonDocument doc2(512);
+  doc2["length"] = 4;
+  doc2["sequence"] = "1234, 5678, 412, 123";
+  doc2.shrinkToFit();
+
+  // tests if file is created
+  save_json(name1, doc1);
+  if (!LittleFS.exists(name1)) {
+    Serial.println("\e[0;31mtest_save_json: FAILED");
+    Serial.println("file " + name1 + " was not created\e[0;37m");
+    clean_LittleFS();
+    return(false);
+  }
+
+  // test if file is correctly written
+  File file = LittleFS.open(name1, "r");
+  String file_content = file.readString();
+  file.close();
+
+  if (file_content != "{\"length\":3,\"sequence\":\"1234, 5678, 412\"}") {
+    Serial.println("\e[0;31mtest_save_json: FAILED");
+    Serial.println("file " + name1 + " was not written correctly");
+    Serial.println("expected: {\"length\":3,\"sequence\":\"1234, 5678, 412\"}");
+    Serial.println("actual: " + file_content + "\e[0;37m");
+    clean_LittleFS();
+    return(false);
+  }
+
+  // test if file is overwritten
+  save_json(name1, doc2);
+  file = LittleFS.open(name1, "r");
+  String file_content2 = file.readString();
+  file.close();
+
+  if (file_content2 != "{\"length\":4,\"sequence\":\"1234, 5678, 412, 123\"}") {
+    Serial.println("\e[0;31mtest_save_json: FAILED");
+    Serial.println("file " + name1 + " was not overwritten correctly");
+    Serial.println("expected: {\"length\":4,\"sequence\":\"1234, 5678, 412, 123\"}");
+    Serial.println("actual: " + file_content2 + "\e[0;37m");
+    clean_LittleFS();
+    return(false);
+  }
+
+  // prints success message and returns true
+  Serial.println("\e[0;32mtest_save_json: PASSED\e[0;37m");
+  clean_LittleFS();
+  return(true);
 }
 
 boolean test_load_json() {
@@ -107,7 +164,78 @@ boolean test_load_json() {
   - checks if empthy JSON Doc is returned if file is empthy
   - checks if empthy JSON Doc is returned if file is not in JSON format
   */
-  return(true);
+
+  // test names
+	String name1 = "test_file";
+	String name2 = "empthy_file";
+	String name3 = "non_json_file";
+
+	// test JSON-Document
+	DynamicJsonDocument doc1(512);
+	doc1["length"] = 3;
+	doc1["sequence"] = "1234, 5678, 412";
+	doc1.shrinkToFit();
+
+	// non json test String
+	String test_string = "abc";
+
+	// write test data to file
+	File file = LittleFS.open(name1, "w");
+	serializeJson(doc1, file);
+	file.close();
+
+	file = LittleFS.open(name3, "w");
+	file.print(test_string);
+	file.close();
+
+	// test if data is correctly loaded from file
+	DynamicJsonDocument doc2 = load_json(name1);
+	if (doc2["length"] != 3 || doc2["sequence"] != "1234, 5678, 412") {
+		Serial.println("\e[0;31mtest_load_json: FAILED");
+		Serial.println("file " + name2 + " was not loaded correctly");
+		Serial.println("expected: {\"length\":3,\"sequence\":\"1234, 5678, 412\"}");
+		Serial.println("actual: " + doc2.as<String>() + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// test if empthy JSON Doc is returned if file does not exist
+	DynamicJsonDocument doc3 = load_json("abc");
+	if (doc3.size() != 0) {
+		Serial.println("\e[0;31mtest_load_json: FAILED");
+		Serial.println("empthy JSON Doc was not returned if file does not exist");
+		Serial.println("expected: {}");
+		Serial.println("actual: " + doc3.as<String>() + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// test if empthy JSON Doc is returned if file is empthy
+	DynamicJsonDocument doc4 = load_json(name2);
+	if (doc4.size() != 0) {
+		Serial.println("\e[0;31mtest_load_json: FAILED");
+		Serial.println("empthy JSON Doc was not returned if file is empthy");
+		Serial.println("expected: {}");
+		Serial.println("actual: " + doc4.as<String>() + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// test if empthy JSON Doc is returned if file is not in JSON format
+	DynamicJsonDocument doc5 = load_json(name3);
+	if (doc5.size() != 0) {
+		Serial.println("\e[0;31mtest_load_json: FAILED");
+		Serial.println("empthy JSON Doc was not returned if file is not in JSON format");
+		Serial.println("expected: {}");
+		Serial.println("actual: " + doc5.as<String>() + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// prints success message and returns true
+	Serial.println("\e[0;32mtest_load_json: PASSED\e[0;37m");
+	clean_LittleFS();
+	return(true);
 }
 
 boolean test_send_signal() {
@@ -115,20 +243,150 @@ boolean test_send_signal() {
   - checks if invalid JSON Doc without length or sequence is accepted
   - checks if length matches length of sequence
   */
-  return(true);
+
+  // test Json-Documents
+	DynamicJsonDocument doc1(512);
+	doc1["length"] = 3;
+	doc1["sequence"] = "1234, 5678, 412";
+	doc1.shrinkToFit();
+
+	DynamicJsonDocument doc2(512);
+	doc2["length"] = 3;
+	doc2["sequence"] = "1234, 5678, 412, 123";
+	doc2.shrinkToFit();
+
+	DynamicJsonDocument doc3(512);
+	doc3["length"] = 3;
+	doc3.shrinkToFit();
+
+	DynamicJsonDocument doc4(512);
+	doc4["sequence"] = "1234, 5678, 412";
+	doc4.shrinkToFit();
+
+	// test if JSON Doc can be send
+	if (send_signal(doc1) != "success") {
+		Serial.println("\e[0;31mtest_send_signal: FAILED");
+		Serial.println("JSON Doc was not send correctly");
+		Serial.println("expected: success");
+		Serial.println("actual: " + send_signal(doc1) + "\e[0;37m");
+		return(false);
+	}
+
+	// test if JSON Doc with invalid length is not accepted
+	if (send_signal(doc2) != "Error: length of sequence does not match length in JSON document! Please save signal again.") {
+		Serial.println("\e[0;31mtest_send_signal: FAILED");
+		Serial.println("JSON Doc with invalid length was accepted");
+		Serial.println("expected: Error: length of sequence does not match length in JSON document! Please save signal again.");
+		Serial.println("actual: " + send_signal(doc2) + "\e[0;37m");
+		return(false);
+	}
+
+	// test if JSON Doc without sequence is not accepted
+	if (send_signal(doc3) != "Error: invalid signal") {
+		Serial.println("\e[0;31mtest_send_signal: FAILED");
+		Serial.println("JSON Doc without sequence was handled incorrectly");
+		Serial.println("expected: Error: invalid signal");
+		Serial.println("actual: " + send_signal(doc3) + "\e[0;37m");
+		return(false);
+	}
+
+	// test if JSON Doc without length is not accepted
+	if (send_signal(doc4) != "Error: invalid signal") {
+		Serial.println("\e[0;31mtest_send_signal: FAILED");
+		Serial.println("JSON Doc without length was handled incorrectly");
+		Serial.println("expected: Error: invalid signal");
+		Serial.println("actual: " + send_signal(doc4) + "\e[0;37m");
+		return(false);
+	}
+
+	// prints success message and returns true
+	Serial.println("\e[0;32mtest_send_signal: PASSED\e[0;37m");
+	return(true);
 }
 
 boolean test_get_files() {
   /*
   - checks if files are returned correctly
+	- check if no files are returned if no files exist
   */
-  return(true);
+
+  // clear LittleFS
+	clean_LittleFS();
+
+	// create files
+	LittleFS.begin();
+	File file1 = LittleFS.open("/signals/test1.json", "w");
+	file1.close();
+	File file2 = LittleFS.open("/signals/test2.json", "w");
+	file2.close();
+	File file3 = LittleFS.open("/programs/test3.json", "w");
+	file3.close();
+	LittleFS.end();
+
+	// test if files are returned correctly
+	String files = get_files("signals", "programs");
+
+	if (files != "test1.json,test2.json;test3.json") {
+		Serial.println("\e[0;31mtest_get_files: FAILED");
+		Serial.println("files were not returned correctly");
+		Serial.println("expected: test1.json,test2.json;test3.json");
+		Serial.println("actual: " + files + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// test if no files are returned if no files exist
+	files = get_files("abc", "def");
+
+	if (files != ";") {
+		Serial.println("\e[0;31mtest_get_files: FAILED");
+		Serial.println("no files were returned if no files exist");
+		Serial.println("expected: ;");
+		Serial.println("actual: " + files + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// prints success message and returns true
+	Serial.println("\e[0;32mtest_get_files: PASSED\e[0;37m");
+	clean_LittleFS();
+	return(true);
 }
 
 boolean test_check_if_file_exists() {
   /*
   - checks return values for existing and non-existing files
   */
+
+ 	// create test file
+	LittleFS.begin();
+	File file = LittleFS.open("test.json", "w");
+	file.close();
+	LittleFS.end();
+
+	// test if existing file is found
+	if (check_if_file_exists("test.json") != true) {
+		Serial.println("\e[0;31mtest_check_if_file_exists: FAILED");
+		Serial.println("existing file was not found");
+		Serial.println("expected: true");
+		Serial.println("actual: " + String(check_if_file_exists("test.json")) + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// test if non-existing file is not found
+	if (check_if_file_exists("test2.json") != false) {
+		Serial.println("\e[0;31mtest_check_if_file_exists: FAILED");
+		Serial.println("non-existing file was found");
+		Serial.println("expected: false");
+		Serial.println("actual: " + String(check_if_file_exists("test2.json")) + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// prints success message and returns true
+	Serial.println("\e[0;32mtest_check_if_file_exists: PASSED\e[0;37m");
+	clean_LittleFS();
   return(true);
 }
 
@@ -137,10 +395,51 @@ boolean test_read_program() {
   - checks if program is read correctly
   - checks if error is returned if program does not exist
   */
+
+ 	// clean LittleFS
+	clean_LittleFS();
+
+	// create test file
+	LittleFS.begin();
+	File file = LittleFS.open("/programs/test.json", "w");
+	file.println("play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend");
+	file.close();
+	LittleFS.end();
+
+	// test if program is read correctly
+	String program = read_program("test");
+
+	if (program != "play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend") {
+		Serial.println("\e[0;31mtest_read_program: FAILED");
+		Serial.println("program was not read correctly");
+		Serial.println("expected: play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend");
+		Serial.println("actual: " + program + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// test if error is returned if program does not exist
+	program = read_program("test2");
+
+	if (program != "Error: program does not exist") {
+		Serial.println("\e[0;31mtest_read_program: FAILED");
+		Serial.println("error was not returned if program does not exist");
+		Serial.println("expected: Error: program does not exist");
+		Serial.println("actual: " + program + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// prints success message and returns true
+	Serial.println("\e[0;32mtest_read_program: PASSED\e[0;37m");
+	clean_LittleFS();
   return(true);
 }
 
 boolean test_control_led_output() {
+	/*
+	- manually tested
+	*/
   return(true);
 }
 
@@ -148,5 +447,32 @@ boolean test_check_if_string_is_alphanumeric() {
   /*
   - checks sample Strings
   */
+
+  // sample Strings
+	String string1 = "abc"; //should return true
+	String string2 = "abc123"; //should return true
+	String string3 = "abc123!"; //should return false
+	String string4 = "abc123!@#"; //should return false
+	String string5 = "_ -"; //should return true
+
+	// collect samples in array
+	String samples[5] = {string1, string2, string3, string4, string5};
+
+	// expected return values
+	boolean expected[5] = {true, true, false, false, true};
+
+	// test if sample Strings are recognized correctly
+	for (int i = 0; i < 5; i++) {
+		if (check_if_string_is_alphanumeric(samples[i]) != expected[i]) {
+			Serial.println("\e[0;31mtest_check_if_string_is_alphanumeric: FAILED");
+			Serial.println("incorrect return value for sample String" + samples[i]);
+			Serial.println("expected: " + String(expected[i]));
+			Serial.println("actual: " + String(check_if_string_is_alphanumeric(samples[i])) + "\e[0;37m");
+			return(false);
+		}
+	}
+
+	// prints success message and returns true
+	Serial.println("\e[0;32mtest_check_if_string_is_alphanumeric: PASSED\e[0;37m");
   return(true);
 }

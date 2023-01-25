@@ -12,7 +12,6 @@ boolean test_deleding_workflow() {
 boolean test_recording_workflow() {
 	/*
 	- checks if error message is correct when nothing was recorded
-	- checks if sequence is correctly saved (capture_signal has to be mocked)
 	*/
 	return(true);
 }
@@ -53,7 +52,6 @@ boolean test_program_parser() {
 boolean test_handle_wait_command() {
 	/*
 	- check if set amount of time is waited
-	- check if error message is shown when user interrupts function (digitalRead has to be mocked)
 	*/
 	return(true);
 }
@@ -62,7 +60,6 @@ boolean test_handle_times_commands() {
 	/*
 	- checks error message if weekday is invalid
 	- checks if invalid commands are caught
-	- checks error message if program is interrupted (digitalRead has to be mocked)
 	*/
 	return(true);
 }
