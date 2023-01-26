@@ -1,4 +1,5 @@
 #include "base.h"
+#include "Regexp.h"
 
 // forward declarations
 String deleting_workflow(String directory, String command_name);

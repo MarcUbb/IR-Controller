@@ -127,7 +127,7 @@ String sending_workflow(String signal_name) {
 
   // check if file exists
   if (check_if_file_exists(filename) == false) {
-    return("could not find command: " + signal_name);
+    return("could not find signal: " + signal_name);
   }
 
   // load signal from file
@@ -138,7 +138,7 @@ String sending_workflow(String signal_name) {
   String message = send_signal(doc);
 
   if (message.indexOf("success") != -1) {
-    return("successfully sent command: " + signal_name);
+    return("successfully sent signal: " + signal_name);
   }
   else {
     return(message);
@@ -292,110 +292,148 @@ String program_parser(String code){
   // initialize variables
   String line = "";
   String error_message = "";
+  String command = "invalid";
+  
+  // declare matchstate for regex
+  MatchState REGEX;
 
   // loop through code line by line (until no more newlines are found)
   while (code.indexOf("\n") != -1){
     // get current line and remaining code
     line = code.substring(0, code.indexOf("\n") - 1);
-    code = code.substring(code.indexOf("\n") + 1);
+    code = code.substring(code.indexOf("\n") + 1);    
 
-    //Serial.println("current line: " + line);
-    //Serial.println("remaining code: " + code);
+    // check with regex which command was found
+    char * line_as_char_array = (char *)line.c_str();
+    REGEX.Target(line_as_char_array);
 
-    // play command was found
-    if (line.indexOf("play") == 0){
-      // slice command name from line
-      String command_name = line.substring(5);
-
-      // send signal
-      error_message = sending_workflow(command_name);
+    // check which command was found
+    if (REGEX.Match("play [a-zA-Z0-9\\s\\-\\_]+") == REGEXP_MATCHED){
+      command = "play";
     }
-    
-    // wait command was found
-    else if (line.indexOf("wait") == 0){
-      // slice delay time from line
-      String delay_time = line.substring(5);
-      unsigned long delay_time_long = atol(delay_time.c_str());
-
-      // wait for delay time
-      error_message = handle_wait_command(delay_time_long);
+    else if (REGEX.Match("wait [0-9]+") == REGEXP_MATCHED){
+      command = "wait";
     }
-
-    // time command was found
-    else if (line.indexOf("0") == 0 || line.indexOf("1") == 0 || line.indexOf("2") == 0) {
-      // whole line is passed to handler
-      String time_command = line;
-      error_message = handle_times_commands(time_command, false);
+    else if (REGEX.Match("^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9] [a-zA-Z0-9\\s\\-\\_]+") == REGEXP_MATCHED){
+      command = "time";
     }
-
-    // day command was found
-    else if (line.indexOf("monday") == 0 || line.indexOf("tuesday") == 0 || line.indexOf("wednesday") == 0 || line.indexOf("thursday") == 0 || line.indexOf("friday") == 0 || line.indexOf("saturday") == 0 || line.indexOf("sunday") == 0 || line.indexOf("Monday") == 0 || line.indexOf("Tuesday") == 0 || line.indexOf("Wednesday") == 0 || line.indexOf("Thursday") == 0 || line.indexOf("Friday") == 0 || line.indexOf("Saturday") == 0 || line.indexOf("Sunday") == 0) {
-      // whole line is passed to handler
-      String day_command = line;
-      error_message = handle_times_commands(day_command, true);
+    else if (REGEX.Match("^(monday|tuesday|wednesday|thursday|friday|saturday|sunday|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday) (0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9] [a-zA-Z0-9\\s\\-\\_]+") == REGEXP_MATCHED){
+      command = "day";
+    }
+    else if (REGEX.Match("skip [0-9]+") == REGEXP_MATCHED){
+      command = "skip";
+    }
+    else if (REGEX.Match("loop [0-9]+") == REGEXP_MATCHED || REGEX.Match("loop inf") == REGEXP_MATCHED){
+      command = "loop";
+    }
+    else {
+      error_message = "invalid command";
+      command = "invalid";
     }
 
-    // skip command was found
-    else if (line.indexOf("skip") == 0) {
-      // slice days from line
-      String skip_days = line.substring(5);
-      unsigned long days = atoi(skip_days.c_str());
+    Serial.println(command);
 
-      // check if amount of days is valid (49 days in ms is limit for unsigned long)
-      if (days == 0) {
-        return("failed to execute skip command: no days given");
+    if (command != "invalid"){
+
+      // play command was found
+      if (command == "play"){
+        // slice command name from line
+        String command_name = line.substring(5);
+
+        // send signal
+        error_message = sending_workflow(command_name);
       }
-      if (days > 49) {
-        return("failed to execute skip command: too many days given");
-      }
-
-      // convert days to milliseconds
-      days = days * 86400000; 
-
-      // pass to handler
-      error_message = handle_wait_command(days);
-    }
-
-    // code is split in loop part and part that follows (if loop is not repeated infinitely)
-    // loop part is executed the given amount of time / or indefinitely
-    // after loop is executed, the part after the loop is given back to method
-
-    // loop command was found
-    else if (line.indexOf("loop") == 0) {
-      // slice loop time from line
-      String loop_time = line.substring(5);
-
-      // slice loop code from code
-      String loop_code = code.substring(0, code.lastIndexOf("end") - 1) + "\n";
-
-      // slice remaining code from code
-      code = code.substring(code.lastIndexOf("end"));
-      code = code.substring(code.indexOf("\n") + 1);
-
-      // loop is repeated indefinitely
-      if (loop_time == "inf") {
-        while(true) {
-          // execute loop code with parser indefinitely
-          error_message = program_parser(loop_code);
-
-          // check for error since end of this parser is not reached
-          if (error_message.indexOf("success") == -1) {
-            return(error_message);
-          }
+      
+      // wait command was found
+      else if (command == "wait"){
+        // slice delay time from line
+        String delay_time = line.substring(5);
+        unsigned long delay_time_long = atol(delay_time.c_str());
+        if (delay_time_long == 0 && delay_time != "0"){
+          error_message = "invalid delay time";
+        }
+        else {
+          // wait for delay time
+          error_message = handle_wait_command(delay_time_long);
         }
       }
 
-      // loop is repeated a certain amount of times
-      else {
-        // convert loop time to unsigned long
-        unsigned long loop_time_long = atol(loop_time.c_str());
+      // time command was found
+      else if (command == "time") {
+        // whole line is passed to handler
+        String time_command = line;
+        error_message = handle_times_commands(time_command, false);
+      }
 
-        // loop is repeated the given amount of times
-        for (unsigned long i = 0; i < loop_time_long; i++) {
-          // code is passed again to parser and checked for errors
-          error_message = program_parser(loop_code);
-          if (error_message.indexOf("success") == -1) {
-            return(error_message);
+      // day command was found
+      else if (command == "day") {
+        // whole line is passed to handler
+        String day_command = line;
+        error_message = handle_times_commands(day_command, true);
+      }
+
+      // skip command was found
+      else if (command == "skip") {
+        // slice days from line
+        String skip_days = line.substring(5);
+        unsigned long days = atoi(skip_days.c_str());
+
+        // check if amount of days is valid (49 days in ms is limit for unsigned long)
+        if (days == 0) {
+          return("failed to execute skip command: no days given");
+        }
+        if (days > 49) {
+          return("failed to execute skip command: too many days given");
+        }
+
+        // convert days to milliseconds
+        days = days * 86400000; 
+
+        // pass to handler
+        error_message = handle_wait_command(days);
+      }
+
+      // code is split in loop part and part that follows (if loop is not repeated infinitely)
+      // loop part is executed the given amount of time / or indefinitely
+      // after loop is executed, the part after the loop is given back to method
+
+      // loop command was found
+      else if (command == "loop") {
+        // slice loop time from line
+        String loop_time = line.substring(5);
+
+        // slice loop code from code
+        String loop_code = code.substring(0, code.lastIndexOf("end") - 1) + "\n";
+
+        // slice remaining code from code
+        code = code.substring(code.lastIndexOf("end"));
+        code = code.substring(code.indexOf("\n") + 1);
+
+        // loop is repeated indefinitely
+        if (loop_time == "inf") {
+          while(true) {
+            // execute loop code with parser indefinitely
+            error_message = program_parser(loop_code);
+
+            // check for error since end of this parser is not reached
+            if (error_message.indexOf("success") == -1) {
+              return(error_message);
+            }
+          }
+        }
+
+        // loop is repeated a certain amount of times
+        else {
+          // convert loop time to unsigned long
+          unsigned long loop_time_long = atol(loop_time.c_str());
+
+          // loop is repeated the given amount of times
+          for (unsigned long i = 0; i < loop_time_long; i++) {
+            // code is passed again to parser and checked for errors
+            error_message = program_parser(loop_code);
+            if (error_message.indexOf("success") == -1) {
+              return(error_message);
+            }
           }
         }
       }

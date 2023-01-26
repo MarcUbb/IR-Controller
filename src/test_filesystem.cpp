@@ -340,7 +340,7 @@ boolean test_get_files() {
 	}
 
 	// test if no files are returned if no files exist
-	files2 = get_files("abc", "def");
+	String files2 = get_files("abc", "def");
 
 	if (files2 != ";") {
 		Serial.println("\e[0;31mtest_get_files: FAILED");
@@ -399,7 +399,7 @@ boolean test_check_if_file_exists() {
 boolean test_read_program() {
   /*
   - checks if program is read correctly
-  - checks if error is returned if program does not exist
+  - checks if empthy string is returned if program does not exist
   */
 
  	// clean LittleFS
@@ -427,10 +427,10 @@ boolean test_read_program() {
 	// test if error is returned if program does not exist
 	String program2 = read_program("test2");
 
-	if (program2 != "Error: program does not exist") {
+	if (program2 != "") {
 		Serial.println("\e[0;31mtest_read_program: FAILED");
 		Serial.println("error was not returned if program does not exist");
-		Serial.println("expected: Error: program does not exist");
+		Serial.println("expected: ");
 		Serial.println("actual: " + program2 + "\e[0;37m");
 		clean_LittleFS();
 		return(false);

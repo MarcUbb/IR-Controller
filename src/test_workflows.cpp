@@ -6,6 +6,7 @@ boolean test_deleding_workflow() {
 	/*
 	- checks if file is deleted correctly
 	- checks if error message is correct when file does not exist
+	- checks if no other file is deleted
 	*/
 
 	// clean LittleFS
@@ -63,7 +64,39 @@ boolean test_deleding_workflow() {
 boolean test_recording_workflow() {
 	/*
 	- checks if error message is correct when nothing was recorded
+	- checks if no file is written when nothing was recorded
 	*/
+
+	// clean LittleFS
+	clean_LittleFS();
+
+	// create test data
+	String test_name1 = "test_signal";
+
+	// tests if error message is correct when nothing was recorded
+	String output1 = recording_workflow(test_name1);
+	if (output1 != "failed to record signal") {
+		Serial.println("\e[0;31mtest_recording_workflow: FAILED");
+		Serial.println("function did not return correct error message when nothing was recorded");
+		Serial.println("expected: failed to record signal");
+		Serial.println("actual: " + output1 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// tests if no file is written when nothing was recorded
+	if (LittleFS.exists("/signals/test_signal.json") == true) {
+		Serial.println("\e[0;31mtest_recording_workflow: FAILED");
+		Serial.println("function wrote file when nothing was recorded");
+		Serial.println("expected: failed to record signal");
+		Serial.println("actual: " + output1 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_recording_workflow: PASSED\e[0;37m");
+	clean_LittleFS();
 	return(true);
 }
 
@@ -73,13 +106,107 @@ boolean test_sending_workflow() {
 	- check if sequence can be correctly sent
 	- check if error messages of send_signal are shown correctly (1 example)
 	*/
+
+	// clean LittleFS
+	clean_LittleFS();
+
+	// create test data
+	File file1 = LittleFS.open("/signals/test_signal.json", "w");
+	DynamicJsonDocument doc1(512);
+	doc1["length"] = 3;
+	doc1["sequence"] = "1234, 5678, 412";
+	doc1.shrinkToFit();
+	serializeJson(doc1, file1);
+	file1.close();
+
+	File file2 = LittleFS.open("/signals/test_signal2.json", "w");
+	DynamicJsonDocument doc2(512);
+	doc2["length"] = 3;
+	doc2["sequence"] = "1234, 5678, 412, 123";
+	doc2.shrinkToFit();
+	serializeJson(doc2, file2);
+	file2.close();
+
+	// tests if error message is correct when file does not exist
+	String output1 = sending_workflow("test_signal3");
+	if (output1 != "could not find signal: test_signal3") {
+		Serial.println("\e[0;31mtest_sending_workflow: FAILED");
+		Serial.println("function did not return correct error message when file does not exist");
+		Serial.println("expected: could not find signal: test_signal3");
+		Serial.println("actual: " + output1 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// tests if sequence can be correctly sent
+	String output2 = sending_workflow("test_signal");
+	if (output2 != "successfully sent signal: test_signal") {
+		Serial.println("\e[0;31mtest_sending_workflow: FAILED");
+		Serial.println("function did not return correct message when sequence was sent");
+		Serial.println("expected: successfully sent signal: test_signal");
+		Serial.println("actual: " + output2 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// tests if error messages of send_signal are shown correctly
+	String output3 = sending_workflow("test_signal2");
+	if (output3 != "Error: length of sequence does not match length in JSON document! Please save signal again.") {
+		Serial.println("\e[0;31mtest_sending_workflow: FAILED");
+		Serial.println("function did not return correct error message when sequence could not be sent");
+		Serial.println("expected: Error: length of sequence does not match length in JSON document! Please save signal again.");
+		Serial.println("actual: " + output3 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_sending_workflow: PASSED\e[0;37m");
+	clean_LittleFS();
 	return(true);
 }
 
 boolean test_adding_workflow() {
 	/*
+	- checks if functions return value is correct
 	- checks if program code is correctly written to file
 	*/
+
+	// clean LittleFS
+	clean_LittleFS();
+
+	// create test data
+	String test_name1 = "test_program";
+	String test_code1 = "test_code";
+
+	// tests if functions return value is correct
+	String output1 = adding_workflow(test_name1, test_code1);
+	if (output1 != "successfully saved program: test_program") {
+		Serial.println("\e[0;31mtest_adding_workflow: FAILED");
+		Serial.println("function did not return correct message when program was added");
+		Serial.println("expected: successfully saved program: test_program");
+		Serial.println("actual: " + output1 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// tests if program code is correctly written to file
+	File file = LittleFS.open("/programs/test_program.json", "r");
+	String output2 = file.readString();
+	file.close();
+
+	if (output2 != test_code1) {
+		Serial.println("\e[0;31mtest_adding_workflow: FAILED");
+		Serial.println("function did not write correct program code to file");
+		Serial.println("expected: test_code");
+		Serial.println("actual: " + output2 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_adding_workflow: PASSED\e[0;37m");
+	clean_LittleFS();
 	return(true);
 }
 
@@ -103,7 +230,46 @@ boolean test_program_parser() {
 boolean test_handle_wait_command() {
 	/*
 	- check if set amount of time is waited
+	- checks if return message is correct
 	*/
+
+	// create test data
+	unsigned long test_times[4] = {1, 10, 100, 1000};
+
+	String output;
+	// tests if set amount of time is waited
+	for (int i = 0; i < 4; i++) {
+		unsigned long start_time = millis();
+		output = handle_wait_command(test_times[i]);
+		unsigned long end_time = millis();
+
+		if (output != "success") {
+			Serial.println("\e[0;31mtest_handle_wait_command: FAILED");
+			Serial.println("function did not return correct message");
+			Serial.println("expected: success");
+			Serial.println("actual: " + output + "\e[0;37m");
+			return(false);
+		}
+
+		if (end_time - start_time < test_times[i]) {
+			Serial.println("\e[0;31mtest_handle_wait_command: FAILED");
+			Serial.println("function did not wait long enough");
+			Serial.println("expected: " + String(test_times[i]));
+			Serial.println("actual: " + String(end_time - start_time) + "\e[0;37m");
+			return(false);
+		}
+
+		if (end_time - start_time > test_times[i] + 100) {
+			Serial.println("\e[0;31mtest_handle_wait_command: FAILED");
+			Serial.println("function waited too long");
+			Serial.println("expected: " + String(test_times[i]));
+			Serial.println("actual: " + String(end_time - start_time) + "\e[0;37m");
+			return(false);
+		}
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_handle_wait_command: PASSED\e[0;37m");
 	return(true);
 }
 

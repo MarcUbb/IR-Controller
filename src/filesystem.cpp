@@ -317,7 +317,7 @@ String send_signal(DynamicJsonDocument doc) {
   IRsend irsend(kIrLed);
 
   // convert string to array of integers (thanks to https://stackoverflow.com/questions/48409822/convert-a-string-to-an-integer-array)
-  unsigned int data_num = 0;
+  int data_num = 0;
   uint16_t command[length];
 
   // loop as long as a comma is found in the string
@@ -468,7 +468,7 @@ String read_program(String program_name){
 
   // check if file exists
   if (check_if_file_exists(filename) == false){
-    return("Error: program does not exist");
+    return("");
   }
 
   // read file and save content to String

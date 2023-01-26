@@ -63,30 +63,35 @@ boolean test_update_time() {
 	String time = "3 19:13:30 -60";
 
 	// serialize json to time.json
-	File file = LittleFS.open("/time.json", "w");
-	serializeJson(write_doc, file);
-	file.close();
+	File file1 = LittleFS.open("/time.json", "w");
+	serializeJson(write_doc, file1);
+	file1.close();
 
 	// test if the time is updated correctly in Station mode
 	update_time(time, false);
-
-	// read time.json
-	DynamicJsonDocument read_doc(512);
-	boolean error = deserializeJson(read_doc, LittleFS.open("/time.json", "r"));
 	
-	if (error) {
-		Serial.println("\e[0;31mtest_update_time: FAILED");
-		Serial.println("error while reading time.json");
-		clean_LittleFS();
-		return(false);
-	}
+	
+	
+	// read time.json
+	File file2 = LittleFS.open("/time.json", "r");
+	DynamicJsonDocument read_doc1(512);
+	deserializeJson(read_doc1, file2);
+	file2.close();
+
+	int hours1 = read_doc1["hours"];
+	int minutes1 = read_doc1["minutes"];
+	int seconds1 = read_doc1["seconds"];
+	int weekday1 = read_doc1["weekday"];
+	int timezone1 = read_doc1["timezone"];
+	unsigned long init_offset1 = read_doc1["init_offset"];
+	unsigned long last_offset1 = read_doc1["last_offset"];
 
 	// check if only timezone was updated
-	if (read_doc["hours"] != 0 || read_doc["minutes"] != 0 || read_doc["seconds"] != 0 || read_doc["weekday"] != 0 || read_doc["init_offset"] != 0 || read_doc["last_offset"] != 0 || read_doc["timezone"] != 3600) {
+	if (hours1 != 0 || minutes1 != 0 || seconds1 != 0 || weekday1 != 0 || init_offset1 != 0 || last_offset1 != 0 || timezone1 != 3600) {
 		Serial.println("\e[0;31mtest_update_time: FAILED");
 		Serial.println("time was updated incorrectly");
 		Serial.println("expected: 0 0 0 0 0 0 3600");
-		Serial.println("actual: " + read_doc.as<String>() + "\e[0;37m");
+		Serial.println("actual: " + read_doc1.as<String>() + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
@@ -95,22 +100,29 @@ boolean test_update_time() {
 	unsigned long expected_offset = millis();
 	update_time(time, true);
 	
-	// read time.json
-	error = deserializeJson(read_doc, LittleFS.open("/time.json", "r"));
 	
-	if (error) {
-		Serial.println("\e[0;31mtest_update_time: FAILED");
-		Serial.println("error while reading time.json");
-		clean_LittleFS();
-		return(false);
-	}
+	// read time.json
+	File file3 = LittleFS.open("/time.json", "r");
+	DynamicJsonDocument read_doc2(512);
+	deserializeJson(read_doc2, file3);
+	file3.close();
+	
 
 	// check if all values were updated
-	if (read_doc["hours"] != 3 || read_doc["minutes"] != 19 || read_doc["seconds"] != 30 || read_doc["weekday"] != 0 || (read_doc["init_offset"] - expected_offset) > 1000 || (read_doc["last_offset"] - expected_offset) > 1000 || read_doc["timezone"] != 3600) {
+	int hours2 = read_doc2["hours"];
+	int minutes2 = read_doc2["minutes"];
+	int seconds2 = read_doc2["seconds"];
+	int weekday2 = read_doc2["weekday"];
+	int timezone2 = read_doc2["timezone"];
+	unsigned long init_offset2 = read_doc2["init_offset"];
+	unsigned long last_offset2 = read_doc2["last_offset"];
+	
+
+	if (hours2 != 3 || minutes2 != 19 || seconds2 != 30 || weekday2 != 0 || (init_offset2 - expected_offset) > 1000 || (last_offset2 - expected_offset) > 1000 || timezone2 != 3600) {
 		Serial.println("\e[0;31mtest_update_time: FAILED");
 		Serial.println("time was updated incorrectly");
 		Serial.println("expected: 3 19 30 0 0 0 3600");
-		Serial.println("actual: " + read_doc.as<String>() + "\e[0;37m");
+		Serial.println("actual: " + read_doc2.as<String>() + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
@@ -197,14 +209,16 @@ boolean test_add_time() {
 
 boolean test_get_NTP_time() {
 	/*
-	- tested manually
+	- test if empthy JSON Document is returned if no NTP server is available
+	- other functionality tested manually
 	*/
 	return(true);
 }
 
 boolean test_init_time() {
 	/*
-	- tested manually
+	- test if empthy JSON Document is written if no NTP server is available
+	- other functionality tested manually
 	*/
 	return(true);
 }
@@ -230,24 +244,27 @@ boolean test_check_and_update_offset() {
 	write_doc.shrinkToFit();
 
 	// serialize json to time.json
-	File file = LittleFS.open("/time.json", "w");
-	serializeJson(write_doc, file);
-	file.close();
+	File file1 = LittleFS.open("/time.json", "w");
+	serializeJson(write_doc, file1);
+	file1.close();
 
 	// execute function
 	check_and_update_offset();
 
 	// read time.json
-	File file = LittleFS.open("/time.json", "r");
+	File file2 = LittleFS.open("/time.json", "r");
 	DynamicJsonDocument read_doc(512);
-	DeserializationError error = deserializeJson(read_doc, file);
-	file.close();
+	
+	deserializeJson(read_doc, file2);
+
+	file2.close();
 
 	// check if the offset is updated correctly (by comparing the last_offset with the current time)
-	if (read_doc["last_offset"] - millis() > 1000) {
+	unsigned long last_offset = read_doc["last_offset"];
+	if (last_offset - millis() > 1000) {
 		Serial.println("\e[0;31mtest_check_and_update_offset: FAILED");
 		Serial.println("expected: 0");
-		Serial.println("actual: " + String(read_doc["last_offset"]) + "\e[0;37m");
+		Serial.println("actual: " + String(last_offset) + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
