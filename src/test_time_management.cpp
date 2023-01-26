@@ -14,13 +14,16 @@ boolean test_weekday_to_num() {
 	// expected results
 	String weekdays_num[15] = {"1", "2", "3", "4", "5", "6", "0", "1", "2", "3", "4", "5", "6", "0", "error"};
 
+	String output;
+
 	// check if the correct number is returned
 	for (int i = 0; i < 15; i++) {
-		if (weekday_to_num(weekdays[i]) != weekdays_num[i]) {
+		output = weekday_to_num(weekdays[i]);
+		if (output != weekdays_num[i]) {
 			Serial.println("\e[0;31mtest_weekday_to_num: FAILED");
 			Serial.println("incorrect output for weekday: " + weekdays[i]);
 			Serial.println("expected: " + String(weekdays_num[i]));
-			Serial.println("actual: " + String(weekday_to_num(weekdays[i])) + "\e[0;37m");
+			Serial.println("actual: " + String(output) + "\e[0;37m");
 			return(false);
 		}
 	}
@@ -139,13 +142,16 @@ boolean test_turn_seconds_in_time() {
 	// expected output
 	String expected_output[15] = {"00:00:00", "00:00:01", "00:00:59", "00:01:00", "00:01:01", "00:59:59", "01:00:00", "01:00:01", "23:59:59", "24:00:00", "24:00:01", "167:59:59", "168:00:00", "1193046:59:54", "1193046:59:55"};
 
+	String output;
+
 	// test if the conversion is correct
 	for (int i = 0; i < 15; i++) {
-		if (turn_seconds_in_time(seconds[i]) != expected_output[i]) {
+		output = turn_seconds_in_time(seconds[i]);
+		if (output != expected_output[i]) {
 			Serial.println("\e[0;31mtest_turn_seconds_in_time: FAILED");
 			Serial.println("seconds: " + String(seconds[i]));
 			Serial.println("expected: " + expected_output[i]);
-			Serial.println("actual: " + turn_seconds_in_time(seconds[i]) + "\e[0;37m");
+			Serial.println("actual: " + output + "\e[0;37m");
 			return(false);
 		}
 	}
@@ -159,6 +165,33 @@ boolean test_add_time() {
 	/*
 	- checks sample of additions
 	*/
+
+	// test data
+	String time[5] = {"00:00:00 0", "00:00:01 3", "00:00:59 5", "00:01:00 4", "01:01:59 6"};
+	String offset_time[15] = {"00:00:00", "00:00:01", "00:00:59", "00:01:00", "00:01:01", "00:59:59", "01:00:00", "01:00:01", "23:59:59", "24:00:00", "24:00:01", "167:59:59", "168:00:00", "1193046:59:54", "1193046:59:55"};
+
+	// expected outputs (adds offset_time to time and adjusts the weekday if overflow occures from 0 to 6)
+	String expected_output[45] = {"00:00:00 0", "00:00:01 0", "00:00:59 0", "00:01:00 0", "00:01:01 0", "00:59:59 0", "01:00:00 0", "01:00:01 0", "23:59:59 0", "00:00:00 1", "00:00:01 1", "00:59:59 1", "01:00:00 1", "01:00:01 1", "23:59:59 1", "00:00:00 2", "00:00:01 2", "00:59:59 2", "01:00:00 2", "01:00:01 2", "23:59:59 2", "00:00:00 3", "00:00:01 3", "00:59:59 3", "01:00:00 3", "01:00:01 3", "23:59:59 3", "00:00:00 4", "00:00:01 4", "00:59:59 4", "01:00:00 4", "01:00:01 4", "23:59:59 4", "00:00:00 5", "00:00:01 5", "00:59:59 5", "01:00:00 5", "01:00:01 5", "23:59:59 5", "00:00:00 6", "00:00:01 6", "00:59:59 6", "01:00:00 6", "01:00:01 6", "23:59:59 6"};
+
+	String output;
+
+	// test if the addition is correct
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 15; j++) {
+			output = add_time(time[i], offset_time[j]);
+			if (output != expected_output[i * 15 + j]) {
+				Serial.println("\e[0;31mtest_add_time: FAILED");
+				Serial.println("time: " + time[i]);
+				Serial.println("offset_time: " + offset_time[j]);
+				Serial.println("expected: " + expected_output[i * 15 + j]);
+				Serial.println("actual: " + output + "\e[0;37m");
+				return(false);
+			}
+		}
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_add_time: PASSED\e[0;37m");
 	return(true);
 }
 
@@ -180,5 +213,47 @@ boolean test_check_and_update_offset() {
 	/*
 	- checks if the offset is updated correctly
 	*/
+
+	// clean LittleFS
+	clean_LittleFS();
+
+	// initialize time.json
+	// test data
+	DynamicJsonDocument write_doc(512);
+	write_doc["hours"] = 0;
+	write_doc["minutes"] = 0;
+	write_doc["seconds"] = 0;
+	write_doc["weekday"] = 0;
+	write_doc["timezone"] = 0;
+	write_doc["init_offset"] = 0;
+	write_doc["last_offset"] = 0;
+	write_doc.shrinkToFit();
+
+	// serialize json to time.json
+	File file = LittleFS.open("/time.json", "w");
+	serializeJson(write_doc, file);
+	file.close();
+
+	// execute function
+	check_and_update_offset();
+
+	// read time.json
+	File file = LittleFS.open("/time.json", "r");
+	DynamicJsonDocument read_doc(512);
+	DeserializationError error = deserializeJson(read_doc, file);
+	file.close();
+
+	// check if the offset is updated correctly (by comparing the last_offset with the current time)
+	if (read_doc["last_offset"] - millis() > 1000) {
+		Serial.println("\e[0;31mtest_check_and_update_offset: FAILED");
+		Serial.println("expected: 0");
+		Serial.println("actual: " + String(read_doc["last_offset"]) + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_check_and_update_offset: PASSED\e[0;37m");
+	clean_LittleFS();
 	return(true);
 }

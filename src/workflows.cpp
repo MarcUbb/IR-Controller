@@ -4,13 +4,13 @@
 In this file you find high level functions which are called directly by the website handlers.
 */
 
-String deleting_workflow(String directory, String command_name) {
+String deleting_workflow(String directory, String name) {
   /*
   parameters:
     String directory:
       "signals" - for deleting a sequence
       "programs" - for deleting a program
-    String command_name:
+    String name:
       name of the sequence or program to be deleted
   
   returns:
@@ -31,7 +31,7 @@ String deleting_workflow(String directory, String command_name) {
   */
   
   // generate filename
-  String filename = "/" + directory + "/" + command_name + ".json";
+  String filename = "/" + directory + "/" + name + ".json";
 
   // start filesystem
   LittleFS.begin();
@@ -40,19 +40,19 @@ String deleting_workflow(String directory, String command_name) {
   if(LittleFS.exists(filename)){
     LittleFS.remove(filename);
     LittleFS.end();
-    return("successfully deleted " + directory + ": " + command_name);
+    return("successfully deleted " + directory + ": " + name);
   }
 
   // return error message if file was not found
   LittleFS.end();
-  return("could not find " + directory + ": " + command_name);
+  return("could not find " + directory + ": " + name);
 }
 
 
-String recording_workflow(String command_name) {
+String recording_workflow(String signal_name) {
   /*
   parameters:
-    String command_name:
+    String signal_name:
       name of the sequence to be recorded
   
   returns:
@@ -84,11 +84,11 @@ String recording_workflow(String command_name) {
   Serial.println(raw_sequence);
 
   // save signal to file
-  String message = save_signal(raw_sequence, command_name);
+  String message = save_signal(raw_sequence, signal_name);
 
   // return success message if signal was saved
   if (message == "success"){
-    return("successfully recorded signal: " + command_name);
+    return("successfully recorded signal: " + signal_name);
   }
 
   // return error message if signal could not be saved
@@ -98,10 +98,10 @@ String recording_workflow(String command_name) {
 }
 
 
-String sending_workflow(String command_name) {
+String sending_workflow(String signal_name) {
   /*
   parameters:
-    String command_name:
+    String signal_name:
       name of the sequence to be sent
   
   returns:
@@ -123,11 +123,11 @@ String sending_workflow(String command_name) {
   */
  
   // generate filename
-  String filename = "/signals/" + command_name + ".json";
+  String filename = "/signals/" + signal_name + ".json";
 
   // check if file exists
   if (check_if_file_exists(filename) == false) {
-    return("could not find command: " + command_name);
+    return("could not find command: " + signal_name);
   }
 
   // load signal from file
@@ -138,7 +138,7 @@ String sending_workflow(String command_name) {
   String message = send_signal(doc);
 
   if (message.indexOf("success") != -1) {
-    return("successfully sent command: " + command_name);
+    return("successfully sent command: " + signal_name);
   }
   else {
     return(message);

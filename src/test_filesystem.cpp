@@ -264,38 +264,42 @@ boolean test_send_signal() {
 	doc4.shrinkToFit();
 
 	// test if JSON Doc can be send
-	if (send_signal(doc1) != "success") {
+	String output1 = send_signal(doc1);
+	if (output1 != "success") {
 		Serial.println("\e[0;31mtest_send_signal: FAILED");
 		Serial.println("JSON Doc was not send correctly");
 		Serial.println("expected: success");
-		Serial.println("actual: " + send_signal(doc1) + "\e[0;37m");
+		Serial.println("actual: " + output1 + "\e[0;37m");
 		return(false);
 	}
 
 	// test if JSON Doc with invalid length is not accepted
-	if (send_signal(doc2) != "Error: length of sequence does not match length in JSON document! Please save signal again.") {
+	String output2 = send_signal(doc2);
+	if (output2 != "Error: length of sequence does not match length in JSON document! Please save signal again.") {
 		Serial.println("\e[0;31mtest_send_signal: FAILED");
 		Serial.println("JSON Doc with invalid length was accepted");
 		Serial.println("expected: Error: length of sequence does not match length in JSON document! Please save signal again.");
-		Serial.println("actual: " + send_signal(doc2) + "\e[0;37m");
+		Serial.println("actual: " + output2 + "\e[0;37m");
 		return(false);
 	}
 
 	// test if JSON Doc without sequence is not accepted
-	if (send_signal(doc3) != "Error: invalid signal") {
+	String output3 = send_signal(doc3);
+	if (output3 != "Error: invalid signal") {
 		Serial.println("\e[0;31mtest_send_signal: FAILED");
 		Serial.println("JSON Doc without sequence was handled incorrectly");
 		Serial.println("expected: Error: invalid signal");
-		Serial.println("actual: " + send_signal(doc3) + "\e[0;37m");
+		Serial.println("actual: " + output3 + "\e[0;37m");
 		return(false);
 	}
 
 	// test if JSON Doc without length is not accepted
-	if (send_signal(doc4) != "Error: invalid signal") {
+	String output4 = send_signal(doc4);
+	if (output4 != "Error: invalid signal") {
 		Serial.println("\e[0;31mtest_send_signal: FAILED");
 		Serial.println("JSON Doc without length was handled incorrectly");
 		Serial.println("expected: Error: invalid signal");
-		Serial.println("actual: " + send_signal(doc4) + "\e[0;37m");
+		Serial.println("actual: " + output4 + "\e[0;37m");
 		return(false);
 	}
 
@@ -324,25 +328,25 @@ boolean test_get_files() {
 	LittleFS.end();
 
 	// test if files are returned correctly
-	String files = get_files("signals", "programs");
+	String files1 = get_files("signals", "programs");
 
-	if (files != "test1.json,test2.json;test3.json") {
+	if (files1 != "test1.json,test2.json;test3.json") {
 		Serial.println("\e[0;31mtest_get_files: FAILED");
 		Serial.println("files were not returned correctly");
 		Serial.println("expected: test1.json,test2.json;test3.json");
-		Serial.println("actual: " + files + "\e[0;37m");
+		Serial.println("actual: " + files1 + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
 
 	// test if no files are returned if no files exist
-	files = get_files("abc", "def");
+	files2 = get_files("abc", "def");
 
-	if (files != ";") {
+	if (files2 != ";") {
 		Serial.println("\e[0;31mtest_get_files: FAILED");
 		Serial.println("no files were returned if no files exist");
 		Serial.println("expected: ;");
-		Serial.println("actual: " + files + "\e[0;37m");
+		Serial.println("actual: " + files2 + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
@@ -365,21 +369,23 @@ boolean test_check_if_file_exists() {
 	LittleFS.end();
 
 	// test if existing file is found
-	if (check_if_file_exists("test.json") != true) {
+	boolean output1 = check_if_file_exists("test.json");
+	if (output1 != true) {
 		Serial.println("\e[0;31mtest_check_if_file_exists: FAILED");
 		Serial.println("existing file was not found");
 		Serial.println("expected: true");
-		Serial.println("actual: " + String(check_if_file_exists("test.json")) + "\e[0;37m");
+		Serial.println("actual: " + String(output1) + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
 
 	// test if non-existing file is not found
-	if (check_if_file_exists("test2.json") != false) {
+	boolean output2 = check_if_file_exists("test2.json");
+	if (output2 != false) {
 		Serial.println("\e[0;31mtest_check_if_file_exists: FAILED");
 		Serial.println("non-existing file was found");
 		Serial.println("expected: false");
-		Serial.println("actual: " + String(check_if_file_exists("test2.json")) + "\e[0;37m");
+		Serial.println("actual: " + String(output2) + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
@@ -407,25 +413,25 @@ boolean test_read_program() {
 	LittleFS.end();
 
 	// test if program is read correctly
-	String program = read_program("test");
+	String program1 = read_program("test");
 
-	if (program != "play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend") {
+	if (program1 != "play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend") {
 		Serial.println("\e[0;31mtest_read_program: FAILED");
 		Serial.println("program was not read correctly");
 		Serial.println("expected: play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend");
-		Serial.println("actual: " + program + "\e[0;37m");
+		Serial.println("actual: " + program1 + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
 
 	// test if error is returned if program does not exist
-	program = read_program("test2");
+	String program2 = read_program("test2");
 
-	if (program != "Error: program does not exist") {
+	if (program2 != "Error: program does not exist") {
 		Serial.println("\e[0;31mtest_read_program: FAILED");
 		Serial.println("error was not returned if program does not exist");
 		Serial.println("expected: Error: program does not exist");
-		Serial.println("actual: " + program + "\e[0;37m");
+		Serial.println("actual: " + program2 + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
@@ -461,13 +467,15 @@ boolean test_check_if_string_is_alphanumeric() {
 	// expected return values
 	boolean expected[5] = {true, true, false, false, true};
 
+	boolean output;
 	// test if sample Strings are recognized correctly
 	for (int i = 0; i < 5; i++) {
-		if (check_if_string_is_alphanumeric(samples[i]) != expected[i]) {
+		output = check_if_string_is_alphanumeric(samples[i]);
+		if (output != expected[i]) {
 			Serial.println("\e[0;31mtest_check_if_string_is_alphanumeric: FAILED");
 			Serial.println("incorrect return value for sample String" + samples[i]);
 			Serial.println("expected: " + String(expected[i]));
-			Serial.println("actual: " + String(check_if_string_is_alphanumeric(samples[i])) + "\e[0;37m");
+			Serial.println("actual: " + String(output) + "\e[0;37m");
 			return(false);
 		}
 	}
