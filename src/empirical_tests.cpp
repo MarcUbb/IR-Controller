@@ -3,20 +3,25 @@
 
 // collection of empirical tests
 
-boolean test_get_NTP_time() {
+boolean empirical_test_get_NTP_time() {
 	/*
-	- test if empthy JSON Document is returned if no NTP server is available
-	- other functionality tested manually
+	- tests empirically if the NTP time is correct
 	*/
+
+	// TODO: connect to mobile Hotspot
+	// TODO: check how frequently the NTP time can be updated
+	// check with irragular intervals if the time is correct while checking time with intervals durations
+
 
 
 	return(true);
 }
 
-boolean test_init_time() {
+boolean empirical_test_init_time() {
 	/*
-	- test if empthy JSON Document is written if no NTP server is available
-	- other functionality tested manually
+	- tests via internet connection if the NTP time is correct and correctly written (once)
 	*/
+
+
 	return(true);
 }

@@ -380,14 +380,20 @@ DynamicJsonDocument get_NTP_time(int timezone){
   WiFiUDP ntpUDP;
   NTPClient timeClient(ntpUDP, "pool.ntp.org", timezone);
   timeClient.begin();
-  timeClient.update();
+
+  //check if server is available
+  if (!timeClient.update()){
+    timeClient.end();
+    //return empthy json
+    DynamicJsonDocument time_json(1024);
+    time_json.shrinkToFit();
+    return time_json;
+  }
 
   // get time and weekday
   String time = timeClient.getFormattedTime();
   int weekday = timeClient.getDay();
   timeClient.end();
-
-  Serial.println("Init time: " + time + " " + weekday);
 
   // build json
   DynamicJsonDocument time_json(1024);

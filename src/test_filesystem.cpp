@@ -37,7 +37,7 @@ boolean test_save_signal() {
   String name2 = "___üäöß"; // should not work
   String name3 = "___/"; // should not work
   String name4 = "___ "; // should work
-  String name5 = "________10________20________30________40"; // should not work
+  String name5 = "________10________20__"; // should not work
   String name6 = ""; // should not work
 
   String result_string1 = "uint16_t rawData[3] = {1234, 5678, 412};"; // should work
@@ -98,9 +98,9 @@ boolean test_save_json() {
   - checks if file is overwritten if it already exists
   - no check if filename or data is correct (this is checked by higher level)
 	*/
-	// TODO: Error vielleicht weil LittleFS.begin() fehlt
+
   // test names
-  String name1 = "test_file"; 
+  String name1 = "/test_file.json"; 
 
   // test JSON-Documents
   DynamicJsonDocument doc1(512);
@@ -108,16 +108,19 @@ boolean test_save_json() {
   doc1["sequence"] = "1234, 5678, 412";
   doc1.shrinkToFit();
 
-  DynamicJsonDocument doc2(512);
+	DynamicJsonDocument doc2(512);
   doc2["length"] = 4;
   doc2["sequence"] = "1234, 5678, 412, 123";
   doc2.shrinkToFit();
 
   // tests if file is created
   save_json(name1, doc1);
+	LittleFS.begin();
+
   if (!LittleFS.exists(name1)) {
     Serial.println("\e[0;31mtest_save_json: FAILED");
     Serial.println("file " + name1 + " was not created\e[0;37m");
+		LittleFS.end();
     clean_LittleFS();
     return(false);
   }
@@ -132,12 +135,17 @@ boolean test_save_json() {
     Serial.println("file " + name1 + " was not written correctly");
     Serial.println("expected: {\"length\":3,\"sequence\":\"1234, 5678, 412\"}");
     Serial.println("actual: " + file_content + "\e[0;37m");
+		LittleFS.end();
     clean_LittleFS();
     return(false);
   }
 
+	LittleFS.end();
+
   // test if file is overwritten
   save_json(name1, doc2);
+
+	LittleFS.begin();
   file = LittleFS.open(name1, "r");
   String file_content2 = file.readString();
   file.close();
@@ -147,12 +155,14 @@ boolean test_save_json() {
     Serial.println("file " + name1 + " was not overwritten correctly");
     Serial.println("expected: {\"length\":4,\"sequence\":\"1234, 5678, 412, 123\"}");
     Serial.println("actual: " + file_content2 + "\e[0;37m");
+		LittleFS.end();
     clean_LittleFS();
     return(false);
   }
 
   // prints success message and returns true
   Serial.println("\e[0;32mtest_save_json: PASSED\e[0;37m");
+	LittleFS.end();
   clean_LittleFS();
   return(true);
 }
@@ -165,10 +175,13 @@ boolean test_load_json() {
   - checks if empthy JSON Doc is returned if file is not in JSON format
   */
 
+ 	// start LittleFS
+	LittleFS.begin();
+
   // test names
-	String name1 = "test_file";
-	String name2 = "empthy_file";
-	String name3 = "non_json_file";
+	String name1 = "/test_file";
+	String name2 = "/empthy_file";
+	String name3 = "/non_json_file";
 
 	// test JSON-Document
 	DynamicJsonDocument doc1(512);
@@ -187,6 +200,7 @@ boolean test_load_json() {
 	file = LittleFS.open(name3, "w");
 	file.print(test_string);
 	file.close();
+	LittleFS.end();
 
 	// test if data is correctly loaded from file
 	DynamicJsonDocument doc2 = load_json(name1);
@@ -330,10 +344,10 @@ boolean test_get_files() {
 	// test if files are returned correctly
 	String files1 = get_files("signals", "programs");
 
-	if (files1 != "test1.json,test2.json;test3.json") {
+	if (files1 != "test1,test2;test3") {
 		Serial.println("\e[0;31mtest_get_files: FAILED");
 		Serial.println("files were not returned correctly");
-		Serial.println("expected: test1.json,test2.json;test3.json");
+		Serial.println("expected: test1,test2;test3");
 		Serial.println("actual: " + files1 + "\e[0;37m");
 		clean_LittleFS();
 		return(false);

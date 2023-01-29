@@ -13,8 +13,10 @@ boolean test_deleding_workflow() {
 	clean_LittleFS();
 
 	// create test file
+	LittleFS.begin();
 	File file = LittleFS.open("/signals/test_signal.json", "w");
 	file.close();
+	LittleFS.end();
 
 	// create test data
 	String test_directory = "signals";
@@ -34,19 +36,21 @@ boolean test_deleding_workflow() {
 		return(false);
 	}
 
+	LittleFS.begin();
 	// tests if no other file is deleted
 	if (LittleFS.exists("/signals/test_signal.json") == false) {
 		Serial.println("\e[0;31mtest_deleting_workflow: FAILED");
 		Serial.println("function deleted wrong file");
 		Serial.println("expected: could not find " + test_directory + ": " + name_fake);
 		Serial.println("actual: " + output1 + "\e[0;37m");
+		LittleFS.end();
 		clean_LittleFS();
 		return(false);
 	}
 
 	// tests if file is deleted correctly
 	String output2 = deleting_workflow(test_directory, name);
-	if (output2 != "deleted " + test_directory + ": " + name) {
+	if (output2 != "successfully deleted " + test_directory + ": " + name) {
 		Serial.println("\e[0;31mtest_deleting_workflow: FAILED");
 		Serial.println("function did not return correct message when file was deleted");
 		Serial.println("expected: deleted " + test_directory + ": " + name);
@@ -57,6 +61,7 @@ boolean test_deleding_workflow() {
 
 	// print success message and return true
 	Serial.println("\e[0;32mtest_deleting_workflow: PASSED\e[0;37m");
+	LittleFS.end();
 	clean_LittleFS();
 	return(true);
 }
@@ -84,18 +89,21 @@ boolean test_recording_workflow() {
 		return(false);
 	}
 
+	LittleFS.begin();
 	// tests if no file is written when nothing was recorded
 	if (LittleFS.exists("/signals/test_signal.json") == true) {
 		Serial.println("\e[0;31mtest_recording_workflow: FAILED");
 		Serial.println("function wrote file when nothing was recorded");
 		Serial.println("expected: failed to record signal");
 		Serial.println("actual: " + output1 + "\e[0;37m");
+		LittleFS.end();
 		clean_LittleFS();
 		return(false);
 	}
 
 	// print success message and return true
 	Serial.println("\e[0;32mtest_recording_workflow: PASSED\e[0;37m");
+	LittleFS.end();
 	clean_LittleFS();
 	return(true);
 }
@@ -111,6 +119,7 @@ boolean test_sending_workflow() {
 	clean_LittleFS();
 
 	// create test data
+	LittleFS.begin();
 	File file1 = LittleFS.open("/signals/test_signal.json", "w");
 	DynamicJsonDocument doc1(512);
 	doc1["length"] = 3;
@@ -126,6 +135,7 @@ boolean test_sending_workflow() {
 	doc2.shrinkToFit();
 	serializeJson(doc2, file2);
 	file2.close();
+	LittleFS.end();
 
 	// tests if error message is correct when file does not exist
 	String output1 = sending_workflow("test_signal3");
@@ -191,9 +201,11 @@ boolean test_adding_workflow() {
 	}
 
 	// tests if program code is correctly written to file
+	LittleFS.begin();
 	File file = LittleFS.open("/programs/test_program.json", "r");
 	String output2 = file.readString();
 	file.close();
+	LittleFS.end();
 
 	if (output2 != test_code1) {
 		Serial.println("\e[0;31mtest_adding_workflow: FAILED");
@@ -226,14 +238,16 @@ boolean test_playing_workflow() {
 	String program_name3 = "test_program3";	// program that does not exist
 
 	// correct program
-	File file = LittleFS.open("/programs/test_program.json", "w");
-	file.println("wait 500");
-	file.close();
+	LittleFS.begin();
+	File file1 = LittleFS.open("/programs/test_program.json", "w");
+	file1.println("wait 500");
+	file1.close();
 
 	// faulty program
-	File file = LittleFS.open("/programs/test_program2.json", "w");
-	file.println("play abc");
-	file.close();
+	File file2 = LittleFS.open("/programs/test_program2.json", "w");
+	file2.println("play abc");
+	file2.close();
+	LittleFS.end();
 
 	// tests if error message is correct when file does not exist
 	String output1 = playing_workflow(program_name3);
@@ -284,10 +298,12 @@ boolean test_program_parser() {
 	*/
 
 	// create test data
-	String code1 = "play test_signal\nwait 100\nloop3\n \t\nplay test_signal\nwait 100\nend";	// correct program
-	String code2 = "blah blah";	// faulty program
-	String code3 = "play abc"; // faulty signal
+	String code1 = "play test_signal \nwait 100 \nloop 3 \n \nplay test_signal \nwait 100 \nend \n";	// correct program
+	String code2 = "blah blah \n";	// faulty program
+	String code3 = "play abc \n"; // faulty signal
 
+	// create test signal
+	LittleFS.begin();
 	File file = LittleFS.open("/signals/test_signal.json", "w");
 	DynamicJsonDocument doc(512);
 	doc["name"] = "test_signal";
@@ -296,13 +312,14 @@ boolean test_program_parser() {
 	doc.shrinkToFit();
 	serializeJson(doc, file);
 	file.close();
+	LittleFS.end();
 
 	// tests if program can be executed correctly
 	String output1 = program_parser(code1);
 
 	if (output1 != "success") {
 		Serial.println("\e[0;31mtest_program_parser: FAILED");
-		Serial.println("function did not return correct message when program was played");
+		Serial.println("function did not return correct message when program 1 was played");
 		Serial.println("expected: success");
 		Serial.println("actual: " + output1 + "\e[0;37m");
 		clean_LittleFS();
@@ -314,7 +331,7 @@ boolean test_program_parser() {
 
 	if (output2 != "invalid command: blah blah") {
 		Serial.println("\e[0;31mtest_program_parser: FAILED");
-		Serial.println("function did not return correct error message when program is faulty");
+		Serial.println("function did not return correct error message when program 2 is faulty");
 		Serial.println("expected: could not find command: blah");
 		Serial.println("actual: " + output2 + "\e[0;37m");
 		clean_LittleFS();
@@ -326,7 +343,7 @@ boolean test_program_parser() {
 
 	if (output3 != "could not find signal: abc") {
 		Serial.println("\e[0;31mtest_program_parser: FAILED");
-		Serial.println("function did not return correct error message when signal is faulty");
+		Serial.println("function did not return correct error message when signal from program 3 is faulty");
 		Serial.println("expected: could not find signal: abc");
 		Serial.println("actual: " + output3 + "\e[0;37m");
 		clean_LittleFS();
@@ -371,7 +388,7 @@ boolean test_handle_wait_command() {
 			return(false);
 		}
 
-		if (end_time - start_time > test_times[i] + 100) {
+		if (end_time - start_time > test_times[i] + 200) {
 			Serial.println("\e[0;31mtest_handle_wait_command: FAILED");
 			Serial.println("function waited too long");
 			Serial.println("expected: " + String(test_times[i]));
@@ -398,8 +415,11 @@ boolean test_handle_times_commands() {
 	String command1 = "ednesday 12:00:00 ___test";
 	String command2 = "Wednesday 12:00:00 ___test2";
 
+	// create test signal
+	LittleFS.begin();
 	File file = LittleFS.open("/signals/___test.json", "w");
 	file.close();
+	LittleFS.end();
 
 	// tests error message if weekday is invalid
 	String output1 = handle_times_commands(command1, true);

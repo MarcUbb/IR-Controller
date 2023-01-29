@@ -114,7 +114,7 @@ String save_signal(String result_string, String name){
     return("Error: name is not alphanumeric");
   }
 
-  if (name.length() > 32){
+  if (name.length() > 21){
     return("Error: name exceeds 32 characters");
   }
 
@@ -189,7 +189,7 @@ void save_json(String filename, DynamicJsonDocument doc) {
   
   // Check if the file was opened
   if (!myfile) {
-    Serial.println("Failed to create file");
+    Serial.println("/filesystem.cpp/save_json: Failed to create file: " + filename);
     myfile.close();
     LittleFS.end();
     return;
@@ -197,11 +197,12 @@ void save_json(String filename, DynamicJsonDocument doc) {
 
   // Serialize JSON to file
   if (serializeJson(doc, myfile) == 0) {
-    Serial.println("Failed to write to file");
+    Serial.println("/filesystem.cpp/save_json: Failed to write to file: " + filename);
     myfile.close();
     LittleFS.end();
     return;
   }
+
   // Close the file
   myfile.close();
   LittleFS.end();
@@ -248,7 +249,7 @@ DynamicJsonDocument load_json(String filename) {
 
   // Check if the file was opened
   if (!myfile) {
-    Serial.println("Failed to read file!");
+    Serial.println("/filesystem.cpp/load_json: Failed to read file: " + filename);
     myfile.close();
     LittleFS.end();
     return doc;
@@ -259,7 +260,7 @@ DynamicJsonDocument load_json(String filename) {
 
   // if deserialization failed, delete the file and return empty JSON document
   if (error) {
-    Serial.println("Failed to deserialize JSON");
+    Serial.println("/filesystem.cpp/load_json: Failed to deserialize JSON from file: " + filename);
     LittleFS.remove(filename);
     myfile.close();
     LittleFS.end();
@@ -305,8 +306,8 @@ String send_signal(DynamicJsonDocument doc) {
   int length = doc["length"];
   String sequence = doc["sequence"];
 
-  // check if length and sequence are valid
-  if (length == 0 || sequence == "") {
+  // check if length and sequence are valid (non null)
+  if (length == 0 || sequence == "" || sequence == "null") {
     return("Error: invalid signal");
   }
   
@@ -477,6 +478,9 @@ String read_program(String program_name){
   while (file.available()) {
     file_content += (char)file.read();
   }
+
+  // cut last 2 characters (newline and EOF)
+  file_content = file_content.substring(0, file_content.length() - 2);
 
   file.close();
   LittleFS.end();

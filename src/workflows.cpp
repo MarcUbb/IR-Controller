@@ -234,22 +234,12 @@ String playing_workflow(String program_name) {
     return("could not find program: " + program_name);
   }
 
-  // load program from file
-  LittleFS.begin();
-  File myfile = LittleFS.open(filename, "r");
-
-  // return error message if file could not be opened
-  if (!myfile) {
-    return("Failed to open file for reading");
-  }
-
   // read file and add " \n" to the end of the file to be able to read lines more easily in loop
-  String filecontent = myfile.readString() + " \n";
-  myfile.close();
-  LittleFS.end();
+  String programcode = read_program(program_name);
+  programcode += " \n";
 
   // hand program to parser and catch error message
-  String message = program_parser(filecontent);
+  String message = program_parser(programcode);
   
   // return error message if error occured
   if (message.indexOf("success") == -1){
@@ -291,7 +281,7 @@ String program_parser(String code){
 
   // initialize variables
   String line = "";
-  String error_message = "";
+  String error_message = "success";
   String command = "invalid";
   
   // declare matchstate for regex
@@ -326,7 +316,7 @@ String program_parser(String code){
     else if (REGEX.Match("loop [0-9]+") == REGEXP_MATCHED || REGEX.Match("loop inf") == REGEXP_MATCHED){
       command = "loop";
     }
-    else if (REGEX.Match("^[\\s\\t]*$") == REGEXP_MATCHED){
+    else if (line == ""){ // TODO: check why regex didnt work
       command = "empty";
     }
     else {

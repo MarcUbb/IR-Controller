@@ -43,7 +43,7 @@ boolean test_compare_time() {
 	clean_LittleFS();
 
 	// test data
-	String time1 = "0:00:02 0";
+	String time1 = "00:00:02 0";
 
 	DynamicJsonDocument doc(512);
 	doc["hours"] = 0;
@@ -56,9 +56,11 @@ boolean test_compare_time() {
 	doc.shrinkToFit();
 
 	// serialize json to time.json
+	LittleFS.begin();
 	File file1 = LittleFS.open("/time.json", "w");
 	serializeJson(doc, file1);
 	file1.close();
+	LittleFS.end();
 
 	// test in loop that waits 3 seconds if value of function changes to true
 	unsigned long start_time = millis();
@@ -79,12 +81,14 @@ boolean test_compare_time() {
 		return(false);
 	}
 
+	delay(1000);
+
 	// test if times are compared correctly
 	if (compare_time(time1, true) == true) {
 		Serial.println("\e[0;31mtest_compare_time: FAILED");
 		Serial.println("times were not compared correctly");
 		Serial.println("expected: false");
-		Serial.println("actual: false\e[0;37m");
+		Serial.println("actual: true\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
@@ -117,20 +121,22 @@ boolean test_update_time() {
 	String time = "3 19:13:30 -60";
 
 	// serialize json to time.json
+	LittleFS.begin();
 	File file1 = LittleFS.open("/time.json", "w");
 	serializeJson(write_doc, file1);
 	file1.close();
+	LittleFS.end();
 
 	// test if the time is updated correctly in Station mode
 	update_time(time, false);
 	
-	
-	
 	// read time.json
+	LittleFS.begin();
 	File file2 = LittleFS.open("/time.json", "r");
 	DynamicJsonDocument read_doc1(512);
 	deserializeJson(read_doc1, file2);
 	file2.close();
+	LittleFS.end();
 
 	int hours1 = read_doc1["hours"];
 	int minutes1 = read_doc1["minutes"];
@@ -144,7 +150,7 @@ boolean test_update_time() {
 	if (hours1 != 0 || minutes1 != 0 || seconds1 != 0 || weekday1 != 0 || init_offset1 != 0 || last_offset1 != 0 || timezone1 != 3600) {
 		Serial.println("\e[0;31mtest_update_time: FAILED");
 		Serial.println("time was updated incorrectly");
-		Serial.println("expected: 0 0 0 0 0 0 3600");
+		Serial.println("expected: 00:00:00 0 3600 init_offset: 0 (about) last_offset: 0");
 		Serial.println("actual: " + read_doc1.as<String>() + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
@@ -156,10 +162,12 @@ boolean test_update_time() {
 	
 	
 	// read time.json
+	LittleFS.begin();
 	File file3 = LittleFS.open("/time.json", "r");
 	DynamicJsonDocument read_doc2(512);
 	deserializeJson(read_doc2, file3);
 	file3.close();
+	LittleFS.end();
 	
 
 	// check if all values were updated
@@ -172,7 +180,7 @@ boolean test_update_time() {
 	unsigned long last_offset2 = read_doc2["last_offset"];
 	
 
-	if (hours2 != 3 || minutes2 != 19 || seconds2 != 30 || weekday2 != 0 || (init_offset2 - expected_offset) > 1000 || (last_offset2 - expected_offset) > 1000 || timezone2 != 3600) {
+	if (hours2 != 19 || minutes2 != 13 || seconds2 != 30 || weekday2 != 3 || (init_offset2 - expected_offset) > 100 || (last_offset2 - expected_offset) > 100 || timezone2 != 3600) {
 		Serial.println("\e[0;31mtest_update_time: FAILED");
 		Serial.println("time was updated incorrectly");
 		Serial.println("expected: 3 19 30 0 0 0 3600");
@@ -203,14 +211,15 @@ boolean test_get_current_time() {
 	doc["weekday"] = 0;
 	doc["timezone"] = 0;
 	doc["init_offset"] = millis();
-	unsigned long init_offset = doc["init_offset"];
 	doc["last_offset"] = millis();
 	doc.shrinkToFit();
 
 	// serialize json to time.json
+	LittleFS.begin();
 	File file1 = LittleFS.open("/time.json", "w");
 	serializeJson(doc, file1);
 	file1.close();
+	LittleFS.end();
 
 	delay(1000);
 
@@ -226,7 +235,7 @@ boolean test_get_current_time() {
 		return(false);
 	}
 
-	delay(1500);
+	delay(2000);
 
 	// test if the time is returned correctly
 	String output2 = get_current_time();
@@ -254,8 +263,11 @@ boolean test_turn_seconds_in_time() {
 	// test data
 	unsigned long seconds[15] = {0, 1, 59, 60, 61, 3599, 3600, 3601, 86399, 86400, 86401, 604799, 604800, 4294967294, 4294967295};
 
+	// 4294967294 % 60 = 14
+
+
 	// expected output
-	String expected_output[15] = {"00:00:00", "00:00:01", "00:00:59", "00:01:00", "00:01:01", "00:59:59", "01:00:00", "01:00:01", "23:59:59", "24:00:00", "24:00:01", "167:59:59", "168:00:00", "1193046:59:54", "1193046:59:55"};
+	String expected_output[15] = {"00:00:00", "00:00:01", "00:00:59", "00:01:00", "00:01:01", "00:59:59", "01:00:00", "01:00:01", "23:59:59", "24:00:00", "24:00:01", "167:59:59", "168:00:00", "1193046:28:14", "1193046:28:15"};
 
 	String output;
 
@@ -286,7 +298,7 @@ boolean test_add_time() {
 	String offset_time[15] = {"00:00:00", "00:00:01", "00:00:59", "00:01:00", "00:01:01", "00:59:59", "01:00:00", "01:00:01", "23:59:59", "24:00:00", "24:00:01", "167:59:59", "168:00:00", "1193046:59:54", "1193046:59:55"};
 
 	// expected outputs (adds offset_time to time and adjusts the weekday if overflow occures from 0 to 6)
-	String expected_output[45] = {"00:00:00 0", "00:00:01 0", "00:00:59 0", "00:01:00 0", "00:01:01 0", "00:59:59 0", "01:00:00 0", "01:00:01 0", "23:59:59 0", "00:00:00 1", "00:00:01 1", "00:59:59 1", "01:00:00 1", "01:00:01 1", "23:59:59 1", "00:00:00 2", "00:00:01 2", "00:59:59 2", "01:00:00 2", "01:00:01 2", "23:59:59 2", "00:00:00 3", "00:00:01 3", "00:59:59 3", "01:00:00 3", "01:00:01 3", "23:59:59 3", "00:00:00 4", "00:00:01 4", "00:59:59 4", "01:00:00 4", "01:00:01 4", "23:59:59 4", "00:00:00 5", "00:00:01 5", "00:59:59 5", "01:00:00 5", "01:00:01 5", "23:59:59 5", "00:00:00 6", "00:00:01 6", "00:59:59 6", "01:00:00 6", "01:00:01 6", "23:59:59 6"};
+	String expected_output[75] = {"00:00:00 0", "00:00:01 0", "00:00:59 0", "00:01:00 0", "00:01:01 0", "00:59:59 0", "01:00:00 0", "01:00:01 0", "23:59:59 0", "00:00:00 1", "00:00:01 1", "23:59:59 6", "00:00:00 0", "06:59:54 3", "06:59:55 3", "00:00:01 3", "00:00:02 3", "00:01:00 3", "00:01:01 3", "00:01:02 3", "01:00:00 3", "01:00:01 3", "01:00:02 3", "00:00:00 4", "00:00:01 4", "00:00:02 4", "00:00:00 3", "00:00:01 3", "06:59:55 6", "06:59:56 6", "00:00:59 5", "00:01:00 5", "00:01:58 5", "00:01:59 5", "00:02:00 5", "01:00:58 5", "01:00:59 5", "01:01:00 5", "00:00:58 6", "00:00:59 6", "00:01:00 6", "00:00:58 5", "00:00:59 5", "07:00:53 1", "07:00:54 1", "00:01:00 4", "00:01:01 4", "00:01:59 4", "00:02:00 4", "00:02:01 4", "01:00:59 4", "01:01:00 4", "01:01:01 4", "00:00:59 5", "00:01:00 5", "00:01:01 5", "00:00:59 4", "00:01:00 4", "07:00:54 0", "07:00:55 0", "01:01:59 6", "01:02:00 6", "01:02:58 6", "01:02:59 6", "01:03:00 6", "02:01:58 6", "02:01:59 6", "02:02:00 6", "01:01:58 0", "01:01:59 0", "01:02:00 0", "01:01:58 6", "01:01:59 6", "08:01:53 2", "08:01:54 2"};
 
 	String output;
 
@@ -304,6 +316,7 @@ boolean test_add_time() {
 			}
 		}
 	}
+
 
 	// print success message and return true
 	Serial.println("\e[0;32mtest_add_time: PASSED\e[0;37m");
@@ -347,10 +360,12 @@ boolean test_init_time() {
 	init_time();
 
 	// read time.json
+	LittleFS.begin();
 	File file = LittleFS.open("/time.json", "r");
 	DynamicJsonDocument doc(512);
-	DeserializationError error = deserializeJson(doc, file);
+	deserializeJson(doc, file);
 	file.close();
+	LittleFS.end();
 
 	// check if the document is empty
 	if (doc.size() != 0) {
@@ -391,26 +406,28 @@ boolean test_check_and_update_offset() {
 	write_doc.shrinkToFit();
 
 	// serialize json to time.json
+	LittleFS.begin();
 	File file1 = LittleFS.open("/time.json", "w");
 	serializeJson(write_doc, file1);
 	file1.close();
+	LittleFS.end();
 
 	// execute function
 	check_and_update_offset();
 
 	// read time.json
+	LittleFS.begin();
 	File file2 = LittleFS.open("/time.json", "r");
 	DynamicJsonDocument read_doc(512);
-	
 	deserializeJson(read_doc, file2);
-
 	file2.close();
+	LittleFS.end();
 
 	// check if the offset is updated correctly (by comparing the last_offset with the current time)
 	unsigned long last_offset = read_doc["last_offset"];
-	if (last_offset - millis() > 1000) {
+	if (millis() - last_offset > 1000) {
 		Serial.println("\e[0;31mtest_check_and_update_offset: FAILED");
-		Serial.println("expected: 0");
+		Serial.println("expected: " + millis());
 		Serial.println("actual: " + String(last_offset) + "\e[0;37m");
 		clean_LittleFS();
 		return(false);

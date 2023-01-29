@@ -33,7 +33,10 @@ boolean test_program_parser();
 boolean test_handle_wait_command();
 boolean test_handle_times_commands();
 
-boolean run_all_filesystem_tests();
-boolean run_all_time_management_tests();
-boolean run_all_workflows_tests();
-void run_all_tests();
+boolean run_all_filesystem_tests(boolean stop_on_error);
+boolean run_all_time_management_tests(boolean stop_on_error);
+boolean run_all_workflows_tests(boolean stop_on_error);
+void run_all_tests(boolean stop_on_error);
+
+boolean empirical_test_get_NTP_time();
+boolean empirical_test_init_time();
