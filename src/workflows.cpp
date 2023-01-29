@@ -326,8 +326,11 @@ String program_parser(String code){
     else if (REGEX.Match("loop [0-9]+") == REGEXP_MATCHED || REGEX.Match("loop inf") == REGEXP_MATCHED){
       command = "loop";
     }
+    else if (REGEX.Match("^[\\s\\t]*$") == REGEXP_MATCHED){
+      command = "empty";
+    }
     else {
-      error_message = "invalid command";
+      error_message = "invalid command: " + line;
       command = "invalid";
     }
 
@@ -570,7 +573,7 @@ String handle_times_commands(String command, boolean day_included) {
 
     // check if day was converted correctly
     if (day == "error") {
-      return("could not identify day in command");
+      return("weekday in command " + command + " is not valid");
     }
 
     // extract time and command name (hh:mm:ss command_name)
@@ -594,9 +597,6 @@ String handle_times_commands(String command, boolean day_included) {
     // extract command name (command_name)
     String command_name = command.substring(command.indexOf(" ") + 1);
   }
-
-  // TODO: check if anything is valid
-
   
   // generate filename
   String filename = "/signals/" + command_name + ".json";

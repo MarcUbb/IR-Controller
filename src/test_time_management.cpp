@@ -36,11 +36,62 @@ boolean test_weekday_to_num() {
 boolean test_compare_time() {
 	/*
 	- checks if sample times are compared correctly
+	- checks if true is returned when times match
 	*/
 
-	// TODO: initialize time.json with actual millis() value
-	// test with while loop if compare_time returns true after the correct amount of time
-	// for case with weekday and without weekday
+	// clean LittleFS
+	clean_LittleFS();
+
+	// test data
+	String time1 = "0:00:02 0";
+
+	DynamicJsonDocument doc(512);
+	doc["hours"] = 0;
+	doc["minutes"] = 0;
+	doc["seconds"] = 0;
+	doc["weekday"] = 0;
+	doc["timezone"] = 0;
+	doc["init_offset"] = millis();
+	doc["last_offset"] = millis();
+	doc.shrinkToFit();
+
+	// serialize json to time.json
+	File file1 = LittleFS.open("/time.json", "w");
+	serializeJson(doc, file1);
+	file1.close();
+
+	// test in loop that waits 3 seconds if value of function changes to true
+	unsigned long start_time = millis();
+	boolean checker = false;
+	while (millis() - start_time < 3000) {
+		if (compare_time(time1, true) == true) {
+			checker = true;
+			break;
+		}
+	}
+
+	if (checker == false) {
+		Serial.println("\e[0;31mtest_compare_time: FAILED");
+		Serial.println("function did not return true when times matched");
+		Serial.println("expected: true");
+		Serial.println("actual: false\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// test if times are compared correctly
+	if (compare_time(time1, true) == true) {
+		Serial.println("\e[0;31mtest_compare_time: FAILED");
+		Serial.println("times were not compared correctly");
+		Serial.println("expected: false");
+		Serial.println("actual: false\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_compare_time: PASSED\e[0;37m");
+	clean_LittleFS();
 	return(true);
 }
 
@@ -48,6 +99,9 @@ boolean test_update_time() {
 	/*
 	- checks if the time is updated correctly (format is always assumed to be correct)
 	*/
+
+	// clean LittleFS
+	clean_LittleFS();
 
 	// test data
 	DynamicJsonDocument write_doc(512);
@@ -137,9 +191,58 @@ boolean test_get_current_time() {
 	/*
 	- checks if time is returned correctly
 	*/
-	// TODO: initialize time.json with actual millis() value
-	// test if correct time is returned
 
+	// clean LittleFS
+	clean_LittleFS();
+
+	// test data
+	DynamicJsonDocument doc(512);
+	doc["hours"] = 0;
+	doc["minutes"] = 0;
+	doc["seconds"] = 0;
+	doc["weekday"] = 0;
+	doc["timezone"] = 0;
+	doc["init_offset"] = millis();
+	unsigned long init_offset = doc["init_offset"];
+	doc["last_offset"] = millis();
+	doc.shrinkToFit();
+
+	// serialize json to time.json
+	File file1 = LittleFS.open("/time.json", "w");
+	serializeJson(doc, file1);
+	file1.close();
+
+	delay(1000);
+
+	// test if the time is returned correctly
+	String output1 = get_current_time();
+
+	if (output1 != "00:00:01 0") {
+		Serial.println("\e[0;31mtest_get_current_time: FAILED");
+		Serial.println("time was returned incorrectly");
+		Serial.println("expected: 00:00:01 0");
+		Serial.println("actual: " + output1 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	delay(1500);
+
+	// test if the time is returned correctly
+	String output2 = get_current_time();
+
+	if (output2 != "00:00:03 0") {
+		Serial.println("\e[0;31mtest_get_current_time: FAILED");
+		Serial.println("time was returned incorrectly");
+		Serial.println("expected: 00:00:03 0");
+		Serial.println("actual: " + output2 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_get_current_time: PASSED\e[0;37m");
+	clean_LittleFS();
 	return(true);
 }
 
@@ -210,16 +313,60 @@ boolean test_add_time() {
 boolean test_get_NTP_time() {
 	/*
 	- test if empthy JSON Document is returned if no NTP server is available
-	- other functionality tested manually
+	- other functionality tested empirically
 	*/
+
+	DynamicJsonDocument doc = get_NTP_time(0);
+
+	// check if the document is empty
+	if (doc.size() != 0) {
+		Serial.println("\e[0;31mtest_get_NTP_time: FAILED");
+		Serial.println("expected: empty JSON Document");
+		Serial.print("actual: ");
+		serializeJson(doc, Serial);
+		Serial.println();
+		Serial.print("\e[0;37m\n");
+		return(false);
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_get_NTP_time: PASSED\e[0;37m");
 	return(true);
 }
 
 boolean test_init_time() {
 	/*
 	- test if empthy JSON Document is written if no NTP server is available
-	- other functionality tested manually
+	- other functionality tested empirically
 	*/
+
+	// clean LittleFS
+	clean_LittleFS();
+
+	// execute function
+	init_time();
+
+	// read time.json
+	File file = LittleFS.open("/time.json", "r");
+	DynamicJsonDocument doc(512);
+	DeserializationError error = deserializeJson(doc, file);
+	file.close();
+
+	// check if the document is empty
+	if (doc.size() != 0) {
+		Serial.println("\e[0;31mtest_init_time: FAILED");
+		Serial.println("expected: empty JSON Document");
+		Serial.print("actual: ");
+		serializeJson(doc, Serial);
+		Serial.println();
+		Serial.print("\e[0;37m\n");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// print success message and return true
+	Serial.println("\e[0;32mtest_init_time: PASSED\e[0;37m");
+	clean_LittleFS();
 	return(true);
 }
 
