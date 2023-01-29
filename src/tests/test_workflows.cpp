@@ -298,20 +298,30 @@ boolean test_program_parser() {
 	*/
 
 	// create test data
-	String code1 = "play test_signal \nwait 100 \nloop 3 \n \nplay test_signal \nwait 100 \nend \n";	// correct program
+	String code1 = "play test_signal \nwait 100 \nloop 3 \n \nplay test _-signal \nwait 100 \nend \n";	// correct program
 	String code2 = "blah blah \n";	// faulty program
 	String code3 = "play abc \n"; // faulty signal
+	String code4 = "play test signal \n"; // correct program
 
-	// create test signal
+	// create test signals
 	LittleFS.begin();
-	File file = LittleFS.open("/signals/test_signal.json", "w");
-	DynamicJsonDocument doc(512);
-	doc["name"] = "test_signal";
-	doc["length"] = 3;
-	doc["sequence"] = "1234, 5678, 412";
-	doc.shrinkToFit();
-	serializeJson(doc, file);
-	file.close();
+	File file1 = LittleFS.open("/signals/test_signal.json", "w");
+	DynamicJsonDocument doc1(512);
+	doc1["name"] = "test_signal";
+	doc1["length"] = 3;
+	doc1["sequence"] = "1234, 5678, 412";
+	doc1.shrinkToFit();
+	serializeJson(doc1, file1);
+	file1.close();
+
+	File file2 = LittleFS.open("/signals/test _-signal.json", "w");
+	DynamicJsonDocument doc2(512);
+	doc2["name"] = "test _-signal";
+	doc2["length"] = 3;
+	doc2["sequence"] = "1234, 5678, 412";
+	doc2.shrinkToFit();
+	serializeJson(doc2, file2);
+	file2.close();
 	LittleFS.end();
 
 	// tests if program can be executed correctly

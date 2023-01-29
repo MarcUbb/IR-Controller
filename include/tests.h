@@ -21,7 +21,6 @@ boolean test_get_current_time();
 boolean test_turn_seconds_in_time();
 boolean test_add_time();
 boolean test_get_NTP_time();
-boolean test_init_time();
 boolean test_check_and_update_offset();
 
 boolean test_deleding_workflow();
@@ -37,6 +36,6 @@ boolean run_all_filesystem_tests(boolean stop_on_error);
 boolean run_all_time_management_tests(boolean stop_on_error);
 boolean run_all_workflows_tests(boolean stop_on_error);
 void run_all_tests(boolean stop_on_error);
+void run_all_empirical_tests(boolean stop_on_error);
 
 boolean empirical_test_get_NTP_time();
-boolean empirical_test_init_time();

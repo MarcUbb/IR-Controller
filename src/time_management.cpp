@@ -368,32 +368,27 @@ DynamicJsonDocument get_NTP_time(int timezone){
   description:
   This function gets the time from the web and returns it as a DynamicJsonDocument.
   It is only used in the initial setup to get the time without user interaction.
+  If server is unavailable, it returns 00:00:20 4 by defauls.
 
   calls:
     ---
 
   called by:
-  - init_time (in src/time_management.cpp) to implement time retrieval in the initial setup
+	- setup (in src/main.cpp) to initialize the time after WifiManager setup
   */
 
   // initialize NTP client
   WiFiUDP ntpUDP;
   NTPClient timeClient(ntpUDP, "pool.ntp.org", timezone);
   timeClient.begin();
-
-  //check if server is available
-  if (!timeClient.update()){
-    timeClient.end();
-    //return empthy json
-    DynamicJsonDocument time_json(1024);
-    time_json.shrinkToFit();
-    return time_json;
-  }
+  timeClient.update();
 
   // get time and weekday
   String time = timeClient.getFormattedTime();
   int weekday = timeClient.getDay();
   timeClient.end();
+
+  Serial.println("Time: " + time + " " + weekday);
 
   // build json
   DynamicJsonDocument time_json(1024);
@@ -407,54 +402,12 @@ DynamicJsonDocument get_NTP_time(int timezone){
   time_json["seconds"] = seconds;
   time_json["weekday"] = weekday;
   time_json["init_offset"] = millis();
-  time_json["timezone"] = timezone;
-
   time_json["last_offset"] = millis();
+  time_json["timezone"] = timezone;
   time_json.shrinkToFit();
 
   // return json
   return(time_json);
-}
-
-
-void init_time(){
-  /*
-  parameters:
-    ---
-  
-  returns:
-    boolean:
-      true: time was saved before
-      false: time was not saved before
-
-  description:
-  Initializes the time after connecting to the wifi.
-
-  calls:
-  - load_json (in src/filesystem.cpp) to load the time from time.json
-  - get_NTP_time (in src/time_management.cpp) to get the time from the web 
-    (serves timezone if given in time.json)
-  - save_json (in src/filesystem.cpp) to save the time to time.json
-
-  called by:
-  - setup (in src/main.cpp) to initialize the time after WifiManager setup
-  */
-
-  // load time from time.json
-  DynamicJsonDocument current_values = load_json("/time.json");
-
-  // no time was saved yet (timezone is set to 0)
-  if (current_values.isNull()){
-    save_json("/time.json", get_NTP_time(0));
-    return;
-  }
-
-  // if there is a time saved: update it according to the timezone and overwrite offsets with current offset
-  else {
-    Serial.println("init timezone: " + current_values["timezone"].as<String>());
-    save_json("/time.json", get_NTP_time(current_values["timezone"]));
-    return;
-  }
 }
 
 

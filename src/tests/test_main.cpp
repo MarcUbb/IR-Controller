@@ -86,10 +86,6 @@ boolean run_all_time_management_tests(boolean stop_on_error) {
 	if(!check && stop_on_error) return check;
 	if(!check) {set_check = false;}
 
-	check = test_init_time();
-	if(!check && stop_on_error) return check;
-	if(!check) {set_check = false;}
-
 	check = test_check_and_update_offset();
 	if(!check && stop_on_error) return check;
 	if(!check) {set_check = false;}
@@ -146,14 +142,18 @@ void run_all_tests(boolean stop_on_error) {
   Serial.println("\nRunning all tests...");
 
   boolean check = true;
+	boolean set_check = true;
 
 	// only run tests if above tests passed
   check = run_all_filesystem_tests(stop_on_error);
+	if(check == false) {set_check = false;}
   if(check == true || !stop_on_error) {check = run_all_time_management_tests(stop_on_error);}
+	if(check == false) {set_check = false;}
   if(check == true || !stop_on_error) {check = run_all_workflows_tests(stop_on_error);}
+	if(check == false) {set_check = false;}
   
 
-  if(check != true) {
+  if(set_check != true) {
     Serial.println("\n\e[0;31m----------------------------------------");
     Serial.println("At least one test failed!");
     Serial.println("Your code will not be executed. Please fix the errors and try again.\e[0;37m\n");
@@ -166,4 +166,29 @@ void run_all_tests(boolean stop_on_error) {
     Serial.println("All tests passed!");
     Serial.println("Your code will now continue to run.\e[0;37m\n");
   }
+}
+
+void run_all_empirical_tests(boolean stop_on_error) {
+	Serial.println("\nRunning empirical tests...");
+
+	boolean check = true;
+	boolean set_check = true;
+
+	check = empirical_test_get_NTP_time();
+	if(!check) {set_check = false;}
+
+
+	if(set_check != true) {
+		Serial.println("\n\e[0;31m----------------------------------------");
+		Serial.println("At least one test failed!");
+		Serial.println("Your code will not be executed. Please fix the errors and try again.\e[0;37m\n");
+		while(true) {
+			delay(1000);
+		}
+	}
+	else {
+		Serial.println("\n\e[0;32m----------------------------------------");
+		Serial.println("All tests passed!");
+		Serial.println("Your code will now continue to run.\e[0;37m\n");
+	}
 }

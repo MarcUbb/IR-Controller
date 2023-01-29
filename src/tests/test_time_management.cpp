@@ -180,7 +180,7 @@ boolean test_update_time() {
 	unsigned long last_offset2 = read_doc2["last_offset"];
 	
 
-	if (hours2 != 19 || minutes2 != 13 || seconds2 != 30 || weekday2 != 3 || (init_offset2 - expected_offset) > 100 || (last_offset2 - expected_offset) > 100 || timezone2 != 3600) {
+	if (hours2 != 19 || minutes2 != 13 || seconds2 != 30 || weekday2 != 3 || init_offset2 != last_offset2 || (last_offset2 - expected_offset) > 100 || timezone2 != 3600) {
 		Serial.println("\e[0;31mtest_update_time: FAILED");
 		Serial.println("time was updated incorrectly");
 		Serial.println("expected: 3 19 30 0 0 0 3600");
@@ -331,10 +331,20 @@ boolean test_get_NTP_time() {
 
 	DynamicJsonDocument doc = get_NTP_time(0);
 
+	int hours = doc["hours"];
+	int minutes = doc["minutes"];
+	int seconds = doc["seconds"];
+	int weekday = doc["weekday"];
+	unsigned long init_offset = doc["init_offset"];
+	int timezone = doc["timezone"];
+	unsigned long last_offset = doc["last_offset"];
+
+	unsigned long expected_offset = millis();
+
 	// check if the document is empty
-	if (doc.size() != 0) {
+	if (hours != 0 || minutes != 0 || seconds != 20 || weekday != 4 || init_offset != last_offset || (expected_offset - last_offset) > 100 || timezone != 0) {
 		Serial.println("\e[0;31mtest_get_NTP_time: FAILED");
-		Serial.println("expected: empty JSON Document");
+		Serial.println("expected: 00:00:20 4 ");
 		Serial.print("actual: ");
 		serializeJson(doc, Serial);
 		Serial.println();
@@ -344,44 +354,6 @@ boolean test_get_NTP_time() {
 
 	// print success message and return true
 	Serial.println("\e[0;32mtest_get_NTP_time: PASSED\e[0;37m");
-	return(true);
-}
-
-boolean test_init_time() {
-	/*
-	- test if empthy JSON Document is written if no NTP server is available
-	- other functionality tested empirically
-	*/
-
-	// clean LittleFS
-	clean_LittleFS();
-
-	// execute function
-	init_time();
-
-	// read time.json
-	LittleFS.begin();
-	File file = LittleFS.open("/time.json", "r");
-	DynamicJsonDocument doc(512);
-	deserializeJson(doc, file);
-	file.close();
-	LittleFS.end();
-
-	// check if the document is empty
-	if (doc.size() != 0) {
-		Serial.println("\e[0;31mtest_init_time: FAILED");
-		Serial.println("expected: empty JSON Document");
-		Serial.print("actual: ");
-		serializeJson(doc, Serial);
-		Serial.println();
-		Serial.print("\e[0;37m\n");
-		clean_LittleFS();
-		return(false);
-	}
-
-	// print success message and return true
-	Serial.println("\e[0;32mtest_init_time: PASSED\e[0;37m");
-	clean_LittleFS();
 	return(true);
 }
 

@@ -32,5 +32,4 @@ String get_current_time();
 String turn_seconds_in_time(unsigned long input_seconds);
 String add_time(String time, String offset_time);
 DynamicJsonDocument get_NTP_time(int timezone);
-void init_time();
 void check_and_update_offset();

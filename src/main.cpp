@@ -12,7 +12,8 @@ void setup() {
   // read config file (if ESP is in AP mode or not)
 
   // optional: run tests (uncomment "include tests.h" in main.h before production)
-  run_all_tests(false);
+  //run_all_tests(false);
+  run_all_empirical_tests(false);
 
   // start LittleFS
   LittleFS.begin();
@@ -52,7 +53,7 @@ void setup() {
     control_led_output("AP_on");
   }
 
-  // AP is false
+  // AP is false (default)
   else {
     // try to connect to saved credentials
     WiFi.mode(WIFI_STA);
@@ -89,7 +90,7 @@ void setup() {
   Serial.println("mDNS responder started!");
 
   // initiate time via NTP (00:00:00 4 in AP Mode)
-  init_time();
+  save_json("/time.json", get_NTP_time(0));
   
 
   // declare handler functions
@@ -113,6 +114,11 @@ void setup() {
 void loop() {
   MDNS.update();
   server.handleClient();
+  if (millis() % 300000 == 0) {
+    // update time every second
+    check_and_update_offset();
+    Serial.println("updating time");
+  }
 }
 
 
@@ -241,32 +247,34 @@ void handle_apmode() {
   configFile.close();
 
   // switch value:
-  if(config == "AP: true") {
-	// write new config
-	File configFile = LittleFS.open("/config.txt", "w");
-	if (!configFile) {
-	  MESSAGE = "Failed to open config file";
-	}
-	configFile.print("AP: false");
-	configFile.close();
 
-	// set variable for frontend
-	AP_SETTING = false;
-	MESSAGE = "AP mode disabled! You will need to reconfigure the ESP the your Wifi on reboot if no credentials are saved already.";
+  if (config == "AP: false"){
+    // write new config
+    File configFile = LittleFS.open("/config.txt", "w");
+    if (!configFile) {
+      MESSAGE = "Failed to open config file";
+    }
+    configFile.print("AP: false");
+    configFile.close();
+
+    // set variable for frontend
+    AP_SETTING = true;
+    MESSAGE = "AP mode enabled! Dont forget to synchronize your time on next reboot.";
   }
 
+  // includes case when no config exists
   else {
-	// write new config
-	File configFile = LittleFS.open("/config.txt", "w");
-	if (!configFile) {
-	  MESSAGE = "Failed to open config file";
-	}
-	configFile.print("AP: true");
-	configFile.close();
+    // update config
+    File configFile = LittleFS.open("/config.txt", "w");
+    if (!configFile) {
+      MESSAGE = "Failed to open config file";
+    }
+    configFile.print("AP: false");
+    configFile.close();
 
-	// set variable for frontend
-	AP_SETTING = true;
-	MESSAGE = "AP mode enabled! Dont forget to synchronize your time on next reboot.";
+    // set variable for frontend
+    AP_SETTING = false;
+    MESSAGE = "AP mode disabled! You will need to reconfigure the ESP the your Wifi on reboot if no credentials are saved already.";
   }
 
   // redirect to root

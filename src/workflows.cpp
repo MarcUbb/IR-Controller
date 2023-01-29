@@ -324,8 +324,6 @@ String program_parser(String code){
       command = "invalid";
     }
 
-    Serial.println(command);
-
     if (command != "invalid"){
 
       // play command was found
