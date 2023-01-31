@@ -1,9 +1,29 @@
+/**
+ * @file main.cpp
+ * 
+ * @author Marc Ubbelohde
+ * 
+ * @brief Main file of the program.
+ * 
+ * @details In this file, you find the main procedures of the program and
+ * the handler functions for the webserver.
+ */
+
+
 #include "main.h"
 
-/*
-In this file, you find the main procedures of the program.
-*/
-
+/**
+ * @brief Arduino Setup function
+ * 
+ * @details This function is called once at the start of the program. It
+ * checks the configuration file and start either the Access Point or
+ * the WFiManager. It also starts the webserver and initializes the
+ * time file. Optionally, unit tests can be run.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called by the Arduino framework.
+ */
 void setup() {
   Serial.begin(115200);
   Serial.setDebugOutput(true);
@@ -13,7 +33,7 @@ void setup() {
 
   // optional: run tests (uncomment "include tests.h" in main.h before production)
   //run_all_tests(false);
-  run_all_empirical_tests(false);
+  //run_all_empirical_tests(false);
 
   // start LittleFS
   LittleFS.begin();
@@ -111,6 +131,16 @@ void setup() {
   MDNS.addService("http", "tcp", 80);
 }
 
+/**
+ * @brief Arduino Loop function
+ * 
+ * @details This function is called repeatedly. It updates the mDNS, 
+ * handles clients and checks for a millis() overflow every 5 minutes.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called by the Arduino framework. 
+ */
 void loop() {
   MDNS.update();
   server.handleClient();
@@ -128,32 +158,54 @@ void loop() {
 
 
 //------------------ handlers ------------------//
- 
+
+/**
+ * @brief Handler function for the root page
+ * 
+ * @details This function is called when the root page is requested. It
+ * serves the content of the index_html string from the website_string.h file to the client.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to the root page.
+ */
 void handle_root() {
-  /*
-  serves index.html (from include/website_string.h)
-  */
   server.send(200, "text/html", index_html);
 }
 
+/**
+ * @brief Handler function for any page that is not found.
+ * 
+ * @details This function is called when a page is requested that is not found. It
+ * serves a 404 error to the client.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to a page that is not found. 
+ */
 void handle_not_found() {
-  /*
-  serves 404 error
-  */
   server.send(404, "text/plain", "404: Not found");
 }
 
+/**
+ * @brief Handler function to display the program the user wants to edit.
+ * 
+ * @details This function is called when the user wants to edit a program. It
+ * reads the program from the file system and sends it back to the website.
+ * The website is designed with form elements that trigger forwarding to /form.
+ * This is a problem because we can only communicate on that channel and we already
+ * have to communicate a back to the website to update the page.
+ * So in order to still be able to send data back to the website, on every reload the
+ * website will send a get request on /program which triggers this function.
+ * The data that is sent back is the name of the currently selected program and the code of that program.
+ * It is only sent back if the "edit" button was pressed. (if not, the variables "PROGRAMNAME"
+ * and "PROGRAMCODE" will be empty)
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /program.
+ */
 void handle_program() {
-  /*
-  The website is designed with form elements that trigger forwarding to /form. 
-  This is a problem because we can only communicate on that channel and we already 
-  have to communicate a back to the website to update the page. 
-  So in order to still be able to send data back to the website, on every reload the 
-  website will send a get request on /program which triggers this function. 
-  The data that is sent back is the name of the currently selected program and the code of that program.
-  It is only sent back if the "edit" button was pressed. (if not, the variables "PROGRAMNAME" 
-  and "PROGRAMCODE" will be empty)
-  */
 
   // read code of selected program
   String PROGRAMCODE = read_program(PROGRAMNAME);
@@ -166,18 +218,31 @@ void handle_program() {
   server.send(200, "text/plain", PROGRAMNAME + ";" + PROGRAMCODE);
 }
 
+/**
+ * @brief Handler function to display the error message.
+ * 
+ * @details Similarly to handle_program(), the website will send a get request on /error to
+ * update the error message on reload. The MESSAGE is then written again by handle_form().
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /error.
+ */
 void handle_error() {
-  /*
-  Similarly to handle_program(), the website will send a get request on /error to 
-  update the error message on reload. The MESSAGE is then written again by handle_form().
-  */
   server.send(200, "text/plain", MESSAGE);
 }
 
+/**
+ * @brief Handler function to send a list of all signals and programs to the forntend.
+ * 
+ * @details Sends a list of all files in /signals and /programs on reload to be displayed on the website.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /files.
+ * 
+ */
 void handle_files() {
-  /*
-  Sends a list of all files in /signals and /programs on reload to be displayed on the website.
-  */
 
   // generate list of files in /signals and /programs
   String files = get_files("/signals", "/programs");
@@ -188,14 +253,20 @@ void handle_files() {
   server.send(200, "text/plane", files);
 }
 
+/**
+ * @brief Handler funciton to synchronize the time and/or timezone provided by the user.
+ * 
+ * @details Gets the time from the client via Date() and saves it together with the millis() offset
+ * to the LittleFS. The offset is important because only with millis() we can calculate the time that has passed
+ * between the synchronisation and the time of program execution. This enabled the ESP to execute timed programs
+ * even if the wifi connection is lost.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /time.
+ * 
+ */
 void handle_time() {
-  /*
-  Gets the time from the client via Date() and saves it together with the millis() offset 
-  to the LittleFS.
-  The offset is important because only with millis() we can calculate the time that has passed 
-  between the synchronisation and the time of program execution.
-  This enabled the ESP to execute timed programs even if the wifi connection is lost.
-  */
 
   // get time from client (saved in hidden dummy text input field on website)
   // time in format: "weekday hh:mm:ss timezone"
@@ -212,10 +283,18 @@ void handle_time() {
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
+/**
+ * @brief Handler function to erase the wifi credentials saved on the ESP.
+ * 
+ * @details Erases the wifi credentials saved on the ESP. This is useful if the user wants to connect to a different
+ * wifi network.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /credentials.
+ *  
+ */
 void handle_credentials() {
-  /*
-  erases the wifi credentials saved on the ESP
-  */
 
   ESP.eraseConfig();
 
@@ -226,10 +305,17 @@ void handle_credentials() {
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
+/**
+ * @brief Handler function to switch between AP mode and normal mode.
+ * 
+ * @details Checks the config file and switches between AP mode and normal mode.
+ * The possibel reconfiguration of the wifi credentails is done after restart.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /apmode.
+ */
 void handle_apmode() {
-  /*
-  checks config file and switches between AP mode and normal mode
-  */
 
   // start LittleFS
   LittleFS.begin();
@@ -282,10 +368,19 @@ void handle_apmode() {
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
+
+/**
+ * @brief Handler function to send the current AP mode setting to the frontend.
+ * 
+ * @details Sends the current AP mode setting to the frontend. 
+ * This is used to display the correct setting at the top the website.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /apinfo.
+ * 
+ */
 void handle_apinfo() {
-  /*
-  send SESSION_AP to website
-  */
 
   if(AP_SETTING == true) {
 		server.send(200, "text/plain", "true");
@@ -298,11 +393,18 @@ void handle_apinfo() {
 	}
 }
 
+/**
+ * @brief Handler function that receives new password entries.
+ * 
+ * @details Receives new password entries from frontend and changes password
+ * if entries are the same (to prevent typos).
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /password.
+ * 
+ */
 void handle_password() {
-	/*
-	receives new password entries from frontend and changes password
-	if entries are the same (to prevent typos).
-	*/
 
 	// get data
 	String first_entry = server.arg("first_entry");
@@ -348,13 +450,20 @@ void handle_password() {
   server.send(302, "text/plain", "Updated– Press Back Button");
 }
 
+/**
+ * @brief Handler function that receives GET requests from all form elements
+ * related to signals and programs.
+ * 
+ * @details Handles all form elements on the website (signals and programs) also
+ * updates the error message and PROGRAMNAME. All the user interaction with the
+ * website is handled here and the functions from workflows.h are called.
+ * 
+ * @callgraph
+ * 
+ * @callergraph This function is called on a GET request to /form.
+ * 
+ */
 void handle_form() {
-  /*
-  Handles all form elements on the website (signals and programs) also updates 
-  the error message and PROGRAMNAME.
-  All the user interaction with the website is handled here and the functions 
-  from workflows.h are called.
-  */
 
   String selected_signal = server.arg("selected_signal");
   String send_signal_button = server.arg("send_signal_button"); 

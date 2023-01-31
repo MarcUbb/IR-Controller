@@ -1,0 +1,6 @@
+<map id="get_files" name="get_files">
+<area shape="rect" id="node1" title="Returns List of saved signals and programs." alt="" coords="271,31,349,57"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#af34fc8222bc1516385d025f1c386783b" title="Handler function to send a list of all signals and programs to the forntend." alt="" coords="117,5,218,32"/>
+<area shape="rect" id="node4" href="$test__filesystem_8cpp.html#af8322e01dc3fc896ac9fda7c1f62a0dc" title="Unit test for the function &quot;get_files&quot;." alt="" coords="112,56,223,83"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,5,64,32"/>
+</map>

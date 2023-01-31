@@ -1,7 +1,19 @@
-#include "tests.h"
-#include <LittleFS.h>
+/**
+ * @file test_utilities.cpp
+ * @author Marc Ubbelohde
+ * @brief This file contains functions that are used in multiple tests.
+ * 
+ */
 
-// recursively goes into a directory and deletes all files
+#include "tests.h"
+
+/**
+ * @brief Deletes all files in "/", "/signals" and "/programs" in the LittleFS
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 void clean_LittleFS() {
 	LittleFS.begin();
   Dir dir = LittleFS.openDir("/");

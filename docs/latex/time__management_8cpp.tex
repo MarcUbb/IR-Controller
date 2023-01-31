@@ -1,0 +1,288 @@
+\hypertarget{time__management_8cpp}{}\doxysection{src/time\+\_\+management.cpp File Reference}
+\label{time__management_8cpp}\index{src/time\_management.cpp@{src/time\_management.cpp}}
+
+
+This file contains the functions to manage the time.  
+
+
+{\ttfamily \#include \char`\"{}base.\+h\char`\"{}}\newline
+Include dependency graph for time\+\_\+management.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{time__management_8cpp_a3510cfe664c5b740d746a31e79b0f158}{weekday\+\_\+to\+\_\+num}} (String weekday)
+\begin{DoxyCompactList}\small\item\em Converts a weekday String to a weekday number. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{time__management_8cpp_a6291345b0a1a1141c8d11458ff2f5cd4}{compare\+\_\+time}} (String time, boolean weekday\+\_\+included)
+\begin{DoxyCompactList}\small\item\em Compare specified time with current time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{time__management_8cpp_a11b9f043cd67f782c7b8c49ffd0f51cb}{update\+\_\+time}} (String time, boolean A\+P\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Updates the time in the Little\+FS. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a}{get\+\_\+current\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Loads the current time from Little\+FS. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{time__management_8cpp_a9302635144807a7f7063815f116ac129}{turn\+\_\+seconds\+\_\+in\+\_\+time}} (unsigned long input\+\_\+seconds)
+\begin{DoxyCompactList}\small\item\em This function converts seconds to time format. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{time__management_8cpp_a2df1ab5ae345f8373541fdadc380d0cf}{add\+\_\+time}} (String time, String offset\+\_\+time)
+\begin{DoxyCompactList}\small\item\em adds two times together \end{DoxyCompactList}\item 
+Dynamic\+Json\+Document \mbox{\hyperlink{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time}} (int timezone)
+\begin{DoxyCompactList}\small\item\em Gets time from N\+TP server. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{time__management_8cpp_ac98cf9eca3c34ed8b3fb2c93625a0c18}{check\+\_\+and\+\_\+update\+\_\+offset}} ()
+\begin{DoxyCompactList}\small\item\em Checks if millis() overflowed and updates time if necessary. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains the functions to manage the time. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbdelohde
+\end{DoxyAuthor}
+The time functions are exlusively used in the timed programs. The complexity of some of the functions is due to the fact that the device does not use an external R\+TC and that the millis() function overflows after about 49 days. The different functions utilize functions from the \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} file to load and save time information to the Little\+FS. They provide functionality to each other and the higher level functions in \mbox{\hyperlink{workflows_8cpp}{workflows.\+cpp}} and \mbox{\hyperlink{main_8cpp}{main.\+cpp}} where fronend functionalities are implemented. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{time__management_8cpp_a2df1ab5ae345f8373541fdadc380d0cf}\label{time__management_8cpp_a2df1ab5ae345f8373541fdadc380d0cf}} 
+\index{time\_management.cpp@{time\_management.cpp}!add\_time@{add\_time}}
+\index{add\_time@{add\_time}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{add\_time()}{add\_time()}}
+{\footnotesize\ttfamily String add\+\_\+time (\begin{DoxyParamCaption}\item[{String}]{time,  }\item[{String}]{offset\+\_\+time }\end{DoxyParamCaption})}
+
+
+
+adds two times together 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & -\/ time to add to in format \char`\"{}hh\+:mm\+:ss weekday\char`\"{}\\
+\hline
+{\em offset\+\_\+time} & -\/ time to add in format \char`\"{}hh\+:mm\+:ss\char`\"{}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ time in format \char`\"{}hh\+:mm\+:ss weekday\char`\"{}
+\end{DoxyReturn}
+This function adds two times together. The order of the parameters is important. The first parameter contains the weekday, the second parameter does not.
+
+This function does not call other functions. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_a2df1ab5ae345f8373541fdadc380d0cf_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{time__management_8cpp_ac98cf9eca3c34ed8b3fb2c93625a0c18}\label{time__management_8cpp_ac98cf9eca3c34ed8b3fb2c93625a0c18}} 
+\index{time\_management.cpp@{time\_management.cpp}!check\_and\_update\_offset@{check\_and\_update\_offset}}
+\index{check\_and\_update\_offset@{check\_and\_update\_offset}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{check\_and\_update\_offset()}{check\_and\_update\_offset()}}
+{\footnotesize\ttfamily void check\+\_\+and\+\_\+update\+\_\+offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Checks if millis() overflowed and updates time if necessary. 
+
+Since millis() overflows after 49.\+7 days, this function checks if an overflow occured and updates the time saved in \char`\"{}time.\+json\char`\"{} every time it happens to still be able to calculate teh current time. This function is used whenever long waiting times are expected (e.\+g. in timed programs, wait/skip command or user inactivity). It is important to note that this function has to be able to work offline (no N\+TP call) since it should be possible to run programs without internet connection. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_ac98cf9eca3c34ed8b3fb2c93625a0c18_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_ac98cf9eca3c34ed8b3fb2c93625a0c18_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{time__management_8cpp_a6291345b0a1a1141c8d11458ff2f5cd4}\label{time__management_8cpp_a6291345b0a1a1141c8d11458ff2f5cd4}} 
+\index{time\_management.cpp@{time\_management.cpp}!compare\_time@{compare\_time}}
+\index{compare\_time@{compare\_time}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{compare\_time()}{compare\_time()}}
+{\footnotesize\ttfamily boolean compare\+\_\+time (\begin{DoxyParamCaption}\item[{String}]{time,  }\item[{boolean}]{weekday\+\_\+included }\end{DoxyParamCaption})}
+
+
+
+Compare specified time with current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & -\/ String in format \char`\"{}weekday hh\+:mm\+:ss timezone\char`\"{}\\
+\hline
+{\em weekday\+\_\+included} & -\/ true if weekday is included in time, false if not\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if time is equal to current time, false if not
+\end{DoxyReturn}
+This elementary function checks if the current time is equal to the time in the program. It is used in timed programs and handles millis() overflow. The function has a delay of 500ms to reduce the number of operations inside the while(true) loop. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_a6291345b0a1a1141c8d11458ff2f5cd4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_a6291345b0a1a1141c8d11458ff2f5cd4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a}\label{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a}} 
+\index{time\_management.cpp@{time\_management.cpp}!get\_current\_time@{get\_current\_time}}
+\index{get\_current\_time@{get\_current\_time}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_current\_time()}{get\_current\_time()}}
+{\footnotesize\ttfamily String get\+\_\+current\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Loads the current time from Little\+FS. 
+
+\begin{DoxyReturn}{Returns}
+String -\/ current time in format \char`\"{}hh\+:mm\+:ss weekday\char`\"{}
+\end{DoxyReturn}
+This function loads the time from the Little\+FS, adds the relative offset between the offset of initialization and the current offset and returns the current time. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32}\label{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32}} 
+\index{time\_management.cpp@{time\_management.cpp}!get\_NTP\_time@{get\_NTP\_time}}
+\index{get\_NTP\_time@{get\_NTP\_time}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_NTP\_time()}{get\_NTP\_time()}}
+{\footnotesize\ttfamily Dynamic\+Json\+Document get\+\_\+\+N\+T\+P\+\_\+time (\begin{DoxyParamCaption}\item[{int}]{timezone }\end{DoxyParamCaption})}
+
+
+
+Gets time from N\+TP server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timezone} & -\/ timezone offset in seconds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dynamic\+Json\+Document -\/ time in format\+:~\newline
+ \{~\newline
+ \char`\"{}hours\char`\"{}\+: hh,~\newline
+ \char`\"{}minutes\char`\"{}\+: mm,~\newline
+ \char`\"{}seconds\char`\"{}\+: ss,~\newline
+ \char`\"{}weekday\char`\"{}\+: w,~\newline
+ \char`\"{}init\+\_\+offset\char`\"{}\+: millis(),~\newline
+ \char`\"{}timezone\char`\"{}\+: ssss,~\newline
+ \char`\"{}last\+\_\+offset\char`\"{}\+: millis()~\newline
+ \}
+\end{DoxyReturn}
+This function gets the time from the web and returns it as a Dynamic\+Json\+Document. It is only used in the initial setup to get the time without user interaction. If server is unavailable, it returns 00\+:00\+:20 4 by defauls.
+
+This function does not call any other functions. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=310pt]{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{time__management_8cpp_a9302635144807a7f7063815f116ac129}\label{time__management_8cpp_a9302635144807a7f7063815f116ac129}} 
+\index{time\_management.cpp@{time\_management.cpp}!turn\_seconds\_in\_time@{turn\_seconds\_in\_time}}
+\index{turn\_seconds\_in\_time@{turn\_seconds\_in\_time}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{turn\_seconds\_in\_time()}{turn\_seconds\_in\_time()}}
+{\footnotesize\ttfamily String turn\+\_\+seconds\+\_\+in\+\_\+time (\begin{DoxyParamCaption}\item[{unsigned long}]{input\+\_\+seconds }\end{DoxyParamCaption})}
+
+
+
+This function converts seconds to time format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+\_\+seconds} & -\/ seconds to convert\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ time in format \char`\"{}hh\+:mm\+:ss\char`\"{}
+\end{DoxyReturn}
+This function converts seconds to time format. It is used in \mbox{\hyperlink{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a}{get\+\_\+current\+\_\+time()}} to prepare millis() offset for comparison with saved time.
+
+This function does not call other functions. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_a9302635144807a7f7063815f116ac129_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{time__management_8cpp_a11b9f043cd67f782c7b8c49ffd0f51cb}\label{time__management_8cpp_a11b9f043cd67f782c7b8c49ffd0f51cb}} 
+\index{time\_management.cpp@{time\_management.cpp}!update\_time@{update\_time}}
+\index{update\_time@{update\_time}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{update\_time()}{update\_time()}}
+{\footnotesize\ttfamily void update\+\_\+time (\begin{DoxyParamCaption}\item[{String}]{time,  }\item[{boolean}]{A\+P\+\_\+mode }\end{DoxyParamCaption})}
+
+
+
+Updates the time in the Little\+FS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & -\/ String in format \char`\"{}weekday hh\+:mm\+:ss timezone\char`\"{}\\
+\hline
+{\em A\+P\+\_\+mode} & -\/ true if the device is in AP mode, false if not\\
+\hline
+\end{DoxyParams}
+This function is called when the user presses the \char`\"{}sync\char`\"{} button on the website. It updates only the timezone to the Little\+FS since the time from the N\+TP request is more precise than the time from the user. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{time__management_8cpp_a11b9f043cd67f782c7b8c49ffd0f51cb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_a11b9f043cd67f782c7b8c49ffd0f51cb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{time__management_8cpp_a3510cfe664c5b740d746a31e79b0f158}\label{time__management_8cpp_a3510cfe664c5b740d746a31e79b0f158}} 
+\index{time\_management.cpp@{time\_management.cpp}!weekday\_to\_num@{weekday\_to\_num}}
+\index{weekday\_to\_num@{weekday\_to\_num}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{weekday\_to\_num()}{weekday\_to\_num()}}
+{\footnotesize\ttfamily String weekday\+\_\+to\+\_\+num (\begin{DoxyParamCaption}\item[{String}]{weekday }\end{DoxyParamCaption})}
+
+
+
+Converts a weekday String to a weekday number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em weekday} & -\/ weekday as a String \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ weekday as a number\+:~\newline
+ \char`\"{}\+Monday\char`\"{} -\/ \char`\"{}1\char`\"{}~\newline
+ \char`\"{}\+Tuesday\char`\"{} -\/ \char`\"{}2\char`\"{}~\newline
+ \char`\"{}\+Wednesday\char`\"{} -\/ \char`\"{}3\char`\"{}~\newline
+ \char`\"{}\+Thursday\char`\"{} -\/ \char`\"{}4\char`\"{}~\newline
+ \char`\"{}\+Friday\char`\"{} -\/ \char`\"{}5\char`\"{}~\newline
+ \char`\"{}\+Saturday\char`\"{} -\/ \char`\"{}6\char`\"{}~\newline
+ \char`\"{}\+Sunday\char`\"{} -\/ \char`\"{}0\char`\"{}~\newline
+ error -\/ \char`\"{}error\char`\"{}
+\end{DoxyReturn}
+This function converts a weekday String to a weekday number.
+
+This function does not call any function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_a3510cfe664c5b740d746a31e79b0f158_icgraph}
+\end{center}
+\end{figure}

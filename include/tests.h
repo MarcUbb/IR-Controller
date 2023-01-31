@@ -1,3 +1,15 @@
+/**
+ * @file tests.h
+ * @author Marc Ubbelohde
+ * @brief Header File for all test files
+ * 
+ * @details This file provides access to the source code for 
+ * all unit test funcitons. It also provides access to the
+ * unit test functions for the functions in test_main.cpp.
+ * 
+ */
+
+
 #include "base.h"
 #include "workflows.h"
 
@@ -23,7 +35,7 @@ boolean test_add_time();
 boolean test_get_NTP_time();
 boolean test_check_and_update_offset();
 
-boolean test_deleding_workflow();
+boolean test_deleting_workflow();
 boolean test_recording_workflow();
 boolean test_sending_workflow();
 boolean test_adding_workflow();

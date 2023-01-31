@@ -1,17 +1,32 @@
+/**
+ * @file empirical_tests.cpp
+ * @author Marc Ubbelohde
+ * @brief collection of empirical tests
+ * 
+ * @details In this file you can find all emprical tests. This tests
+ * are used to varify the functionality of parts of the code that are not easily
+ * testable with common unit tests because they rely on internet connection or
+ * other external factors.
+ * 
+ */
+
 #include "tests.h"
 
-
-// collection of empirical tests
-
+/**
+ * @brief Tests empirically the function get_NTP_time()
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: This test connects to the mobile hotspot of a phone. (didn't want to write my wifi credentials here)\n 
+ * -# request NTP time and check if the init_offset is correct (error should be less than 1000ms)
+ * -# request NTP time 100 times after random time intervals and check if the time is equal to the expected time 
+ * (error should be less than 1000ms due to rounding errors)
+ * 
+ */
 boolean empirical_test_get_NTP_time() {
 	/*
 	- tests empirically if the NTP time is correct
 	*/
-
-	// TODO: connect to mobile Hotspot
-	// TODO: check how frequently the NTP time can be updated
-	// check with irragular intervals if the time is correct while checking time with intervals durations
-
 
 	// connect to mobile Hotspot
 	WiFi.mode(WIFI_STA);
@@ -45,10 +60,10 @@ boolean empirical_test_get_NTP_time() {
 
 	DynamicJsonDocument previous_doc(1024);
 
-	// check 100 times with for loop if data of get_NTP_time is correct (wait random time between checks from 0.5s to 2s)
+	// check 100 times if the time is correct
 	for (int i = 0; i < 100; i++) {
 		// wait random time between checks from 1.5s to 3s (problems occured when frequency was below or at 1 request per second)
-		int random_time = random(1500, 3000);
+		unsigned long random_time = random(1500, 3000);
 		delay(random_time);
 
 		previous_doc = current_doc;
@@ -90,7 +105,7 @@ boolean empirical_test_get_NTP_time() {
 		// calculate expected values for hours, minutes and seconds
 		int expected_hours = previous_hours;
 		int expected_minutes = previous_minutes;
-		int expected_seconds = previous_seconds + (millis() - previous_init_offset)/1000;
+		int expected_seconds = previous_seconds + ((millis() - previous_init_offset) + 500)/1000;
 
 		if (expected_seconds >= 60) {
 			expected_minutes++;

@@ -1,34 +1,33 @@
+/**
+ * @file workflows.cpp
+ * @author Marc Ubbelohde
+ * @brief This file contains high level functions.
+ * 
+ * @details The functions in this file implement workflows which define the main 
+ * functionalities of the device such as recording signals and sending and deleting 
+ * signals and programs. Some functions are written here and not in the filesystem.cpp
+ * file because they are called directly from the webpage or use other functions 
+ * from this file.
+ */
+
 #include "workflows.h"
 
-/*
-In this file you find high level functions which are called directly by the website handlers.
-*/
-
+/**
+ * @brief This function deletes a file from the LittleFS filesystem.
+ * 
+ * @param directory - "signals" or "programs"
+ * @param name - name of the sequence or program to be deleted
+ * @return String - message that will be displayed on the webpage:\n 
+ * "success message" - if file was deleted\n
+ * "error message" - if file could not be found
+ * 
+ * @details This function is used to delete signals and programs.
+ * 
+ * @callgraph This function does not call other functions.
+ * 
+ * @callergraph 
+ */
 String deleting_workflow(String directory, String name) {
-  /*
-  parameters:
-    String directory:
-      "signals" - for deleting a sequence
-      "programs" - for deleting a program
-    String name:
-      name of the sequence or program to be deleted
-  
-  returns:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if file was deleted
-        "error message" - if file could not be found
-  
-  description:
-  This function deletes a file from the LittleFS filesystem. 
-  It is used to delete signals and programs.
-
-  calls:
-   ---
-
-  called by:
-  - handle_form (in src/main.cpp) to delete a sequence or program
-  */
   
   // generate filename
   String filename = "/" + directory + "/" + name + ".json";
@@ -48,31 +47,23 @@ String deleting_workflow(String directory, String name) {
   return("could not find " + directory + ": " + name);
 }
 
-
+/**
+ * @brief This function records and saves a signal.
+ * 
+ * @param signal_name - name of the sequence to be recorded
+ * 
+ * @return String - message that will be displayed on the webpage:\n
+ * "success message" - if signal was saved\n
+ * "error message" - no signal was captured
+ * 
+ * @details This function records a signal and saves it to a file in the LitteFS with
+ * the signals name.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String recording_workflow(String signal_name) {
-  /*
-  parameters:
-    String signal_name:
-      name of the sequence to be recorded
-  
-  returns:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if signal was saved
-        "error message" - no signal was captured
-  
-  description:
-  This function records a signal and saves it to a file with the signals name 
-  in the LittleFS filesystem.
-
-  calls:
-  - capture_signal (in src/filesystem.cpp) to capture a signal
-  - save_signal (in src/filesystem.cpp) to convert the signal to JSON and add the name
-  - save_json (in src/filesystem.cpp) to save the JSON to a file
-
-  called by:
-  - handle_form (in src/main.cpp) to record a sequence
-  */
   
   // receive signal sequence
   String raw_sequence = capture_signal();
@@ -97,30 +88,22 @@ String recording_workflow(String signal_name) {
   }
 }
 
-
+/**
+ * @brief This function loads a signal from a file and sends it.
+ * 
+ * @param signal_name - name of the sequence to be sent
+ * 
+ * @return String - message that will be displayed on the webpage:\n
+ * "success message" - if file was found and command was sent\n
+ * "error message" - if file could not be found
+ * 
+ * @details
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String sending_workflow(String signal_name) {
-  /*
-  parameters:
-    String signal_name:
-      name of the sequence to be sent
-  
-  returns:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if file was found and command was sent
-        "error message" - if file could not be found
-
-  description:
-  This function loads a signal from a file and sends it.
-
-  calls:
-  - check_if_file_exists (in src/filesystem.cpp) to check if file exists
-  - load_json (in src/filesystem.cpp) to load the signal from the file
-  - send_signal (in src/filesystem.cpp) to send the signal
-
-  called by:
-  - handle_form (in src/main.cpp) to send a signal
-  */
  
   // generate filename
   String filename = "/signals/" + signal_name + ".json";
@@ -145,30 +128,24 @@ String sending_workflow(String signal_name) {
   }
 }
 
-
+/**
+ * @brief This function creates a file with the programs name and writes the code to it.
+ * 
+ * @param program_name - name of the program to be added
+ * 
+ * @param program_code - code of the program to be added
+ * 
+ * @return String - message that will be displayed on the webpage:\n
+ * "success message" - if file was created and code was written\n
+ * "error message" - if file could not be created
+ * 
+ * @details
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String adding_workflow(String program_name, String program_code) {
-  /*
-  parameters:
-    String program_name:
-      name of the program to be added
-    String program_code:
-      code of the program to be added
-
-  returns:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if file was created and code was written
-        "error message" - if file could not be created
-  
-  description:
-  This function creates a file with the programs name and writes the code to it.
-
-  calls:
-  - save_json (in src/filesystem.cpp) to save the JSON to a file
-
-  called by:
-  - handle_form (in src/main.cpp) to add a program
-  */
 
   // generate filename
   String filename = "/programs/" + program_name + ".json";
@@ -199,32 +176,24 @@ String adding_workflow(String program_name, String program_code) {
   return("successfully saved program: " + program_name);
 }
 
-
+/**
+ * @brief This function loads a program from a file and hands it to the program_parser.
+ * 
+ * @param program_name - name of the program to be played
+ * 
+ * @return String - message that will be displayed on the webpage:\n
+ * "success message" - if file was found and program was played successfully\n
+ * "error message" - if file could not be found or if in one of the commands an error occured (error message gets passed by program_parser)
+ * 
+ * @details This function loads a program from a file and hands it to the program_parser.
+ * The program_parser then sends the commands and returns a message when the execution
+ * of the program finished.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String playing_workflow(String program_name) {
-  /*
-  parameters:
-    String program_name:
-      name of the program to be played
-
-  returns:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if file was found and program was played successfully
-        "error message" - if file could not be found or if in one of the commands 
-        an error occured (error message gets passed by program_parser)
-
-  description:
-  This function loads a program from a file and hands it to the program_parser.
-  The program_parser then sends the commands and returns a message when the execution
-  of the program finished.
-
-  calls:
-  - check_if_file_exists (in src/filesystem.cpp) to check if file exists
-  - program_parser (in src/workflows.cpp) to parse the program and send the commands
-
-  called by:
-  - handle_form (in src/main.cpp) to play a program
-  */
 
   // generate filename
   String filename = "/programs/" + program_name + ".json";
@@ -251,33 +220,25 @@ String playing_workflow(String program_name) {
   }
 }
 
-
+/**
+ * @brief This function parses the code of a program line by line and executes the commands.
+ * 
+ * @param code - code of the program to be parsed
+ * 
+ * @return String - message that will be displayed on the webpage:\n
+ * "success message" - if program was played successfully\n
+ * "error message" - if in one of the commands an error occured an command specific error message is returned
+ * 
+ * @details This function parses the code of a program line by line and executes the commands.
+ * It was necessary to split the parser from the playing_workflow function to be able
+ * to call it recursively (for loops). Each line is searched for command specific keywords
+ * and the corresponding command handler is called.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String program_parser(String code){
-  /*
-  parameters:
-    String code:
-      code of the program to be parsed
-
-  returns:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if program was played successfully
-        "error message" - if in one of the commands an error occured an command 
-          specific error message is returned
-
-  description:
-  This function parses the code of a program line by line and executes the commands.
-  It was necessary to split the parser from the playing_workflow function to be able
-  to call it recursively (for loops). Each line is searched for command specific keywords
-  and the corresponding command handler is called.
-
-  calls:
-  - sending_workflow (in src/workflows.cpp) to send a signal (for play command)
-  - handle_wait_command (in src/workflows.cpp) to wait a certain amount of time (for wait and skip commands)
-  - program_parser (in src/workflows.cpp) to execute code that is inside a loop (for loop command)
-  - handle_time_command (in src/workflows.cpp) to wait until a certain time (for time command)
-  - handle_day_command (in src/workflows.cpp) to wait until a certain time and day (for day command)
-  */
 
   // initialize variables
   String line = "";
@@ -439,32 +400,26 @@ String program_parser(String code){
   return("success");
 }
 
-
+/**
+ * @brief This function waits a certain amount of time.
+ * 
+ * @param waiting_time - time to wait in milliseconds
+ * 
+ * @return String - message that will be displayed on the webpage:\n
+ *                 "success message" - if command was executed successfully\n
+ *                "error message" - if command was interrupted by the user
+ * 
+ * @details This function waits a certain amount of time. It is used for the wait and skip command.
+ *         It is necessary to check beforehand if a millis() overflow will occur during the waiting time.
+ *        If an overflow will occur, the function will first calculate the time it will have to
+ *       wait after the overflow occurs, then it will wait until the overflow occurs and waits
+ *      the remaining time. The function also checks if the user pressed the interrupt button.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String handle_wait_command(unsigned long waiting_time) {
-  /*
-  parameters:
-    unsigned long waiting_time:
-      time to wait in milliseconds
-  
-  return:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if command was executed successfully
-        "error message" - if command was interrupted by the user
-
-  description:
-  This function waits a certain amount of time. It is used for the wait and skip command.
-  It is necessary to check beforehand if a millis() overflow will occur during the waiting time.
-  If an overflow will occur, the function will first calculate the time it will have to 
-  wait after the overflow occurs, then it will wait until the overflow occurs and waits 
-  the remaining time. The function also checks if the user pressed the interrupt button.
-
-  calls:
-  - check_and_update_offset (in src/time.cpp) to check if the offset needs to be updated
-
-  called by:
-  - program_parser (in src/workflows.cpp) to execute wait or skip command
-  */
 
   // initialize variables:
   unsigned long time_now = millis();
@@ -516,33 +471,25 @@ String handle_wait_command(unsigned long waiting_time) {
   return("success");
 }
 
-
+/**
+ * @brief This function executes timed commands.
+ * 
+ * @param command - String command:\n
+ *                 "weekday hh:mm:ss signal_name" - if day_included is true\n
+ *                "hh:mm:ss signal_name" - if day_included is false
+ * 
+ * @param day_included - true if day is included in command, false if not
+ * 
+ * @return String - message that will be displayed on the webpage:\n
+ *                "success message" - if command was executed successfully\n
+ * 
+ * @details This function waits until a certain day and/or time is reached and then executes the given signal.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String handle_times_commands(String command, boolean day_included) {
-  /*
-  parameters:
-    String command:
-      "day hh:mm:ss signal_name" - if day_included is true
-      "hh:mm:ss signal_name" - if day_included is false
-
-  return:
-    String:
-      message that will be displayed on the webpage:
-        "success message" - if command was executed successfully
-        "error message" - if command was interrupted by the user
-
-  description:
-  This function waits until a certain day and/or time is reached and then executes the given signal.
-
-  calls:
-  - check_if_file_exists (in src/filesystem.cpp) to check if the file exists
-  - weekday_to_num (in src/time_management.cpp) to convert the written day to its numerical 
-    representation
-  - compare_time (in src/time_management.cpp) to compare the given time with the current time
-  - sending_workflow (in src/workflows.cpp) to send the given signal
-
-  called by:
-  - program_parser (in src/workflows.cpp) to execute day command
-  */
 
   // variable declaration
   String day = "";

@@ -1,0 +1,53 @@
+\hypertarget{empirical__tests_8cpp}{}\doxysection{src/tests/empirical\+\_\+tests.cpp File Reference}
+\label{empirical__tests_8cpp}\index{src/tests/empirical\_tests.cpp@{src/tests/empirical\_tests.cpp}}
+
+
+collection of empirical tests  
+
+
+{\ttfamily \#include \char`\"{}tests.\+h\char`\"{}}\newline
+Include dependency graph for empirical\+\_\+tests.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{empirical__tests_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+boolean \mbox{\hyperlink{empirical__tests_8cpp_aabb22a5cfde24cd08a45763709e04503}{empirical\+\_\+test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Tests empirically the function \mbox{\hyperlink{base_8h_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time()}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+collection of empirical tests 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde
+\end{DoxyAuthor}
+In this file you can find all emprical tests. This tests are used to varify the functionality of parts of the code that are not easily testable with common unit tests because they rely on internet connection or other external factors. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{empirical__tests_8cpp_aabb22a5cfde24cd08a45763709e04503}\label{empirical__tests_8cpp_aabb22a5cfde24cd08a45763709e04503}} 
+\index{empirical\_tests.cpp@{empirical\_tests.cpp}!empirical\_test\_get\_NTP\_time@{empirical\_test\_get\_NTP\_time}}
+\index{empirical\_test\_get\_NTP\_time@{empirical\_test\_get\_NTP\_time}!empirical\_tests.cpp@{empirical\_tests.cpp}}
+\doxysubsubsection{\texorpdfstring{empirical\_test\_get\_NTP\_time()}{empirical\_test\_get\_NTP\_time()}}
+{\footnotesize\ttfamily boolean empirical\+\_\+test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Tests empirically the function \mbox{\hyperlink{base_8h_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time()}} 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: This test connects to the mobile hotspot of a phone. (didn\textquotesingle{}t want to write my wifi credentials here)~\newline
+
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item request N\+TP time and check if the init\+\_\+offset is correct (error should be less than 1000ms)
+\item request N\+TP time 100 times after random time intervals and check if the time is equal to the expected time (error should be less than 1000ms due to rounding errors) 
+\end{DoxyEnumerate}

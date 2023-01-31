@@ -1,0 +1,32 @@
+<map id="handle_form" name="handle_form">
+<area shape="rect" id="node1" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="5,309,109,336"/>
+<area shape="rect" id="node2" href="$workflows_8h.html#a0f4135299af112fd833a2547da41297d" title="This function creates a file with the programs name and writes the code to it." alt="" coords="166,141,299,168"/>
+<area shape="rect" id="node3" href="$base_8h.html#ae91cb438a8dccf51f04a58947ad577e1" title="Checks if a String is alphanumeric." alt="" coords="163,193,302,234"/>
+<area shape="rect" id="node4" href="$workflows_8h.html#a114fb778076fa16b71370a0ac86e5064" title="This function deletes a file from the LittleFS filesystem." alt="" coords="161,259,304,285"/>
+<area shape="rect" id="node5" href="$workflows_8h.html#afbb6021d6f9112517cf664d3dccf3b77" title="This function loads a program from a file and hands it to the program_parser." alt="" coords="164,309,301,336"/>
+<area shape="rect" id="node23" href="$workflows_8h.html#aa5346f0ba92231fdbb04dceaf96145c5" title="This function records and saves a signal." alt="" coords="157,411,308,437"/>
+<area shape="rect" id="node29" href="$workflows_8h.html#ac7698db658d3e187c03e75ff9ac81591" title="This function loads a signal from a file and sends it." alt="" coords="767,309,907,336"/>
+<area shape="rect" id="node30" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="201,461,264,488"/>
+<area shape="rect" id="node6" href="$base_8h.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="973,157,1124,184"/>
+<area shape="rect" id="node7" href="$workflows_8cpp.html#aebc60e6c0ad4b332f2f1da7da6707f03" title="This function parses the code of a program line by line and executes the commands." alt="" coords="356,233,481,260"/>
+<area shape="rect" id="node21" href="$base_8h.html#a064bc458b16e70f9ce2384268151485c" title="Reads a program file and returns its content as a String." alt="" coords="362,309,475,336"/>
+<area shape="rect" id="node8" href="$workflows_8cpp.html#ae38fa40d61cf9aecaf82ebf6c2cc2977" title="This function executes timed commands." alt="" coords="529,208,719,235"/>
+<area shape="rect" id="node16" href="$workflows_8cpp.html#ac66d9f916af4fef55538c5cf0be70989" title="This function loads a signal from a file and sends it." alt="" coords="767,259,907,285"/>
+<area shape="rect" id="node19" href="$workflows_8cpp.html#a4c38b70181fc74cd62f0a7529ffaf796" title="This function waits a certain amount of time." alt="" coords="537,157,711,184"/>
+<area shape="rect" id="node9" href="$base_8h.html#a6291345b0a1a1141c8d11458ff2f5cd4" title="Compare specified time with current time." alt="" coords="779,56,895,83"/>
+<area shape="rect" id="node18" href="$base_8h.html#a3510cfe664c5b740d746a31e79b0f158" title="Converts a weekday String to a weekday number." alt="" coords="768,208,905,235"/>
+<area shape="rect" id="node10" href="$time__management_8cpp.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="955,56,1143,83"/>
+<area shape="rect" id="node15" href="$time__management_8cpp.html#a79f5fec2131038665d4240b7b761f15a" title="Loads the current time from LittleFS." alt="" coords="982,107,1115,133"/>
+<area shape="rect" id="node11" href="$time__management_8cpp.html#a2df1ab5ae345f8373541fdadc380d0cf" title="adds two times together" alt="" coords="1231,107,1314,133"/>
+<area shape="rect" id="node12" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="1231,157,1315,184"/>
+<area shape="rect" id="node13" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="1229,5,1316,32"/>
+<area shape="rect" id="node14" href="$time__management_8cpp.html#a9302635144807a7f7063815f116ac129" title="This function converts seconds to time format." alt="" coords="1191,56,1355,83"/>
+<area shape="rect" id="node17" href="$base_8h.html#ae92ea0f99679274f490c7e2d8a61ddd7" title="This function sends a signal provided in JSON format." alt="" coords="999,259,1098,285"/>
+<area shape="rect" id="node20" href="$base_8h.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="955,5,1143,32"/>
+<area shape="rect" id="node22" href="$filesystem_8cpp.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="549,309,699,336"/>
+<area shape="rect" id="node24" href="$base_8h.html#a974f985f052312d114134bc603d672a9" title="This function captures a signal and returns it as a String." alt="" coords="360,411,477,437"/>
+<area shape="rect" id="node26" href="$base_8h.html#a0282f0219ae51dc8d2b578908b8a70de" title="This function saves a captured signal." alt="" coords="369,461,468,488"/>
+<area shape="rect" id="node25" href="$filesystem_8cpp.html#ae9e99c2db47fcc4b52086d16296a49aa" title="Controls the LED output." alt="" coords="553,411,695,437"/>
+<area shape="rect" id="node27" href="$filesystem_8cpp.html#ae91cb438a8dccf51f04a58947ad577e1" title="Checks if a String is alphanumeric." alt="" coords="555,513,693,554"/>
+<area shape="rect" id="node28" href="$filesystem_8cpp.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="581,461,667,488"/>
+</map>

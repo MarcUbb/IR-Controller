@@ -1,0 +1,930 @@
+\hypertarget{tests_8h}{}\doxysection{include/tests.h File Reference}
+\label{tests_8h}\index{include/tests.h@{include/tests.h}}
+
+
+Header File for all test files.  
+
+
+{\ttfamily \#include \char`\"{}base.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}workflows.\+h\char`\"{}}\newline
+Include dependency graph for tests.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{tests_8h_a47dfb1d23489b9c534a1d988b3c22f1f}{clean\+\_\+\+Little\+FS}} ()
+\begin{DoxyCompactList}\small\item\em Deletes all files in \char`\"{}/\char`\"{}, \char`\"{}/signals\char`\"{} and \char`\"{}/programs\char`\"{} in the Little\+FS. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_af5c2ce0c5931b603a4db2595b15fe86c}{test\+\_\+capture\+\_\+signal}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}capture\+\_\+signal\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a6eff92c8e6a62b4e284d4124c985edb2}{test\+\_\+save\+\_\+signal}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}save\+\_\+signal\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a33ae18a47ca66a146cee114bf712d718}{test\+\_\+save\+\_\+json}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}save\+\_\+json\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_ac493a0e24d2dff0c1de7362d234f2d29}{test\+\_\+load\+\_\+json}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}load\+\_\+json\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_ab8010bf8e97ecf011275d22d5d300cbc}{test\+\_\+send\+\_\+signal}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}send\+\_\+signal\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_af8322e01dc3fc896ac9fda7c1f62a0dc}{test\+\_\+get\+\_\+files}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}get\+\_\+files\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a41e633e4caee0888f37e1d967f84dda6}{test\+\_\+check\+\_\+if\+\_\+file\+\_\+exists}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}check\+\_\+if\+\_\+file\+\_\+exists\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_adbe98696af8d7cd62f4303909cd10f7a}{test\+\_\+read\+\_\+program}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}read\+\_\+program\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a23216414e9ff8c254a6cc718e109634b}{test\+\_\+control\+\_\+led\+\_\+output}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}test\+\_\+control\+\_\+led\+\_\+output\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_aadf2be03b5e13707dafde4ae9ac1259b}{test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a04cb9a292f5cf2a7fb92c204a72379e5}{test\+\_\+weekday\+\_\+to\+\_\+num}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}weekday\+\_\+to\+\_\+num\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a17adbc3a04a35de5581e9d8e0d39a673}{test\+\_\+compare\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}compare\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_adf1f311bfde974c623b74f3b248a37fa}{test\+\_\+update\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}update\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a42e32ef599fb3cba5778706f6daea8cd}{test\+\_\+get\+\_\+current\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}get\+\_\+current\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_ad26ff1c7b4c3bb2f4a1fb0ee31c9ecc8}{test\+\_\+turn\+\_\+seconds\+\_\+in\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}turn\+\_\+seconds\+\_\+in\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a7beae3d56bddfc62d5ad4d00e31a4029}{test\+\_\+add\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}add\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a1e3f5cd42c40520d5fbfc9c70ba58f76}{test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}get\+\_\+\+N\+T\+P\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a57bbab4c6324d9f66a780319aa1c1866}{test\+\_\+check\+\_\+and\+\_\+update\+\_\+offset}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}check\+\_\+and\+\_\+update\+\_\+offset\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a898c623ea78e7d61bcfa0390c5abe742}{test\+\_\+deleting\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}deleting\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a07e33087241b5482b475773f885015ed}{test\+\_\+recording\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}recording\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a58a5d4b443bfc228d6b118aa6968e835}{test\+\_\+sending\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}sending\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a660ae5c1e5e0a91b8b123cb73e98377c}{test\+\_\+adding\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}adding\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a5f3743734b6324bacb1c6332abc9eca2}{test\+\_\+playing\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}playing\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a7c5aac3f0870893d1a6beaaae8d63bc3}{test\+\_\+program\+\_\+parser}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}program\+\_\+parser\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_ac853f5e0d739b212618bd92ce084f9fd}{test\+\_\+handle\+\_\+wait\+\_\+command}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}handle\+\_\+wait\+\_\+command\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a8bf77dec2d5c5c9fca6d6d9491e929d2}{test\+\_\+handle\+\_\+times\+\_\+commands}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}handle\+\_\+times\+\_\+commands\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a54d5f87e6031ca9d0ce27d48e6079032}{run\+\_\+all\+\_\+filesystem\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all tests for \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_aa7d1d7dcdf9dfb99e8af73d4adea3d9e}{run\+\_\+all\+\_\+time\+\_\+management\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all tests for \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}} \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_a00ef4d5ed3618cf7ba7f43447acef68b}{run\+\_\+all\+\_\+workflows\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all tests for \mbox{\hyperlink{workflows_8cpp}{workflows.\+cpp}} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{tests_8h_ae3c32f603677f6b9f8616bb50afc6a32}{run\+\_\+all\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all tests for all files \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{tests_8h_a76d71e77bfa42929b874bbdfbe896517}{run\+\_\+all\+\_\+empirical\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all empirical tests \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{tests_8h_aabb22a5cfde24cd08a45763709e04503}{empirical\+\_\+test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Tests empirically the function \mbox{\hyperlink{base_8h_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time()}} \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header File for all test files. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde
+\end{DoxyAuthor}
+This file provides access to the source code for all unit test funcitons. It also provides access to the unit test functions for the functions in \mbox{\hyperlink{test__main_8cpp}{test\+\_\+main.\+cpp}}. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{tests_8h_a47dfb1d23489b9c534a1d988b3c22f1f}\label{tests_8h_a47dfb1d23489b9c534a1d988b3c22f1f}} 
+\index{tests.h@{tests.h}!clean\_LittleFS@{clean\_LittleFS}}
+\index{clean\_LittleFS@{clean\_LittleFS}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{clean\_LittleFS()}{clean\_LittleFS()}}
+{\footnotesize\ttfamily void clean\+\_\+\+Little\+FS (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Deletes all files in \char`\"{}/\char`\"{}, \char`\"{}/signals\char`\"{} and \char`\"{}/programs\char`\"{} in the Little\+FS. 
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{tests_8h_a47dfb1d23489b9c534a1d988b3c22f1f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{tests_8h_aabb22a5cfde24cd08a45763709e04503}\label{tests_8h_aabb22a5cfde24cd08a45763709e04503}} 
+\index{tests.h@{tests.h}!empirical\_test\_get\_NTP\_time@{empirical\_test\_get\_NTP\_time}}
+\index{empirical\_test\_get\_NTP\_time@{empirical\_test\_get\_NTP\_time}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{empirical\_test\_get\_NTP\_time()}{empirical\_test\_get\_NTP\_time()}}
+{\footnotesize\ttfamily boolean empirical\+\_\+test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Tests empirically the function \mbox{\hyperlink{base_8h_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time()}} 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: This test connects to the mobile hotspot of a phone. (didn\textquotesingle{}t want to write my wifi credentials here)~\newline
+
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item request N\+TP time and check if the init\+\_\+offset is correct (error should be less than 1000ms)
+\item request N\+TP time 100 times after random time intervals and check if the time is equal to the expected time (error should be less than 1000ms due to rounding errors) 
+\end{DoxyEnumerate}\mbox{\Hypertarget{tests_8h_a76d71e77bfa42929b874bbdfbe896517}\label{tests_8h_a76d71e77bfa42929b874bbdfbe896517}} 
+\index{tests.h@{tests.h}!run\_all\_empirical\_tests@{run\_all\_empirical\_tests}}
+\index{run\_all\_empirical\_tests@{run\_all\_empirical\_tests}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{run\_all\_empirical\_tests()}{run\_all\_empirical\_tests()}}
+{\footnotesize\ttfamily void run\+\_\+all\+\_\+empirical\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all empirical tests 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_8h_a76d71e77bfa42929b874bbdfbe896517_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{tests_8h_a54d5f87e6031ca9d0ce27d48e6079032}\label{tests_8h_a54d5f87e6031ca9d0ce27d48e6079032}} 
+\index{tests.h@{tests.h}!run\_all\_filesystem\_tests@{run\_all\_filesystem\_tests}}
+\index{run\_all\_filesystem\_tests@{run\_all\_filesystem\_tests}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{run\_all\_filesystem\_tests()}{run\_all\_filesystem\_tests()}}
+{\footnotesize\ttfamily boolean run\+\_\+all\+\_\+filesystem\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all tests for \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if all tests passed, false if at least one test failed 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_8h_a54d5f87e6031ca9d0ce27d48e6079032_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{tests_8h_a54d5f87e6031ca9d0ce27d48e6079032_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{tests_8h_ae3c32f603677f6b9f8616bb50afc6a32}\label{tests_8h_ae3c32f603677f6b9f8616bb50afc6a32}} 
+\index{tests.h@{tests.h}!run\_all\_tests@{run\_all\_tests}}
+\index{run\_all\_tests@{run\_all\_tests}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{run\_all\_tests()}{run\_all\_tests()}}
+{\footnotesize\ttfamily void run\+\_\+all\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all tests for all files 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{tests_8h_ae3c32f603677f6b9f8616bb50afc6a32_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{tests_8h_aa7d1d7dcdf9dfb99e8af73d4adea3d9e}\label{tests_8h_aa7d1d7dcdf9dfb99e8af73d4adea3d9e}} 
+\index{tests.h@{tests.h}!run\_all\_time\_management\_tests@{run\_all\_time\_management\_tests}}
+\index{run\_all\_time\_management\_tests@{run\_all\_time\_management\_tests}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{run\_all\_time\_management\_tests()}{run\_all\_time\_management\_tests()}}
+{\footnotesize\ttfamily boolean run\+\_\+all\+\_\+time\+\_\+management\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all tests for \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if all tests passed, false if at least one test failed 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_8h_aa7d1d7dcdf9dfb99e8af73d4adea3d9e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{tests_8h_aa7d1d7dcdf9dfb99e8af73d4adea3d9e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{tests_8h_a00ef4d5ed3618cf7ba7f43447acef68b}\label{tests_8h_a00ef4d5ed3618cf7ba7f43447acef68b}} 
+\index{tests.h@{tests.h}!run\_all\_workflows\_tests@{run\_all\_workflows\_tests}}
+\index{run\_all\_workflows\_tests@{run\_all\_workflows\_tests}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{run\_all\_workflows\_tests()}{run\_all\_workflows\_tests()}}
+{\footnotesize\ttfamily boolean run\+\_\+all\+\_\+workflows\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all tests for \mbox{\hyperlink{workflows_8cpp}{workflows.\+cpp}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if all tests passed, false if at least one test failed 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{tests_8h_a00ef4d5ed3618cf7ba7f43447acef68b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=329pt]{tests_8h_a00ef4d5ed3618cf7ba7f43447acef68b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{tests_8h_a7beae3d56bddfc62d5ad4d00e31a4029}\label{tests_8h_a7beae3d56bddfc62d5ad4d00e31a4029}} 
+\index{tests.h@{tests.h}!test\_add\_time@{test\_add\_time}}
+\index{test\_add\_time@{test\_add\_time}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_add\_time()}{test\_add\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+add\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}add\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks samples of timestamps
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a2df1ab5ae345f8373541fdadc380d0cf}{add\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a660ae5c1e5e0a91b8b123cb73e98377c}\label{tests_8h_a660ae5c1e5e0a91b8b123cb73e98377c}} 
+\index{tests.h@{tests.h}!test\_adding\_workflow@{test\_adding\_workflow}}
+\index{test\_adding\_workflow@{test\_adding\_workflow}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_adding\_workflow()}{test\_adding\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+adding\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}adding\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if functions return value is correct
+\item check if program code is correctly written to file
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_a0f4135299af112fd833a2547da41297d}{adding\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_af5c2ce0c5931b603a4db2595b15fe86c}\label{tests_8h_af5c2ce0c5931b603a4db2595b15fe86c}} 
+\index{tests.h@{tests.h}!test\_capture\_signal@{test\_capture\_signal}}
+\index{test\_capture\_signal@{test\_capture\_signal}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_capture\_signal()}{test\_capture\_signal()}}
+{\footnotesize\ttfamily boolean test\+\_\+capture\+\_\+signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}capture\+\_\+signal\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if return value is correct (no random noise signal is received)
+\item check if execution time is normal (1s more is acceptable)
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a974f985f052312d114134bc603d672a9}{capture\+\_\+signal}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a57bbab4c6324d9f66a780319aa1c1866}\label{tests_8h_a57bbab4c6324d9f66a780319aa1c1866}} 
+\index{tests.h@{tests.h}!test\_check\_and\_update\_offset@{test\_check\_and\_update\_offset}}
+\index{test\_check\_and\_update\_offset@{test\_check\_and\_update\_offset}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_check\_and\_update\_offset()}{test\_check\_and\_update\_offset()}}
+{\footnotesize\ttfamily boolean test\+\_\+check\+\_\+and\+\_\+update\+\_\+offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}check\+\_\+and\+\_\+update\+\_\+offset\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and initialize time.\+json with test data
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if the offset is updated correctly
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_ac98cf9eca3c34ed8b3fb2c93625a0c18}{check\+\_\+and\+\_\+update\+\_\+offset}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a41e633e4caee0888f37e1d967f84dda6}\label{tests_8h_a41e633e4caee0888f37e1d967f84dda6}} 
+\index{tests.h@{tests.h}!test\_check\_if\_file\_exists@{test\_check\_if\_file\_exists}}
+\index{test\_check\_if\_file\_exists@{test\_check\_if\_file\_exists}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_check\_if\_file\_exists()}{test\_check\_if\_file\_exists()}}
+{\footnotesize\ttfamily boolean test\+\_\+check\+\_\+if\+\_\+file\+\_\+exists (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}check\+\_\+if\+\_\+file\+\_\+exists\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and create test file in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks existing file is found
+\item checks non-\/existing file is not found
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a5689133a917d901606c1d294bfda5785}{check\+\_\+if\+\_\+file\+\_\+exists}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_aadf2be03b5e13707dafde4ae9ac1259b}\label{tests_8h_aadf2be03b5e13707dafde4ae9ac1259b}} 
+\index{tests.h@{tests.h}!test\_check\_if\_string\_is\_alphanumeric@{test\_check\_if\_string\_is\_alphanumeric}}
+\index{test\_check\_if\_string\_is\_alphanumeric@{test\_check\_if\_string\_is\_alphanumeric}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_check\_if\_string\_is\_alphanumeric()}{test\_check\_if\_string\_is\_alphanumeric()}}
+{\footnotesize\ttfamily boolean test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+-\/Setup\+: -\/
+\begin{DoxyEnumerate}
+\item checks if sample Strings are recognized correctly
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{test__filesystem_8cpp_aadf2be03b5e13707dafde4ae9ac1259b}{test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a17adbc3a04a35de5581e9d8e0d39a673}\label{tests_8h_a17adbc3a04a35de5581e9d8e0d39a673}} 
+\index{tests.h@{tests.h}!test\_compare\_time@{test\_compare\_time}}
+\index{test\_compare\_time@{test\_compare\_time}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_compare\_time()}{test\_compare\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+compare\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}compare\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and initialize time.\+json with test data
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks with loop if true is returned when times match
+\item checks if false is returned when times do not match
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a6291345b0a1a1141c8d11458ff2f5cd4}{compare\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a23216414e9ff8c254a6cc718e109634b}\label{tests_8h_a23216414e9ff8c254a6cc718e109634b}} 
+\index{tests.h@{tests.h}!test\_control\_led\_output@{test\_control\_led\_output}}
+\index{test\_control\_led\_output@{test\_control\_led\_output}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_control\_led\_output()}{test\_control\_led\_output()}}
+{\footnotesize\ttfamily boolean test\+\_\+control\+\_\+led\+\_\+output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}test\+\_\+control\+\_\+led\+\_\+output\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+The functionality of this function is manually tested.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{test__filesystem_8cpp_a23216414e9ff8c254a6cc718e109634b}{test\+\_\+control\+\_\+led\+\_\+output}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a898c623ea78e7d61bcfa0390c5abe742}\label{tests_8h_a898c623ea78e7d61bcfa0390c5abe742}} 
+\index{tests.h@{tests.h}!test\_deleting\_workflow@{test\_deleting\_workflow}}
+\index{test\_deleting\_workflow@{test\_deleting\_workflow}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_deleting\_workflow()}{test\_deleting\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+deleting\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}deleting\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and create test signal file
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if function returns correct error message when file does not exist
+\item check if no other file is deleted
+\item check if file is deleted correctly
+\item check again if no other file is deleted
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_a2123f865eebeaf746e6016a82b159268}{deleting\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a42e32ef599fb3cba5778706f6daea8cd}\label{tests_8h_a42e32ef599fb3cba5778706f6daea8cd}} 
+\index{tests.h@{tests.h}!test\_get\_current\_time@{test\_get\_current\_time}}
+\index{test\_get\_current\_time@{test\_get\_current\_time}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_get\_current\_time()}{test\_get\_current\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+get\+\_\+current\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}get\+\_\+current\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and initialize time.\+json with test data
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks twice if time is returned correctly
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a}{get\+\_\+current\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_af8322e01dc3fc896ac9fda7c1f62a0dc}\label{tests_8h_af8322e01dc3fc896ac9fda7c1f62a0dc}} 
+\index{tests.h@{tests.h}!test\_get\_files@{test\_get\_files}}
+\index{test\_get\_files@{test\_get\_files}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_get\_files()}{test\_get\_files()}}
+{\footnotesize\ttfamily boolean test\+\_\+get\+\_\+files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}get\+\_\+files\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and create test files in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if files are returned correctly
+\item checks if no files are returned if no files exist
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a57b2a7efc18f0e2b29d17382c2c9aca5}{get\+\_\+files}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a1e3f5cd42c40520d5fbfc9c70ba58f76}\label{tests_8h_a1e3f5cd42c40520d5fbfc9c70ba58f76}} 
+\index{tests.h@{tests.h}!test\_get\_NTP\_time@{test\_get\_NTP\_time}}
+\index{test\_get\_NTP\_time@{test\_get\_NTP\_time}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_get\_NTP\_time()}{test\_get\_NTP\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}get\+\_\+\+N\+T\+P\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if the document is empty (since Wifi is not available)
+\item functionality is tested empirically
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a8bf77dec2d5c5c9fca6d6d9491e929d2}\label{tests_8h_a8bf77dec2d5c5c9fca6d6d9491e929d2}} 
+\index{tests.h@{tests.h}!test\_handle\_times\_commands@{test\_handle\_times\_commands}}
+\index{test\_handle\_times\_commands@{test\_handle\_times\_commands}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_handle\_times\_commands()}{test\_handle\_times\_commands()}}
+{\footnotesize\ttfamily boolean test\+\_\+handle\+\_\+times\+\_\+commands (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}handle\+\_\+times\+\_\+commands\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: create test signal in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check error message if weekday is invalid
+\item check if invalid commands are caught
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_ae38fa40d61cf9aecaf82ebf6c2cc2977}{handle\+\_\+times\+\_\+commands}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_ac853f5e0d739b212618bd92ce084f9fd}\label{tests_8h_ac853f5e0d739b212618bd92ce084f9fd}} 
+\index{tests.h@{tests.h}!test\_handle\_wait\_command@{test\_handle\_wait\_command}}
+\index{test\_handle\_wait\_command@{test\_handle\_wait\_command}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_handle\_wait\_command()}{test\_handle\_wait\_command()}}
+{\footnotesize\ttfamily boolean test\+\_\+handle\+\_\+wait\+\_\+command (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}handle\+\_\+wait\+\_\+command\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if return value is \char`\"{}success\char`\"{}
+\item check if set amount of time is waited
+\item check if function waited too long
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_a4c38b70181fc74cd62f0a7529ffaf796}{handle\+\_\+wait\+\_\+command}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_ac493a0e24d2dff0c1de7362d234f2d29}\label{tests_8h_ac493a0e24d2dff0c1de7362d234f2d29}} 
+\index{tests.h@{tests.h}!test\_load\_json@{test\_load\_json}}
+\index{test\_load\_json@{test\_load\_json}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_load\_json()}{test\_load\_json()}}
+{\footnotesize\ttfamily boolean test\+\_\+load\+\_\+json (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}load\+\_\+json\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if data is correctly loaded from file
+\item checks if empthy J\+S\+ON Doc is returned if file does not exist
+\item checks if empthy J\+S\+ON Doc is returned if file is empthy
+\item checks if empthy J\+S\+ON Doc is returned if file is not in J\+S\+ON format
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a56820dcc580395e119d9de2ad4ad2400}{load\+\_\+json}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a5f3743734b6324bacb1c6332abc9eca2}\label{tests_8h_a5f3743734b6324bacb1c6332abc9eca2}} 
+\index{tests.h@{tests.h}!test\_playing\_workflow@{test\_playing\_workflow}}
+\index{test\_playing\_workflow@{test\_playing\_workflow}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_playing\_workflow()}{test\_playing\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+playing\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}playing\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and create 2 test programs in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if functions return value is correct when file does not exist
+\item check if program can be correctly executed
+\item check if error messages of program\+\_\+parser are shown correctly
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_afbb6021d6f9112517cf664d3dccf3b77}{playing\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a7c5aac3f0870893d1a6beaaae8d63bc3}\label{tests_8h_a7c5aac3f0870893d1a6beaaae8d63bc3}} 
+\index{tests.h@{tests.h}!test\_program\_parser@{test\_program\_parser}}
+\index{test\_program\_parser@{test\_program\_parser}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_program\_parser()}{test\_program\_parser()}}
+{\footnotesize\ttfamily boolean test\+\_\+program\+\_\+parser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}program\+\_\+parser\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and create 2 test signals in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if program can be executed correctly
+\item if error message is correct when program is faulty
+\item if error message is correct when signal does not exist
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_aebc60e6c0ad4b332f2f1da7da6707f03}{program\+\_\+parser}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_adbe98696af8d7cd62f4303909cd10f7a}\label{tests_8h_adbe98696af8d7cd62f4303909cd10f7a}} 
+\index{tests.h@{tests.h}!test\_read\_program@{test\_read\_program}}
+\index{test\_read\_program@{test\_read\_program}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_read\_program()}{test\_read\_program()}}
+{\footnotesize\ttfamily boolean test\+\_\+read\+\_\+program (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}read\+\_\+program\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and create test program in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if program is read correctly
+\item checks if empthy string is returned if program does not exist
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a064bc458b16e70f9ce2384268151485c}{read\+\_\+program}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a07e33087241b5482b475773f885015ed}\label{tests_8h_a07e33087241b5482b475773f885015ed}} 
+\index{tests.h@{tests.h}!test\_recording\_workflow@{test\_recording\_workflow}}
+\index{test\_recording\_workflow@{test\_recording\_workflow}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_recording\_workflow()}{test\_recording\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+recording\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}recording\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if error message is correct when nothing was recorded
+\item check if no file is written when nothing was recorded
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_af3762d2fcc0a63fdbe4a96b6c6aedd5b}{recording\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a33ae18a47ca66a146cee114bf712d718}\label{tests_8h_a33ae18a47ca66a146cee114bf712d718}} 
+\index{tests.h@{tests.h}!test\_save\_json@{test\_save\_json}}
+\index{test\_save\_json@{test\_save\_json}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_save\_json()}{test\_save\_json()}}
+{\footnotesize\ttfamily boolean test\+\_\+save\+\_\+json (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}save\+\_\+json\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if file is created
+\item checks if J\+S\+O\+N-\/\+Document is correctly written to file
+\item checks if file is overwritten if it already exists
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item (no check if filename or data is correct (this is checked by higher level))
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a8de3bbf584592c6a6c216ce738ca24ce}{save\+\_\+json}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a6eff92c8e6a62b4e284d4124c985edb2}\label{tests_8h_a6eff92c8e6a62b4e284d4124c985edb2}} 
+\index{tests.h@{tests.h}!test\_save\_signal@{test\_save\_signal}}
+\index{test\_save\_signal@{test\_save\_signal}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_save\_signal()}{test\_save\_signal()}}
+{\footnotesize\ttfamily boolean test\+\_\+save\+\_\+signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}save\+\_\+signal\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if formatting of name is considered
+\item checks if formatting of result\+\_\+string is considered
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a0282f0219ae51dc8d2b578908b8a70de}{save\+\_\+signal}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_ab8010bf8e97ecf011275d22d5d300cbc}\label{tests_8h_ab8010bf8e97ecf011275d22d5d300cbc}} 
+\index{tests.h@{tests.h}!test\_send\_signal@{test\_send\_signal}}
+\index{test\_send\_signal@{test\_send\_signal}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_send\_signal()}{test\_send\_signal()}}
+{\footnotesize\ttfamily boolean test\+\_\+send\+\_\+signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}send\+\_\+signal\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if signal is sent correctly
+\item checks if J\+S\+ON Doc with invalid length is not accepted
+\item checks if J\+S\+ON Doc with without sequence is not accepted
+\item checks if J\+S\+ON Doc with without length is not accepted
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_ae92ea0f99679274f490c7e2d8a61ddd7}{send\+\_\+signal}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a58a5d4b443bfc228d6b118aa6968e835}\label{tests_8h_a58a5d4b443bfc228d6b118aa6968e835}} 
+\index{tests.h@{tests.h}!test\_sending\_workflow@{test\_sending\_workflow}}
+\index{test\_sending\_workflow@{test\_sending\_workflow}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_sending\_workflow()}{test\_sending\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+sending\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}sending\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and create 2 test signals in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if error message is correct when file does not exist
+\item check if sequence can be correctly sent
+\item check if error messages of send\+\_\+signal are shown correctly (1 example)
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_ac66d9f916af4fef55538c5cf0be70989}{sending\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_ad26ff1c7b4c3bb2f4a1fb0ee31c9ecc8}\label{tests_8h_ad26ff1c7b4c3bb2f4a1fb0ee31c9ecc8}} 
+\index{tests.h@{tests.h}!test\_turn\_seconds\_in\_time@{test\_turn\_seconds\_in\_time}}
+\index{test\_turn\_seconds\_in\_time@{test\_turn\_seconds\_in\_time}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_turn\_seconds\_in\_time()}{test\_turn\_seconds\_in\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+turn\+\_\+seconds\+\_\+in\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}turn\+\_\+seconds\+\_\+in\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks samples of conversions
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a9302635144807a7f7063815f116ac129}{turn\+\_\+seconds\+\_\+in\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_adf1f311bfde974c623b74f3b248a37fa}\label{tests_8h_adf1f311bfde974c623b74f3b248a37fa}} 
+\index{tests.h@{tests.h}!test\_update\_time@{test\_update\_time}}
+\index{test\_update\_time@{test\_update\_time}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_update\_time()}{test\_update\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+update\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}update\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and initialize time.\+json with test data
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if the time is updated correctly in Station mode
+\item checks if the time is updated correctly in AP mode
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a11b9f043cd67f782c7b8c49ffd0f51cb}{update\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a04cb9a292f5cf2a7fb92c204a72379e5}\label{tests_8h_a04cb9a292f5cf2a7fb92c204a72379e5}} 
+\index{tests.h@{tests.h}!test\_weekday\_to\_num@{test\_weekday\_to\_num}}
+\index{test\_weekday\_to\_num@{test\_weekday\_to\_num}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_weekday\_to\_num()}{test\_weekday\_to\_num()}}
+{\footnotesize\ttfamily boolean test\+\_\+weekday\+\_\+to\+\_\+num (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}weekday\+\_\+to\+\_\+num\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if the correct number for each weekday is returned
+\item checks if \char`\"{}error\char`\"{} is returned if the weekday is not valid
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a3510cfe664c5b740d746a31e79b0f158}{weekday\+\_\+to\+\_\+num}} 
+\end{DoxySeeAlso}

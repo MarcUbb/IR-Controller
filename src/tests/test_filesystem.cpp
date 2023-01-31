@@ -1,13 +1,26 @@
+/**
+ * @file test_filesystem.cpp
+ * @author Marc Ubbelohde
+ * @brief This file contains unit tests for all functions from the filesystem.cpp.
+ * 
+ */
+
+
 #include "tests.h"
 
-
-// tests for filesystem.cpp
-
+/**
+ * @brief Unit test for the function "capture_signal"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: -
+ * -# check if return value is correct (no random noise signal is received)
+ * -# check if execution time is normal (1s more is acceptable)
+ * 
+ * @see capture_signal
+ */
 boolean test_capture_signal() {
-  /*
-  - checks if execution time is normal
-  - checks if return value is correct (no random noise signal is received)
-  */
+
   unsigned long start_time = millis();
   String return_val = capture_signal();
   unsigned long end_time = millis();
@@ -15,23 +28,32 @@ boolean test_capture_signal() {
   unsigned long elapsed_time = end_time - start_time;
 
 	// checks if return value is correct and if execution time is normal
-  if (return_val == "no_signal" && elapsed_time > 10000 && elapsed_time < 11000) {
-    Serial.println("\e[0;32mtest_capture_signal: PASSED\e[0;37m");
-    return(true); 
-  }
-  // prints error message if test failed
-  else {
+  if (return_val != "no_signal" || elapsed_time > 10000 || elapsed_time < 11000) {
     Serial.println("\e[0;31mtest_capture_signal: FAILED");
     Serial.println("return value: " + return_val + " , elapsed time: " + elapsed_time + "\e[0;37m");
-    return(false);
+    return(false);	
   }
+
+  // prints success message and returns true
+  Serial.println("\e[0;32mtest_capture_signal: PASSED\e[0;37m");
+  return(true); 
 }
 
+/**
+ * @brief Unit test for the function "save_signal"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS
+ * -# checks if formatting of name is considered
+ * -# checks if formatting of result_string is considered
+ * 
+ * @see save_signal
+ */
 boolean test_save_signal() {
-  /*
-  - checks if formatting of result_string is considered
-  - checks if formatting of name is considered
-  */
+
+	// Clean LittleFS
+	clean_LittleFS();
   
   String name1 = "___test123"; // should work
   String name2 = "___üäöß"; // should not work
@@ -85,19 +107,29 @@ boolean test_save_signal() {
 		}
 	}
 
-	//prints success message and return true
+	// prints success message and return true
 	Serial.println("\e[0;32mtest_save_signal: PASSED\e[0;37m");
   clean_LittleFS();
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "save_json"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS
+ * -# checks if file is created
+ * -# checks if JSON-Document is correctly written to file
+ * -# checks if file is overwritten if it already exists
+ * - (no check if filename or data is correct (this is checked by higher level))
+ * 
+ * @see save_json
+ */
 boolean test_save_json() {
-	/*
-	- checks if file is created
-  - checks if JSON-Document is correctly written to file
-  - checks if file is overwritten if it already exists
-  - no check if filename or data is correct (this is checked by higher level)
-	*/
+
+	// Clean LittleFS
+	clean_LittleFS();
 
   // test names
   String name1 = "/test_file.json"; 
@@ -167,13 +199,23 @@ boolean test_save_json() {
   return(true);
 }
 
+/**
+ * @brief Unit test for the function "load_json"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS
+ * -# checks if data is correctly loaded from file
+ * -# checks if empthy JSON Doc is returned if file does not exist
+ * -# checks if empthy JSON Doc is returned if file is empthy
+ * -# checks if empthy JSON Doc is returned if file is not in JSON format
+ * 
+ * @see load_json
+ */
 boolean test_load_json() {
-  /*
-  - checks if data is correctly loaded from file
-  - checks if empthy JSON Doc is returned if file does not exist
-  - checks if empthy JSON Doc is returned if file is empthy
-  - checks if empthy JSON Doc is returned if file is not in JSON format
-  */
+
+	// Clean LittleFS
+	clean_LittleFS();
 
  	// start LittleFS
 	LittleFS.begin();
@@ -252,11 +294,20 @@ boolean test_load_json() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "send_signal"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: -
+ * -# checks if signal is sent correctly
+ * -# checks if JSON Doc with invalid length is not accepted
+ * -# checks if JSON Doc with without sequence is not accepted
+ * -# checks if JSON Doc with without length is not accepted
+ * 
+ * @see send_signal
+ */
 boolean test_send_signal() {
-  /*
-  - checks if invalid JSON Doc without length or sequence is accepted
-  - checks if length matches length of sequence
-  */
 
   // test Json-Documents
 	DynamicJsonDocument doc1(512);
@@ -322,11 +373,18 @@ boolean test_send_signal() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "get_files"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS and create test files in LittleFS
+ * -# checks if files are returned correctly
+ * -# checks if no files are returned if no files exist
+ * 
+ * @see get_files
+ */
 boolean test_get_files() {
-  /*
-  - checks if files are returned correctly
-	- check if no files are returned if no files exist
-  */
 
   // clear LittleFS
 	clean_LittleFS();
@@ -371,10 +429,21 @@ boolean test_get_files() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "check_if_file_exists"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS and create test file in LittleFS
+ * -# checks existing file is found
+ * -# checks non-existing file is not found
+ * 
+ * @see check_if_file_exists
+ */
 boolean test_check_if_file_exists() {
-  /*
-  - checks return values for existing and non-existing files
-  */
+
+ 	// clear LittleFS
+	clean_LittleFS();
 
  	// create test file
 	LittleFS.begin();
@@ -410,11 +479,18 @@ boolean test_check_if_file_exists() {
   return(true);
 }
 
+/**
+ * @brief Unit test for the function "read_program"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS and create test program in LittleFS
+ * -# checks if program is read correctly
+ * -# checks if empthy string is returned if program does not exist
+ * 
+ * @see read_program
+ */
 boolean test_read_program() {
-  /*
-  - checks if program is read correctly
-  - checks if empthy string is returned if program does not exist
-  */
 
  	// clean LittleFS
 	clean_LittleFS();
@@ -456,17 +532,30 @@ boolean test_read_program() {
   return(true);
 }
 
+/**
+ * @brief Unit test for the function "test_control_led_output"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details The functionality of this function is manually tested.
+ * 
+ * @see test_control_led_output
+ */
 boolean test_control_led_output() {
-	/*
-	- manually tested
-	*/
   return(true);
 }
 
+/**
+ * @brief Unit test for the function "test_check_if_string_is_alphanumeric"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details -Setup: -
+ * -# checks if sample Strings are recognized correctly
+ * 
+ * @see test_check_if_string_is_alphanumeric
+ */
 boolean test_check_if_string_is_alphanumeric() {
-  /*
-  - checks sample Strings
-  */
 
   // sample Strings
 	String string1 = "abc"; //should return true

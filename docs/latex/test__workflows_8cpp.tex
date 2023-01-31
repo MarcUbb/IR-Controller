@@ -1,0 +1,251 @@
+\hypertarget{test__workflows_8cpp}{}\doxysection{src/tests/test\+\_\+workflows.cpp File Reference}
+\label{test__workflows_8cpp}\index{src/tests/test\_workflows.cpp@{src/tests/test\_workflows.cpp}}
+
+
+This file contains unit tests for all functions from the \mbox{\hyperlink{workflows_8cpp}{workflows.\+cpp}}.  
+
+
+{\ttfamily \#include \char`\"{}tests.\+h\char`\"{}}\newline
+Include dependency graph for test\+\_\+workflows.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__workflows_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+boolean \mbox{\hyperlink{test__workflows_8cpp_a898c623ea78e7d61bcfa0390c5abe742}{test\+\_\+deleting\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}deleting\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__workflows_8cpp_a07e33087241b5482b475773f885015ed}{test\+\_\+recording\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}recording\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__workflows_8cpp_a58a5d4b443bfc228d6b118aa6968e835}{test\+\_\+sending\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}sending\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__workflows_8cpp_a660ae5c1e5e0a91b8b123cb73e98377c}{test\+\_\+adding\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}adding\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__workflows_8cpp_a5f3743734b6324bacb1c6332abc9eca2}{test\+\_\+playing\+\_\+workflow}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}playing\+\_\+workflow\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__workflows_8cpp_a7c5aac3f0870893d1a6beaaae8d63bc3}{test\+\_\+program\+\_\+parser}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}program\+\_\+parser\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__workflows_8cpp_ac853f5e0d739b212618bd92ce084f9fd}{test\+\_\+handle\+\_\+wait\+\_\+command}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}handle\+\_\+wait\+\_\+command\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__workflows_8cpp_a8bf77dec2d5c5c9fca6d6d9491e929d2}{test\+\_\+handle\+\_\+times\+\_\+commands}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}handle\+\_\+times\+\_\+commands\char`\"{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains unit tests for all functions from the \mbox{\hyperlink{workflows_8cpp}{workflows.\+cpp}}. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{test__workflows_8cpp_a660ae5c1e5e0a91b8b123cb73e98377c}\label{test__workflows_8cpp_a660ae5c1e5e0a91b8b123cb73e98377c}} 
+\index{test\_workflows.cpp@{test\_workflows.cpp}!test\_adding\_workflow@{test\_adding\_workflow}}
+\index{test\_adding\_workflow@{test\_adding\_workflow}!test\_workflows.cpp@{test\_workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_adding\_workflow()}{test\_adding\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+adding\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}adding\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if functions return value is correct
+\item check if program code is correctly written to file
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_a0f4135299af112fd833a2547da41297d}{adding\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__workflows_8cpp_a898c623ea78e7d61bcfa0390c5abe742}\label{test__workflows_8cpp_a898c623ea78e7d61bcfa0390c5abe742}} 
+\index{test\_workflows.cpp@{test\_workflows.cpp}!test\_deleting\_workflow@{test\_deleting\_workflow}}
+\index{test\_deleting\_workflow@{test\_deleting\_workflow}!test\_workflows.cpp@{test\_workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_deleting\_workflow()}{test\_deleting\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+deleting\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}deleting\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and create test signal file
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if function returns correct error message when file does not exist
+\item check if no other file is deleted
+\item check if file is deleted correctly
+\item check again if no other file is deleted
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_a2123f865eebeaf746e6016a82b159268}{deleting\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__workflows_8cpp_a8bf77dec2d5c5c9fca6d6d9491e929d2}\label{test__workflows_8cpp_a8bf77dec2d5c5c9fca6d6d9491e929d2}} 
+\index{test\_workflows.cpp@{test\_workflows.cpp}!test\_handle\_times\_commands@{test\_handle\_times\_commands}}
+\index{test\_handle\_times\_commands@{test\_handle\_times\_commands}!test\_workflows.cpp@{test\_workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_handle\_times\_commands()}{test\_handle\_times\_commands()}}
+{\footnotesize\ttfamily boolean test\+\_\+handle\+\_\+times\+\_\+commands (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}handle\+\_\+times\+\_\+commands\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: create test signal in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check error message if weekday is invalid
+\item check if invalid commands are caught
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_ae38fa40d61cf9aecaf82ebf6c2cc2977}{handle\+\_\+times\+\_\+commands}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__workflows_8cpp_ac853f5e0d739b212618bd92ce084f9fd}\label{test__workflows_8cpp_ac853f5e0d739b212618bd92ce084f9fd}} 
+\index{test\_workflows.cpp@{test\_workflows.cpp}!test\_handle\_wait\_command@{test\_handle\_wait\_command}}
+\index{test\_handle\_wait\_command@{test\_handle\_wait\_command}!test\_workflows.cpp@{test\_workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_handle\_wait\_command()}{test\_handle\_wait\_command()}}
+{\footnotesize\ttfamily boolean test\+\_\+handle\+\_\+wait\+\_\+command (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}handle\+\_\+wait\+\_\+command\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if return value is \char`\"{}success\char`\"{}
+\item check if set amount of time is waited
+\item check if function waited too long
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_a4c38b70181fc74cd62f0a7529ffaf796}{handle\+\_\+wait\+\_\+command}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__workflows_8cpp_a5f3743734b6324bacb1c6332abc9eca2}\label{test__workflows_8cpp_a5f3743734b6324bacb1c6332abc9eca2}} 
+\index{test\_workflows.cpp@{test\_workflows.cpp}!test\_playing\_workflow@{test\_playing\_workflow}}
+\index{test\_playing\_workflow@{test\_playing\_workflow}!test\_workflows.cpp@{test\_workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_playing\_workflow()}{test\_playing\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+playing\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}playing\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and create 2 test programs in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if functions return value is correct when file does not exist
+\item check if program can be correctly executed
+\item check if error messages of program\+\_\+parser are shown correctly
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_afbb6021d6f9112517cf664d3dccf3b77}{playing\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__workflows_8cpp_a7c5aac3f0870893d1a6beaaae8d63bc3}\label{test__workflows_8cpp_a7c5aac3f0870893d1a6beaaae8d63bc3}} 
+\index{test\_workflows.cpp@{test\_workflows.cpp}!test\_program\_parser@{test\_program\_parser}}
+\index{test\_program\_parser@{test\_program\_parser}!test\_workflows.cpp@{test\_workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_program\_parser()}{test\_program\_parser()}}
+{\footnotesize\ttfamily boolean test\+\_\+program\+\_\+parser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}program\+\_\+parser\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and create 2 test signals in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if program can be executed correctly
+\item if error message is correct when program is faulty
+\item if error message is correct when signal does not exist
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_aebc60e6c0ad4b332f2f1da7da6707f03}{program\+\_\+parser}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__workflows_8cpp_a07e33087241b5482b475773f885015ed}\label{test__workflows_8cpp_a07e33087241b5482b475773f885015ed}} 
+\index{test\_workflows.cpp@{test\_workflows.cpp}!test\_recording\_workflow@{test\_recording\_workflow}}
+\index{test\_recording\_workflow@{test\_recording\_workflow}!test\_workflows.cpp@{test\_workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_recording\_workflow()}{test\_recording\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+recording\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}recording\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if error message is correct when nothing was recorded
+\item check if no file is written when nothing was recorded
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_af3762d2fcc0a63fdbe4a96b6c6aedd5b}{recording\+\_\+workflow}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__workflows_8cpp_a58a5d4b443bfc228d6b118aa6968e835}\label{test__workflows_8cpp_a58a5d4b443bfc228d6b118aa6968e835}} 
+\index{test\_workflows.cpp@{test\_workflows.cpp}!test\_sending\_workflow@{test\_sending\_workflow}}
+\index{test\_sending\_workflow@{test\_sending\_workflow}!test\_workflows.cpp@{test\_workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_sending\_workflow()}{test\_sending\_workflow()}}
+{\footnotesize\ttfamily boolean test\+\_\+sending\+\_\+workflow (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}sending\+\_\+workflow\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and create 2 test signals in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if error message is correct when file does not exist
+\item check if sequence can be correctly sent
+\item check if error messages of send\+\_\+signal are shown correctly (1 example)
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{workflows_8cpp_ac66d9f916af4fef55538c5cf0be70989}{sending\+\_\+workflow}} 
+\end{DoxySeeAlso}

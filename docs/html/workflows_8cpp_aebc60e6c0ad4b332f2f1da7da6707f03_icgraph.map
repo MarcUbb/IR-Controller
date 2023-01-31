@@ -1,0 +1,8 @@
+<map id="program_parser" name="program_parser">
+<area shape="rect" id="node1" title="This function parses the code of a program line by line and executes the commands." alt="" coords="535,56,660,83"/>
+<area shape="rect" id="node2" href="$workflows_8cpp.html#afbb6021d6f9112517cf664d3dccf3b77" title="This function loads a program from a file and hands it to the program_parser." alt="" coords="339,31,477,57"/>
+<area shape="rect" id="node6" href="$test__workflows_8cpp.html#a7c5aac3f0870893d1a6beaaae8d63bc3" title="Unit test for the function &quot;program_parser&quot;." alt="" coords="329,81,487,108"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="145,5,249,32"/>
+<area shape="rect" id="node5" href="$test__workflows_8cpp.html#a5f3743734b6324bacb1c6332abc9eca2" title="Unit test for the function &quot;playing_workflow&quot;." alt="" coords="112,56,281,83"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,5,64,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="run_all_workflows_tests" name="run_all_workflows_tests">
+<area shape="rect" id="node1" title="runs all tests for workflows.cpp" alt="" coords="159,5,337,32"/>
+<area shape="rect" id="node2" href="$test__main_8cpp.html#ae3c32f603677f6b9f8616bb50afc6a32" title="runs all tests for all files" alt="" coords="5,5,111,32"/>
+</map>

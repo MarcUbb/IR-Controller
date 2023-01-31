@@ -1,0 +1,241 @@
+\hypertarget{test__time__management_8cpp}{}\doxysection{src/tests/test\+\_\+time\+\_\+management.cpp File Reference}
+\label{test__time__management_8cpp}\index{src/tests/test\_time\_management.cpp@{src/tests/test\_time\_management.cpp}}
+
+
+This file contains unit tests for all functions from the \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}}.  
+
+
+{\ttfamily \#include \char`\"{}tests.\+h\char`\"{}}\newline
+Include dependency graph for test\+\_\+time\+\_\+management.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__time__management_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+boolean \mbox{\hyperlink{test__time__management_8cpp_a04cb9a292f5cf2a7fb92c204a72379e5}{test\+\_\+weekday\+\_\+to\+\_\+num}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}weekday\+\_\+to\+\_\+num\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__time__management_8cpp_a17adbc3a04a35de5581e9d8e0d39a673}{test\+\_\+compare\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}compare\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__time__management_8cpp_adf1f311bfde974c623b74f3b248a37fa}{test\+\_\+update\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}update\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__time__management_8cpp_a42e32ef599fb3cba5778706f6daea8cd}{test\+\_\+get\+\_\+current\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}get\+\_\+current\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__time__management_8cpp_ad26ff1c7b4c3bb2f4a1fb0ee31c9ecc8}{test\+\_\+turn\+\_\+seconds\+\_\+in\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}turn\+\_\+seconds\+\_\+in\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__time__management_8cpp_a7beae3d56bddfc62d5ad4d00e31a4029}{test\+\_\+add\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}add\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__time__management_8cpp_a1e3f5cd42c40520d5fbfc9c70ba58f76}{test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}get\+\_\+\+N\+T\+P\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__time__management_8cpp_a57bbab4c6324d9f66a780319aa1c1866}{test\+\_\+check\+\_\+and\+\_\+update\+\_\+offset}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}check\+\_\+and\+\_\+update\+\_\+offset\char`\"{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains unit tests for all functions from the \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}}. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{test__time__management_8cpp_a7beae3d56bddfc62d5ad4d00e31a4029}\label{test__time__management_8cpp_a7beae3d56bddfc62d5ad4d00e31a4029}} 
+\index{test\_time\_management.cpp@{test\_time\_management.cpp}!test\_add\_time@{test\_add\_time}}
+\index{test\_add\_time@{test\_add\_time}!test\_time\_management.cpp@{test\_time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_add\_time()}{test\_add\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+add\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}add\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks samples of timestamps
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a2df1ab5ae345f8373541fdadc380d0cf}{add\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__time__management_8cpp_a57bbab4c6324d9f66a780319aa1c1866}\label{test__time__management_8cpp_a57bbab4c6324d9f66a780319aa1c1866}} 
+\index{test\_time\_management.cpp@{test\_time\_management.cpp}!test\_check\_and\_update\_offset@{test\_check\_and\_update\_offset}}
+\index{test\_check\_and\_update\_offset@{test\_check\_and\_update\_offset}!test\_time\_management.cpp@{test\_time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_check\_and\_update\_offset()}{test\_check\_and\_update\_offset()}}
+{\footnotesize\ttfamily boolean test\+\_\+check\+\_\+and\+\_\+update\+\_\+offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}check\+\_\+and\+\_\+update\+\_\+offset\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: clean Little\+FS and initialize time.\+json with test data
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if the offset is updated correctly
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_ac98cf9eca3c34ed8b3fb2c93625a0c18}{check\+\_\+and\+\_\+update\+\_\+offset}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__time__management_8cpp_a17adbc3a04a35de5581e9d8e0d39a673}\label{test__time__management_8cpp_a17adbc3a04a35de5581e9d8e0d39a673}} 
+\index{test\_time\_management.cpp@{test\_time\_management.cpp}!test\_compare\_time@{test\_compare\_time}}
+\index{test\_compare\_time@{test\_compare\_time}!test\_time\_management.cpp@{test\_time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_compare\_time()}{test\_compare\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+compare\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}compare\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and initialize time.\+json with test data
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks with loop if true is returned when times match
+\item checks if false is returned when times do not match
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a6291345b0a1a1141c8d11458ff2f5cd4}{compare\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__time__management_8cpp_a42e32ef599fb3cba5778706f6daea8cd}\label{test__time__management_8cpp_a42e32ef599fb3cba5778706f6daea8cd}} 
+\index{test\_time\_management.cpp@{test\_time\_management.cpp}!test\_get\_current\_time@{test\_get\_current\_time}}
+\index{test\_get\_current\_time@{test\_get\_current\_time}!test\_time\_management.cpp@{test\_time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_get\_current\_time()}{test\_get\_current\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+get\+\_\+current\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}get\+\_\+current\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and initialize time.\+json with test data
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks twice if time is returned correctly
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a}{get\+\_\+current\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__time__management_8cpp_a1e3f5cd42c40520d5fbfc9c70ba58f76}\label{test__time__management_8cpp_a1e3f5cd42c40520d5fbfc9c70ba58f76}} 
+\index{test\_time\_management.cpp@{test\_time\_management.cpp}!test\_get\_NTP\_time@{test\_get\_NTP\_time}}
+\index{test\_get\_NTP\_time@{test\_get\_NTP\_time}!test\_time\_management.cpp@{test\_time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_get\_NTP\_time()}{test\_get\_NTP\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}get\+\_\+\+N\+T\+P\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if the document is empty (since Wifi is not available)
+\item functionality is tested empirically
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__time__management_8cpp_ad26ff1c7b4c3bb2f4a1fb0ee31c9ecc8}\label{test__time__management_8cpp_ad26ff1c7b4c3bb2f4a1fb0ee31c9ecc8}} 
+\index{test\_time\_management.cpp@{test\_time\_management.cpp}!test\_turn\_seconds\_in\_time@{test\_turn\_seconds\_in\_time}}
+\index{test\_turn\_seconds\_in\_time@{test\_turn\_seconds\_in\_time}!test\_time\_management.cpp@{test\_time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_turn\_seconds\_in\_time()}{test\_turn\_seconds\_in\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+turn\+\_\+seconds\+\_\+in\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}turn\+\_\+seconds\+\_\+in\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks samples of conversions
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a9302635144807a7f7063815f116ac129}{turn\+\_\+seconds\+\_\+in\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__time__management_8cpp_adf1f311bfde974c623b74f3b248a37fa}\label{test__time__management_8cpp_adf1f311bfde974c623b74f3b248a37fa}} 
+\index{test\_time\_management.cpp@{test\_time\_management.cpp}!test\_update\_time@{test\_update\_time}}
+\index{test\_update\_time@{test\_update\_time}!test\_time\_management.cpp@{test\_time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_update\_time()}{test\_update\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+update\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}update\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and initialize time.\+json with test data
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if the time is updated correctly in Station mode
+\item checks if the time is updated correctly in AP mode
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a11b9f043cd67f782c7b8c49ffd0f51cb}{update\+\_\+time}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__time__management_8cpp_a04cb9a292f5cf2a7fb92c204a72379e5}\label{test__time__management_8cpp_a04cb9a292f5cf2a7fb92c204a72379e5}} 
+\index{test\_time\_management.cpp@{test\_time\_management.cpp}!test\_weekday\_to\_num@{test\_weekday\_to\_num}}
+\index{test\_weekday\_to\_num@{test\_weekday\_to\_num}!test\_time\_management.cpp@{test\_time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_weekday\_to\_num()}{test\_weekday\_to\_num()}}
+{\footnotesize\ttfamily boolean test\+\_\+weekday\+\_\+to\+\_\+num (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}weekday\+\_\+to\+\_\+num\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if the correct number for each weekday is returned
+\item checks if \char`\"{}error\char`\"{} is returned if the weekday is not valid
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{time__management_8cpp_a3510cfe664c5b740d746a31e79b0f158}{weekday\+\_\+to\+\_\+num}} 
+\end{DoxySeeAlso}

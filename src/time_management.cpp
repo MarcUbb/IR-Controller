@@ -1,34 +1,41 @@
+/**
+ * @file time_management.cpp
+ * @author Marc Ubbdelohde
+ * @brief This file contains the functions to manage the time.
+ * 
+ * @details The time functions are exlusively used in the timed programs. The complexity of some of the functions
+ * is due to the fact that the device does not use an external RTC and that the millis() function overflows after about 49 days.
+ * The different functions utilize functions from the filesystem.cpp file to load and save time information to the LittleFS.
+ * They provide functionality to each other and the higher level functions in workflows.cpp and main.cpp where fronend functionalities
+ * are implemented.
+ */
+
 #include "base.h"
 
 
+
+/**
+ * @brief Converts a weekday String to a weekday number
+ * 
+ * @param weekday - weekday as a String
+ * @return String - weekday as a number:\n
+ *                  "Monday" - "1"\n
+ *                  "Tuesday" - "2"\n
+ *                  "Wednesday" - "3"\n
+ *                  "Thursday" - "4"\n
+ *                  "Friday" - "5"\n
+ *                  "Saturday" - "6"\n
+ *                  "Sunday" - "0"\n
+ *                  error - "error"
+ * 
+ * @details This function converts a weekday String to a weekday number.
+ * 
+ * @callgraph This function does not call any function.
+ * 
+ * @callergraph
+ * 
+ */
 String weekday_to_num (String weekday){
-  /*
-  parameters:
-    String weekday:
-      weekday as a String
-
-  returns:
-    String:
-      weekday as a number:
-        "Monday" - "1"
-        "Tuesday" - "2"
-        "Wednesday" - "3"
-        "Thursday" - "4"
-        "Friday" - "5"
-        "Saturday" - "6"
-        "Sunday" - "0"
-        error - "error"
-
-  description:
-  converts a weekday String to a weekday number
-
-  calls:
-  ---
-
-  called by:
-  - handle_day_command (in src/workflows.cpp) used to convert user input to format 
-    in which the time is saved.
-  */
 
   // uppercase starting letters are also accepted
   if (weekday == "Monday" || weekday == "monday"){
@@ -57,32 +64,24 @@ String weekday_to_num (String weekday){
   }
 }
 
-
+/**
+ * @brief Compare specified time with current time
+ * 
+ * @param time - String in format "weekday hh:mm:ss timezone"
+ * 
+ * @param weekday_included - true if weekday is included in time, false if not
+ * 
+ * @return boolean - true if time is equal to current time, false if not
+ * 
+ * @details This elementary function checks if the current time is equal to the time in the program.
+ * It is used in timed programs and handles millis() overflow. The function has a delay of 500ms
+ * to reduce the number of operations inside the while(true) loop.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 boolean compare_time (String time, boolean weekday_included) {
-  /*
-  parameters:
-    String time:
-      time in format "hh:mm:ss" or "hh:mm:ss weekday"
-    boolean weekday_included:
-      true if weekday is included in time, false if not
-
-  returns:
-    boolean:
-      true if time is equal to current time, false if not
-
-  description:
-  This elementary function checks if the current time is equal to the time in the program. 
-  It is used in timed programs and handles millis() overflow. The function has a delay of 500ms 
-  to reduce the number of operations inside the while(true) loop.
-
-  calls:
-  - check_and_update_offset (in src/time_management.cpp) to check if millis() overflowed and update time if necessary
-  - get_current_time (in src/time_management.cpp) to get the current time from the LittleFS
-
-  called by:
-  - handle_time_command (in src/workflows.cpp) used to check if the current time is equal to the time in the program
-  - handle_day_command (in src/workflows.cpp) used to check if the current time is equal to the time in the program
-  */
   
   // delay to reduce the number of operations inside the while(true) loop
   delay(500);
@@ -103,31 +102,23 @@ boolean compare_time (String time, boolean weekday_included) {
   }
 }
 
-
+/**
+ * @brief Updates the time in the LittleFS
+ * 
+ * @param time - String in format "weekday hh:mm:ss timezone"
+ * 
+ * @param AP_mode - true if the device is in AP mode, false if not
+ * 
+ * @details This function is called when the user presses the "sync" button on the website.
+ * It updates only the timezone to the LittleFS since the time from the NTP request is more precise
+ * than the time from the user.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 void update_time(String time, boolean AP_mode){
-  /*
-  parameters:
-    int time:
-      String data from user in format "weekday hh:mm:ss timezone"
-    boolean AP_mode:
-      true if the device is in AP mode, false if not
   
-  returns:
-    void
-
-  description:
-  This function is called when the user presses the "sync" button on the website. 
-  It updates only the timezone to the LittleFS since the time from the NTP request is more precise
-  than the time from the user.
-
-  calls:
-  - load_json (in src/filesystem.cpp) to load the time from the LittleFS
-  - save_json (in src/filesystem.cpp) to save the time to the LittleFS
-
-  called by:
-  - handle_time (in src/main.cpp) used to save the timezone to the LittleFS
-  */
-
   // extrace information from String
   String time_timezone = time.substring(time.indexOf(" ") + 1);
   int weekday = time.substring(0, time.indexOf(" ")).toInt();
@@ -161,28 +152,19 @@ void update_time(String time, boolean AP_mode){
   return;
 }
 
-
+/**
+ * @brief Loads the current time from LittleFS
+ * 
+ * @return String  - current time in format "hh:mm:ss weekday"
+ * 
+ * @details This function loads the time from the LittleFS, adds the relative offset between the offset
+ * of initialization and the current offset and returns the current time.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String get_current_time(){
-  /*
-  parameters:
-    ---
-
-  returns:
-    String:
-      current time in format "hh:mm:ss weekday"
-  
-  description:
-  This function loads the time from the LittleFS, adds the relative offset between the offset 
-  of initialization and the current offset and returns the current time.
-
-  calls:
-  - load_json (in src/filesystem.cpp) to load the time from the LittleFS
-  - turn_seconds_in_time (in src/time_management.cpp) to convert the millis() offset to a time format
-  - add_time (in src/time_management.cpp) to add the offset time to the time from the LittleFS
-
-  called by:
-  - compare_time (in src/time_management.cpp) used to check if the current time is equal to the time in the program
-  */
 
   // load time from LittleFS
   DynamicJsonDocument time_json = load_json("/time.json");
@@ -211,28 +193,21 @@ String get_current_time(){
   return time;
 }
 
-
+/**
+ * @brief This function converts seconds to time format.
+ * 
+ * @param input_seconds - seconds to convert
+ * 
+ * @return String - time in format "hh:mm:ss"
+ * 
+ * @details This function converts seconds to time format. It is used in get_current_time() to prepare
+ * millis() offset for comparison with saved time.
+ * 
+ * @callgraph This function does not call other functions.
+ * 
+ * @callergraph
+ */
 String turn_seconds_in_time(unsigned long input_seconds){
-  /*
-  parameters:
-    unsigned long input_seconds:
-      seconds to convert
-  
-  returns:
-    String:
-      time in format "hh:mm:ss"
-  
-  description:
-  This function converts seconds to time format. It is used in get_current_time() to prepare 
-  millis() offset for comparison with saved time.
-
-  calls:
-    ---
-
-  called by:
-  - get_current_time (in src/time_management.cpp) used to convert relative offset to a time format
-  - check_and_update_offset (in src/time_management.cpp) used to adjust time after millis() overflow
-  */
 
   // variables
   int hours = input_seconds / 3600;
@@ -260,31 +235,24 @@ String turn_seconds_in_time(unsigned long input_seconds){
   return time;
 }
 
-
+/**
+ * @brief adds two times together
+ * 
+ * @param time - time to add to in format "hh:mm:ss weekday"
+ * 
+ * @param offset_time - time to add in format "hh:mm:ss"
+ * 
+ * @return String - time in format "hh:mm:ss weekday"
+ * 
+ * @details This function adds two times together. The order of the parameters is important.
+ * The first parameter contains the weekday, the second parameter does not.
+ * 
+ * @callgraph This function does not call other functions.
+ * 
+ * @callergraph
+ */
 String add_time(String time, String offset_time){
-  /*
-  parameters:
-    String time:
-      time to add to in format "hh:mm:ss weekday"
-    String offset_time:
-      time to add in format "hh:mm:ss"
-
-  returns:
-    String:
-      time in format "hh:mm:ss weekday"
-
-  description:
-  This function adds two times together. The order of the parameters is important. 
-  The first parameter contains the weekday, the second parameter does not.
-
-  calls:
-    ---
-
-  called by:
-  - get_current_time (in src/time_management.cpp) used to add the offset to the saved time
-  - check_and_update_offset (in src/time_management.cpp) used to adjust time after millis() overflow
-  */
-
+  
   // split time in ints
   int hours = time.substring(0, time.indexOf(":")).toInt();
   int minutes = time.substring(time.indexOf(":") + 1, time.indexOf(":") + 3).toInt();
@@ -345,37 +313,30 @@ String add_time(String time, String offset_time){
   return (time_sum);
 }
 
-
+/**
+ * @brief Gets time from NTP server
+ * 
+ * @param timezone - timezone offset in seconds
+ * @return DynamicJsonDocument - time in format:\n
+ *      {\n
+ *        "hours": hh,\n
+ *        "minutes": mm,\n 
+ *        "seconds": ss,\n
+ *        "weekday": w,\n
+ *        "init_offset": millis(),\n
+ *        "timezone": ssss,\n
+ *        "last_offset": millis()\n
+ *      }
+ * 
+ * @details This function gets the time from the web and returns it as a DynamicJsonDocument.
+ * It is only used in the initial setup to get the time without user interaction.
+ * If server is unavailable, it returns 00:00:20 4 by defauls.
+ * 
+ * @callgraph This function does not call any other functions.
+ * 
+ * @callergraph
+ */
 DynamicJsonDocument get_NTP_time(int timezone){
-  /*
-  parameters:
-    int timezone:
-      timezone offset in seconds
-  
-  returns:
-    DynamicJsonDocument:
-      time in format: 
-        {
-          "hours": hh,
-          "minutes": mm, 
-          "seconds": ss, 
-          "weekday": w, 
-          "init_offset": millis(),
-          "timezone": ssss,
-          "last_offset": millis()
-        }
-
-  description:
-  This function gets the time from the web and returns it as a DynamicJsonDocument.
-  It is only used in the initial setup to get the time without user interaction.
-  If server is unavailable, it returns 00:00:20 4 by defauls.
-
-  calls:
-    ---
-
-  called by:
-	- setup (in src/main.cpp) to initialize the time after WifiManager setup
-  */
 
   // initialize NTP client
   WiFiUDP ntpUDP;
@@ -411,33 +372,21 @@ DynamicJsonDocument get_NTP_time(int timezone){
 }
 
 
+
+/**
+ * @brief Checks if millis() overflowed and updates time if necessary
+ * 
+ * @details Since millis() overflows after 49.7 days, this function checks if an overflow occured and updates 
+ * the time saved in "time.json" every time it happens to still be able to calculate teh current time. 
+ * This function is used whenever long waiting times are expected (e.g. in timed programs, wait/skip 
+ * command or user inactivity). It is important to note that this function has to be able to work offline 
+ * (no NTP call) since it should be possible to run programs without internet connection.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 void check_and_update_offset() {
-  /*
-  parameters:
-    ---
-
-  returns:
-    void
-
-  description:
-  Since millis() overflows after 49.7 days, this function checks if an overflow occured and updates 
-  the time saved in "time.json" every time it happens. This function is used whenever long waiting times
-  are expected (e.g. in timed programs or wait/skip command). It is important to note that this function
-  has to be able to work offline (no NTP call) since it should be possible to run programs without internet
-  connection.
-
-  calls:
-  - load_json (in src/filesystem.cpp) to load the time from time.json
-  - save_json (in src/filesystem.cpp) to either only update the last offset value if no overflow occured
-    or to additionally reinitialize the time with its updated init_offset if an overflow occured
-  - turn_seconds_in_time (in src/time_management.cpp) to convert the overflow time to time format
-  - add_time (in src/time_management.cpp) to first add the maximum time to the current time and then
-    add the overflow time to the result
-  
-  called by:
-  - compare_time (in src/time_management.cpp) and therefore indirectly called by timed programs
-  - handle_wait_command (in src/workflows.cpp) to check for overflow in wait and skip commands
-  */
 
   // load time from time.json
   DynamicJsonDocument current_values = load_json("/time.json");

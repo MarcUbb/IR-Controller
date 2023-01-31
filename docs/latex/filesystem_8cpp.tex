@@ -1,0 +1,346 @@
+\hypertarget{filesystem_8cpp}{}\doxysection{src/filesystem.cpp File Reference}
+\label{filesystem_8cpp}\index{src/filesystem.cpp@{src/filesystem.cpp}}
+
+
+In this file, all functions related to the filesystem are defined.  
+
+
+{\ttfamily \#include \char`\"{}base.\+h\char`\"{}}\newline
+Include dependency graph for filesystem.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{filesystem_8cpp_a974f985f052312d114134bc603d672a9}{capture\+\_\+signal}} ()
+\begin{DoxyCompactList}\small\item\em This function captures a signal and returns it as a String. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{filesystem_8cpp_a0282f0219ae51dc8d2b578908b8a70de}{save\+\_\+signal}} (String result\+\_\+string, String name)
+\begin{DoxyCompactList}\small\item\em This function saves a captured signal. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{filesystem_8cpp_a8de3bbf584592c6a6c216ce738ca24ce}{save\+\_\+json}} (String filename, Dynamic\+Json\+Document doc)
+\begin{DoxyCompactList}\small\item\em This function saves a J\+S\+ON document to a specified file. \end{DoxyCompactList}\item 
+Dynamic\+Json\+Document \mbox{\hyperlink{filesystem_8cpp_a56820dcc580395e119d9de2ad4ad2400}{load\+\_\+json}} (String filename)
+\begin{DoxyCompactList}\small\item\em This function loads a J\+S\+ON document from a specified file. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{filesystem_8cpp_ae92ea0f99679274f490c7e2d8a61ddd7}{send\+\_\+signal}} (Dynamic\+Json\+Document doc)
+\begin{DoxyCompactList}\small\item\em This function sends a signal provided in J\+S\+ON format. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{filesystem_8cpp_a57b2a7efc18f0e2b29d17382c2c9aca5}{get\+\_\+files}} (String folder\+\_\+signals, String folder\+\_\+programs)
+\begin{DoxyCompactList}\small\item\em Returns List of saved signals and programs. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{filesystem_8cpp_a5689133a917d901606c1d294bfda5785}{check\+\_\+if\+\_\+file\+\_\+exists}} (String filename)
+\begin{DoxyCompactList}\small\item\em Checks if a file exists. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{filesystem_8cpp_a064bc458b16e70f9ce2384268151485c}{read\+\_\+program}} (String program\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Reads a program file and returns its content as a String. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{filesystem_8cpp_ae9e99c2db47fcc4b52086d16296a49aa}{control\+\_\+led\+\_\+output}} (String signal)
+\begin{DoxyCompactList}\small\item\em Controls the L\+ED output. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{filesystem_8cpp_ae91cb438a8dccf51f04a58947ad577e1}{check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric}} (String word)
+\begin{DoxyCompactList}\small\item\em Checks if a String is alphanumeric. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+In this file, all functions related to the filesystem are defined. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde
+\end{DoxyAuthor}
+The functions in this file are used to save and load data from the filesystem, provide the frontend with the data it needs to display necessary information, to handle signal capture and sending and to control the L\+ED output. This file is the foundation of the project and the functions are used by almost all other files. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{filesystem_8cpp_a974f985f052312d114134bc603d672a9}\label{filesystem_8cpp_a974f985f052312d114134bc603d672a9}} 
+\index{filesystem.cpp@{filesystem.cpp}!capture\_signal@{capture\_signal}}
+\index{capture\_signal@{capture\_signal}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{capture\_signal()}{capture\_signal()}}
+{\footnotesize\ttfamily String capture\+\_\+signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+This function captures a signal and returns it as a String. 
+
+\begin{DoxyReturn}{Returns}
+String -\/ String containing the captured signal in the format\+:~\newline
+ \char`\"{}uint16\+\_\+t raw\+Data\mbox{[}67\mbox{]} = \{1234, 5678, ...\};\char`\"{} -\/ if signal was receiver, format defined by result\+To\+Source\+Code() in I\+Rremote\+E\+S\+P8266/src/\+I\+Rutils.\+cpp~\newline
+ \char`\"{}no\+\_\+signal\char`\"{} -\/ if no signal was captured
+\end{DoxyReturn}
+This function uses the I\+Rremote\+E\+S\+P8266 library and is based on the I\+Rrecv\+Dump\+V2 example from the library. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{filesystem_8cpp_a974f985f052312d114134bc603d672a9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_a974f985f052312d114134bc603d672a9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_a5689133a917d901606c1d294bfda5785}\label{filesystem_8cpp_a5689133a917d901606c1d294bfda5785}} 
+\index{filesystem.cpp@{filesystem.cpp}!check\_if\_file\_exists@{check\_if\_file\_exists}}
+\index{check\_if\_file\_exists@{check\_if\_file\_exists}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{check\_if\_file\_exists()}{check\_if\_file\_exists()}}
+{\footnotesize\ttfamily boolean check\+\_\+if\+\_\+file\+\_\+exists (\begin{DoxyParamCaption}\item[{String}]{filename }\end{DoxyParamCaption})}
+
+
+
+Checks if a file exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -\/ name of the file to be checked\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the file exists, false if not
+\end{DoxyReturn}
+This function checks if a file exists in the Little\+FS.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_a5689133a917d901606c1d294bfda5785_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_ae91cb438a8dccf51f04a58947ad577e1}\label{filesystem_8cpp_ae91cb438a8dccf51f04a58947ad577e1}} 
+\index{filesystem.cpp@{filesystem.cpp}!check\_if\_string\_is\_alphanumeric@{check\_if\_string\_is\_alphanumeric}}
+\index{check\_if\_string\_is\_alphanumeric@{check\_if\_string\_is\_alphanumeric}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{check\_if\_string\_is\_alphanumeric()}{check\_if\_string\_is\_alphanumeric()}}
+{\footnotesize\ttfamily boolean check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric (\begin{DoxyParamCaption}\item[{String}]{word }\end{DoxyParamCaption})}
+
+
+
+Checks if a String is alphanumeric. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & -\/ String to be checked\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the String is alphanumeric, false if not
+\end{DoxyReturn}
+This function checks if a String is alphanumeric. Spaces, dashes and underscores are also allowed.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_ae91cb438a8dccf51f04a58947ad577e1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_ae9e99c2db47fcc4b52086d16296a49aa}\label{filesystem_8cpp_ae9e99c2db47fcc4b52086d16296a49aa}} 
+\index{filesystem.cpp@{filesystem.cpp}!control\_led\_output@{control\_led\_output}}
+\index{control\_led\_output@{control\_led\_output}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{control\_led\_output()}{control\_led\_output()}}
+{\footnotesize\ttfamily void control\+\_\+led\+\_\+output (\begin{DoxyParamCaption}\item[{String}]{signal }\end{DoxyParamCaption})}
+
+
+
+Controls the L\+ED output. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em signal} & -\/ String containing the signal to be send\+:~\newline
+ \char`\"{}no\+\_\+signal\char`\"{} -\/ L\+ED blinks 3 times~\newline
+ \char`\"{}no\+\_\+m\+D\+N\+S\char`\"{} -\/ L\+ED blinks 3 times~\newline
+ \char`\"{}signal\+\_\+received\char`\"{} -\/ L\+ED blinks once\\
+\hline
+\end{DoxyParams}
+This function controls the L\+ED output via codewords to specify the kind of signal to be send. The L\+ED is connected to G\+P\+IO 5 (D1) on the E\+S\+P8266 and is ment as a way to communicate errors to the user and singal when the E\+SP is ready to receive a signal.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_ae9e99c2db47fcc4b52086d16296a49aa_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_a57b2a7efc18f0e2b29d17382c2c9aca5}\label{filesystem_8cpp_a57b2a7efc18f0e2b29d17382c2c9aca5}} 
+\index{filesystem.cpp@{filesystem.cpp}!get\_files@{get\_files}}
+\index{get\_files@{get\_files}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_files()}{get\_files()}}
+{\footnotesize\ttfamily String get\+\_\+files (\begin{DoxyParamCaption}\item[{String}]{folder\+\_\+signals,  }\item[{String}]{folder\+\_\+programs }\end{DoxyParamCaption})}
+
+
+
+Returns List of saved signals and programs. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em folder\+\_\+signals} & -\/ name of the folder containing the signals\\
+\hline
+{\em folder\+\_\+programs} & -\/ name of the folder containing the programs\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ String containing all files in the specified folders, separated by a semicolon\+:~\newline
+ \char`\"{}signal1, signal2, ...;program1, program2, ...\char`\"{}
+\end{DoxyReturn}
+This function scans the signal and program folders for files and returns a String containing all files. It uses Little\+FS.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{filesystem_8cpp_a57b2a7efc18f0e2b29d17382c2c9aca5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_a56820dcc580395e119d9de2ad4ad2400}\label{filesystem_8cpp_a56820dcc580395e119d9de2ad4ad2400}} 
+\index{filesystem.cpp@{filesystem.cpp}!load\_json@{load\_json}}
+\index{load\_json@{load\_json}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{load\_json()}{load\_json()}}
+{\footnotesize\ttfamily Dynamic\+Json\+Document load\+\_\+json (\begin{DoxyParamCaption}\item[{String}]{filename }\end{DoxyParamCaption})}
+
+
+
+This function loads a J\+S\+ON document from a specified file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -\/ name of the file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dynamic\+Json\+Document -\/ J\+S\+ON document containing unspecified data
+\end{DoxyReturn}
+This function uses Little\+FS and the Arduino\+Json library.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_a56820dcc580395e119d9de2ad4ad2400_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_a064bc458b16e70f9ce2384268151485c}\label{filesystem_8cpp_a064bc458b16e70f9ce2384268151485c}} 
+\index{filesystem.cpp@{filesystem.cpp}!read\_program@{read\_program}}
+\index{read\_program@{read\_program}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{read\_program()}{read\_program()}}
+{\footnotesize\ttfamily String read\+\_\+program (\begin{DoxyParamCaption}\item[{String}]{program\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+Reads a program file and returns its content as a String. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em program\+\_\+name} & -\/ name of the program to be read\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ String containing the program code
+\end{DoxyReturn}
+This function has its reason of existence next to load\+\_\+json because in the frontend, after pressing the \char`\"{}edit\char`\"{} button, the program code of the specified program is displayed in the textarea as a string.
+
+This function does not call any other function. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{filesystem_8cpp_a064bc458b16e70f9ce2384268151485c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_a064bc458b16e70f9ce2384268151485c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_a8de3bbf584592c6a6c216ce738ca24ce}\label{filesystem_8cpp_a8de3bbf584592c6a6c216ce738ca24ce}} 
+\index{filesystem.cpp@{filesystem.cpp}!save\_json@{save\_json}}
+\index{save\_json@{save\_json}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{save\_json()}{save\_json()}}
+{\footnotesize\ttfamily void save\+\_\+json (\begin{DoxyParamCaption}\item[{String}]{filename,  }\item[{Dynamic\+Json\+Document}]{doc }\end{DoxyParamCaption})}
+
+
+
+This function saves a J\+S\+ON document to a specified file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -\/ name of the file\\
+\hline
+{\em doc} & -\/ J\+S\+ON document containing unspecified data\\
+\hline
+\end{DoxyParams}
+This function uses Little\+FS and the Arduino\+Json library.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_a8de3bbf584592c6a6c216ce738ca24ce_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_a0282f0219ae51dc8d2b578908b8a70de}\label{filesystem_8cpp_a0282f0219ae51dc8d2b578908b8a70de}} 
+\index{filesystem.cpp@{filesystem.cpp}!save\_signal@{save\_signal}}
+\index{save\_signal@{save\_signal}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{save\_signal()}{save\_signal()}}
+{\footnotesize\ttfamily String save\+\_\+signal (\begin{DoxyParamCaption}\item[{String}]{result\+\_\+string,  }\item[{String}]{name }\end{DoxyParamCaption})}
+
+
+
+This function saves a captured signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em result\+\_\+string} & -\/ String containing the captured signal in the format\+:~\newline
+ \char`\"{}uint16\+\_\+t raw\+Data\mbox{[}67\mbox{]} = \{1234, 5678, ...\};\char`\"{} (format defined by result\+To\+Source\+Code() in I\+Rremote\+E\+S\+P8266/src/\+I\+Rutils.\+cpp)~\newline
+ \\
+\hline
+{\em name} & -\/ name of the signal\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ \char`\"{}success\char`\"{} -\/ if signal was saved successfully~\newline
+ \char`\"{}\+Error\+: ...\char`\"{} -\/ if an error occurred
+\end{DoxyReturn}
+This function saves a captured signal in json format to a file. It uses the Arduino\+Json library. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{filesystem_8cpp_a0282f0219ae51dc8d2b578908b8a70de_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_a0282f0219ae51dc8d2b578908b8a70de_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{filesystem_8cpp_ae92ea0f99679274f490c7e2d8a61ddd7}\label{filesystem_8cpp_ae92ea0f99679274f490c7e2d8a61ddd7}} 
+\index{filesystem.cpp@{filesystem.cpp}!send\_signal@{send\_signal}}
+\index{send\_signal@{send\_signal}!filesystem.cpp@{filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{send\_signal()}{send\_signal()}}
+{\footnotesize\ttfamily String send\+\_\+signal (\begin{DoxyParamCaption}\item[{Dynamic\+Json\+Document}]{doc }\end{DoxyParamCaption})}
+
+
+
+This function sends a signal provided in J\+S\+ON format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em doc} & -\/ J\+S\+ON document containing the signal to be sent\+:~\newline
+ \{~\newline
+ \char`\"{}name\char`\"{}\+: \char`\"{}name\char`\"{},~\newline
+ \char`\"{}length\char`\"{}\+: 67,~\newline
+ \char`\"{}sequence\char`\"{}\+: \char`\"{}1234, 5678, ...\char`\"{}~\newline
+ \}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ \char`\"{}success\char`\"{} if sending was successful~\newline
+ \char`\"{}\+Error\+: ...\char`\"{} if sending failed
+\end{DoxyReturn}
+This function sends a signal provided in J\+S\+ON format. It uses the I\+Rremote\+E\+S\+P8266 library and is based on the example code provided by the library.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{filesystem_8cpp_ae92ea0f99679274f490c7e2d8a61ddd7_icgraph}
+\end{center}
+\end{figure}

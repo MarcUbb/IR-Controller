@@ -1,35 +1,33 @@
-# include "base.h"
+/**
+ * @file filesystem.cpp
+ * 
+ * @author Marc Ubbelohde
+ * 
+ * @brief In this file, all functions related to the filesystem are defined.
+ * 
+ * @details The functions in this file are used to save and load data from the filesystem, 
+ * provide the frontend with the data it needs to display necessary information,
+ * to handle signal capture and sending and to control the LED output. This file is the
+ * foundation of the project and the functions are used by almost all other files.
+ */
 
-/*
-In this file, all functions related to the filesystem are defined.
-*/
+#include "base.h"
 
 
-// TODO: Inputs jeweils auf Sinnhaftigkeit checken (überall und in Verknüpfung mit Unit Tests)
-
-
+/**
+ * @brief This function captures a signal and returns it as a String.
+ * 
+ * @return String - String containing the captured signal in the format:\n
+ *                  "uint16_t rawData[67] = {1234, 5678, ...};" - if signal was receiver, format defined by resultToSourceCode() in IRremoteESP8266/src/IRutils.cpp\n 
+ *                  "no_signal" - if no signal was captured
+ * 
+ * @details This function uses the IRremoteESP8266 library and is based on the IRrecvDumpV2 example from the library.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String capture_signal(){
-  /*
-  parameters:
-    ---
-  
-  returns:
-    String:
-      String containing the captured signal in the format:
-        "uint16_t rawData[67] = {1234, 5678, ...};" - if signal was receiver, 
-          format defined by resultToSourceCode() in IRremoteESP8266/src/IRutils.cpp
-        "no_signal" - if no signal was captured
-
-  description:
-  This function captures a signal and returns it as a String. It uses the IRremoteESP8266 library
-  and is based on the IRrecvDumpV2 example from the library. 
-  
-  calls:
-  - control_led_output (in src/filesystem.cpp) to signalize the state of the capture process
-
-  called by:
-  - recording_workflow (in src/workflows.cpp) to capture a signal
-  */
 
   // set the GPIOs for the IR-Receiver and output LED
   int receive_pin = 14;
@@ -79,31 +77,24 @@ String capture_signal(){
   return("no_signal");
 }
 
-
+/**
+ * @brief This function saves a captured signal
+ * 
+ * @param result_string - String containing the captured signal in the format:\n
+ *                       "uint16_t rawData[67] = {1234, 5678, ...};" (format defined by resultToSourceCode() in IRremoteESP8266/src/IRutils.cpp)\n
+ * 
+ * @param name - name of the signal
+ * 
+ * @return String - "success" - if signal was saved successfully\n
+ *                 "Error: ..." - if an error occurred
+ * 
+ * @details This function saves a captured signal in json format to a file. It uses the ArduinoJson library.
+ * 
+ * @callgraph
+ * 
+ * @callergraph
+ */
 String save_signal(String result_string, String name){
-  /*
-  parameters:
-    String result_string:
-      String containing the captured signal in the format:
-        "uint16_t rawData[67] = {1234, 5678, ...};" 
-        (format defined by resultToSourceCode() in IRremoteESP8266/src/IRutils.cpp)
-    String name:
-      name of the signal
-  
-  returns:
-    String:
-      "success" - if signal was saved successfully
-      "Error: ..." - if an error occurred
-
-  description:
-  This function saves a captured signal in json format to a file. It uses the ArduinoJson library.
-  
-  calls:
-    - save_json (in src/filesystem.cpp) to save the JSON document containing the captured signal to its file
-
-  called by:
-  - recording_workflow (in src/workflows.cpp) to save the captured signal to its file
-  */
 
   // check if name is specified
   if (name == ""){
@@ -146,35 +137,20 @@ String save_signal(String result_string, String name){
   return("success");
 }
 
-
+/**
+ * @brief This function saves a JSON document to a specified file
+ * 
+ * @param filename - name of the file
+ * 
+ * @param doc - JSON document containing unspecified data
+ * 
+ * @details This function uses LittleFS and the ArduinoJson library.
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 void save_json(String filename, DynamicJsonDocument doc) {
-  /*
-  parameters:
-    String filename:
-      name of the file
-    DynamicJsonDocument doc:
-      JSON document containing unspecified data:
-        {
-          "...": "...",
-          "..."
-        }
-
-  returns:
-    void
-  
-  description:
-  This function saves a JSON document to a specified file. It uses LittleFS and the ArduinoJson library.
-  
-  calls:
-    ---
-
-  called by:
-  - save_signal (in src/filesystem.cpp) to save the JSON document containing the captured signal to its file
-  - recording_workflow (in src/workflows.cpp) to save the JSON document containing the captured signal to its file
-  - update_time (in src/time_management.cpp) to update time in /time.json
-  - init_time (in src/time_management.cpp) to save NTP time to /time.json
-  - check_and_update_offset (in src/time_management.cpp) to update millis() offset to /time.json
-  */
 
   // initialize LittleFS
   LittleFS.begin();
@@ -209,34 +185,20 @@ void save_json(String filename, DynamicJsonDocument doc) {
   return;
 }
 
-
+/**
+ * @brief This function loads a JSON document from a specified file
+ * 
+ * @param filename - name of the file
+ * 
+ * @return DynamicJsonDocument - JSON document containing unspecified data
+ * 
+ * @details This function uses LittleFS and the ArduinoJson library.
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 DynamicJsonDocument load_json(String filename) {
-  /*
-  parameters:
-    String filename:
-      name of the file
-  
-  returns:
-    DynamicJsonDocument:
-      JSON document containing unspecified data:
-        {
-          "...": "...",
-          "..."
-        }
-  
-  description:
-  This function loads a JSON document from a specified file. It uses LittleFS and the ArduinoJson library.
-
-  calls:
-    ---
-
-  called by:
-  - sending_workflow (in src/workflows.cpp) to load the JSON document containing the signal to be sent
-  - update_time (in src/time_management.cpp) to load time from /time.json
-  - get_current_time (in src/time_management.cpp) to load time and offset from /time.json
-  - init_time (in src/time_management.cpp) to check if time in /time.json is already set
-  - check_and_update_offset (in src/time_management.cpp) to load time from /time.json for overflow checking
-  */
 
   // initialize LittleFS
   LittleFS.begin();
@@ -274,33 +236,27 @@ DynamicJsonDocument load_json(String filename) {
   return doc;
 }
 
-
+/**
+ * @brief This function sends a signal provided in JSON format.
+ * 
+ * @param doc - JSON document containing the signal to be sent:\n 
+ *        {\n
+ *        "name": "name",\n
+ *        "length": 67,\n
+ *        "sequence": "1234, 5678, ..."\n
+ *        }
+ * 
+ * @return String - "success" if sending was successful\n
+ *                  "Error: ..." if sending failed
+ * 
+ * @details This function sends a signal provided in JSON format. It uses the IRremoteESP8266 library and is based
+ * on the example code provided by the library.
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 String send_signal(DynamicJsonDocument doc) {
-  /*
-  parameters:
-    DynamicJsonDocument doc:
-      JSON document containing the signal to be sent:
-        {
-          "name": "name",
-          "length": 67,
-          "sequence": "1234, 5678, ..."
-        }
-  
-  returns:
-    String:
-      "success" if sending was successful
-      "Error: ..." if sending failed
-  
-  description:
-  This function sends a signal provided in JSON format. It uses the IRremoteESP8266 library and is based
-  on the example code provided by the library.
-
-  calls:
-    ---
-
-  called by:
-  - sending_workflow (in src/workflows.cpp) to send the signal
-  */
 
   // extract data from JSON document
   int length = doc["length"];
@@ -342,29 +298,23 @@ String send_signal(DynamicJsonDocument doc) {
   return("success");
 }
 
-
+/**
+ * @brief Returns List of saved signals and programs.
+ * 
+ * @param folder_signals - name of the folder containing the signals
+ * 
+ * @param folder_programs - name of the folder containing the programs
+ * 
+ * @return String - String containing all files in the specified folders, separated by a semicolon:\n
+ *                 "signal1, signal2, ...;program1, program2, ..."
+ * 
+ * @details This function scans the signal and program folders for files and returns a String containing all files. It uses LittleFS.
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 String get_files(String folder_signals, String folder_programs){
-  /*
-  parameters:
-    String folder_signals:
-      name of the folder containing the signals
-    String folder_programs:
-      name of the folder containing the programs
-
-  returns:
-    String:
-      String containing all files in the specified folders, separated by a semicolon:
-        "signal1, signal2, ...;program1, program2, ..."
-  
-  description:
-  This function scans the signal and program folders for files and returns a String containing all files. It uses LittleFS.
-  
-  calls:
-    ---
-
-  called by:
-  - handle_files (in src/main.cpp) to keep the displayed signals and programs updated
-  */
 
   // declare variables
   String files = "";
@@ -414,54 +364,42 @@ String get_files(String folder_signals, String folder_programs){
   return files;
 }
 
-
+/**
+ * @brief Checks if a file exists.
+ * 
+ * @param filename - name of the file to be checked
+ * 
+ * @return boolean - true if the file exists, false if not
+ * 
+ * @details This function checks if a file exists in the LittleFS.
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 boolean check_if_file_exists(String filename) {
-  /*
-  parameters:
-    String filename:
-      name of the file to be checked
-  
-  returns:
-    boolean:
-      true if the file exists, false if not
-
-  description:
-  This function checks if a file exists in the LittleFS.
-
-  calls:
-    ---
-
-  called by:
-  - called by multiple functions to check if a file exists
-  */
   LittleFS.begin();
   boolean exists = LittleFS.exists(filename);
   LittleFS.end();
   return exists;
 }
 
-
+/**
+ * @brief Reads a program file and returns its content as a String.
+ * 
+ * @param program_name - name of the program to be read
+ * 
+ * @return String - String containing the program code
+ * 
+ * @details This function has its reason of existence next to load_json because in the 
+ * frontend, after pressing the "edit" button, the program code of the specified 
+ * program is displayed in the textarea as a string.
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 String read_program(String program_name){
-  /*
-  parameters:
-    String program_name:
-      name of the program to be read
-    
-  returns:
-    String:
-      String containing the program code
-
-  description:
-  This function has its reason of existence next to load_json because in the frontend, 
-  after pressing the "edit" button, the program code of the specified program is displayed 
-  in the textarea as a string.
-
-  calls:
-    ---
-
-  called by:
-  - handle_program (in src/main.cpp) to update displayed program code
-  */
 
   // declare variables
   String filename = "/programs/" + program_name + ".json";
@@ -489,32 +427,25 @@ String read_program(String program_name){
   return file_content;
 }
 
-
+/**
+ * @brief Controls the LED output.
+ * 
+ * @param signal - String containing the signal to be send:\n 
+ *                "no_signal" - LED blinks 3 times\n
+ *                "no_mDNS" - LED blinks 3 times\n
+ *                "signal_received" - LED blinks once
+ * 
+ * 
+ * @details This function controls the LED output via codewords to specify the kind 
+ * of signal to be send. The LED is connected to GPIO 5 (D1) on the ESP8266 and is 
+ * ment as a way to communicate errors to the user and singal when the ESP is ready to 
+ * receive a signal.
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 void control_led_output(String signal) {
-  /*
-  parameters:
-    String signal:
-      String serves as code for the signal received:
-        "no_signal" - LED blinks 3 times
-        "no_mDNS" - LED blinks 3 times
-        "signal_received" - LED blinks once
-
-  returns:
-    void
-  
-  description:
-  This function controls the LED output via codewords to specify the kind of signal to be send.
-  The LED is connected to GPIO 5 (D1) on the ESP8266 and is ment as a way to communicate errors
-  to the user and singal when the ESP is ready to receive a signal.
-
-  calls:
-    ---
-
-  called by:
-  - capture_signal (in src/filesystem.cpp) to signal when the ESP is ready for receiving a signal,
-    when a signal was sucessfully received or when no signal was received
-  - setup (in src/main.cpp) to signal when the mDNS setup failed
-  */
 
   // declare variables
   int led_pin = 5;
@@ -562,27 +493,21 @@ void control_led_output(String signal) {
   return;
 }
 
-
+/**
+ * @brief Checks if a String is alphanumeric.
+ * 
+ * @param word - String to be checked
+ * 
+ * @return boolean - true if the String is alphanumeric, false if not
+ * 
+ * @details This function checks if a String is alphanumeric. Spaces, dashes and
+ * underscores are also allowed.
+ * 
+ * @callgraph This function does not call any other function.
+ * 
+ * @callergraph
+ */
 boolean check_if_string_is_alphanumeric (String word) {
-  /*
-  parameters:
-    String word:
-      String to be checked
-
-  returns:
-    boolean:
-      true if the String is alphanumeric, false if not
-
-  description:
-  This function checks if a String is alphanumeric.
-
-  calls:
-    ---
-
-  called by:
-  - handle_form (in src/main.cpp) to check if the name of a new signal or program is alphanumeric
-  - save_signal (in src/filesystem.cpp) to check if the name of a new signal is alphanumeric
-  */
 
   // check if String is alphanumeric
   for (unsigned int i = 0; i < word.length(); i++) {

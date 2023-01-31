@@ -1,3 +1,12 @@
+/**
+ * @file base.h
+ * @author Marc Ubbelohde
+ * @brief Header file for filesystem.cpp and time_management.cpp
+ * 
+ * @details This file includes the dependencies for the filesystem.cpp and time_management.cpp files.
+ * 
+ */
+
 #include <Arduino.h>
 #include <assert.h>
 #include <IRrecv.h>

@@ -1,0 +1,8 @@
+<map id="recording_workflow" name="recording_workflow">
+<area shape="rect" id="node1" title="This function records and saves a signal." alt="" coords="5,39,156,65"/>
+<area shape="rect" id="node2" href="$base_8h.html#a974f985f052312d114134bc603d672a9" title="This function captures a signal and returns it as a String." alt="" coords="204,9,321,36"/>
+<area shape="rect" id="node4" href="$base_8h.html#a0282f0219ae51dc8d2b578908b8a70de" title="This function saves a captured signal." alt="" coords="213,64,312,91"/>
+<area shape="rect" id="node3" href="$filesystem_8cpp.html#ae9e99c2db47fcc4b52086d16296a49aa" title="Controls the LED output." alt="" coords="369,5,512,32"/>
+<area shape="rect" id="node5" href="$filesystem_8cpp.html#ae91cb438a8dccf51f04a58947ad577e1" title="Checks if a String is alphanumeric." alt="" coords="371,57,510,98"/>
+<area shape="rect" id="node6" href="$filesystem_8cpp.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="397,123,484,149"/>
+</map>

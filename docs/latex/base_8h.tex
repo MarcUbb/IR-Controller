@@ -1,0 +1,623 @@
+\hypertarget{base_8h}{}\doxysection{include/base.h File Reference}
+\label{base_8h}\index{include/base.h@{include/base.h}}
+
+
+Header file for \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} and \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}}.  
+
+
+{\ttfamily \#include $<$Arduino.\+h$>$}\newline
+{\ttfamily \#include $<$assert.\+h$>$}\newline
+{\ttfamily \#include $<$I\+Rrecv.\+h$>$}\newline
+{\ttfamily \#include $<$I\+Rremote\+E\+S\+P8266.\+h$>$}\newline
+{\ttfamily \#include $<$I\+Rtext.\+h$>$}\newline
+{\ttfamily \#include $<$I\+Rutils.\+h$>$}\newline
+{\ttfamily \#include $<$I\+Rsend.\+h$>$}\newline
+{\ttfamily \#include $<$Arduino\+Json.\+h$>$}\newline
+{\ttfamily \#include $<$Little\+F\+S.\+h$>$}\newline
+{\ttfamily \#include $<$E\+S\+P8266\+Wi\+Fi.\+h$>$}\newline
+{\ttfamily \#include $<$N\+T\+P\+Client.\+h$>$}\newline
+{\ttfamily \#include $<$Wi\+Fi\+Udp.\+h$>$}\newline
+Include dependency graph for base.\+h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{base_8h_a974f985f052312d114134bc603d672a9}{capture\+\_\+signal}} ()
+\begin{DoxyCompactList}\small\item\em This function captures a signal and returns it as a String. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{base_8h_a0282f0219ae51dc8d2b578908b8a70de}{save\+\_\+signal}} (String result\+\_\+string, String name)
+\begin{DoxyCompactList}\small\item\em This function saves a captured signal. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{base_8h_a8de3bbf584592c6a6c216ce738ca24ce}{save\+\_\+json}} (String filename, Dynamic\+Json\+Document doc)
+\begin{DoxyCompactList}\small\item\em This function saves a J\+S\+ON document to a specified file. \end{DoxyCompactList}\item 
+Dynamic\+Json\+Document \mbox{\hyperlink{base_8h_a56820dcc580395e119d9de2ad4ad2400}{load\+\_\+json}} (String filename)
+\begin{DoxyCompactList}\small\item\em This function loads a J\+S\+ON document from a specified file. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{base_8h_ae92ea0f99679274f490c7e2d8a61ddd7}{send\+\_\+signal}} (Dynamic\+Json\+Document doc)
+\begin{DoxyCompactList}\small\item\em This function sends a signal provided in J\+S\+ON format. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{base_8h_a57b2a7efc18f0e2b29d17382c2c9aca5}{get\+\_\+files}} (String folder\+\_\+signals, String folder\+\_\+programs)
+\begin{DoxyCompactList}\small\item\em Returns List of saved signals and programs. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{base_8h_a5689133a917d901606c1d294bfda5785}{check\+\_\+if\+\_\+file\+\_\+exists}} (String filename)
+\begin{DoxyCompactList}\small\item\em Checks if a file exists. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{base_8h_a064bc458b16e70f9ce2384268151485c}{read\+\_\+program}} (String program\+\_\+name)
+\begin{DoxyCompactList}\small\item\em Reads a program file and returns its content as a String. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{base_8h_ae9e99c2db47fcc4b52086d16296a49aa}{control\+\_\+led\+\_\+output}} (String signal)
+\begin{DoxyCompactList}\small\item\em Controls the L\+ED output. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{base_8h_ae91cb438a8dccf51f04a58947ad577e1}{check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric}} (String word)
+\begin{DoxyCompactList}\small\item\em Checks if a String is alphanumeric. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{base_8h_a3510cfe664c5b740d746a31e79b0f158}{weekday\+\_\+to\+\_\+num}} (String weekday)
+\begin{DoxyCompactList}\small\item\em Converts a weekday String to a weekday number. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{base_8h_a6291345b0a1a1141c8d11458ff2f5cd4}{compare\+\_\+time}} (String time, boolean weekday\+\_\+included)
+\begin{DoxyCompactList}\small\item\em Compare specified time with current time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{base_8h_a11b9f043cd67f782c7b8c49ffd0f51cb}{update\+\_\+time}} (String time, boolean A\+P\+\_\+mode)
+\begin{DoxyCompactList}\small\item\em Updates the time in the Little\+FS. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{base_8h_a79f5fec2131038665d4240b7b761f15a}{get\+\_\+current\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Loads the current time from Little\+FS. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{base_8h_a9302635144807a7f7063815f116ac129}{turn\+\_\+seconds\+\_\+in\+\_\+time}} (unsigned long input\+\_\+seconds)
+\begin{DoxyCompactList}\small\item\em This function converts seconds to time format. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{base_8h_a2df1ab5ae345f8373541fdadc380d0cf}{add\+\_\+time}} (String time, String offset\+\_\+time)
+\begin{DoxyCompactList}\small\item\em adds two times together \end{DoxyCompactList}\item 
+Dynamic\+Json\+Document \mbox{\hyperlink{base_8h_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time}} (int timezone)
+\begin{DoxyCompactList}\small\item\em Gets time from N\+TP server. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{base_8h_ac98cf9eca3c34ed8b3fb2c93625a0c18}{check\+\_\+and\+\_\+update\+\_\+offset}} ()
+\begin{DoxyCompactList}\small\item\em Checks if millis() overflowed and updates time if necessary. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} and \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}}. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde
+\end{DoxyAuthor}
+This file includes the dependencies for the \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} and \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}} files. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{base_8h_a2df1ab5ae345f8373541fdadc380d0cf}\label{base_8h_a2df1ab5ae345f8373541fdadc380d0cf}} 
+\index{base.h@{base.h}!add\_time@{add\_time}}
+\index{add\_time@{add\_time}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{add\_time()}{add\_time()}}
+{\footnotesize\ttfamily String add\+\_\+time (\begin{DoxyParamCaption}\item[{String}]{time,  }\item[{String}]{offset\+\_\+time }\end{DoxyParamCaption})}
+
+
+
+adds two times together 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & -\/ time to add to in format \char`\"{}hh\+:mm\+:ss weekday\char`\"{}\\
+\hline
+{\em offset\+\_\+time} & -\/ time to add in format \char`\"{}hh\+:mm\+:ss\char`\"{}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ time in format \char`\"{}hh\+:mm\+:ss weekday\char`\"{}
+\end{DoxyReturn}
+This function adds two times together. The order of the parameters is important. The first parameter contains the weekday, the second parameter does not.
+
+This function does not call other functions. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a2df1ab5ae345f8373541fdadc380d0cf_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a974f985f052312d114134bc603d672a9}\label{base_8h_a974f985f052312d114134bc603d672a9}} 
+\index{base.h@{base.h}!capture\_signal@{capture\_signal}}
+\index{capture\_signal@{capture\_signal}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{capture\_signal()}{capture\_signal()}}
+{\footnotesize\ttfamily String capture\+\_\+signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+This function captures a signal and returns it as a String. 
+
+\begin{DoxyReturn}{Returns}
+String -\/ String containing the captured signal in the format\+:~\newline
+ \char`\"{}uint16\+\_\+t raw\+Data\mbox{[}67\mbox{]} = \{1234, 5678, ...\};\char`\"{} -\/ if signal was receiver, format defined by result\+To\+Source\+Code() in I\+Rremote\+E\+S\+P8266/src/\+I\+Rutils.\+cpp~\newline
+ \char`\"{}no\+\_\+signal\char`\"{} -\/ if no signal was captured
+\end{DoxyReturn}
+This function uses the I\+Rremote\+E\+S\+P8266 library and is based on the I\+Rrecv\+Dump\+V2 example from the library. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=311pt]{base_8h_a974f985f052312d114134bc603d672a9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a974f985f052312d114134bc603d672a9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_ac98cf9eca3c34ed8b3fb2c93625a0c18}\label{base_8h_ac98cf9eca3c34ed8b3fb2c93625a0c18}} 
+\index{base.h@{base.h}!check\_and\_update\_offset@{check\_and\_update\_offset}}
+\index{check\_and\_update\_offset@{check\_and\_update\_offset}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{check\_and\_update\_offset()}{check\_and\_update\_offset()}}
+{\footnotesize\ttfamily void check\+\_\+and\+\_\+update\+\_\+offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Checks if millis() overflowed and updates time if necessary. 
+
+Since millis() overflows after 49.\+7 days, this function checks if an overflow occured and updates the time saved in \char`\"{}time.\+json\char`\"{} every time it happens to still be able to calculate teh current time. This function is used whenever long waiting times are expected (e.\+g. in timed programs, wait/skip command or user inactivity). It is important to note that this function has to be able to work offline (no N\+TP call) since it should be possible to run programs without internet connection. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_ac98cf9eca3c34ed8b3fb2c93625a0c18_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_ac98cf9eca3c34ed8b3fb2c93625a0c18_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a5689133a917d901606c1d294bfda5785}\label{base_8h_a5689133a917d901606c1d294bfda5785}} 
+\index{base.h@{base.h}!check\_if\_file\_exists@{check\_if\_file\_exists}}
+\index{check\_if\_file\_exists@{check\_if\_file\_exists}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{check\_if\_file\_exists()}{check\_if\_file\_exists()}}
+{\footnotesize\ttfamily boolean check\+\_\+if\+\_\+file\+\_\+exists (\begin{DoxyParamCaption}\item[{String}]{filename }\end{DoxyParamCaption})}
+
+
+
+Checks if a file exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -\/ name of the file to be checked\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the file exists, false if not
+\end{DoxyReturn}
+This function checks if a file exists in the Little\+FS.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a5689133a917d901606c1d294bfda5785_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_ae91cb438a8dccf51f04a58947ad577e1}\label{base_8h_ae91cb438a8dccf51f04a58947ad577e1}} 
+\index{base.h@{base.h}!check\_if\_string\_is\_alphanumeric@{check\_if\_string\_is\_alphanumeric}}
+\index{check\_if\_string\_is\_alphanumeric@{check\_if\_string\_is\_alphanumeric}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{check\_if\_string\_is\_alphanumeric()}{check\_if\_string\_is\_alphanumeric()}}
+{\footnotesize\ttfamily boolean check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric (\begin{DoxyParamCaption}\item[{String}]{word }\end{DoxyParamCaption})}
+
+
+
+Checks if a String is alphanumeric. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & -\/ String to be checked\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the String is alphanumeric, false if not
+\end{DoxyReturn}
+This function checks if a String is alphanumeric. Spaces, dashes and underscores are also allowed.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_ae91cb438a8dccf51f04a58947ad577e1_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a6291345b0a1a1141c8d11458ff2f5cd4}\label{base_8h_a6291345b0a1a1141c8d11458ff2f5cd4}} 
+\index{base.h@{base.h}!compare\_time@{compare\_time}}
+\index{compare\_time@{compare\_time}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{compare\_time()}{compare\_time()}}
+{\footnotesize\ttfamily boolean compare\+\_\+time (\begin{DoxyParamCaption}\item[{String}]{time,  }\item[{boolean}]{weekday\+\_\+included }\end{DoxyParamCaption})}
+
+
+
+Compare specified time with current time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & -\/ String in format \char`\"{}weekday hh\+:mm\+:ss timezone\char`\"{}\\
+\hline
+{\em weekday\+\_\+included} & -\/ true if weekday is included in time, false if not\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if time is equal to current time, false if not
+\end{DoxyReturn}
+This elementary function checks if the current time is equal to the time in the program. It is used in timed programs and handles millis() overflow. The function has a delay of 500ms to reduce the number of operations inside the while(true) loop. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a6291345b0a1a1141c8d11458ff2f5cd4_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a6291345b0a1a1141c8d11458ff2f5cd4_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_ae9e99c2db47fcc4b52086d16296a49aa}\label{base_8h_ae9e99c2db47fcc4b52086d16296a49aa}} 
+\index{base.h@{base.h}!control\_led\_output@{control\_led\_output}}
+\index{control\_led\_output@{control\_led\_output}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{control\_led\_output()}{control\_led\_output()}}
+{\footnotesize\ttfamily void control\+\_\+led\+\_\+output (\begin{DoxyParamCaption}\item[{String}]{signal }\end{DoxyParamCaption})}
+
+
+
+Controls the L\+ED output. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em signal} & -\/ String containing the signal to be send\+:~\newline
+ \char`\"{}no\+\_\+signal\char`\"{} -\/ L\+ED blinks 3 times~\newline
+ \char`\"{}no\+\_\+m\+D\+N\+S\char`\"{} -\/ L\+ED blinks 3 times~\newline
+ \char`\"{}signal\+\_\+received\char`\"{} -\/ L\+ED blinks once\\
+\hline
+\end{DoxyParams}
+This function controls the L\+ED output via codewords to specify the kind of signal to be send. The L\+ED is connected to G\+P\+IO 5 (D1) on the E\+S\+P8266 and is ment as a way to communicate errors to the user and singal when the E\+SP is ready to receive a signal.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_ae9e99c2db47fcc4b52086d16296a49aa_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a79f5fec2131038665d4240b7b761f15a}\label{base_8h_a79f5fec2131038665d4240b7b761f15a}} 
+\index{base.h@{base.h}!get\_current\_time@{get\_current\_time}}
+\index{get\_current\_time@{get\_current\_time}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{get\_current\_time()}{get\_current\_time()}}
+{\footnotesize\ttfamily String get\+\_\+current\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Loads the current time from Little\+FS. 
+
+\begin{DoxyReturn}{Returns}
+String -\/ current time in format \char`\"{}hh\+:mm\+:ss weekday\char`\"{}
+\end{DoxyReturn}
+This function loads the time from the Little\+FS, adds the relative offset between the offset of initialization and the current offset and returns the current time. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{base_8h_a79f5fec2131038665d4240b7b761f15a_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a79f5fec2131038665d4240b7b761f15a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a57b2a7efc18f0e2b29d17382c2c9aca5}\label{base_8h_a57b2a7efc18f0e2b29d17382c2c9aca5}} 
+\index{base.h@{base.h}!get\_files@{get\_files}}
+\index{get\_files@{get\_files}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{get\_files()}{get\_files()}}
+{\footnotesize\ttfamily String get\+\_\+files (\begin{DoxyParamCaption}\item[{String}]{folder\+\_\+signals,  }\item[{String}]{folder\+\_\+programs }\end{DoxyParamCaption})}
+
+
+
+Returns List of saved signals and programs. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em folder\+\_\+signals} & -\/ name of the folder containing the signals\\
+\hline
+{\em folder\+\_\+programs} & -\/ name of the folder containing the programs\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ String containing all files in the specified folders, separated by a semicolon\+:~\newline
+ \char`\"{}signal1, signal2, ...;program1, program2, ...\char`\"{}
+\end{DoxyReturn}
+This function scans the signal and program folders for files and returns a String containing all files. It uses Little\+FS.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=338pt]{base_8h_a57b2a7efc18f0e2b29d17382c2c9aca5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a597ed8e2df5841f85479ae8cbae2da32}\label{base_8h_a597ed8e2df5841f85479ae8cbae2da32}} 
+\index{base.h@{base.h}!get\_NTP\_time@{get\_NTP\_time}}
+\index{get\_NTP\_time@{get\_NTP\_time}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{get\_NTP\_time()}{get\_NTP\_time()}}
+{\footnotesize\ttfamily Dynamic\+Json\+Document get\+\_\+\+N\+T\+P\+\_\+time (\begin{DoxyParamCaption}\item[{int}]{timezone }\end{DoxyParamCaption})}
+
+
+
+Gets time from N\+TP server. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em timezone} & -\/ timezone offset in seconds \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dynamic\+Json\+Document -\/ time in format\+:~\newline
+ \{~\newline
+ \char`\"{}hours\char`\"{}\+: hh,~\newline
+ \char`\"{}minutes\char`\"{}\+: mm,~\newline
+ \char`\"{}seconds\char`\"{}\+: ss,~\newline
+ \char`\"{}weekday\char`\"{}\+: w,~\newline
+ \char`\"{}init\+\_\+offset\char`\"{}\+: millis(),~\newline
+ \char`\"{}timezone\char`\"{}\+: ssss,~\newline
+ \char`\"{}last\+\_\+offset\char`\"{}\+: millis()~\newline
+ \}
+\end{DoxyReturn}
+This function gets the time from the web and returns it as a Dynamic\+Json\+Document. It is only used in the initial setup to get the time without user interaction. If server is unavailable, it returns 00\+:00\+:20 4 by defauls.
+
+This function does not call any other functions. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=310pt]{base_8h_a597ed8e2df5841f85479ae8cbae2da32_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a56820dcc580395e119d9de2ad4ad2400}\label{base_8h_a56820dcc580395e119d9de2ad4ad2400}} 
+\index{base.h@{base.h}!load\_json@{load\_json}}
+\index{load\_json@{load\_json}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{load\_json()}{load\_json()}}
+{\footnotesize\ttfamily Dynamic\+Json\+Document load\+\_\+json (\begin{DoxyParamCaption}\item[{String}]{filename }\end{DoxyParamCaption})}
+
+
+
+This function loads a J\+S\+ON document from a specified file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -\/ name of the file\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Dynamic\+Json\+Document -\/ J\+S\+ON document containing unspecified data
+\end{DoxyReturn}
+This function uses Little\+FS and the Arduino\+Json library.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a56820dcc580395e119d9de2ad4ad2400_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a064bc458b16e70f9ce2384268151485c}\label{base_8h_a064bc458b16e70f9ce2384268151485c}} 
+\index{base.h@{base.h}!read\_program@{read\_program}}
+\index{read\_program@{read\_program}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{read\_program()}{read\_program()}}
+{\footnotesize\ttfamily String read\+\_\+program (\begin{DoxyParamCaption}\item[{String}]{program\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+Reads a program file and returns its content as a String. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em program\+\_\+name} & -\/ name of the program to be read\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ String containing the program code
+\end{DoxyReturn}
+This function has its reason of existence next to load\+\_\+json because in the frontend, after pressing the \char`\"{}edit\char`\"{} button, the program code of the specified program is displayed in the textarea as a string.
+
+This function does not call any other function. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=314pt]{base_8h_a064bc458b16e70f9ce2384268151485c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a064bc458b16e70f9ce2384268151485c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a8de3bbf584592c6a6c216ce738ca24ce}\label{base_8h_a8de3bbf584592c6a6c216ce738ca24ce}} 
+\index{base.h@{base.h}!save\_json@{save\_json}}
+\index{save\_json@{save\_json}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{save\_json()}{save\_json()}}
+{\footnotesize\ttfamily void save\+\_\+json (\begin{DoxyParamCaption}\item[{String}]{filename,  }\item[{Dynamic\+Json\+Document}]{doc }\end{DoxyParamCaption})}
+
+
+
+This function saves a J\+S\+ON document to a specified file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em filename} & -\/ name of the file\\
+\hline
+{\em doc} & -\/ J\+S\+ON document containing unspecified data\\
+\hline
+\end{DoxyParams}
+This function uses Little\+FS and the Arduino\+Json library.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a8de3bbf584592c6a6c216ce738ca24ce_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a0282f0219ae51dc8d2b578908b8a70de}\label{base_8h_a0282f0219ae51dc8d2b578908b8a70de}} 
+\index{base.h@{base.h}!save\_signal@{save\_signal}}
+\index{save\_signal@{save\_signal}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{save\_signal()}{save\_signal()}}
+{\footnotesize\ttfamily String save\+\_\+signal (\begin{DoxyParamCaption}\item[{String}]{result\+\_\+string,  }\item[{String}]{name }\end{DoxyParamCaption})}
+
+
+
+This function saves a captured signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em result\+\_\+string} & -\/ String containing the captured signal in the format\+:~\newline
+ \char`\"{}uint16\+\_\+t raw\+Data\mbox{[}67\mbox{]} = \{1234, 5678, ...\};\char`\"{} (format defined by result\+To\+Source\+Code() in I\+Rremote\+E\+S\+P8266/src/\+I\+Rutils.\+cpp)~\newline
+ \\
+\hline
+{\em name} & -\/ name of the signal\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ \char`\"{}success\char`\"{} -\/ if signal was saved successfully~\newline
+ \char`\"{}\+Error\+: ...\char`\"{} -\/ if an error occurred
+\end{DoxyReturn}
+This function saves a captured signal in json format to a file. It uses the Arduino\+Json library. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=294pt]{base_8h_a0282f0219ae51dc8d2b578908b8a70de_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a0282f0219ae51dc8d2b578908b8a70de_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_ae92ea0f99679274f490c7e2d8a61ddd7}\label{base_8h_ae92ea0f99679274f490c7e2d8a61ddd7}} 
+\index{base.h@{base.h}!send\_signal@{send\_signal}}
+\index{send\_signal@{send\_signal}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{send\_signal()}{send\_signal()}}
+{\footnotesize\ttfamily String send\+\_\+signal (\begin{DoxyParamCaption}\item[{Dynamic\+Json\+Document}]{doc }\end{DoxyParamCaption})}
+
+
+
+This function sends a signal provided in J\+S\+ON format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em doc} & -\/ J\+S\+ON document containing the signal to be sent\+:~\newline
+ \{~\newline
+ \char`\"{}name\char`\"{}\+: \char`\"{}name\char`\"{},~\newline
+ \char`\"{}length\char`\"{}\+: 67,~\newline
+ \char`\"{}sequence\char`\"{}\+: \char`\"{}1234, 5678, ...\char`\"{}~\newline
+ \}\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ \char`\"{}success\char`\"{} if sending was successful~\newline
+ \char`\"{}\+Error\+: ...\char`\"{} if sending failed
+\end{DoxyReturn}
+This function sends a signal provided in J\+S\+ON format. It uses the I\+Rremote\+E\+S\+P8266 library and is based on the example code provided by the library.
+
+This function does not call any other function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_ae92ea0f99679274f490c7e2d8a61ddd7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a9302635144807a7f7063815f116ac129}\label{base_8h_a9302635144807a7f7063815f116ac129}} 
+\index{base.h@{base.h}!turn\_seconds\_in\_time@{turn\_seconds\_in\_time}}
+\index{turn\_seconds\_in\_time@{turn\_seconds\_in\_time}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{turn\_seconds\_in\_time()}{turn\_seconds\_in\_time()}}
+{\footnotesize\ttfamily String turn\+\_\+seconds\+\_\+in\+\_\+time (\begin{DoxyParamCaption}\item[{unsigned long}]{input\+\_\+seconds }\end{DoxyParamCaption})}
+
+
+
+This function converts seconds to time format. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em input\+\_\+seconds} & -\/ seconds to convert\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ time in format \char`\"{}hh\+:mm\+:ss\char`\"{}
+\end{DoxyReturn}
+This function converts seconds to time format. It is used in \mbox{\hyperlink{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a}{get\+\_\+current\+\_\+time()}} to prepare millis() offset for comparison with saved time.
+
+This function does not call other functions. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a9302635144807a7f7063815f116ac129_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a11b9f043cd67f782c7b8c49ffd0f51cb}\label{base_8h_a11b9f043cd67f782c7b8c49ffd0f51cb}} 
+\index{base.h@{base.h}!update\_time@{update\_time}}
+\index{update\_time@{update\_time}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{update\_time()}{update\_time()}}
+{\footnotesize\ttfamily void update\+\_\+time (\begin{DoxyParamCaption}\item[{String}]{time,  }\item[{boolean}]{A\+P\+\_\+mode }\end{DoxyParamCaption})}
+
+
+
+Updates the time in the Little\+FS. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em time} & -\/ String in format \char`\"{}weekday hh\+:mm\+:ss timezone\char`\"{}\\
+\hline
+{\em A\+P\+\_\+mode} & -\/ true if the device is in AP mode, false if not\\
+\hline
+\end{DoxyParams}
+This function is called when the user presses the \char`\"{}sync\char`\"{} button on the website. It updates only the timezone to the Little\+FS since the time from the N\+TP request is more precise than the time from the user. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{base_8h_a11b9f043cd67f782c7b8c49ffd0f51cb_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a11b9f043cd67f782c7b8c49ffd0f51cb_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{base_8h_a3510cfe664c5b740d746a31e79b0f158}\label{base_8h_a3510cfe664c5b740d746a31e79b0f158}} 
+\index{base.h@{base.h}!weekday\_to\_num@{weekday\_to\_num}}
+\index{weekday\_to\_num@{weekday\_to\_num}!base.h@{base.h}}
+\doxysubsubsection{\texorpdfstring{weekday\_to\_num()}{weekday\_to\_num()}}
+{\footnotesize\ttfamily String weekday\+\_\+to\+\_\+num (\begin{DoxyParamCaption}\item[{String}]{weekday }\end{DoxyParamCaption})}
+
+
+
+Converts a weekday String to a weekday number. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em weekday} & -\/ weekday as a String \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ weekday as a number\+:~\newline
+ \char`\"{}\+Monday\char`\"{} -\/ \char`\"{}1\char`\"{}~\newline
+ \char`\"{}\+Tuesday\char`\"{} -\/ \char`\"{}2\char`\"{}~\newline
+ \char`\"{}\+Wednesday\char`\"{} -\/ \char`\"{}3\char`\"{}~\newline
+ \char`\"{}\+Thursday\char`\"{} -\/ \char`\"{}4\char`\"{}~\newline
+ \char`\"{}\+Friday\char`\"{} -\/ \char`\"{}5\char`\"{}~\newline
+ \char`\"{}\+Saturday\char`\"{} -\/ \char`\"{}6\char`\"{}~\newline
+ \char`\"{}\+Sunday\char`\"{} -\/ \char`\"{}0\char`\"{}~\newline
+ error -\/ \char`\"{}error\char`\"{}
+\end{DoxyReturn}
+This function converts a weekday String to a weekday number.
+
+This function does not call any function. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{base_8h_a3510cfe664c5b740d746a31e79b0f158_icgraph}
+\end{center}
+\end{figure}

@@ -1,9 +1,20 @@
+/**
+ * @file website_string.h
+ * @author Marc Ubbelohde
+ * @brief Header file that holds the website as a string
+ * 
+ * @details This file holds the website as a string. It is used to
+ * reduce the amount of code in the main.h file. Additionally to this file,
+ * you can find the website in html format in website.hmtl.
+ * 
+ */
+
 #include <Arduino.h>
 
-/*
-In this file, the website is stored as a string.
-*/
-
+/**
+ * @brief The website as a string.
+ * 
+ */
 const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">

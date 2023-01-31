@@ -1,0 +1,5 @@
+<map id="update_time" name="update_time">
+<area shape="rect" id="node1" title="Updates the time in the LittleFS." alt="" coords="5,31,109,57"/>
+<area shape="rect" id="node2" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="159,5,243,32"/>
+<area shape="rect" id="node3" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="157,56,244,83"/>
+</map>

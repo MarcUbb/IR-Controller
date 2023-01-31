@@ -1,21 +1,37 @@
+/**
+ * @file test_workflows.cpp
+ * @author Marc Ubbelohde
+ * @brief This file contains unit tests for all functions from the workflows.cpp.
+ * 
+ */
+
 #include "tests.h"
 
-// tests for workflow.cpp
-
-boolean test_deleding_workflow() {
-	/*
-	- checks if file is deleted correctly
-	- checks if error message is correct when file does not exist
-	- checks if no other file is deleted
-	*/
+/**
+ * @brief Unit test for the function "deleting_workflow"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: clean LittleFS and create test signal file
+ * -# check if function returns correct error message when file does not exist
+ * -# check if no other file is deleted
+ * -# check if file is deleted correctly
+ * -# check again if no other file is deleted
+ * 
+ * @see deleting_workflow
+ */
+boolean test_deleting_workflow() {
 
 	// clean LittleFS
 	clean_LittleFS();
 
 	// create test file
 	LittleFS.begin();
-	File file = LittleFS.open("/signals/test_signal.json", "w");
-	file.close();
+	File file1 = LittleFS.open("/signals/test_signal.json", "w");
+	file1.close();
+
+	File file2 = LittleFS.open("/signals/test_signal3.json", "w");
+	file2.close();
 	LittleFS.end();
 
 	// create test data
@@ -38,11 +54,11 @@ boolean test_deleding_workflow() {
 
 	LittleFS.begin();
 	// tests if no other file is deleted
-	if (LittleFS.exists("/signals/test_signal.json") == false) {
+	if (LittleFS.exists("/signals/test_signal.json") == false || LittleFS.exists("/signals/test_signal3.json") == false) {
 		Serial.println("\e[0;31mtest_deleting_workflow: FAILED");
 		Serial.println("function deleted wrong file");
-		Serial.println("expected: could not find " + test_directory + ": " + name_fake);
-		Serial.println("actual: " + output1 + "\e[0;37m");
+		Serial.println("expected: file exists");
+		Serial.println("actual: file does not exist\e[0;37m");
 		LittleFS.end();
 		clean_LittleFS();
 		return(false);
@@ -59,6 +75,18 @@ boolean test_deleding_workflow() {
 		return(false);
 	}
 
+	LittleFS.begin();
+	// tests if no other file is deleted
+	if (LittleFS.exists("/signals/test_signal.json") == false || LittleFS.exists("/signals/test_signal3.json") == false) {
+		Serial.println("\e[0;31mtest_deleting_workflow: FAILED");
+		Serial.println("function deleted wrong file after actually deleting a file");
+		Serial.println("expected: file exists");
+		Serial.println("actual: file does not exist\e[0;37m");
+		LittleFS.end();
+		clean_LittleFS();
+		return(false);
+	}
+
 	// print success message and return true
 	Serial.println("\e[0;32mtest_deleting_workflow: PASSED\e[0;37m");
 	LittleFS.end();
@@ -66,11 +94,18 @@ boolean test_deleding_workflow() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "recording_workflow"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: clean LittleFS
+ * -# check if error message is correct when nothing was recorded
+ * -# check if no file is written when nothing was recorded
+ * 
+ * @see recording_workflow
+ */
 boolean test_recording_workflow() {
-	/*
-	- checks if error message is correct when nothing was recorded
-	- checks if no file is written when nothing was recorded
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();
@@ -108,12 +143,20 @@ boolean test_recording_workflow() {
 	return(true);
 }
 
+
+/**
+ * @brief Unit test for the function "sending_workflow"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: clean LittleFS and create 2 test signals in LittleFS
+ * -# check if error message is correct when file does not exist
+ * -# check if sequence can be correctly sent
+ * -# check if error messages of send_signal are shown correctly (1 example)
+ * 
+ * @see sending_workflow
+ */
 boolean test_sending_workflow() {
-	/*
-	- check if error message is correct when file does not exist
-	- check if sequence can be correctly sent
-	- check if error messages of send_signal are shown correctly (1 example)
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();
@@ -176,11 +219,18 @@ boolean test_sending_workflow() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "adding_workflow"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: clean LittleFS
+ * -# check if functions return value is correct
+ * -# check if program code is correctly written to file
+ * 
+ * @see adding_workflow
+ */
 boolean test_adding_workflow() {
-	/*
-	- checks if functions return value is correct
-	- checks if program code is correctly written to file
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();
@@ -222,12 +272,19 @@ boolean test_adding_workflow() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "playing_workflow"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: clean LittleFS and create 2 test programs in LittleFS
+ * -# check if functions return value is correct when file does not exist
+ * -# check if program can be correctly executed
+ * -# check if error messages of program_parser are shown correctly
+ * 
+ * @see playing_workflow
+ */
 boolean test_playing_workflow() {
-	/*
-	- check if error message is correct when file does not exist
-	- check if program can be correctly executed
-	- check if error messages of program_parser are shown correctly (1 example)
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();
@@ -291,11 +348,19 @@ boolean test_playing_workflow() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "program_parser"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: clean LittleFS and create 2 test signals in LittleFS
+ * -# check if program can be executed correctly
+ * -# if error message is correct when program is faulty
+ * -# if error message is correct when signal does not exist
+ * 
+ * @see program_parser
+ */
 boolean test_program_parser() {
-	/*
-	- check if program can be executed correctly
-	- check every error message of program_parser and called functions
-	*/
 
 	// create test data
 	String code1 = "play test_signal \nwait 100 \nloop 3 \n \nplay test _-signal \nwait 100 \nend \n";	// correct program
@@ -366,11 +431,19 @@ boolean test_program_parser() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "handle_wait_command"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: -
+ * -# check if return value is "success"
+ * -# check if set amount of time is waited
+ * -# check if function waited too long
+ * 
+ * @see handle_wait_command
+ */
 boolean test_handle_wait_command() {
-	/*
-	- check if set amount of time is waited
-	- checks if return message is correct
-	*/
 
 	// create test data
 	unsigned long test_times[4] = {1, 10, 100, 1000};
@@ -382,6 +455,7 @@ boolean test_handle_wait_command() {
 		output = handle_wait_command(test_times[i]);
 		unsigned long end_time = millis();
 
+		// check if return message is correct
 		if (output != "success") {
 			Serial.println("\e[0;31mtest_handle_wait_command: FAILED");
 			Serial.println("function did not return correct message");
@@ -390,6 +464,7 @@ boolean test_handle_wait_command() {
 			return(false);
 		}
 
+		// check if set amount of time is waited
 		if (end_time - start_time < test_times[i]) {
 			Serial.println("\e[0;31mtest_handle_wait_command: FAILED");
 			Serial.println("function did not wait long enough");
@@ -398,6 +473,7 @@ boolean test_handle_wait_command() {
 			return(false);
 		}
 
+		// check if function waited too long
 		if (end_time - start_time > test_times[i] + 200) {
 			Serial.println("\e[0;31mtest_handle_wait_command: FAILED");
 			Serial.println("function waited too long");
@@ -412,11 +488,19 @@ boolean test_handle_wait_command() {
 	return(true);
 }
 
+
+/**
+ * @brief Unit test for the function "handle_times_commands"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: create test signal in LittleFS
+ * -# check error message if weekday is invalid
+ * -# check if invalid commands are caught
+ * 
+ * @see handle_times_commands
+ */
 boolean test_handle_times_commands() {
-	/*
-	- checks error message if weekday is invalid
-	- checks if invalid commands are caught
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();

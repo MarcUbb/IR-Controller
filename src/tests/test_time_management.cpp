@@ -1,12 +1,25 @@
+/**
+ * @file test_time_management.cpp
+ * @author Marc Ubbelohde
+ * @brief This file contains unit tests for all functions from the time_management.cpp.
+ * 
+ */
+
+
 #include "tests.h"
 
-// tests for time_management.cpp
-
+/**
+ * @brief Unit test for the function "weekday_to_num"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: -
+ * -# checks if the correct number for each weekday is returned
+ * -# checks if "error" is returned if the weekday is not valid
+ * 
+ * @see weekday_to_num
+ */
 boolean test_weekday_to_num() {
-	/*
-	- checks if the correct number for each weekday is returned
-	- checks if "error" is returned if the weekday is not valid
-	*/
 
 	// sample Strings
 	String weekdays[15] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday", "bruh"};
@@ -33,11 +46,18 @@ boolean test_weekday_to_num() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "compare_time"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS and initialize time.json with test data
+ * -# checks with loop if true is returned when times match
+ * -# checks if false is returned when times do not match
+ * 
+ * @see compare_time
+ */
 boolean test_compare_time() {
-	/*
-	- checks if sample times are compared correctly
-	- checks if true is returned when times match
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();
@@ -99,10 +119,18 @@ boolean test_compare_time() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "update_time"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS and initialize time.json with test data
+ * -# checks if the time is updated correctly in Station mode
+ * -# checks if the time is updated correctly in AP mode
+ * 
+ * @see update_time
+ */
 boolean test_update_time() {
-	/*
-	- checks if the time is updated correctly (format is always assumed to be correct)
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();
@@ -195,10 +223,17 @@ boolean test_update_time() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "get_current_time"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: Clean LittleFS and initialize time.json with test data
+ * -# checks twice if time is returned correctly
+ * 
+ * @see get_current_time
+ */
 boolean test_get_current_time() {
-	/*
-	- checks if time is returned correctly
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();
@@ -255,10 +290,17 @@ boolean test_get_current_time() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "turn_seconds_in_time"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: -
+ * -# checks samples of conversions
+ * 
+ * @see turn_seconds_in_time
+ */
 boolean test_turn_seconds_in_time() {
-	/*
-	- checks sample of conversions
-	*/
 
 	// test data
 	unsigned long seconds[15] = {0, 1, 59, 60, 61, 3599, 3600, 3601, 86399, 86400, 86401, 604799, 604800, 4294967294, 4294967295};
@@ -288,10 +330,17 @@ boolean test_turn_seconds_in_time() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "add_time"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: -
+ * -# checks samples of timestamps
+ * 
+ * @see add_time
+ */
 boolean test_add_time() {
-	/*
-	- checks sample of additions
-	*/
 
 	// test data
 	String time[5] = {"00:00:00 0", "00:00:01 3", "00:00:59 5", "00:01:00 4", "01:01:59 6"};
@@ -323,11 +372,18 @@ boolean test_add_time() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "get_NTP_time"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: -
+ * -# checks if the document is empty (since Wifi is not available)
+ * -# functionality is tested empirically
+ * 
+ * @see get_NTP_time
+ */
 boolean test_get_NTP_time() {
-	/*
-	- test if empthy JSON Document is returned if no NTP server is available
-	- other functionality tested empirically
-	*/
 
 	DynamicJsonDocument doc = get_NTP_time(0);
 
@@ -357,10 +413,17 @@ boolean test_get_NTP_time() {
 	return(true);
 }
 
+/**
+ * @brief Unit test for the function "check_and_update_offset"
+ * 
+ * @return boolean - true if the test passed, false if the test failed
+ * 
+ * @details - Setup: clean LittleFS and initialize time.json with test data
+ * -# check if the offset is updated correctly
+ * 
+ * @see check_and_update_offset
+ */
 boolean test_check_and_update_offset() {
-	/*
-	- checks if the offset is updated correctly
-	*/
 
 	// clean LittleFS
 	clean_LittleFS();

@@ -1,3 +1,13 @@
+/**
+ * @file workflows.h
+ * @author Marc Ubbelohde
+ * @brief Header file for workflows.cpp
+ * 
+ * @details This file includes the dependencies for the workflows.cpp file
+ * which include the Regexp.h file and the base.h file.
+ * 
+ */
+
 #include "base.h"
 #include "Regexp.h"
 

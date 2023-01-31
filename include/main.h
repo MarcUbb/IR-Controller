@@ -1,3 +1,13 @@
+/**
+ * @file main.h
+ * @author Marc Ubbelohde
+ * @brief Header File for main.cpp
+ * 
+ * @details This file includes dependencies for the wifi setup and webserver.
+ * Also the HTML code for the website is included and the variables that are 
+ * shared between the handler functions are declared.
+ */
+
 #include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
@@ -22,18 +32,34 @@ void handle_apinfo();
 void handle_password();
 void handle_form();
 
-// server declared in header file to make visible to handler functions
+// global variables
+/**
+ * @brief Constructor of the webserver that is used to serve the website.
+ * 
+ */
 ESP8266WebServer server(80);
 
-// holds the name of the currently selected program if the edit button was pressed
-// gets updated on /form and called on /program
+/**
+ * @brief Holds the name of the currently selected program if the edit button was pressed.
+ * Gets updated on /form and called on /program. 
+ * 
+ */
 String PROGRAMNAME = "";
 
-// message is used to hand over error messages (is set by website on /form) and updated in frontend on reload
+/**
+ * @brief Holds the message that is displayed on the website and updated on reload.
+ * 
+ */
 String MESSAGE = "";
 
-// stores session value (if AP-Mode is activated or not)
+/**
+ * @brief Stores the session value (if AP-Mode is activated or not).
+ * 
+ */
 boolean SESSION_AP = true;
 
-// tracks which setting to be used on reboot
+/**
+ * @brief Tracks which setting to be used on reboot.
+ * 
+ */
 boolean AP_SETTING = true;

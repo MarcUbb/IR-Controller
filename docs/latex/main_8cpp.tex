@@ -1,0 +1,379 @@
+\hypertarget{main_8cpp}{}\doxysection{src/main.cpp File Reference}
+\label{main_8cpp}\index{src/main.cpp@{src/main.cpp}}
+
+
+Main file of the program.  
+
+
+{\ttfamily \#include \char`\"{}main.\+h\char`\"{}}\newline
+Include dependency graph for main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8cpp_a4fc01d736fe50cf5b977f755b675f11d}{setup}} ()
+\begin{DoxyCompactList}\small\item\em Arduino Setup function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_afe461d27b9c48d5921c00d521181f12f}{loop}} ()
+\begin{DoxyCompactList}\small\item\em Arduino Loop function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a91f7b87e7f7bfe06d679424d3972d949}{handle\+\_\+root}} ()
+\begin{DoxyCompactList}\small\item\em Handler function for the root page. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_abbb2c8533d3382aff50c25132e42be24}{handle\+\_\+not\+\_\+found}} ()
+\begin{DoxyCompactList}\small\item\em Handler function for any page that is not found. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_aad3360fdec17398d0e5302151e4805a6}{handle\+\_\+program}} ()
+\begin{DoxyCompactList}\small\item\em Handler function to display the program the user wants to edit. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a3c215e38d85a8d3c7e6dcc57b9581784}{handle\+\_\+error}} ()
+\begin{DoxyCompactList}\small\item\em Handler function to display the error message. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_af34fc8222bc1516385d025f1c386783b}{handle\+\_\+files}} ()
+\begin{DoxyCompactList}\small\item\em Handler function to send a list of all signals and programs to the forntend. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a804df23af2d5325f6b80505441c440c0}{handle\+\_\+time}} ()
+\begin{DoxyCompactList}\small\item\em Handler funciton to synchronize the time and/or timezone provided by the user. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_af5c95b85845a3f351230b178b26965cc}{handle\+\_\+credentials}} ()
+\begin{DoxyCompactList}\small\item\em Handler function to erase the wifi credentials saved on the E\+SP. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a8a124067f0737e535090ebb8b87fe225}{handle\+\_\+apmode}} ()
+\begin{DoxyCompactList}\small\item\em Handler function to switch between AP mode and normal mode. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_af19e4342307c909a6199729eca7749d7}{handle\+\_\+apinfo}} ()
+\begin{DoxyCompactList}\small\item\em Handler function to send the current AP mode setting to the frontend. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_a4396215f1508823a1e88adf1f2ee7314}{handle\+\_\+password}} ()
+\begin{DoxyCompactList}\small\item\em Handler function that receives new password entries. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8cpp_ab2a21540700dc92473c6acd2eaf11720}{handle\+\_\+form}} ()
+\begin{DoxyCompactList}\small\item\em Handler function that receives G\+ET requests from all form elements related to signals and programs. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Main file of the program. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde
+\end{DoxyAuthor}
+In this file, you find the main procedures of the program and the handler functions for the webserver. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_af19e4342307c909a6199729eca7749d7}\label{main_8cpp_af19e4342307c909a6199729eca7749d7}} 
+\index{main.cpp@{main.cpp}!handle\_apinfo@{handle\_apinfo}}
+\index{handle\_apinfo@{handle\_apinfo}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_apinfo()}{handle\_apinfo()}}
+{\footnotesize\ttfamily void handle\+\_\+apinfo (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function to send the current AP mode setting to the frontend. 
+
+Sends the current AP mode setting to the frontend. This is used to display the correct setting at the top the website.
+
+This function is called on a G\+ET request to /apinfo. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=249pt]{main_8cpp_af19e4342307c909a6199729eca7749d7_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=246pt]{main_8cpp_af19e4342307c909a6199729eca7749d7_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_a8a124067f0737e535090ebb8b87fe225}\label{main_8cpp_a8a124067f0737e535090ebb8b87fe225}} 
+\index{main.cpp@{main.cpp}!handle\_apmode@{handle\_apmode}}
+\index{handle\_apmode@{handle\_apmode}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_apmode()}{handle\_apmode()}}
+{\footnotesize\ttfamily void handle\+\_\+apmode (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function to switch between AP mode and normal mode. 
+
+Checks the config file and switches between AP mode and normal mode. The possibel reconfiguration of the wifi credentails is done after restart.
+
+This function is called on a G\+ET request to /apmode. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=258pt]{main_8cpp_a8a124067f0737e535090ebb8b87fe225_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=255pt]{main_8cpp_a8a124067f0737e535090ebb8b87fe225_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_af5c95b85845a3f351230b178b26965cc}\label{main_8cpp_af5c95b85845a3f351230b178b26965cc}} 
+\index{main.cpp@{main.cpp}!handle\_credentials@{handle\_credentials}}
+\index{handle\_credentials@{handle\_credentials}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_credentials()}{handle\_credentials()}}
+{\footnotesize\ttfamily void handle\+\_\+credentials (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function to erase the wifi credentials saved on the E\+SP. 
+
+Erases the wifi credentials saved on the E\+SP. This is useful if the user wants to connect to a different wifi network.
+
+This function is called on a G\+ET request to /credentials. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=272pt]{main_8cpp_af5c95b85845a3f351230b178b26965cc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=269pt]{main_8cpp_af5c95b85845a3f351230b178b26965cc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_a3c215e38d85a8d3c7e6dcc57b9581784}\label{main_8cpp_a3c215e38d85a8d3c7e6dcc57b9581784}} 
+\index{main.cpp@{main.cpp}!handle\_error@{handle\_error}}
+\index{handle\_error@{handle\_error}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_error()}{handle\_error()}}
+{\footnotesize\ttfamily void handle\+\_\+error (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function to display the error message. 
+
+Similarly to \mbox{\hyperlink{main_8cpp_aad3360fdec17398d0e5302151e4805a6}{handle\+\_\+program()}}, the website will send a get request on /error to update the error message on reload. The M\+E\+S\+S\+A\+GE is then written again by \mbox{\hyperlink{main_8cpp_ab2a21540700dc92473c6acd2eaf11720}{handle\+\_\+form()}}.
+
+This function is called on a G\+ET request to /error. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=241pt]{main_8cpp_a3c215e38d85a8d3c7e6dcc57b9581784_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{main_8cpp_a3c215e38d85a8d3c7e6dcc57b9581784_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_af34fc8222bc1516385d025f1c386783b}\label{main_8cpp_af34fc8222bc1516385d025f1c386783b}} 
+\index{main.cpp@{main.cpp}!handle\_files@{handle\_files}}
+\index{handle\_files@{handle\_files}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_files()}{handle\_files()}}
+{\footnotesize\ttfamily void handle\+\_\+files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function to send a list of all signals and programs to the forntend. 
+
+Sends a list of all files in /signals and /programs on reload to be displayed on the website.
+
+This function is called on a G\+ET request to /files. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=251pt]{main_8cpp_af34fc8222bc1516385d025f1c386783b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=236pt]{main_8cpp_af34fc8222bc1516385d025f1c386783b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_ab2a21540700dc92473c6acd2eaf11720}\label{main_8cpp_ab2a21540700dc92473c6acd2eaf11720}} 
+\index{main.cpp@{main.cpp}!handle\_form@{handle\_form}}
+\index{handle\_form@{handle\_form}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_form()}{handle\_form()}}
+{\footnotesize\ttfamily void handle\+\_\+form (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function that receives G\+ET requests from all form elements related to signals and programs. 
+
+Handles all form elements on the website (signals and programs) also updates the error message and P\+R\+O\+G\+R\+A\+M\+N\+A\+ME. All the user interaction with the website is handled here and the functions from \mbox{\hyperlink{workflows_8h}{workflows.\+h}} are called.
+
+This function is called on a G\+ET request to /form. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_ab2a21540700dc92473c6acd2eaf11720_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=238pt]{main_8cpp_ab2a21540700dc92473c6acd2eaf11720_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_abbb2c8533d3382aff50c25132e42be24}\label{main_8cpp_abbb2c8533d3382aff50c25132e42be24}} 
+\index{main.cpp@{main.cpp}!handle\_not\_found@{handle\_not\_found}}
+\index{handle\_not\_found@{handle\_not\_found}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_not\_found()}{handle\_not\_found()}}
+{\footnotesize\ttfamily void handle\+\_\+not\+\_\+found (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function for any page that is not found. 
+
+This function is called when a page is requested that is not found. It serves a 404 error to the client.
+
+This function is called on a G\+ET request to a page that is not found. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=267pt]{main_8cpp_abbb2c8533d3382aff50c25132e42be24_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{main_8cpp_abbb2c8533d3382aff50c25132e42be24_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_a4396215f1508823a1e88adf1f2ee7314}\label{main_8cpp_a4396215f1508823a1e88adf1f2ee7314}} 
+\index{main.cpp@{main.cpp}!handle\_password@{handle\_password}}
+\index{handle\_password@{handle\_password}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_password()}{handle\_password()}}
+{\footnotesize\ttfamily void handle\+\_\+password (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function that receives new password entries. 
+
+Receives new password entries from frontend and changes password if entries are the same (to prevent typos).
+
+This function is called on a G\+ET request to /password. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=264pt]{main_8cpp_a4396215f1508823a1e88adf1f2ee7314_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=261pt]{main_8cpp_a4396215f1508823a1e88adf1f2ee7314_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_aad3360fdec17398d0e5302151e4805a6}\label{main_8cpp_aad3360fdec17398d0e5302151e4805a6}} 
+\index{main.cpp@{main.cpp}!handle\_program@{handle\_program}}
+\index{handle\_program@{handle\_program}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_program()}{handle\_program()}}
+{\footnotesize\ttfamily void handle\+\_\+program (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function to display the program the user wants to edit. 
+
+This function is called when the user wants to edit a program. It reads the program from the file system and sends it back to the website. The website is designed with form elements that trigger forwarding to /form. This is a problem because we can only communicate on that channel and we already have to communicate a back to the website to update the page. So in order to still be able to send data back to the website, on every reload the website will send a get request on /program which triggers this function. The data that is sent back is the name of the currently selected program and the code of that program. It is only sent back if the \char`\"{}edit\char`\"{} button was pressed. (if not, the variables \char`\"{}\+P\+R\+O\+G\+R\+A\+M\+N\+A\+M\+E\char`\"{} and \char`\"{}\+P\+R\+O\+G\+R\+A\+M\+C\+O\+D\+E\char`\"{} will be empty)
+
+This function is called on a G\+ET request to /program. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_aad3360fdec17398d0e5302151e4805a6_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=256pt]{main_8cpp_aad3360fdec17398d0e5302151e4805a6_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_a91f7b87e7f7bfe06d679424d3972d949}\label{main_8cpp_a91f7b87e7f7bfe06d679424d3972d949}} 
+\index{main.cpp@{main.cpp}!handle\_root@{handle\_root}}
+\index{handle\_root@{handle\_root}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_root()}{handle\_root()}}
+{\footnotesize\ttfamily void handle\+\_\+root (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler function for the root page. 
+
+This function is called when the root page is requested. It serves the content of the index\+\_\+html string from the \mbox{\hyperlink{website__string_8h}{website\+\_\+string.\+h}} file to the client.
+
+This function is called on a G\+ET request to the root page. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{main_8cpp_a91f7b87e7f7bfe06d679424d3972d949_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=234pt]{main_8cpp_a91f7b87e7f7bfe06d679424d3972d949_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_a804df23af2d5325f6b80505441c440c0}\label{main_8cpp_a804df23af2d5325f6b80505441c440c0}} 
+\index{main.cpp@{main.cpp}!handle\_time@{handle\_time}}
+\index{handle\_time@{handle\_time}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_time()}{handle\_time()}}
+{\footnotesize\ttfamily void handle\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Handler funciton to synchronize the time and/or timezone provided by the user. 
+
+Gets the time from the client via Date() and saves it together with the millis() offset to the Little\+FS. The offset is important because only with millis() we can calculate the time that has passed between the synchronisation and the time of program execution. This enabled the E\+SP to execute timed programs even if the wifi connection is lost.
+
+This function is called on a G\+ET request to /time. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_a804df23af2d5325f6b80505441c440c0_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=237pt]{main_8cpp_a804df23af2d5325f6b80505441c440c0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_afe461d27b9c48d5921c00d521181f12f}\label{main_8cpp_afe461d27b9c48d5921c00d521181f12f}} 
+\index{main.cpp@{main.cpp}!loop@{loop}}
+\index{loop@{loop}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{loop()}{loop()}}
+{\footnotesize\ttfamily void loop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Arduino Loop function. 
+
+This function is called repeatedly. It updates the m\+D\+NS, handles clients and checks for a millis() overflow every 5 minutes.
+
+This function is called by the Arduino framework. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_afe461d27b9c48d5921c00d521181f12f_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{main_8cpp_a4fc01d736fe50cf5b977f755b675f11d}\label{main_8cpp_a4fc01d736fe50cf5b977f755b675f11d}} 
+\index{main.cpp@{main.cpp}!setup@{setup}}
+\index{setup@{setup}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{setup()}{setup()}}
+{\footnotesize\ttfamily void setup (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Arduino Setup function. 
+
+This function is called once at the start of the program. It checks the configuration file and start either the Access Point or the W\+Fi\+Manager. It also starts the webserver and initializes the time file. Optionally, unit tests can be run.
+
+This function is called by the Arduino framework. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{main_8cpp_a4fc01d736fe50cf5b977f755b675f11d_cgraph}
+\end{center}
+\end{figure}

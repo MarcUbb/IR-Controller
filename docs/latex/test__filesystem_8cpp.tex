@@ -1,0 +1,296 @@
+\hypertarget{test__filesystem_8cpp}{}\doxysection{src/tests/test\+\_\+filesystem.cpp File Reference}
+\label{test__filesystem_8cpp}\index{src/tests/test\_filesystem.cpp@{src/tests/test\_filesystem.cpp}}
+
+
+This file contains unit tests for all functions from the \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}}.  
+
+
+{\ttfamily \#include \char`\"{}tests.\+h\char`\"{}}\newline
+Include dependency graph for test\+\_\+filesystem.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__filesystem_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_af5c2ce0c5931b603a4db2595b15fe86c}{test\+\_\+capture\+\_\+signal}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}capture\+\_\+signal\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_a6eff92c8e6a62b4e284d4124c985edb2}{test\+\_\+save\+\_\+signal}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}save\+\_\+signal\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_a33ae18a47ca66a146cee114bf712d718}{test\+\_\+save\+\_\+json}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}save\+\_\+json\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_ac493a0e24d2dff0c1de7362d234f2d29}{test\+\_\+load\+\_\+json}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}load\+\_\+json\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_ab8010bf8e97ecf011275d22d5d300cbc}{test\+\_\+send\+\_\+signal}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}send\+\_\+signal\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_af8322e01dc3fc896ac9fda7c1f62a0dc}{test\+\_\+get\+\_\+files}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}get\+\_\+files\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_a41e633e4caee0888f37e1d967f84dda6}{test\+\_\+check\+\_\+if\+\_\+file\+\_\+exists}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}check\+\_\+if\+\_\+file\+\_\+exists\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_adbe98696af8d7cd62f4303909cd10f7a}{test\+\_\+read\+\_\+program}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}read\+\_\+program\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_a23216414e9ff8c254a6cc718e109634b}{test\+\_\+control\+\_\+led\+\_\+output}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}test\+\_\+control\+\_\+led\+\_\+output\char`\"{}. \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__filesystem_8cpp_aadf2be03b5e13707dafde4ae9ac1259b}{test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric}} ()
+\begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric\char`\"{}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains unit tests for all functions from the \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}}. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{test__filesystem_8cpp_af5c2ce0c5931b603a4db2595b15fe86c}\label{test__filesystem_8cpp_af5c2ce0c5931b603a4db2595b15fe86c}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_capture\_signal@{test\_capture\_signal}}
+\index{test\_capture\_signal@{test\_capture\_signal}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_capture\_signal()}{test\_capture\_signal()}}
+{\footnotesize\ttfamily boolean test\+\_\+capture\+\_\+signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}capture\+\_\+signal\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item check if return value is correct (no random noise signal is received)
+\item check if execution time is normal (1s more is acceptable)
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a974f985f052312d114134bc603d672a9}{capture\+\_\+signal}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_a41e633e4caee0888f37e1d967f84dda6}\label{test__filesystem_8cpp_a41e633e4caee0888f37e1d967f84dda6}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_check\_if\_file\_exists@{test\_check\_if\_file\_exists}}
+\index{test\_check\_if\_file\_exists@{test\_check\_if\_file\_exists}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_check\_if\_file\_exists()}{test\_check\_if\_file\_exists()}}
+{\footnotesize\ttfamily boolean test\+\_\+check\+\_\+if\+\_\+file\+\_\+exists (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}check\+\_\+if\+\_\+file\+\_\+exists\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and create test file in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks existing file is found
+\item checks non-\/existing file is not found
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a5689133a917d901606c1d294bfda5785}{check\+\_\+if\+\_\+file\+\_\+exists}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_aadf2be03b5e13707dafde4ae9ac1259b}\label{test__filesystem_8cpp_aadf2be03b5e13707dafde4ae9ac1259b}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_check\_if\_string\_is\_alphanumeric@{test\_check\_if\_string\_is\_alphanumeric}}
+\index{test\_check\_if\_string\_is\_alphanumeric@{test\_check\_if\_string\_is\_alphanumeric}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_check\_if\_string\_is\_alphanumeric()}{test\_check\_if\_string\_is\_alphanumeric()}}
+{\footnotesize\ttfamily boolean test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+-\/Setup\+: -\/
+\begin{DoxyEnumerate}
+\item checks if sample Strings are recognized correctly
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{test__filesystem_8cpp_aadf2be03b5e13707dafde4ae9ac1259b}{test\+\_\+check\+\_\+if\+\_\+string\+\_\+is\+\_\+alphanumeric}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_a23216414e9ff8c254a6cc718e109634b}\label{test__filesystem_8cpp_a23216414e9ff8c254a6cc718e109634b}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_control\_led\_output@{test\_control\_led\_output}}
+\index{test\_control\_led\_output@{test\_control\_led\_output}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_control\_led\_output()}{test\_control\_led\_output()}}
+{\footnotesize\ttfamily boolean test\+\_\+control\+\_\+led\+\_\+output (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}test\+\_\+control\+\_\+led\+\_\+output\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+The functionality of this function is manually tested.
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{test__filesystem_8cpp_a23216414e9ff8c254a6cc718e109634b}{test\+\_\+control\+\_\+led\+\_\+output}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_af8322e01dc3fc896ac9fda7c1f62a0dc}\label{test__filesystem_8cpp_af8322e01dc3fc896ac9fda7c1f62a0dc}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_get\_files@{test\_get\_files}}
+\index{test\_get\_files@{test\_get\_files}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_get\_files()}{test\_get\_files()}}
+{\footnotesize\ttfamily boolean test\+\_\+get\+\_\+files (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}get\+\_\+files\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and create test files in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if files are returned correctly
+\item checks if no files are returned if no files exist
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a57b2a7efc18f0e2b29d17382c2c9aca5}{get\+\_\+files}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_ac493a0e24d2dff0c1de7362d234f2d29}\label{test__filesystem_8cpp_ac493a0e24d2dff0c1de7362d234f2d29}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_load\_json@{test\_load\_json}}
+\index{test\_load\_json@{test\_load\_json}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_load\_json()}{test\_load\_json()}}
+{\footnotesize\ttfamily boolean test\+\_\+load\+\_\+json (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}load\+\_\+json\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if data is correctly loaded from file
+\item checks if empthy J\+S\+ON Doc is returned if file does not exist
+\item checks if empthy J\+S\+ON Doc is returned if file is empthy
+\item checks if empthy J\+S\+ON Doc is returned if file is not in J\+S\+ON format
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a56820dcc580395e119d9de2ad4ad2400}{load\+\_\+json}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_adbe98696af8d7cd62f4303909cd10f7a}\label{test__filesystem_8cpp_adbe98696af8d7cd62f4303909cd10f7a}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_read\_program@{test\_read\_program}}
+\index{test\_read\_program@{test\_read\_program}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_read\_program()}{test\_read\_program()}}
+{\footnotesize\ttfamily boolean test\+\_\+read\+\_\+program (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}read\+\_\+program\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS and create test program in Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if program is read correctly
+\item checks if empthy string is returned if program does not exist
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a064bc458b16e70f9ce2384268151485c}{read\+\_\+program}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_a33ae18a47ca66a146cee114bf712d718}\label{test__filesystem_8cpp_a33ae18a47ca66a146cee114bf712d718}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_save\_json@{test\_save\_json}}
+\index{test\_save\_json@{test\_save\_json}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_save\_json()}{test\_save\_json()}}
+{\footnotesize\ttfamily boolean test\+\_\+save\+\_\+json (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}save\+\_\+json\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if file is created
+\item checks if J\+S\+O\+N-\/\+Document is correctly written to file
+\item checks if file is overwritten if it already exists
+\end{DoxyEnumerate}
+\begin{DoxyItemize}
+\item (no check if filename or data is correct (this is checked by higher level))
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a8de3bbf584592c6a6c216ce738ca24ce}{save\+\_\+json}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_a6eff92c8e6a62b4e284d4124c985edb2}\label{test__filesystem_8cpp_a6eff92c8e6a62b4e284d4124c985edb2}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_save\_signal@{test\_save\_signal}}
+\index{test\_save\_signal@{test\_save\_signal}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_save\_signal()}{test\_save\_signal()}}
+{\footnotesize\ttfamily boolean test\+\_\+save\+\_\+signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}save\+\_\+signal\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: Clean Little\+FS
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if formatting of name is considered
+\item checks if formatting of result\+\_\+string is considered
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_a0282f0219ae51dc8d2b578908b8a70de}{save\+\_\+signal}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{test__filesystem_8cpp_ab8010bf8e97ecf011275d22d5d300cbc}\label{test__filesystem_8cpp_ab8010bf8e97ecf011275d22d5d300cbc}} 
+\index{test\_filesystem.cpp@{test\_filesystem.cpp}!test\_send\_signal@{test\_send\_signal}}
+\index{test\_send\_signal@{test\_send\_signal}!test\_filesystem.cpp@{test\_filesystem.cpp}}
+\doxysubsubsection{\texorpdfstring{test\_send\_signal()}{test\_send\_signal()}}
+{\footnotesize\ttfamily boolean test\+\_\+send\+\_\+signal (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}send\+\_\+signal\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if signal is sent correctly
+\item checks if J\+S\+ON Doc with invalid length is not accepted
+\item checks if J\+S\+ON Doc with without sequence is not accepted
+\item checks if J\+S\+ON Doc with without length is not accepted
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{filesystem_8cpp_ae92ea0f99679274f490c7e2d8a61ddd7}{send\+\_\+signal}} 
+\end{DoxySeeAlso}

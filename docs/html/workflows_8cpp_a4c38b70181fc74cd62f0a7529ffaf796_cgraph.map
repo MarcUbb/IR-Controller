@@ -1,0 +1,8 @@
+<map id="handle_wait_command" name="handle_wait_command">
+<area shape="rect" id="node1" title="This function waits a certain amount of time." alt="" coords="5,81,179,108"/>
+<area shape="rect" id="node2" href="$base_8h.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="227,81,415,108"/>
+<area shape="rect" id="node3" href="$time__management_8cpp.html#a2df1ab5ae345f8373541fdadc380d0cf" title="adds two times together" alt="" coords="503,5,586,32"/>
+<area shape="rect" id="node4" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="503,56,587,83"/>
+<area shape="rect" id="node5" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="501,107,588,133"/>
+<area shape="rect" id="node6" href="$time__management_8cpp.html#a9302635144807a7f7063815f116ac129" title="This function converts seconds to time format." alt="" coords="463,157,627,184"/>
+</map>

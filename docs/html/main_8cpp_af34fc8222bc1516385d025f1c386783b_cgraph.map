@@ -1,0 +1,5 @@
+<map id="handle_files" name="handle_files">
+<area shape="rect" id="node1" title="Handler function to send a list of all signals and programs to the forntend." alt="" coords="5,31,107,57"/>
+<area shape="rect" id="node2" href="$base_8h.html#a57b2a7efc18f0e2b29d17382c2c9aca5" title="Returns List of saved signals and programs." alt="" coords="155,5,233,32"/>
+<area shape="rect" id="node3" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="163,56,225,83"/>
+</map>

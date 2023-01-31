@@ -1,0 +1,7 @@
+<map id="check_and_update_offset" name="check_and_update_offset">
+<area shape="rect" id="node1" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="5,81,193,108"/>
+<area shape="rect" id="node2" href="$time__management_8cpp.html#a2df1ab5ae345f8373541fdadc380d0cf" title="adds two times together" alt="" coords="282,5,365,32"/>
+<area shape="rect" id="node3" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="281,56,365,83"/>
+<area shape="rect" id="node4" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="280,107,367,133"/>
+<area shape="rect" id="node5" href="$time__management_8cpp.html#a9302635144807a7f7063815f116ac129" title="This function converts seconds to time format." alt="" coords="241,157,405,184"/>
+</map>

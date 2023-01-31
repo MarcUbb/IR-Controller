@@ -1,0 +1,179 @@
+\hypertarget{test__main_8cpp}{}\doxysection{src/tests/test\+\_\+main.cpp File Reference}
+\label{test__main_8cpp}\index{src/tests/test\_main.cpp@{src/tests/test\_main.cpp}}
+
+
+main file for all tests  
+
+
+{\ttfamily \#include \char`\"{}tests.\+h\char`\"{}}\newline
+Include dependency graph for test\+\_\+main.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__main_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+boolean \mbox{\hyperlink{test__main_8cpp_a54d5f87e6031ca9d0ce27d48e6079032}{run\+\_\+all\+\_\+filesystem\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all tests for \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__main_8cpp_aa7d1d7dcdf9dfb99e8af73d4adea3d9e}{run\+\_\+all\+\_\+time\+\_\+management\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all tests for \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}} \end{DoxyCompactList}\item 
+boolean \mbox{\hyperlink{test__main_8cpp_a00ef4d5ed3618cf7ba7f43447acef68b}{run\+\_\+all\+\_\+workflows\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all tests for \mbox{\hyperlink{workflows_8cpp}{workflows.\+cpp}} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{test__main_8cpp_ae3c32f603677f6b9f8616bb50afc6a32}{run\+\_\+all\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all tests for all files \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{test__main_8cpp_a76d71e77bfa42929b874bbdfbe896517}{run\+\_\+all\+\_\+empirical\+\_\+tests}} (boolean stop\+\_\+on\+\_\+error)
+\begin{DoxyCompactList}\small\item\em runs all empirical tests \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+main file for all tests 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde
+\end{DoxyAuthor}
+Here you find the functions that execute all tests for each file and finally a function that executes all tests for all files. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{test__main_8cpp_a76d71e77bfa42929b874bbdfbe896517}\label{test__main_8cpp_a76d71e77bfa42929b874bbdfbe896517}} 
+\index{test\_main.cpp@{test\_main.cpp}!run\_all\_empirical\_tests@{run\_all\_empirical\_tests}}
+\index{run\_all\_empirical\_tests@{run\_all\_empirical\_tests}!test\_main.cpp@{test\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_all\_empirical\_tests()}{run\_all\_empirical\_tests()}}
+{\footnotesize\ttfamily void run\+\_\+all\+\_\+empirical\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all empirical tests 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__main_8cpp_a76d71e77bfa42929b874bbdfbe896517_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{test__main_8cpp_a54d5f87e6031ca9d0ce27d48e6079032}\label{test__main_8cpp_a54d5f87e6031ca9d0ce27d48e6079032}} 
+\index{test\_main.cpp@{test\_main.cpp}!run\_all\_filesystem\_tests@{run\_all\_filesystem\_tests}}
+\index{run\_all\_filesystem\_tests@{run\_all\_filesystem\_tests}!test\_main.cpp@{test\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_all\_filesystem\_tests()}{run\_all\_filesystem\_tests()}}
+{\footnotesize\ttfamily boolean run\+\_\+all\+\_\+filesystem\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all tests for \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if all tests passed, false if at least one test failed 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__main_8cpp_a54d5f87e6031ca9d0ce27d48e6079032_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=302pt]{test__main_8cpp_a54d5f87e6031ca9d0ce27d48e6079032_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{test__main_8cpp_ae3c32f603677f6b9f8616bb50afc6a32}\label{test__main_8cpp_ae3c32f603677f6b9f8616bb50afc6a32}} 
+\index{test\_main.cpp@{test\_main.cpp}!run\_all\_tests@{run\_all\_tests}}
+\index{run\_all\_tests@{run\_all\_tests}!test\_main.cpp@{test\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_all\_tests()}{run\_all\_tests()}}
+{\footnotesize\ttfamily void run\+\_\+all\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all tests for all files 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests \\
+\hline
+\end{DoxyParams}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{test__main_8cpp_ae3c32f603677f6b9f8616bb50afc6a32_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{test__main_8cpp_aa7d1d7dcdf9dfb99e8af73d4adea3d9e}\label{test__main_8cpp_aa7d1d7dcdf9dfb99e8af73d4adea3d9e}} 
+\index{test\_main.cpp@{test\_main.cpp}!run\_all\_time\_management\_tests@{run\_all\_time\_management\_tests}}
+\index{run\_all\_time\_management\_tests@{run\_all\_time\_management\_tests}!test\_main.cpp@{test\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_all\_time\_management\_tests()}{run\_all\_time\_management\_tests()}}
+{\footnotesize\ttfamily boolean run\+\_\+all\+\_\+time\+\_\+management\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all tests for \mbox{\hyperlink{time__management_8cpp}{time\+\_\+management.\+cpp}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if all tests passed, false if at least one test failed 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__main_8cpp_aa7d1d7dcdf9dfb99e8af73d4adea3d9e_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{test__main_8cpp_aa7d1d7dcdf9dfb99e8af73d4adea3d9e_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{test__main_8cpp_a00ef4d5ed3618cf7ba7f43447acef68b}\label{test__main_8cpp_a00ef4d5ed3618cf7ba7f43447acef68b}} 
+\index{test\_main.cpp@{test\_main.cpp}!run\_all\_workflows\_tests@{run\_all\_workflows\_tests}}
+\index{run\_all\_workflows\_tests@{run\_all\_workflows\_tests}!test\_main.cpp@{test\_main.cpp}}
+\doxysubsubsection{\texorpdfstring{run\_all\_workflows\_tests()}{run\_all\_workflows\_tests()}}
+{\footnotesize\ttfamily boolean run\+\_\+all\+\_\+workflows\+\_\+tests (\begin{DoxyParamCaption}\item[{boolean}]{stop\+\_\+on\+\_\+error }\end{DoxyParamCaption})}
+
+
+
+runs all tests for \mbox{\hyperlink{workflows_8cpp}{workflows.\+cpp}} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em stop\+\_\+on\+\_\+error} & -\/ if true, the function stops after the first failed test if false, the function continues to run all following tests\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if all tests passed, false if at least one test failed 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{test__main_8cpp_a00ef4d5ed3618cf7ba7f43447acef68b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=329pt]{test__main_8cpp_a00ef4d5ed3618cf7ba7f43447acef68b_icgraph}
+\end{center}
+\end{figure}

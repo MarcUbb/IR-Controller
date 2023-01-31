@@ -1,0 +1,11 @@
+<map id="include/tests.h" name="include/tests.h">
+<area shape="rect" id="node1" title="Header File for all test files." alt="" coords="577,5,694,32"/>
+<area shape="rect" id="node2" href="$main_8h.html" title="Header File for main.cpp." alt="" coords="5,87,124,114"/>
+<area shape="rect" id="node4" href="$empirical__tests_8cpp.html" title="collection of empirical tests" alt="" coords="148,80,291,121"/>
+<area shape="rect" id="node5" href="$test__filesystem_8cpp.html" title="This file contains unit tests for all functions from the filesystem.cpp." alt="" coords="315,87,524,114"/>
+<area shape="rect" id="node6" href="$test__main_8cpp.html" title="main file for all tests" alt="" coords="549,87,722,114"/>
+<area shape="rect" id="node7" href="$test__time__management_8cpp.html" title="This file contains unit tests for all functions from the time_management.cpp." alt="" coords="747,80,889,121"/>
+<area shape="rect" id="node8" href="$test__utilities_8cpp.html" title="This file contains functions that are used in multiple tests." alt="" coords="914,87,1103,114"/>
+<area shape="rect" id="node9" href="$test__workflows_8cpp.html" title="This file contains unit tests for all functions from the workflows.cpp." alt="" coords="1128,87,1335,114"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title="Main file of the program." alt="" coords="12,169,117,196"/>
+</map>

@@ -1,0 +1,313 @@
+\hypertarget{workflows_8cpp}{}\doxysection{src/workflows.cpp File Reference}
+\label{workflows_8cpp}\index{src/workflows.cpp@{src/workflows.cpp}}
+
+
+This file contains high level functions.  
+
+
+{\ttfamily \#include \char`\"{}workflows.\+h\char`\"{}}\newline
+Include dependency graph for workflows.\+cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+String \mbox{\hyperlink{workflows_8cpp_a2123f865eebeaf746e6016a82b159268}{deleting\+\_\+workflow}} (String directory, String name)
+\begin{DoxyCompactList}\small\item\em This function deletes a file from the Little\+FS filesystem. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{workflows_8cpp_af3762d2fcc0a63fdbe4a96b6c6aedd5b}{recording\+\_\+workflow}} (String signal\+\_\+name)
+\begin{DoxyCompactList}\small\item\em This function records and saves a signal. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{workflows_8cpp_ac66d9f916af4fef55538c5cf0be70989}{sending\+\_\+workflow}} (String signal\+\_\+name)
+\begin{DoxyCompactList}\small\item\em This function loads a signal from a file and sends it. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{workflows_8cpp_a0f4135299af112fd833a2547da41297d}{adding\+\_\+workflow}} (String program\+\_\+name, String program\+\_\+code)
+\begin{DoxyCompactList}\small\item\em This function creates a file with the programs name and writes the code to it. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{workflows_8cpp_afbb6021d6f9112517cf664d3dccf3b77}{playing\+\_\+workflow}} (String program\+\_\+name)
+\begin{DoxyCompactList}\small\item\em This function loads a program from a file and hands it to the program\+\_\+parser. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{workflows_8cpp_aebc60e6c0ad4b332f2f1da7da6707f03}{program\+\_\+parser}} (String code)
+\begin{DoxyCompactList}\small\item\em This function parses the code of a program line by line and executes the commands. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{workflows_8cpp_a4c38b70181fc74cd62f0a7529ffaf796}{handle\+\_\+wait\+\_\+command}} (unsigned long waiting\+\_\+time)
+\begin{DoxyCompactList}\small\item\em This function waits a certain amount of time. \end{DoxyCompactList}\item 
+String \mbox{\hyperlink{workflows_8cpp_ae38fa40d61cf9aecaf82ebf6c2cc2977}{handle\+\_\+times\+\_\+commands}} (String command, boolean day\+\_\+included)
+\begin{DoxyCompactList}\small\item\em This function executes timed commands. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains high level functions. 
+
+\begin{DoxyAuthor}{Author}
+Marc Ubbelohde
+\end{DoxyAuthor}
+The functions in this file implement workflows which define the main functionalities of the device such as recording signals and sending and deleting signals and programs. Some functions are written here and not in the \mbox{\hyperlink{filesystem_8cpp}{filesystem.\+cpp}} file because they are called directly from the webpage or use other functions from this file. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{workflows_8cpp_a0f4135299af112fd833a2547da41297d}\label{workflows_8cpp_a0f4135299af112fd833a2547da41297d}} 
+\index{workflows.cpp@{workflows.cpp}!adding\_workflow@{adding\_workflow}}
+\index{adding\_workflow@{adding\_workflow}!workflows.cpp@{workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{adding\_workflow()}{adding\_workflow()}}
+{\footnotesize\ttfamily String adding\+\_\+workflow (\begin{DoxyParamCaption}\item[{String}]{program\+\_\+name,  }\item[{String}]{program\+\_\+code }\end{DoxyParamCaption})}
+
+
+
+This function creates a file with the programs name and writes the code to it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em program\+\_\+name} & -\/ name of the program to be added\\
+\hline
+{\em program\+\_\+code} & -\/ code of the program to be added\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ message that will be displayed on the webpage\+:~\newline
+\char`\"{}success message\char`\"{} -\/ if file was created and code was written~\newline
+\char`\"{}error message\char`\"{} -\/ if file could not be created 
+\end{DoxyReturn}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_a0f4135299af112fd833a2547da41297d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{workflows_8cpp_a2123f865eebeaf746e6016a82b159268}\label{workflows_8cpp_a2123f865eebeaf746e6016a82b159268}} 
+\index{workflows.cpp@{workflows.cpp}!deleting\_workflow@{deleting\_workflow}}
+\index{deleting\_workflow@{deleting\_workflow}!workflows.cpp@{workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{deleting\_workflow()}{deleting\_workflow()}}
+{\footnotesize\ttfamily String deleting\+\_\+workflow (\begin{DoxyParamCaption}\item[{String}]{directory,  }\item[{String}]{name }\end{DoxyParamCaption})}
+
+
+
+This function deletes a file from the Little\+FS filesystem. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em directory} & -\/ \char`\"{}signals\char`\"{} or \char`\"{}programs\char`\"{} \\
+\hline
+{\em name} & -\/ name of the sequence or program to be deleted \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ message that will be displayed on the webpage\+:~\newline
+ \char`\"{}success message\char`\"{} -\/ if file was deleted~\newline
+\char`\"{}error message\char`\"{} -\/ if file could not be found
+\end{DoxyReturn}
+This function is used to delete signals and programs.
+
+This function does not call other functions. Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_a2123f865eebeaf746e6016a82b159268_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{workflows_8cpp_ae38fa40d61cf9aecaf82ebf6c2cc2977}\label{workflows_8cpp_ae38fa40d61cf9aecaf82ebf6c2cc2977}} 
+\index{workflows.cpp@{workflows.cpp}!handle\_times\_commands@{handle\_times\_commands}}
+\index{handle\_times\_commands@{handle\_times\_commands}!workflows.cpp@{workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_times\_commands()}{handle\_times\_commands()}}
+{\footnotesize\ttfamily String handle\+\_\+times\+\_\+commands (\begin{DoxyParamCaption}\item[{String}]{command,  }\item[{boolean}]{day\+\_\+included }\end{DoxyParamCaption})}
+
+
+
+This function executes timed commands. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em command} & -\/ String command\+:~\newline
+ \char`\"{}weekday hh\+:mm\+:ss signal\+\_\+name\char`\"{} -\/ if day\+\_\+included is true~\newline
+ \char`\"{}hh\+:mm\+:ss signal\+\_\+name\char`\"{} -\/ if day\+\_\+included is false\\
+\hline
+{\em day\+\_\+included} & -\/ true if day is included in command, false if not\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ message that will be displayed on the webpage\+:~\newline
+ \char`\"{}success message\char`\"{} -\/ if command was executed successfully~\newline
+
+\end{DoxyReturn}
+This function waits until a certain day and/or time is reached and then executes the given signal. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_ae38fa40d61cf9aecaf82ebf6c2cc2977_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_ae38fa40d61cf9aecaf82ebf6c2cc2977_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{workflows_8cpp_a4c38b70181fc74cd62f0a7529ffaf796}\label{workflows_8cpp_a4c38b70181fc74cd62f0a7529ffaf796}} 
+\index{workflows.cpp@{workflows.cpp}!handle\_wait\_command@{handle\_wait\_command}}
+\index{handle\_wait\_command@{handle\_wait\_command}!workflows.cpp@{workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{handle\_wait\_command()}{handle\_wait\_command()}}
+{\footnotesize\ttfamily String handle\+\_\+wait\+\_\+command (\begin{DoxyParamCaption}\item[{unsigned long}]{waiting\+\_\+time }\end{DoxyParamCaption})}
+
+
+
+This function waits a certain amount of time. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em waiting\+\_\+time} & -\/ time to wait in milliseconds\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ message that will be displayed on the webpage\+:~\newline
+ \char`\"{}success message\char`\"{} -\/ if command was executed successfully~\newline
+ \char`\"{}error message\char`\"{} -\/ if command was interrupted by the user
+\end{DoxyReturn}
+This function waits a certain amount of time. It is used for the wait and skip command. It is necessary to check beforehand if a millis() overflow will occur during the waiting time. If an overflow will occur, the function will first calculate the time it will have to wait after the overflow occurs, then it will wait until the overflow occurs and waits the remaining time. The function also checks if the user pressed the interrupt button. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_a4c38b70181fc74cd62f0a7529ffaf796_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_a4c38b70181fc74cd62f0a7529ffaf796_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{workflows_8cpp_afbb6021d6f9112517cf664d3dccf3b77}\label{workflows_8cpp_afbb6021d6f9112517cf664d3dccf3b77}} 
+\index{workflows.cpp@{workflows.cpp}!playing\_workflow@{playing\_workflow}}
+\index{playing\_workflow@{playing\_workflow}!workflows.cpp@{workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{playing\_workflow()}{playing\_workflow()}}
+{\footnotesize\ttfamily String playing\+\_\+workflow (\begin{DoxyParamCaption}\item[{String}]{program\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+This function loads a program from a file and hands it to the program\+\_\+parser. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em program\+\_\+name} & -\/ name of the program to be played\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ message that will be displayed on the webpage\+:~\newline
+\char`\"{}success message\char`\"{} -\/ if file was found and program was played successfully~\newline
+\char`\"{}error message\char`\"{} -\/ if file could not be found or if in one of the commands an error occured (error message gets passed by program\+\_\+parser)
+\end{DoxyReturn}
+This function loads a program from a file and hands it to the program\+\_\+parser. The program\+\_\+parser then sends the commands and returns a message when the execution of the program finished. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_afbb6021d6f9112517cf664d3dccf3b77_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_afbb6021d6f9112517cf664d3dccf3b77_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{workflows_8cpp_aebc60e6c0ad4b332f2f1da7da6707f03}\label{workflows_8cpp_aebc60e6c0ad4b332f2f1da7da6707f03}} 
+\index{workflows.cpp@{workflows.cpp}!program\_parser@{program\_parser}}
+\index{program\_parser@{program\_parser}!workflows.cpp@{workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{program\_parser()}{program\_parser()}}
+{\footnotesize\ttfamily String program\+\_\+parser (\begin{DoxyParamCaption}\item[{String}]{code }\end{DoxyParamCaption})}
+
+
+
+This function parses the code of a program line by line and executes the commands. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em code} & -\/ code of the program to be parsed\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ message that will be displayed on the webpage\+:~\newline
+\char`\"{}success message\char`\"{} -\/ if program was played successfully~\newline
+\char`\"{}error message\char`\"{} -\/ if in one of the commands an error occured an command specific error message is returned
+\end{DoxyReturn}
+This function parses the code of a program line by line and executes the commands. It was necessary to split the parser from the playing\+\_\+workflow function to be able to call it recursively (for loops). Each line is searched for command specific keywords and the corresponding command handler is called. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_aebc60e6c0ad4b332f2f1da7da6707f03_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_aebc60e6c0ad4b332f2f1da7da6707f03_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{workflows_8cpp_af3762d2fcc0a63fdbe4a96b6c6aedd5b}\label{workflows_8cpp_af3762d2fcc0a63fdbe4a96b6c6aedd5b}} 
+\index{workflows.cpp@{workflows.cpp}!recording\_workflow@{recording\_workflow}}
+\index{recording\_workflow@{recording\_workflow}!workflows.cpp@{workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{recording\_workflow()}{recording\_workflow()}}
+{\footnotesize\ttfamily String recording\+\_\+workflow (\begin{DoxyParamCaption}\item[{String}]{signal\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+This function records and saves a signal. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em signal\+\_\+name} & -\/ name of the sequence to be recorded\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ message that will be displayed on the webpage\+:~\newline
+\char`\"{}success message\char`\"{} -\/ if signal was saved~\newline
+\char`\"{}error message\char`\"{} -\/ no signal was captured
+\end{DoxyReturn}
+This function records a signal and saves it to a file in the Litte\+FS with the signals name. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_af3762d2fcc0a63fdbe4a96b6c6aedd5b_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_af3762d2fcc0a63fdbe4a96b6c6aedd5b_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{workflows_8cpp_ac66d9f916af4fef55538c5cf0be70989}\label{workflows_8cpp_ac66d9f916af4fef55538c5cf0be70989}} 
+\index{workflows.cpp@{workflows.cpp}!sending\_workflow@{sending\_workflow}}
+\index{sending\_workflow@{sending\_workflow}!workflows.cpp@{workflows.cpp}}
+\doxysubsubsection{\texorpdfstring{sending\_workflow()}{sending\_workflow()}}
+{\footnotesize\ttfamily String sending\+\_\+workflow (\begin{DoxyParamCaption}\item[{String}]{signal\+\_\+name }\end{DoxyParamCaption})}
+
+
+
+This function loads a signal from a file and sends it. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em signal\+\_\+name} & -\/ name of the sequence to be sent\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+String -\/ message that will be displayed on the webpage\+:~\newline
+\char`\"{}success message\char`\"{} -\/ if file was found and command was sent~\newline
+\char`\"{}error message\char`\"{} -\/ if file could not be found 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=334pt]{workflows_8cpp_ac66d9f916af4fef55538c5cf0be70989_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{workflows_8cpp_ac66d9f916af4fef55538c5cf0be70989_icgraph}
+\end{center}
+\end{figure}

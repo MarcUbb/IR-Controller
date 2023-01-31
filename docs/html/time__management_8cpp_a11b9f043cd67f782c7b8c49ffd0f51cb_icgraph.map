@@ -1,0 +1,6 @@
+<map id="update_time" name="update_time">
+<area shape="rect" id="node1" title="Updates the time in the LittleFS." alt="" coords="296,31,400,57"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#a804df23af2d5325f6b80505441c440c0" title="Handler funciton to synchronize the time and/or timezone provided by the user." alt="" coords="129,5,231,32"/>
+<area shape="rect" id="node4" href="$test__time__management_8cpp.html#adf1f311bfde974c623b74f3b248a37fa" title="Unit test for the function &quot;update_time&quot;." alt="" coords="112,56,248,83"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,5,64,32"/>
+</map>

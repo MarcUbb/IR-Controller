@@ -1,0 +1,6 @@
+<map id="sending_workflow" name="sending_workflow">
+<area shape="rect" id="node1" title="This function loads a signal from a file and sends it." alt="" coords="5,56,145,83"/>
+<area shape="rect" id="node2" href="$base_8h.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="193,5,344,32"/>
+<area shape="rect" id="node3" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="227,56,311,83"/>
+<area shape="rect" id="node4" href="$base_8h.html#ae92ea0f99679274f490c7e2d8a61ddd7" title="This function sends a signal provided in JSON format." alt="" coords="219,107,318,133"/>
+</map>

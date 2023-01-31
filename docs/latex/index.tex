@@ -1,0 +1,106 @@
+This repository contains the software for an infrared controller, the purpose of which is to be able to control devices with an infrared interface using a smartphone.\hypertarget{index_autotoc_md0}{}\doxysubsection{Software}\label{index_autotoc_md0}
+\hypertarget{index_autotoc_md1}{}\doxysubsection{Hardware}\label{index_autotoc_md1}
+\hypertarget{index_autotoc_md2}{}\doxysubsubsection{Partlist\+:}\label{index_autotoc_md2}
+
+\begin{DoxyItemize}
+\item E\+S\+P8266
+\item I\+R-\/\+L\+ED
+\item I\+R-\/\+Receiver
+\end{DoxyItemize}\hypertarget{index_autotoc_md3}{}\doxysubsubsection{J\+S\+O\+N-\/\+Format\+:}\label{index_autotoc_md3}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Philips TV.txt:}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{  "name":"Philips TV",}
+\DoxyCodeLine{  "length": 9, }
+\DoxyCodeLine{  "sequence": "21,24,71,34,74,73,21,60,32"}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md4}{}\doxysubsubsection{Setup\+:}\label{index_autotoc_md4}
+\hypertarget{index_autotoc_md5}{}\doxyparagraph{Wifi\+Manager}\label{index_autotoc_md5}
+
+\begin{DoxyItemize}
+\item always starts on startup to either connect to wifi or configure new wifi
+\item saves Network credentials at same location as W\+PS (examples already do that automatically)
+\end{DoxyItemize}\hypertarget{index_autotoc_md6}{}\doxyparagraph{W\+P\+S Interrupt}\label{index_autotoc_md6}
+
+\begin{DoxyItemize}
+\item alternatively to Wifi\+Manager its possible to connect via W\+PS
+\item an Interrupt is triggered on pressing the W\+PS Button
+\item saves Network credentials at same location as Wifi\+Manager (examples already do that automatically)
+\end{DoxyItemize}\hypertarget{index_autotoc_md7}{}\doxysubsubsection{Methodes\+:}\label{index_autotoc_md7}
+\hypertarget{index_autotoc_md8}{}\doxyparagraph{read\+\_\+signal(str name)}\label{index_autotoc_md8}
+
+\begin{DoxyEnumerate}
+\item turns Signal L\+ED on
+\item reads incoming I\+R-\/\+Signal with defined minimum length
+
+2.\+1 I\+R-\/\+Signal is received -\/$>$ 3.
+
+2.\+2 No I\+R-\/\+Signal is received -\/$>$ Signal L\+ED Blinks and Timeout is sent
+\item turns Signal L\+ED off
+\item creates new entry in data.\+json and writes name and sequence to file
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md9}{}\doxyparagraph{play\+\_\+signal(str name)}\label{index_autotoc_md9}
+
+\begin{DoxyEnumerate}
+\item looks for entry with given name
+
+1.\+1 Entry is found -\/$>$ 2.
+
+1.\+2 Entry is not found -\/$>$ try to delete Entry from frontend
+\item plays entered sequence
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md10}{}\doxyparagraph{autotoc\+\_\+md10}\label{index_autotoc_md10}
+\hypertarget{index_autotoc_md11}{}\doxysubsubsection{Webserver\+:}\label{index_autotoc_md11}
+
+\begin{DoxyItemize}
+\item Asynchronous Webserver
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item provides single page website
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md12}{}\doxyparagraph{Buttons\+:}\label{index_autotoc_md12}
+
+\begin{DoxyEnumerate}
+\item send H\+T\+TP Get Request to U\+RL
+\item MC saves submitted name and recorded I\+R-\/\+Signal
+\item 
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md13}{}\doxysubsubsection{Signals\+:}\label{index_autotoc_md13}
+
+\begin{DoxyItemize}
+\item depending on the device, a wait-\/command is needed between 2 Signals to make sure the signals are received correctly
+\end{DoxyItemize}\hypertarget{index_autotoc_md14}{}\doxysubsubsection{Programs\+:}\label{index_autotoc_md14}
+\hypertarget{index_autotoc_md15}{}\doxyparagraph{Commands\+:}\label{index_autotoc_md15}
+
+\begin{DoxyEnumerate}
+\item play
+\begin{DoxyItemize}
+\item plays a signal
+\end{DoxyItemize}
+\item wait
+\begin{DoxyItemize}
+\item waits a specific amount of ms
+\end{DoxyItemize}
+\item time
+\begin{DoxyItemize}
+\item plays a signal at the next time a specified time is reached
+\end{DoxyItemize}
+\item date
+\begin{DoxyItemize}
+\item plays a signal the next time a specific date and time is reached
+\end{DoxyItemize}
+\item skip
+\begin{DoxyItemize}
+\item skips a specified amount of days
+\end{DoxyItemize}
+\item loop
+\begin{DoxyItemize}
+\item loops a part of the program a specified amount of times or indefinitely
+\end{DoxyItemize}
+\item end
+\begin{DoxyItemize}
+\item marks the end of a loop
+\end{DoxyItemize}
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md16}{}\doxysubsubsection{Annotations\+:}\label{index_autotoc_md16}
+
+\begin{DoxyItemize}
+\item \#include $<$Wi\+Fi\+Manager.\+h$>$ in \mbox{\hyperlink{main_8cpp}{main.\+cpp}} otherwise error in library occures 
+\end{DoxyItemize}
