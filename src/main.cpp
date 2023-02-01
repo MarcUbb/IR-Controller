@@ -109,8 +109,8 @@ void setup() {
   }
   Serial.println("mDNS responder started!");
 
-  // initiate time via NTP (00:00:00 4 in AP Mode)
-  save_json("/time.json", get_NTP_time(0));
+  // initiate time via NTP (00:00:20 4 if no internet connection)
+  init_time();
   
 
   // declare handler functions
@@ -340,7 +340,7 @@ void handle_apmode() {
     if (!configFile) {
       MESSAGE = "Failed to open config file";
     }
-    configFile.print("AP: false");
+    configFile.print("AP: true");
     configFile.close();
 
     // set variable for frontend

@@ -316,27 +316,19 @@ String add_time(String time, String offset_time){
 /**
  * @brief Gets time from NTP server
  * 
- * @param timezone - timezone offset in seconds
- * @return DynamicJsonDocument - time in format:\n
- *      {\n
- *        "hours": hh,\n
- *        "minutes": mm,\n 
- *        "seconds": ss,\n
- *        "weekday": w,\n
- *        "init_offset": millis(),\n
- *        "timezone": ssss,\n
- *        "last_offset": millis()\n
- *      }
+ * @details This function initiates the time by getting the time from the NTP server. 
+ * It then saves it ot the LittlfeFS. It also passes the saved timezone to the NTP server
+ * or 0 if no timezone is saved.
  * 
- * @details This function gets the time from the web and returns it as a DynamicJsonDocument.
- * It is only used in the initial setup to get the time without user interaction.
- * If server is unavailable, it returns 00:00:20 4 by defauls.
- * 
- * @callgraph This function does not call any other functions.
+ * @callgraph
  * 
  * @callergraph
  */
-DynamicJsonDocument get_NTP_time(int timezone){
+void init_time(){
+
+  // read timezone from LittleFS
+  DynamicJsonDocument saved_time = load_json("/time.json");
+  int timezone = saved_time["timezone"];
 
   // initialize NTP client
   WiFiUDP ntpUDP;
@@ -368,7 +360,8 @@ DynamicJsonDocument get_NTP_time(int timezone){
   time_json.shrinkToFit();
 
   // return json
-  return(time_json);
+  save_json("/time.json", time_json);
+  return;
 }
 
 

@@ -23,6 +23,8 @@
  * (error should be less than 1000ms due to rounding errors)
  * 
  */
+
+// TODO: überarbeiten
 boolean empirical_test_get_NTP_time() {
 	/*
 	- tests empirically if the NTP time is correct
@@ -40,7 +42,9 @@ boolean empirical_test_get_NTP_time() {
 	unsigned long start_time = millis();
 
 	// get reference time (checked manually):
-	DynamicJsonDocument current_doc = get_NTP_time(0);
+	init_time();
+
+	DynamicJsonDocument current_doc = load_json("/time.json");
 
 	// print current_doc
 	serializeJson(current_doc, Serial);
@@ -68,7 +72,9 @@ boolean empirical_test_get_NTP_time() {
 
 		previous_doc = current_doc;
 		// get NTP time
-		current_doc = get_NTP_time(0);
+		init_time();
+
+		previous_doc = load_json("/time.json");
 
 		// retrieve data from json's
 		int current_hours = current_doc["hours"];

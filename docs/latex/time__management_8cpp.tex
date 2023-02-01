@@ -28,7 +28,7 @@ String \mbox{\hyperlink{time__management_8cpp_a9302635144807a7f7063815f116ac129}
 \begin{DoxyCompactList}\small\item\em This function converts seconds to time format. \end{DoxyCompactList}\item 
 String \mbox{\hyperlink{time__management_8cpp_a2df1ab5ae345f8373541fdadc380d0cf}{add\+\_\+time}} (String time, String offset\+\_\+time)
 \begin{DoxyCompactList}\small\item\em adds two times together \end{DoxyCompactList}\item 
-Dynamic\+Json\+Document \mbox{\hyperlink{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32}{get\+\_\+\+N\+T\+P\+\_\+time}} (int timezone)
+void \mbox{\hyperlink{time__management_8cpp_a55657da39648ec7114a18e7cb7fbc915}{init\+\_\+time}} ()
 \begin{DoxyCompactList}\small\item\em Gets time from N\+TP server. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{time__management_8cpp_ac98cf9eca3c34ed8b3fb2c93625a0c18}{check\+\_\+and\+\_\+update\+\_\+offset}} ()
 \begin{DoxyCompactList}\small\item\em Checks if millis() overflowed and updates time if necessary. \end{DoxyCompactList}\end{DoxyCompactItemize}
@@ -157,40 +157,28 @@ Here is the caller graph for this function\+:\nopagebreak
 \includegraphics[width=350pt]{time__management_8cpp_a79f5fec2131038665d4240b7b761f15a_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32}\label{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32}} 
-\index{time\_management.cpp@{time\_management.cpp}!get\_NTP\_time@{get\_NTP\_time}}
-\index{get\_NTP\_time@{get\_NTP\_time}!time\_management.cpp@{time\_management.cpp}}
-\doxysubsubsection{\texorpdfstring{get\_NTP\_time()}{get\_NTP\_time()}}
-{\footnotesize\ttfamily Dynamic\+Json\+Document get\+\_\+\+N\+T\+P\+\_\+time (\begin{DoxyParamCaption}\item[{int}]{timezone }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{time__management_8cpp_a55657da39648ec7114a18e7cb7fbc915}\label{time__management_8cpp_a55657da39648ec7114a18e7cb7fbc915}} 
+\index{time\_management.cpp@{time\_management.cpp}!init\_time@{init\_time}}
+\index{init\_time@{init\_time}!time\_management.cpp@{time\_management.cpp}}
+\doxysubsubsection{\texorpdfstring{init\_time()}{init\_time()}}
+{\footnotesize\ttfamily void init\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
 Gets time from N\+TP server. 
 
-
-\begin{DoxyParams}{Parameters}
-{\em timezone} & -\/ timezone offset in seconds \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-Dynamic\+Json\+Document -\/ time in format\+:~\newline
- \{~\newline
- \char`\"{}hours\char`\"{}\+: hh,~\newline
- \char`\"{}minutes\char`\"{}\+: mm,~\newline
- \char`\"{}seconds\char`\"{}\+: ss,~\newline
- \char`\"{}weekday\char`\"{}\+: w,~\newline
- \char`\"{}init\+\_\+offset\char`\"{}\+: millis(),~\newline
- \char`\"{}timezone\char`\"{}\+: ssss,~\newline
- \char`\"{}last\+\_\+offset\char`\"{}\+: millis()~\newline
- \}
-\end{DoxyReturn}
-This function gets the time from the web and returns it as a Dynamic\+Json\+Document. It is only used in the initial setup to get the time without user interaction. If server is unavailable, it returns 00\+:00\+:20 4 by defauls.
-
-This function does not call any other functions. Here is the caller graph for this function\+:\nopagebreak
+This function initiates the time by getting the time from the N\+TP server. It then saves it ot the Littlfe\+FS. It also passes the saved timezone to the N\+TP server or 0 if no timezone is saved. Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=310pt]{time__management_8cpp_a597ed8e2df5841f85479ae8cbae2da32_icgraph}
+\includegraphics[width=241pt]{time__management_8cpp_a55657da39648ec7114a18e7cb7fbc915_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{time__management_8cpp_a55657da39648ec7114a18e7cb7fbc915_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{time__management_8cpp_a9302635144807a7f7063815f116ac129}\label{time__management_8cpp_a9302635144807a7f7063815f116ac129}} 

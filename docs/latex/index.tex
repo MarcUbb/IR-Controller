@@ -1,106 +1,219 @@
-This repository contains the software for an infrared controller, the purpose of which is to be able to control devices with an infrared interface using a smartphone.\hypertarget{index_autotoc_md0}{}\doxysubsection{Software}\label{index_autotoc_md0}
-\hypertarget{index_autotoc_md1}{}\doxysubsection{Hardware}\label{index_autotoc_md1}
-\hypertarget{index_autotoc_md2}{}\doxysubsubsection{Partlist\+:}\label{index_autotoc_md2}
+This repository contains the software for an infrared controller, the purpose of which is to be able to control devices with an infrared interface using a smartphone.
+
+In this guide you find information about following topics\+:
+
 
 \begin{DoxyItemize}
-\item E\+S\+P8266
-\item I\+R-\/\+L\+ED
-\item I\+R-\/\+Receiver
-\end{DoxyItemize}\hypertarget{index_autotoc_md3}{}\doxysubsubsection{J\+S\+O\+N-\/\+Format\+:}\label{index_autotoc_md3}
+\item \href{\#software}{\texttt{ Software}}
+\begin{DoxyEnumerate}
+\item \href{\#project-structure}{\texttt{ Project Structure}}
+\item \href{\#using-this-repository}{\texttt{ Using this Repository}}
+\item \href{\#libraries}{\texttt{ Libraries}}
+\item \href{\#logical-structure}{\texttt{ Logical Structure}}
+\item \href{\#programs}{\texttt{ Programs}}
+\end{DoxyEnumerate}
+\item \href{\#hardware}{\texttt{ Hardware}}
+\begin{DoxyEnumerate}
+\item \href{\#components}{\texttt{ Components}}
+\item \href{\#schematic}{\texttt{ Schematic}}
+\end{DoxyEnumerate}
+\end{DoxyItemize}
 
+\DoxyHorRuler{0}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md1}{}\doxysection{Software}\label{index_autotoc_md1}
+Lets talk about the software which you can find in this repository. I want to start by explaining the general structure of this projects software and list the libraries used while explaining a bit which role each of them plays. After that I will go into more detail about the logical structure of the software and explain the different parts of it. Finally I will go into more detail about the programs and how they work.
+
+If you are interested in a detailed documentation of the code you can find it \href{docs/html/index.html}{\texttt{ here}}.
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md3}{}\doxysubsection{Project Structure}\label{index_autotoc_md3}
+The project is a Platform\+IO project and is for the most parts structured as such. The Microcontroller I used is an E\+S\+P8266 and the software is based on the Arduino framework.
+
+The project is structured as follows\+: 
 \begin{DoxyCode}{0}
-\DoxyCodeLine{Philips TV.txt:}
+\DoxyCodeLine{IR-\/Controller}
+\DoxyCodeLine{├───.pio                              // PlatformIO}
+\DoxyCodeLine{|   ├───...}
+\DoxyCodeLine{├───.vscode                           // VSCode}
+\DoxyCodeLine{|   ├───...}
+\DoxyCodeLine{├───docs                              // Doxygen output}
+\DoxyCodeLine{│   ├───html}
+\DoxyCodeLine{|   |   ├───index.html                // Main Page of Code Documentation}
+\DoxyCodeLine{|   |   ├───...}
+\DoxyCodeLine{│   ├───latex}
+\DoxyCodeLine{|   ├───...}
+\DoxyCodeLine{├───examples                          // Examples (may be deleted)}
+\DoxyCodeLine{|   ├───...}
+\DoxyCodeLine{├───include                           // Header Files}
+\DoxyCodeLine{│   ├───main.h}
+\DoxyCodeLine{│   ├───base.h}
+\DoxyCodeLine{│   ├───...}
+\DoxyCodeLine{├───lib                               // Libraries}
+\DoxyCodeLine{│   ├───ArduinoJson}
+\DoxyCodeLine{|   |   ├───...}
+\DoxyCodeLine{│   ├───IRremoteESP8266}
+\DoxyCodeLine{|   |   ├───...}
+\DoxyCodeLine{│   ├───NTPClient}
+\DoxyCodeLine{|   |   ├───...}
+\DoxyCodeLine{│   ├───Regexp}
+\DoxyCodeLine{|   |   ├───...}
+\DoxyCodeLine{│   ├───WiFiManager}
+\DoxyCodeLine{|   |   ├───...}
+\DoxyCodeLine{├───src                               // Source Files}
+\DoxyCodeLine{│   ├───tests                         // Unit Tests}
+\DoxyCodeLine{│   │   ├───test\_main.cpp}
+\DoxyCodeLine{│   │   ├───test\_filesystem.cpp}
+\DoxyCodeLine{│   │   ├───...}
+\DoxyCodeLine{│   ├───main.cpp}
+\DoxyCodeLine{│   ├───filesystem.cpp}
+\DoxyCodeLine{│   ├───...}
+\DoxyCodeLine{├───Doxyfile                          // Doxygen Configuration}
+\DoxyCodeLine{├───platformio.ini                    // PlatformIO Configuration}
+\end{DoxyCode}
+
+
+As you can see the project structure is kept quiet simple and should look familiar if you already worked with Platform\+IO. The only difference is that the unit tests are located in the src folder instead of the test folder. This is because out of simplicity I decided to write the tests by myself instead of using a framework like Unity.
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md5}{}\doxysubsection{Using this Repository}\label{index_autotoc_md5}
+\hypertarget{index_autotoc_md6}{}\doxysubsubsection{Prerequisites}\label{index_autotoc_md6}
+To use this project you need to have Platform\+IO installed. You can find the installation instructions \href{https://docs.platformio.org/en/latest/installation.html}{\texttt{ here}}. You also need to have a E\+S\+P8266 Microcontroller. I used a W\+E\+M\+OS D1 Mini but any other E\+S\+P8266 should work as well.\hypertarget{index_autotoc_md7}{}\doxysubsubsection{Setup}\label{index_autotoc_md7}
+To setup the project you need to clone the repository and open it in Platform\+IO. You should now be able to build the project and upload it to your E\+S\+P8266. The Wi\+Fi\+Manager should start autmatically to allow you to connect to your Wi\+Fi. Alternatively you can connect via W\+PS by pressing first the button on your router and then the button on the UI or you switch to Access Point mode to connect directly to the E\+S\+P8266.\hypertarget{index_autotoc_md8}{}\doxysubsubsection{Testing}\label{index_autotoc_md8}
+As mentioned I wrote my own unit tests for simplicity. You can run the tests by simply uncommenting the marked lines in the \mbox{\hyperlink{main_8cpp}{main.\+cpp}} file. The tests are run automatically on startup directly on the device and the results are printed to the serial monitor. If they fail the execution of the program is halted.\hypertarget{index_autotoc_md9}{}\doxysubsubsection{Documentation}\label{index_autotoc_md9}
+For the detailed Code Documentation I use Doxygen. The documentation is generated by running the command {\ttfamily doxygen Doxyfile} in the root directory of the project. The output of the documentation is located in the docs folder. Please note that in order to generate the documentation you need to have Doxygen installed. You can find the installation instructions \href{http://www.doxygen.nl/download.html}{\texttt{ here}}. If you are a Linux user you can also install doxygen by running the command {\ttfamily sudo apt-\/get install doxygen doxygen-\/doc doxygen-\/gui graphviz} in your terminal.
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md11}{}\doxysubsection{Libraries}\label{index_autotoc_md11}
+In addition to the Arduino framwork the following libraries helped me to realize this project\+:\hypertarget{index_autotoc_md12}{}\doxysubsubsection{Arduino\+Json}\label{index_autotoc_md12}
+Arduino\+Json is a library for parsing and generating J\+S\+ON. It is used to store I\+R-\/\+Signals, time data and other data in orderly fashion. The J\+S\+ON format allowed me to easily write and read the data to and from the Little\+FS (filesystem) without the use of complex string manipulation or making up my own format.\hypertarget{index_autotoc_md13}{}\doxysubsubsection{I\+Rremote\+E\+S\+P8266}\label{index_autotoc_md13}
+I\+Rremote\+E\+S\+P8266 is a library for receiving and sending I\+R-\/\+Signals. It is used to receive I\+R-\/\+Signals from the I\+R-\/\+Receiver and to send I\+R-\/\+Signals to the I\+R-\/\+L\+ED.\hypertarget{index_autotoc_md14}{}\doxysubsubsection{N\+T\+P\+Client}\label{index_autotoc_md14}
+N\+T\+P\+Client is a library for getting the current time from an N\+T\+P-\/\+Server. It is exlusively used in timed programs (where a signal is sent at a specific time). It is used to initialize the time on boot.\hypertarget{index_autotoc_md15}{}\doxysubsubsection{Regexp}\label{index_autotoc_md15}
+Regexp is a library that allowed me to use regular expressions in my code. It is used to scan a user written program for the correct syntax.\hypertarget{index_autotoc_md16}{}\doxysubsubsection{Wi\+Fi\+Manager}\label{index_autotoc_md16}
+Wi\+Fi\+Manager is a library that allows you to connect to a Wi\+Fi network by entering the credentials in an UI instead of hard coding them. It is used to connect to the users Wi\+Fi network. I modified the library slightly to allow the user to connect via W\+PS and to switch to Access Point mode.
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md18}{}\doxysubsection{Logical Structure}\label{index_autotoc_md18}
+In this section I want to give you a high level overview of the logical structure of the software. I grouped them into different parts that I found to be the most important. I will start each section with a diagram which should explain its structure for the most part but of cause I will also axplain each part in detail.\hypertarget{index_autotoc_md19}{}\doxysubsubsection{Setup}\label{index_autotoc_md19}
+The device setup includes every step that is necessarey to reach the normal operation state which in best case will after the initial setup be the starting point after rebooting.
+
+Diagram of the Setup\+: 
+
+As you can see in the diagram the device can operate in 2 different modes\+: A\+P-\/mode or S\+T\+A-\/mode.
+
+By default the device will enter S\+T\+A-\/mode which means that it wants to connect to a Wi\+Fi network. In order to do so the device makes use of the Wi\+Fi\+Manager library which enables it to briefly creates an access point to which the user has to connect. The user can then enter the credentials of the Wi\+Fi network he wants to connect to. The device will then try to connect to the network. If the connection is successful the device will now operate in S\+T\+A-\/mode. If the connection fails the device will reboot and ask you again to enter the credentials. Alternatively you can also connect to your router via W\+PS. In order to do so you have to press the W\+PS on your router and then the button on the UI. If you want to connect to the device directly without using a Wi\+Fi network you can switch to A\+P-\/mode by pressing the button in the UI.
+
+In A\+P-\/mode the device creates an access point in which it operates. The user connects to the access point via smartphone or computer. The access point is password secured and the user can change the password in the UI. Finally the time has to be set manually as the device does not have an external R\+TC.\hypertarget{index_autotoc_md20}{}\doxysubsubsection{Signal/\+Program Management}\label{index_autotoc_md20}
+The Signal/\+Program Management includes recording signals, saving and loading signals and programs and playing signals or executing programs.
+
+Diagram of the Signal/\+Program Management\+: !\mbox{[}Signal/\+Program\+\_\+\+Management\mbox{]}(\hypertarget{index_autotoc_md21}{}\doxysubsubsection{Webserver}\label{index_autotoc_md21}
+The webserver is responsible for the communication between the device and the user. It therfore includes receive commands from the user and displaying the current state of the device to the user.
+
+Diagram of the Webserver\+: !\mbox{[}Webserver\mbox{]}(
+
+As you can see in the \href{include/website.html}{\texttt{ website.\+html}} file the website makes heavy use of the nature of the H\+T\+ML form element. Since H\+T\+ML form elements automatically trigger a get request on their specific action url containing the specified data they make it very easy to send data from the website to the device. To display the current state of the device which includes saved signals and programs or if the device is in Access Point or Station mode the website sends a get request to the device each time the website is reloaded.\hypertarget{index_autotoc_md22}{}\doxysubsubsection{Time Management}\label{index_autotoc_md22}
+Time Management turned out to be more complicated than I initially thought. This is mostly due to the fact that the millis() function overflows after about 49 days and that one requirement was to be able to execute timed programs even without internet connection. Thats why I want to dedicate this section to it.
+
+The time is saved in the /time.json and has following format\+: 
+\begin{DoxyCode}{0}
 \DoxyCodeLine{\{}
-\DoxyCodeLine{  "name":"Philips TV",}
-\DoxyCodeLine{  "length": 9, }
-\DoxyCodeLine{  "sequence": "21,24,71,34,74,73,21,60,32"}
+\DoxyCodeLine{    "hours": <hh>,}
+\DoxyCodeLine{    "minutes": <mm>,}
+\DoxyCodeLine{    "seconds": <ss>,}
+\DoxyCodeLine{    "weekday": <w>,}
+\DoxyCodeLine{    "timezone": GMT+<timezone>,}
+\DoxyCodeLine{    "init\_offset": <offset>,}
+\DoxyCodeLine{    "last\_offset": <offset>}
 \DoxyCodeLine{\}}
 \end{DoxyCode}
-\hypertarget{index_autotoc_md4}{}\doxysubsubsection{Setup\+:}\label{index_autotoc_md4}
-\hypertarget{index_autotoc_md5}{}\doxyparagraph{Wifi\+Manager}\label{index_autotoc_md5}
 
-\begin{DoxyItemize}
-\item always starts on startup to either connect to wifi or configure new wifi
-\item saves Network credentials at same location as W\+PS (examples already do that automatically)
-\end{DoxyItemize}\hypertarget{index_autotoc_md6}{}\doxyparagraph{W\+P\+S Interrupt}\label{index_autotoc_md6}
 
-\begin{DoxyItemize}
-\item alternatively to Wifi\+Manager its possible to connect via W\+PS
-\item an Interrupt is triggered on pressing the W\+PS Button
-\item saves Network credentials at same location as Wifi\+Manager (examples already do that automatically)
-\end{DoxyItemize}\hypertarget{index_autotoc_md7}{}\doxysubsubsection{Methodes\+:}\label{index_autotoc_md7}
-\hypertarget{index_autotoc_md8}{}\doxyparagraph{read\+\_\+signal(str name)}\label{index_autotoc_md8}
+Hours, minutes and seconds dont need any explenation, weekday is saved as a number from 0 to 6 where 0 is Sunday and 6 is Saturday. The timezone is saved in seconds i. e. G\+M\+T+1 is saved as 3600. The init\+\_\+offset is the offset that was used to initialize the time. The last\+\_\+offset is the offset at which the last overflow check took place (this becomes important later). Lets look at the initialization and update of the time.
 
+Diagram of the Time initialization and update\+: !\mbox{[}Time\+\_\+\+Management\mbox{]}()
+
+The time gets initialized with time from an N\+TP server (saved timezone is respected if no timezone is saved G\+MT is used). If the device is not connected to the internet the request to the N\+TP server will fail and by N\+T\+P\+Client library default the time will be initialized with millis(). If that happens the user will have to update the time manually via the web interface. If the device is in A\+P-\/mode the user updates the time completly. If the device is in S\+T\+A-\/mode the user can only update the timezone. The rest was done automatically by the N\+T\+P\+Client library. Lets look at how I prevented millis() from overflowing.
+
+Diagram of the millis() overflow prevention logic\+: !\mbox{[}Millis\+\_\+overflow\mbox{]}()
+
+As mentioned before the millis() funciton overflows after about 49 days. In order to prevent this in \href{src/time_management.cpp}{\texttt{ time\+\_\+management}} you can find the funcion check\+\_\+and\+\_\+update\+\_\+offset at the end of the file which is called every time long waiting periods are expected to occur. The function compares the current value of millis() to the last\+\_\+offset and if the current value is smaller than the last\+\_\+offset it means that millis() overflowed and the time and the init\+\_\+offset have to be updated. Since we wont hit exactly the moment of overflow the function now checks millis() to see how much time passed since the overflow and reinitializes the time with the current offset.
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md24}{}\doxysubsection{Programs}\label{index_autotoc_md24}
+At the end of this section I want to give you a brief overview of the different commands that are available in the program. Before I go into detail about each command there are 4 points to consider\+:
 \begin{DoxyEnumerate}
-\item turns Signal L\+ED on
-\item reads incoming I\+R-\/\+Signal with defined minimum length
+\item Programs are executed successively,
+\item each command is written in a new line,
+\item empthy lines are skipped and
+\item programs can be aborted by pressing the designated button on the device.
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md25}{}\doxysubsubsection{play}\label{index_autotoc_md25}
+The play command plays a signal. The syntax is as follows\+:
 
-2.\+1 I\+R-\/\+Signal is received -\/$>$ 3.
 
-2.\+2 No I\+R-\/\+Signal is received -\/$>$ Signal L\+ED Blinks and Timeout is sent
-\item turns Signal L\+ED off
-\item creates new entry in data.\+json and writes name and sequence to file
-\end{DoxyEnumerate}\hypertarget{index_autotoc_md9}{}\doxyparagraph{play\+\_\+signal(str name)}\label{index_autotoc_md9}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{play <signal name>}
+\end{DoxyCode}
 
-\begin{DoxyEnumerate}
-\item looks for entry with given name
 
-1.\+1 Entry is found -\/$>$ 2.
+It is important to not that there is a small break between sending 2 signals after each other. This is because the device is still processing the signal and so it can take up to 100ms to send the next signal.\hypertarget{index_autotoc_md26}{}\doxysubsubsection{wait}\label{index_autotoc_md26}
+The wait command waits a specified amount of milliseconds. The syntax is as follows\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{wait <milliseconds>}
+\end{DoxyCode}
 
-1.\+2 Entry is not found -\/$>$ try to delete Entry from frontend
-\item plays entered sequence
-\end{DoxyEnumerate}\hypertarget{index_autotoc_md10}{}\doxyparagraph{autotoc\+\_\+md10}\label{index_autotoc_md10}
-\hypertarget{index_autotoc_md11}{}\doxysubsubsection{Webserver\+:}\label{index_autotoc_md11}
 
-\begin{DoxyItemize}
-\item Asynchronous Webserver
-\end{DoxyItemize}
-\begin{DoxyEnumerate}
-\item provides single page website
-\end{DoxyEnumerate}\hypertarget{index_autotoc_md12}{}\doxyparagraph{Buttons\+:}\label{index_autotoc_md12}
+It is important to note that the maximum amount of milliseconds that can be waited is 4294967295. (about 49 days)\hypertarget{index_autotoc_md27}{}\doxysubsubsection{time}\label{index_autotoc_md27}
+The time command waits until a specified time before sending a signal. The syntax is as follows\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<hour>:<minute>:<second> <signal name>}
+\end{DoxyCode}
+\hypertarget{index_autotoc_md28}{}\doxysubsubsection{day}\label{index_autotoc_md28}
+The day command is similar to the time command but it waits until a specified day and a specified time before sending the signal. The syntax is as follows\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{<day> <hour>:<minute>:<second> <signal name>}
+\end{DoxyCode}
 
-\begin{DoxyEnumerate}
-\item send H\+T\+TP Get Request to U\+RL
-\item MC saves submitted name and recorded I\+R-\/\+Signal
-\item 
-\end{DoxyEnumerate}\hypertarget{index_autotoc_md13}{}\doxysubsubsection{Signals\+:}\label{index_autotoc_md13}
 
-\begin{DoxyItemize}
-\item depending on the device, a wait-\/command is needed between 2 Signals to make sure the signals are received correctly
-\end{DoxyItemize}\hypertarget{index_autotoc_md14}{}\doxysubsubsection{Programs\+:}\label{index_autotoc_md14}
-\hypertarget{index_autotoc_md15}{}\doxyparagraph{Commands\+:}\label{index_autotoc_md15}
+The day is writte in english and can be capitalized or not.\hypertarget{index_autotoc_md29}{}\doxysubsubsection{skip}\label{index_autotoc_md29}
+The skip command skips a specified amount of days and can be useful in timed Programs. The syntax is as follows\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{skip <days>}
+\end{DoxyCode}
 
-\begin{DoxyEnumerate}
-\item play
-\begin{DoxyItemize}
-\item plays a signal
-\end{DoxyItemize}
-\item wait
-\begin{DoxyItemize}
-\item waits a specific amount of ms
-\end{DoxyItemize}
-\item time
-\begin{DoxyItemize}
-\item plays a signal at the next time a specified time is reached
-\end{DoxyItemize}
-\item date
-\begin{DoxyItemize}
-\item plays a signal the next time a specific date and time is reached
-\end{DoxyItemize}
-\item skip
-\begin{DoxyItemize}
-\item skips a specified amount of days
-\end{DoxyItemize}
-\item loop
-\begin{DoxyItemize}
-\item loops a part of the program a specified amount of times or indefinitely
-\end{DoxyItemize}
-\item end
-\begin{DoxyItemize}
-\item marks the end of a loop
-\end{DoxyItemize}
-\end{DoxyEnumerate}\hypertarget{index_autotoc_md16}{}\doxysubsubsection{Annotations\+:}\label{index_autotoc_md16}
 
-\begin{DoxyItemize}
-\item \#include $<$Wi\+Fi\+Manager.\+h$>$ in \mbox{\hyperlink{main_8cpp}{main.\+cpp}} otherwise error in library occures 
-\end{DoxyItemize}
+Similar to the wait command the maximum amount of days that can be skipped is 49.\hypertarget{index_autotoc_md30}{}\doxysubsubsection{loop}\label{index_autotoc_md30}
+The loop command loops the lines between the loop command and the end command a specified amount of times or infinitely often. The syntax is as follows\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{loop <times> or "inf"}
+\DoxyCodeLine{}
+\DoxyCodeLine{(code to be repeated)}
+\DoxyCodeLine{}
+\DoxyCodeLine{end}
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+
+
+\DoxyHorRuler{0}
+\hypertarget{index_autotoc_md32}{}\doxysection{Hardware}\label{index_autotoc_md32}
+In this section I want to talk a bit about the inner workings of the device. I will start by giving you an overview of some of the most important components I used, why I used them and what role they play in the device. After that you will find the circuit diagram.
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md34}{}\doxysubsection{Components}\label{index_autotoc_md34}
+\hypertarget{index_autotoc_md35}{}\doxysubsubsection{Microcontroller (\+E\+S\+P8266)}\label{index_autotoc_md35}
+The E\+S\+P8266 is a cheap and powerful microcontroller that is perfect for this project. It has a lot of G\+P\+I\+Os, a lot of memory, lots of processing power and often comes with a build in wifi antenna. It is also very easy to program and has a lot of libraries available. The E\+S\+P8266 is also very cheap and can be bought for less than 2€. In this project I used the E\+S\+P8266-\/12F which comes in a small form factor and features a build in wifi antenna.\hypertarget{index_autotoc_md36}{}\doxysubsubsection{I\+R-\/\+L\+ED}\label{index_autotoc_md36}
+The nature of IR light is probably the big botleneck of this project. To make the best out of it the I\+R-\/\+L\+ED has to be as powerfull and multidirectional as possible. I used the so called \char`\"{}\+W\+T\+N-\/3\+W-\/\+I\+R940\char`\"{} which is a 3W 940nm I\+R-\/\+L\+ED which has a 360 degree beam angle and a 180 degree viewing angle. The I\+R-\/\+L\+ED is controlled by the E\+SP with a logic level transistor and is equipped with a small heatsink to prevent overheating. Since the I\+R-\/\+L\+ED is pulsed very quickly it can easily resist currents of more than 1A.\hypertarget{index_autotoc_md37}{}\doxysubsubsection{I\+R-\/\+Receiver}\label{index_autotoc_md37}
+The T\+L1838 is a very cheap I\+R-\/\+Receiver that is trimmed to 38k\+Hz though it is possible to decode signals with frequencies from 30 k\+Hz up to 60k\+Hz with this sensor. Therfore it is perfect to decode most I\+R-\/\+Signals. The I\+R-\/\+Receiver is directly connected to the Microcontroller and the output is processed by the I\+Rremote\+E\+S\+P8266 library.\hypertarget{index_autotoc_md38}{}\doxysubsubsection{Power Supply}\label{index_autotoc_md38}
+The Powersupply is the last component that I want to talk about. It is the Mean Well E\+P\+S-\/15-\/3.\+3 which can output between 3.\+1V and 3.\+6V with a maximum current of 3A. It is a very cheap and easy to use but still solid power supply that in the end made up by far for the most space in the device.
+
+\DoxyHorRuler{0}
+ \hypertarget{index_autotoc_md40}{}\doxysubsection{Schematic}\label{index_autotoc_md40}
+The schematic of the device is shown below. It is a very simple circuit that is easy to understand. All devices are powered by the power supply which is filtered by several condensators. The I\+R-\/\+L\+ED is controlled by a n-\/channel transistor (I\+R\+L\+M\+L6344) which is pulled down. The device features 2 push buttons and 1 on/off switch. Both the reset and stop button are pulled down. The E\+S\+P8266-\/12F can be programmed via a U\+SB to serial converter (i.\+e. F\+T232\+RL) that has to be connected to the J1 Header Pin connector. Note that R\+XD has to be connected to T\+XD on the Serial to U\+SB converter (and T\+XD to R\+XD). Additionally the device has to be powered by the power supply since the Serial to U\+SB Converter is not able to power the E\+SP by itself. Also make sure the Serial to U\+SB Converter is set to 3.\+3V.
+
+Schematic\+: 
+
+\DoxyHorRuler{0}
+ 

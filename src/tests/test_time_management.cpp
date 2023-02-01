@@ -383,9 +383,12 @@ boolean test_add_time() {
  * 
  * @see get_NTP_time
  */
+// TODO: überarbeiten
 boolean test_get_NTP_time() {
 
-	DynamicJsonDocument doc = get_NTP_time(0);
+	init_time();
+
+	DynamicJsonDocument doc = load_json("/time.json");
 
 	int hours = doc["hours"];
 	int minutes = doc["minutes"];

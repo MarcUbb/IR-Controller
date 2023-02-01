@@ -1,26 +1,29 @@
 <map id="load_json" name="load_json">
-<area shape="rect" id="node1" title="This function loads a JSON document from a specified file." alt="" coords="1516,275,1600,301"/>
-<area shape="rect" id="node2" href="$time__management_8cpp.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="1280,123,1468,149"/>
-<area shape="rect" id="node17" href="$time__management_8cpp.html#a79f5fec2131038665d4240b7b761f15a" title="Loads the current time from LittleFS." alt="" coords="1307,224,1441,251"/>
-<area shape="rect" id="node19" href="$workflows_8cpp.html#ac66d9f916af4fef55538c5cf0be70989" title="This function loads a signal from a file and sends it." alt="" coords="1075,275,1215,301"/>
-<area shape="rect" id="node21" href="$test__filesystem_8cpp.html#ac493a0e24d2dff0c1de7362d234f2d29" title="Unit test for the function &quot;load_json&quot;." alt="" coords="1316,325,1432,352"/>
-<area shape="rect" id="node22" href="$time__management_8cpp.html#a11b9f043cd67f782c7b8c49ffd0f51cb" title="Updates the time in the LittleFS." alt="" coords="1322,427,1426,453"/>
-<area shape="rect" id="node3" href="$time__management_8cpp.html#a6291345b0a1a1141c8d11458ff2f5cd4" title="Compare specified time with current time." alt="" coords="1087,173,1203,200"/>
-<area shape="rect" id="node13" href="$workflows_8cpp.html#a4c38b70181fc74cd62f0a7529ffaf796" title="This function waits a certain amount of time." alt="" coords="1058,123,1231,149"/>
-<area shape="rect" id="node15" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="Arduino Loop function." alt="" coords="1119,5,1170,32"/>
-<area shape="rect" id="node16" href="$test__time__management_8cpp.html#a57bbab4c6324d9f66a780319aa1c1866" title="Unit test for the function &quot;check_and_update_offset&quot;." alt="" coords="1057,57,1232,98"/>
-<area shape="rect" id="node4" href="$workflows_8cpp.html#ae38fa40d61cf9aecaf82ebf6c2cc2977" title="This function executes timed commands." alt="" coords="812,224,1001,251"/>
-<area shape="rect" id="node12" href="$test__time__management_8cpp.html#a17adbc3a04a35de5581e9d8e0d39a673" title="Unit test for the function &quot;compare_time&quot;." alt="" coords="833,173,981,200"/>
-<area shape="rect" id="node5" href="$workflows_8cpp.html#aebc60e6c0ad4b332f2f1da7da6707f03" title="This function parses the code of a program line by line and executes the commands." alt="" coords="583,275,708,301"/>
-<area shape="rect" id="node11" href="$test__workflows_8cpp.html#a8bf77dec2d5c5c9fca6d6d9491e929d2" title="Unit test for the function &quot;handle_times_commands&quot;." alt="" coords="535,224,756,251"/>
-<area shape="rect" id="node6" href="$workflows_8cpp.html#afbb6021d6f9112517cf664d3dccf3b77" title="This function loads a program from a file and hands it to the program_parser." alt="" coords="339,275,477,301"/>
-<area shape="rect" id="node10" href="$test__workflows_8cpp.html#a7c5aac3f0870893d1a6beaaae8d63bc3" title="Unit test for the function &quot;program_parser&quot;." alt="" coords="329,325,487,352"/>
-<area shape="rect" id="node7" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="145,376,249,403"/>
-<area shape="rect" id="node9" href="$test__workflows_8cpp.html#a5f3743734b6324bacb1c6332abc9eca2" title="Unit test for the function &quot;playing_workflow&quot;." alt="" coords="112,275,281,301"/>
-<area shape="rect" id="node8" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,401,64,428"/>
-<area shape="rect" id="node14" href="$test__workflows_8cpp.html#ac853f5e0d739b212618bd92ce084f9fd" title="Unit test for the function &quot;handle_wait_command&quot;." alt="" coords="804,72,1009,99"/>
-<area shape="rect" id="node18" href="$test__time__management_8cpp.html#a42e32ef599fb3cba5778706f6daea8cd" title="Unit test for the function &quot;get_current_time&quot;." alt="" coords="1062,224,1227,251"/>
-<area shape="rect" id="node20" href="$test__workflows_8cpp.html#a58a5d4b443bfc228d6b118aa6968e835" title="Unit test for the function &quot;sending_workflow&quot;." alt="" coords="821,325,993,352"/>
-<area shape="rect" id="node23" href="$main_8cpp.html#a804df23af2d5325f6b80505441c440c0" title="Handler funciton to synchronize the time and/or timezone provided by the user." alt="" coords="594,427,697,453"/>
-<area shape="rect" id="node24" href="$test__time__management_8cpp.html#adf1f311bfde974c623b74f3b248a37fa" title="Unit test for the function &quot;update_time&quot;." alt="" coords="1077,477,1213,504"/>
+<area shape="rect" id="node1" title="This function loads a JSON document from a specified file." alt="" coords="1697,239,1781,266"/>
+<area shape="rect" id="node2" href="$time__management_8cpp.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="1280,182,1468,209"/>
+<area shape="rect" id="node17" href="$empirical__tests_8cpp.html#aabb22a5cfde24cd08a45763709e04503" title="Tests empirically the function get_NTP_time()" alt="" coords="1303,5,1445,47"/>
+<area shape="rect" id="node18" href="$time__management_8cpp.html#a79f5fec2131038665d4240b7b761f15a" title="Loads the current time from LittleFS." alt="" coords="1516,265,1649,291"/>
+<area shape="rect" id="node20" href="$time__management_8cpp.html#a55657da39648ec7114a18e7cb7fbc915" title="Gets time from NTP server." alt="" coords="1543,113,1623,139"/>
+<area shape="rect" id="node21" href="$test__time__management_8cpp.html#a1e3f5cd42c40520d5fbfc9c70ba58f76" title="Unit test for the function &quot;get_NTP_time&quot;." alt="" coords="1301,127,1447,154"/>
+<area shape="rect" id="node22" href="$workflows_8cpp.html#ac66d9f916af4fef55538c5cf0be70989" title="This function loads a signal from a file and sends it." alt="" coords="1075,341,1215,367"/>
+<area shape="rect" id="node24" href="$test__filesystem_8cpp.html#ac493a0e24d2dff0c1de7362d234f2d29" title="Unit test for the function &quot;load_json&quot;." alt="" coords="1525,389,1641,415"/>
+<area shape="rect" id="node25" href="$time__management_8cpp.html#a11b9f043cd67f782c7b8c49ffd0f51cb" title="Updates the time in the LittleFS." alt="" coords="1531,477,1635,503"/>
+<area shape="rect" id="node3" href="$time__management_8cpp.html#a6291345b0a1a1141c8d11458ff2f5cd4" title="Compare specified time with current time." alt="" coords="1087,290,1203,317"/>
+<area shape="rect" id="node13" href="$workflows_8cpp.html#a4c38b70181fc74cd62f0a7529ffaf796" title="This function waits a certain amount of time." alt="" coords="1058,122,1231,149"/>
+<area shape="rect" id="node15" href="$main_8cpp.html#afe461d27b9c48d5921c00d521181f12f" title="Arduino Loop function." alt="" coords="1119,239,1170,266"/>
+<area shape="rect" id="node16" href="$test__time__management_8cpp.html#a57bbab4c6324d9f66a780319aa1c1866" title="Unit test for the function &quot;check_and_update_offset&quot;." alt="" coords="1057,173,1232,215"/>
+<area shape="rect" id="node4" href="$workflows_8cpp.html#ae38fa40d61cf9aecaf82ebf6c2cc2977" title="This function executes timed commands." alt="" coords="812,274,1001,301"/>
+<area shape="rect" id="node12" href="$test__time__management_8cpp.html#a17adbc3a04a35de5581e9d8e0d39a673" title="Unit test for the function &quot;compare_time&quot;." alt="" coords="833,223,981,250"/>
+<area shape="rect" id="node5" href="$workflows_8cpp.html#aebc60e6c0ad4b332f2f1da7da6707f03" title="This function parses the code of a program line by line and executes the commands." alt="" coords="583,274,708,301"/>
+<area shape="rect" id="node11" href="$test__workflows_8cpp.html#a8bf77dec2d5c5c9fca6d6d9491e929d2" title="Unit test for the function &quot;handle_times_commands&quot;." alt="" coords="535,325,756,351"/>
+<area shape="rect" id="node6" href="$workflows_8cpp.html#afbb6021d6f9112517cf664d3dccf3b77" title="This function loads a program from a file and hands it to the program_parser." alt="" coords="339,325,477,351"/>
+<area shape="rect" id="node10" href="$test__workflows_8cpp.html#a7c5aac3f0870893d1a6beaaae8d63bc3" title="Unit test for the function &quot;program_parser&quot;." alt="" coords="329,274,487,301"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="145,375,249,402"/>
+<area shape="rect" id="node9" href="$test__workflows_8cpp.html#a5f3743734b6324bacb1c6332abc9eca2" title="Unit test for the function &quot;playing_workflow&quot;." alt="" coords="112,325,281,351"/>
+<area shape="rect" id="node8" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,375,64,402"/>
+<area shape="rect" id="node14" href="$test__workflows_8cpp.html#ac853f5e0d739b212618bd92ce084f9fd" title="Unit test for the function &quot;handle_wait_command&quot;." alt="" coords="804,173,1009,199"/>
+<area shape="rect" id="node19" href="$test__time__management_8cpp.html#a42e32ef599fb3cba5778706f6daea8cd" title="Unit test for the function &quot;get_current_time&quot;." alt="" coords="1291,237,1457,263"/>
+<area shape="rect" id="node23" href="$test__workflows_8cpp.html#a58a5d4b443bfc228d6b118aa6968e835" title="Unit test for the function &quot;sending_workflow&quot;." alt="" coords="821,426,993,453"/>
+<area shape="rect" id="node26" href="$main_8cpp.html#a804df23af2d5325f6b80505441c440c0" title="Handler funciton to synchronize the time and/or timezone provided by the user." alt="" coords="594,463,697,490"/>
+<area shape="rect" id="node27" href="$test__time__management_8cpp.html#adf1f311bfde974c623b74f3b248a37fa" title="Unit test for the function &quot;update_time&quot;." alt="" coords="1306,527,1442,554"/>
 </map>

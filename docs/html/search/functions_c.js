@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['weekday_5fto_5fnum_180',['weekday_to_num',['../base_8h.html#a3510cfe664c5b740d746a31e79b0f158',1,'weekday_to_num(String weekday):&#160;time_management.cpp'],['../time__management_8cpp.html#a3510cfe664c5b740d746a31e79b0f158',1,'weekday_to_num(String weekday):&#160;time_management.cpp']]]
+  ['update_5ftime_179',['update_time',['../base_8h.html#a11b9f043cd67f782c7b8c49ffd0f51cb',1,'update_time(String time, boolean AP_mode):&#160;time_management.cpp'],['../time__management_8cpp.html#a11b9f043cd67f782c7b8c49ffd0f51cb',1,'update_time(String time, boolean AP_mode):&#160;time_management.cpp']]]
 ];
