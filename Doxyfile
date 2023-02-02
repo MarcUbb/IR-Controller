@@ -51,7 +51,7 @@ PROJECT_BRIEF          = "Web-Interface for IR remote controlled devices"
 # pixels and the maximum width should not exceed 200 pixels. Doxygen will copy
 # the logo to the output directory.
 
-PROJECT_LOGO           = "BHT_Logo_horizontal_Anthrazit_transparent_RGB_h100pix.png"
+PROJECT_LOGO           = "assets/BHT_Logo_horizontal_Anthrazit_transparent_RGB_h100pix.png"
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is

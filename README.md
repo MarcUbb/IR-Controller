@@ -68,7 +68,7 @@ IR-Controller
 │   ├───filesystem.cpp
 │   ├───...
 ├───Doxyfile                          // Doxygen Configuration
-├───platformio.ini                    // PlatformIO Configuration
+└───platformio.ini                    // PlatformIO Configuration
 ```
 As you can see the project structure is kept quiet simple and should look familiar if you already worked with PlatformIO. The only difference is that the unit tests are located in the src folder instead of the test folder. This is because out of simplicity I decided to write the tests by myself instead of using a framework like Unity.
 
@@ -108,13 +108,13 @@ WiFiManager is a library that allows you to connect to a WiFi network by enterin
 
 ---
 ## Logical Structure
-In this section I want to give you a high level overview of the logical structure of the software. I grouped them into different parts that I found to be the most important. I will start each section with a diagram which should explain its structure for the most part but of cause I will also axplain each part in detail.
+In this section I want to give you a high level overview of the logical structure of the software. I grouped them into different parts that I found to be the most important. I will explain each section in detail.
 
 ### Setup
 The device setup includes every step that is necessarey to reach the normal operation state which in best case will after the initial setup be the starting point after rebooting.
 
 Diagram of the Setup:
-![Setup](Setup.png)
+![Setup](assets/setup.png)
 
 As you can see in the diagram the device can operate in 2 different modes: AP-mode or STA-mode.
 
@@ -123,19 +123,51 @@ By default the device will enter STA-mode which means that it wants to connect t
 
 In AP-mode the device creates an access point in which it operates. The user connects to the access point via smartphone or computer. The access point is password secured and the user can change the password in the UI. Finally the time has to be set manually as the device does not have an external RTC.
 
-### Signal/Program Management
-The Signal/Program Management includes recording signals, saving and loading signals and programs and playing signals or executing programs.
+### LittleFS
+The LittleFS is the filesystem of the ESP8266. It is used to stors the signals and program the user creates. It is also used to store time data, the password of the access point and the mode the device is currently in. Let me start by explaining the structure of the filesystem.
 
-Diagram of the Signal/Program Management:
-![Signal/Program_Management]()
+Diagram of the LittleFS:
+```
+ESP8266 LittleFS
+├───signals              // Folder for the signals
+│   ├───signal1.json
+│   ├───signal2.json
+│   ├───...
+├───programs            // Folder for the programs
+│   ├───program1.txt
+│   ├───program2.txt
+│   ├───...
+├───time.json           // File for the time data
+├───password.txt        // File for the password of the access point
+└───config.txt          // File for the mode the device is currently in (AP or STA)
+```
+
+As you can see the signals and programs are stored in their designated folders. What does the data inside the files look like? This differs from file to file. The data in the signal files is stored in json format and looks like this:
+```json
+{
+  "name": <signal_name>,
+  "length": <signal_length>,
+  "sequence": <signal_sequence>
+}
+```
+
+The data in the program files however is stored as a normal C-String. This is because only the program code has to be stored in the file and this makes handling the data easier.
+
+In general the signal and program files are modified by the functions in the [filesystem.cpp](src/filesystem.cpp) file. The functions are called by functions from the [workflows.cpp](src/workflows.cpp) file which is responsible for the high level logic of the device.
+
+The files from the root directory define the configuration and state of the device and are modified partly directly by the handler functions in [main.cpp](src/main.cpp).
 
 ### Webserver
 The webserver is responsible for the communication between the device and the user. It therfore includes receive commands from the user and displaying the current state of the device to the user.
 
 Diagram of the Webserver:
-![Webserver]()
+![Webserver](assets/webserver.png)
 
-As you can see in the [website.html](include/website.html) file the website makes heavy use of the nature of the HTML form element. Since HTML form elements automatically trigger a get request on their specific action url containing the specified data they make it very easy to send data from the website to the device. To display the current state of the device which includes saved signals and programs or if the device is in Access Point or Station mode the website sends a get request to the device each time the website is reloaded.
+Since I used a synchronous webserver UI updates are only possible after the user reloads the website. This means that after each input the website will be reloaded. This is not a problem since the website is very lightweight and the user will not notice any delay.
+
+As you can see in the [website.html](include/website.html) file the website makes heavy use of the nature of the HTML form element. Since HTML form elements automatically trigger a get request on their specific action url containing the specified data they make it very easy to send data from the website to the device. To display the current state of the device which includes saved signals and programs or if the device is in Access Point or Station mode the website sends a get request to the device each time the website is reloaded which the device then responds to with the current state.
+
+There is one exception which I would like to point out here. The edit function of the website is the only function that involves the device sending data which is dependant on the websites state. This means that the website hast to send a get request via the form element to the device which then responds with the data. Since the dropdown menu is part of a html form element that triggers a redirect to the url of the get the device has to answer with a redirect to the root url. So there is no space for another http header in the response. The solution I came up with is to let the backend set the variable PROGRAMNAME to the selected program whenever the edit button is pressed and then send the code of that program every time the website is reloaded. After each reload the variable is set to "" again. This results in the desired behavior.
 
 ### Time Management
 Time Management turned out to be more complicated than I initially thought. This is mostly due to the fact that the millis() function overflows after about 49 days and that one requirement was to be able to execute timed programs even without internet connection. Thats why I want to dedicate this section to it.
@@ -143,21 +175,21 @@ Time Management turned out to be more complicated than I initially thought. This
 The time is saved in the /time.json and has following format:
 ```json
 {
-    "hours": <hh>,
-    "minutes": <mm>,
-    "seconds": <ss>,
-    "weekday": <w>,
-    "timezone": GMT+<timezone>,
-    "init_offset": <offset>,
-    "last_offset": <offset>
+  "hours": <hh>,
+  "minutes": <mm>,
+  "seconds": <ss>,
+  "weekday": <w>,
+  "timezone": GMT+<timezone>,
+  "init_offset": <offset>,
+  "last_offset": <offset>
 }
 ```
 Hours, minutes and seconds dont need any explenation, weekday is saved as a number from 0 to 6 where 0 is Sunday and 6 is Saturday. The timezone is saved in seconds i. e. GMT+1 is saved as 3600. The init_offset is the offset that was used to initialize the time. The last_offset is the offset at which the last overflow check took place (this becomes important later).
 
 The time gets initialized with time from an NTP server (saved timezone is respected if no timezone is saved GMT is used). If the device is not connected to the internet the request to the NTP server will fail and by NTPClient library default the time will be initialized with millis(). If that happens the user will have to update the time manually via the web interface. If the device is in AP-mode the user updates the time completly. If the device is in STA-mode the user can only update the timezone. The rest was done automatically by the NTPClient library. Lets look at a diagram explaining both this an how the millis() overflow is handled.
 
-Diagram of the millis() overflow prevention logic:
-![time_management]()
+Diagram of the time management:
+![time_management](assets/time_management.png)
 
 As mentioned before the millis() funciton overflows after about 49 days. In order to prevent this in [time_management](src/time_management.cpp) you can find the funcion check_and_update_offset at the end of the file which is called every time long waiting periods are expected to occur. The function compares the current value of millis() to the last_offset and if the current value is smaller than the last_offset it means that millis() overflowed and the time and the init_offset have to be updated. Since we wont hit exactly the moment of overflow the function now checks millis() to see how much time passed since the overflow and reinitializes the time with the current offset.
 

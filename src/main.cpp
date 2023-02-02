@@ -214,6 +214,8 @@ void handle_program() {
 
   // send name and code of selected program
   server.send(200, "text/plain", PROGRAMNAME + ";" + PROGRAMCODE);
+
+  PROGRAMNAME = "";
 }
 
 /**
@@ -591,11 +593,6 @@ void handle_form() {
   // no program is selected
   else if (selected_program == "" && edit_program_button != "") {
 	MESSAGE = "no program selected";
-  }
-
-  // edit button is not pressed and therefor PROGRAMNAME is reset
-  if (edit_program_button == "") {
-	PROGRAMNAME = "";
   }
   
   // sends user back to root

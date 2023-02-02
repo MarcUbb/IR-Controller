@@ -148,7 +148,7 @@ String sending_workflow(String signal_name) {
 String adding_workflow(String program_name, String program_code) {
 
   // generate filename
-  String filename = "/programs/" + program_name + ".json";
+  String filename = "/programs/" + program_name + ".txt";
 
   // start filesystem
   LittleFS.begin();
@@ -196,7 +196,7 @@ String adding_workflow(String program_name, String program_code) {
 String playing_workflow(String program_name) {
 
   // generate filename
-  String filename = "/programs/" + program_name + ".json";
+  String filename = "/programs/" + program_name + ".txt";
 
   // check if file exists 
   if (check_if_file_exists(filename) == false) {

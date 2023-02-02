@@ -349,7 +349,7 @@ String get_files(String folder_signals, String folder_programs){
     // sets programs to true if there is at least one program
     programs = true;
     String filename = dir.fileName();
-    filename = filename.substring(0, filename.length() - 5);
+    filename = filename.substring(0, filename.length() - 4);
     files += filename;
     files += ",";
   }
@@ -402,7 +402,7 @@ boolean check_if_file_exists(String filename) {
 String read_program(String program_name){
 
   // declare variables
-  String filename = "/programs/" + program_name + ".json";
+  String filename = "/programs/" + program_name + ".txt";
   String file_content = "";
 
   // check if file exists
