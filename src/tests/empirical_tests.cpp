@@ -69,10 +69,12 @@ boolean empirical_test_get_NTP_time() {
 		// wait random time between checks from 1.5s to 3s (problems occured when frequency was below or at 1 request per second)
 		unsigned long random_time = random(2500, 3500);
 		delay(random_time);
+		unsigned long start_time = millis();
 
 		previous_doc = current_doc;
 		// get NTP time
 		init_time();
+		unsigned long execution_time = millis() - start_time;
 
 		current_doc = load_json("/time.json");
 
@@ -94,7 +96,7 @@ boolean empirical_test_get_NTP_time() {
 		unsigned long previous_init_offset = previous_doc["init_offset"];
 
 		// check if data is correct (change of day not respected because its in my control)
-		if (current_timezone != previous_timezone || current_weekday != previous_weekday || (current_init_offset - previous_init_offset) > (500 + random_time) || (current_last_offset - previous_last_offset) > (500 + random_time * 1000)) {
+		if (current_timezone != previous_timezone || current_weekday != previous_weekday || (current_init_offset - previous_init_offset) > (500 + random_time + execution_time) || (current_last_offset - previous_last_offset) > (500 + random_time + execution_time)) {
 			Serial.println("\e[0;31memprical_test_get_NTP_time: FAILED");
 			Serial.println("expected: timezone and weekday are the same and init_offset and last_offset are increasing by max 500ms + random_time");
 			Serial.print("actual: timezones:" + String(current_timezone) + " != " + String(previous_timezone));
@@ -112,7 +114,7 @@ boolean empirical_test_get_NTP_time() {
 		// calculate expected values for hours, minutes and seconds
 		int expected_hours = previous_hours;
 		int expected_minutes = previous_minutes;
-		int expected_seconds = previous_seconds + ((millis() - previous_init_offset) + 500)/1000;
+		int expected_seconds = previous_seconds + ((millis() - previous_init_offset))/1000;
 
 		if (expected_seconds >= 60) {
 			expected_minutes++;

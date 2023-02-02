@@ -417,9 +417,6 @@ String read_program(String program_name){
     file_content += (char)file.read();
   }
 
-  // cut last 2 characters (newline and EOF)
-  file_content = file_content.substring(0, file_content.length() - 2);
-
   file.close();
   LittleFS.end();
 

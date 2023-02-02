@@ -134,7 +134,7 @@ void update_time(String time, boolean AP_mode){
     time_json["timezone"] = timezone;
     time_json.shrinkToFit();
   }
-  
+
   else {
     // update time and timezone when in AP mode
     time_json["hours"] = time_only.substring(0, time_only.indexOf(":")).toInt();
@@ -337,7 +337,13 @@ void init_time(){
   WiFiUDP ntpUDP;
   NTPClient timeClient(ntpUDP, "pool.ntp.org", timezone);
   timeClient.begin();
-  timeClient.update();
+
+  // try to retrieve time from NTP server for 5s
+  unsigned long startTime = millis();
+
+  while (!timeClient.update() && (millis() - startTime) < 5000) {
+    delay(10);
+  }
 
   // get time and weekday
   String time = timeClient.getFormattedTime();

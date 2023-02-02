@@ -31,7 +31,7 @@ void setup() {
 
   // optional: run tests (uncomment "include tests.h" in main.h before production)
   //run_all_tests(false);
-  run_all_empirical_tests(false);
+  //run_all_empirical_tests(false);
 
   // start LittleFS
   LittleFS.begin();

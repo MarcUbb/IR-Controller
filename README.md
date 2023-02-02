@@ -34,6 +34,8 @@ IR-Controller
 |   ├───...
 ├───.vscode                           // VSCode
 |   ├───...
+├───assets                            // assets for documentation
+|   ├───...
 ├───docs                              // Doxygen output
 │   ├───html
 |   |   ├───index.html                // Main Page of Code Documentation
@@ -125,13 +127,13 @@ In AP-mode the device creates an access point in which it operates. The user con
 The Signal/Program Management includes recording signals, saving and loading signals and programs and playing signals or executing programs.
 
 Diagram of the Signal/Program Management:
-![Signal/Program_Management](
+![Signal/Program_Management]()
 
 ### Webserver
 The webserver is responsible for the communication between the device and the user. It therfore includes receive commands from the user and displaying the current state of the device to the user.
 
 Diagram of the Webserver:
-![Webserver](
+![Webserver]()
 
 As you can see in the [website.html](include/website.html) file the website makes heavy use of the nature of the HTML form element. Since HTML form elements automatically trigger a get request on their specific action url containing the specified data they make it very easy to send data from the website to the device. To display the current state of the device which includes saved signals and programs or if the device is in Access Point or Station mode the website sends a get request to the device each time the website is reloaded.
 
@@ -150,15 +152,12 @@ The time is saved in the /time.json and has following format:
     "last_offset": <offset>
 }
 ```
-Hours, minutes and seconds dont need any explenation, weekday is saved as a number from 0 to 6 where 0 is Sunday and 6 is Saturday. The timezone is saved in seconds i. e. GMT+1 is saved as 3600. The init_offset is the offset that was used to initialize the time. The last_offset is the offset at which the last overflow check took place (this becomes important later). Lets look at the initialization and update of the time.
+Hours, minutes and seconds dont need any explenation, weekday is saved as a number from 0 to 6 where 0 is Sunday and 6 is Saturday. The timezone is saved in seconds i. e. GMT+1 is saved as 3600. The init_offset is the offset that was used to initialize the time. The last_offset is the offset at which the last overflow check took place (this becomes important later).
 
-Diagram of the Time initialization and update:
-![Time_Management]()
-
-The time gets initialized with time from an NTP server (saved timezone is respected if no timezone is saved GMT is used). If the device is not connected to the internet the request to the NTP server will fail and by NTPClient library default the time will be initialized with millis(). If that happens the user will have to update the time manually via the web interface. If the device is in AP-mode the user updates the time completly. If the device is in STA-mode the user can only update the timezone. The rest was done automatically by the NTPClient library. Lets look at how I prevented millis() from overflowing.
+The time gets initialized with time from an NTP server (saved timezone is respected if no timezone is saved GMT is used). If the device is not connected to the internet the request to the NTP server will fail and by NTPClient library default the time will be initialized with millis(). If that happens the user will have to update the time manually via the web interface. If the device is in AP-mode the user updates the time completly. If the device is in STA-mode the user can only update the timezone. The rest was done automatically by the NTPClient library. Lets look at a diagram explaining both this an how the millis() overflow is handled.
 
 Diagram of the millis() overflow prevention logic:
-![Millis_overflow]()
+![time_management]()
 
 As mentioned before the millis() funciton overflows after about 49 days. In order to prevent this in [time_management](src/time_management.cpp) you can find the funcion check_and_update_offset at the end of the file which is called every time long waiting periods are expected to occur. The function compares the current value of millis() to the last_offset and if the current value is smaller than the last_offset it means that millis() overflowed and the time and the init_offset have to be updated. Since we wont hit exactly the moment of overflow the function now checks millis() to see how much time passed since the overflow and reinitializes the time with the current offset.
 

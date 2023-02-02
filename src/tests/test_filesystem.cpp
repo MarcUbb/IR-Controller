@@ -498,7 +498,7 @@ boolean test_read_program() {
 	// create test file
 	LittleFS.begin();
 	File file = LittleFS.open("/programs/test.json", "w");
-	file.println("play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend");
+	file.println(String("play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend").c_str());
 	file.close();
 	LittleFS.end();
 
