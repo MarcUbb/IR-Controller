@@ -112,7 +112,7 @@ boolean run_all_time_management_tests(boolean stop_on_error) {
 	if(!check && stop_on_error) return check;
 	if(!check) {set_check = false;}
 
-	check = test_get_NTP_time();
+	check = test_init_time();
 	if(!check && stop_on_error) return check;
 	if(!check) {set_check = false;}
 

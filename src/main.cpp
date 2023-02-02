@@ -29,16 +29,14 @@ void setup() {
   Serial.setDebugOutput(true);
   delay(500);
 
-  // read config file (if ESP is in AP mode or not)
-
   // optional: run tests (uncomment "include tests.h" in main.h before production)
   //run_all_tests(false);
-  //run_all_empirical_tests(false);
+  run_all_empirical_tests(false);
 
   // start LittleFS
   LittleFS.begin();
 
-  // read config file
+  // read config file (if ESP is in AP mode or not)
   File configFile = LittleFS.open("/config.txt", "r");
 
   // get content of file
@@ -270,7 +268,9 @@ void handle_time() {
 
   // get time from client (saved in hidden dummy text input field on website)
   // time in format: "weekday hh:mm:ss timezone"
-  String time = server.arg("time_dummy");
+  String time = server.arg("weekday_time");
+
+  Serial.println(time);
 
   // update time (update only timezone when not in AP-mode because NTP time is more precise)
   update_time(time, SESSION_AP);  

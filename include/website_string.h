@@ -77,13 +77,9 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 
   <br><hr><br>
 
-  <form action="/time">
-    <input id="sync_button" type="submit" name="time_sync_button" value="sync time">
-    <!-- on reload time is written in invisible input field of form-->
-    <input style="visibility: hidden" id="time_dummy" name="time_dummy" type="text" placeholder>
-  </form>
+  <button id="sync_button" name="time_sync_button" onclick="send_time()">sync timezone</button>
 
-  <br>
+  <br><br>
 
   <form action="/credentials">
     <input type="submit" name="reset_credentials_button" value="reset WiFi credentials">
@@ -130,6 +126,24 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       localStorage.setItem('current_program', document.getElementById('selected_program').value);
     };
 
+    function send_time() {
+      /*
+      This function sends the current time to the ESP8266.
+      It is used to synchronize the time of the ESP8266 with the time of the user.
+      */
+
+      // gets current time zone
+      var today = new Date()
+      var weekday_time = today.getDay() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+      var timezone = today.getTimezoneOffset();
+
+      // sends time zone to ESP8266
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("GET", "/time?weekday_time=" + weekday_time + " " + timezone, true);
+      window.location = "/time"
+      xhttp.send();
+    }
+
     // Inspired by: https://circuitdigest.com/microcontroller-projects/ajax-with-esp8266-dynamic-web-page-update-without-reloading
     function get_data() {
       /*
@@ -140,14 +154,6 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
       - inserts the code name and code in the corresponding fields if the user wants to edit a program
       - updates the error message
       */
-
-      // gets current time zone
-      var today = new Date()
-      var weekday_time = today.getDay() + " " + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-      var timezone = today.getTimezoneOffset();
-
-      // writes time zone to invisible input field
-      document.getElementById("time_dummy").value = weekday_time + " " + timezone;
 
       // checks if this is the first time the user opens the website
       if (localStorage.getItem("hasCodeRunBefore") === null) {
@@ -242,7 +248,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
           if (response == "true") {
             // change button texts
             document.getElementById("apmode_button").value = "Disable AP mode";
-            document.getElementById("sync_button").value = "Sync time";
+            document.getElementById("sync_button").innerHTML = "sync time";
 
             // show password form
             document.getElementById("change_password").style.visibility= "visible";
@@ -253,7 +259,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
           else if (response == "false") {
             // change button texts
             document.getElementById("apmode_button").value = "Enable AP mode";
-            document.getElementById("sync_button").value = "Sync timezone";
+            document.getElementById("sync_button").innerHTML = "sync timezone";
 
             // hide password form
             document.getElementById("change_password").style.visibility= "hidden";
@@ -274,7 +280,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     
     // displays help message for program
     function info_program(){
-      alert("A program is a signal of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds (max. wait time: 4294967295)\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n5. skip-command  Example: 'skip 3' to skip 3 days (72h)\n6. loop-command  Example:\n'loop 4\nplay signal1\nend'\nto loop a part of the program for a specified amount of times (if you write 'inf' instead of a number it will loop indefinatelly)\n\nPlease write every command in a new line. Have Fun! For more information: https://github.com/MarcUbb/IR-Controller .");
+      alert("A program is a signal of infrared signals that you can program. To do this, give the program a name and write the code in the field provided. Currently the following commands are supported: \n\n1. play-command  Example: 'play signal_name'\n2. wait-command  Example: 'wait 2000' to wait 2 seconds (max. wait time: 4294967295)\n3. timed-programs  Example: '12:03:21 signal_name' to play a signal the next time this time is reached\n4. day-timed-programs  Example: 'Monday 17:21:55 signal_name' to play a signal the next time its monday and when the time is as sepcified.\n5. skip-command  Example: 'skip 3' to skip 3 days (72h) (max. skip days: 49 days)\n6. loop-command  Example:\n'loop 4\nplay signal1\nend'\nto loop a part of the program for a specified amount of times (if you write 'inf' instead of a number it will loop indefinatelly)\n\nPlease write every command in a new line. Have Fun! For more information: https://github.com/MarcUbb/IR-Controller .");
     }
 
   </script>

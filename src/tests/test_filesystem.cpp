@@ -28,7 +28,7 @@ boolean test_capture_signal() {
   unsigned long elapsed_time = end_time - start_time;
 
 	// checks if return value is correct and if execution time is normal
-  if (return_val != "no_signal" || elapsed_time > 10000 || elapsed_time < 11000) {
+  if (return_val != "no_signal" || elapsed_time < 10000 || elapsed_time > 11000) {
     Serial.println("\e[0;31mtest_capture_signal: FAILED");
     Serial.println("return value: " + return_val + " , elapsed time: " + elapsed_time + "\e[0;37m");
     return(false);	

@@ -134,6 +134,7 @@ void update_time(String time, boolean AP_mode){
     time_json["timezone"] = timezone;
     time_json.shrinkToFit();
   }
+  
   else {
     // update time and timezone when in AP mode
     time_json["hours"] = time_only.substring(0, time_only.indexOf(":")).toInt();
@@ -329,6 +330,8 @@ void init_time(){
   // read timezone from LittleFS
   DynamicJsonDocument saved_time = load_json("/time.json");
   int timezone = saved_time["timezone"];
+
+  Serial.println("Timezone: " + String(timezone));
 
   // initialize NTP client
   WiFiUDP ntpUDP;

@@ -32,7 +32,7 @@ boolean test_update_time();
 boolean test_get_current_time();
 boolean test_turn_seconds_in_time();
 boolean test_add_time();
-boolean test_get_NTP_time();
+boolean test_init_time();
 boolean test_check_and_update_offset();
 
 boolean test_deleting_workflow();

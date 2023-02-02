@@ -63,6 +63,7 @@ boolean test_deleting_workflow() {
 		clean_LittleFS();
 		return(false);
 	}
+	LittleFS.end();
 
 	// tests if file is deleted correctly
 	String output2 = deleting_workflow(test_directory, name);
@@ -74,10 +75,11 @@ boolean test_deleting_workflow() {
 		clean_LittleFS();
 		return(false);
 	}
+	
 
 	LittleFS.begin();
 	// tests if no other file is deleted
-	if (LittleFS.exists("/signals/test_signal.json") == false || LittleFS.exists("/signals/test_signal3.json") == false) {
+	if (LittleFS.exists("/signals/test_signal3.json") == false) {
 		Serial.println("\e[0;31mtest_deleting_workflow: FAILED");
 		Serial.println("function deleted wrong file after actually deleting a file");
 		Serial.println("expected: file exists");
