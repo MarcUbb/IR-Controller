@@ -57,7 +57,7 @@ String deleting_workflow(String directory, String name) {
  * "error message" - no signal was captured
  * 
  * @details This function records a signal and saves it to a file in the LitteFS with
- * the signals name.
+ * the signals name. (spaces at the end of the signal name will be removed)
  * 
  * @callgraph
  * 
@@ -73,6 +73,11 @@ String recording_workflow(String signal_name) {
     return("failed to record signal");
   }
   Serial.println(raw_sequence);
+
+  // remove spaces at the end of the signal name
+  while(signal_name.lastIndexOf(" ") == signal_name.length() - 1){
+    signal_name.remove(signal_name.length() - 1);
+  }
 
   // save signal to file
   String message = save_signal(raw_sequence, signal_name);
@@ -104,9 +109,12 @@ String recording_workflow(String signal_name) {
  * @callergraph
  */
 String sending_workflow(String signal_name) {
- 
+  // TODO: fix problem that signal name is not found when playing signals in program
+  Serial.println("|" + signal_name + "|");
   // generate filename
   String filename = "/signals/" + signal_name + ".json";
+
+  Serial.println(filename);
 
   // check if file exists
   if (check_if_file_exists(filename) == false) {

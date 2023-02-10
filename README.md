@@ -276,6 +276,6 @@ The Powersupply is the last component that I want to talk about. It is the Mean 
 The schematic of the device is shown below. It is a very simple circuit that is easy to understand. All devices are powered by the power supply which is filtered by several condensators. The IR-LED is controlled by a n-channel transistor (IRLML6344) which is pulled down. The device features 2 push buttons and 1 on/off switch. Both the reset and stop button are pulled down. The ESP8266-12F can be programmed via a USB to serial converter (i.e. FT232RL) that has to be connected to the J1 Header Pin connector. Note that RXD has to be connected to TXD on the Serial to USB converter (and TXD to RXD). Additionally the device has to be powered by the power supply since the Serial to USB Converter is not able to power the ESP by itself. Also make sure the Serial to USB Converter is set to 3.3V.
 
 Schematic:
-![schematic](schematic.png)
+![schematic](assets/schematic.png)
 
 ---

@@ -4,7 +4,7 @@
 <area shape="rect" id="node17" href="$empirical__tests_8cpp.html#aabb22a5cfde24cd08a45763709e04503" title="Tests empirically the function get_NTP_time()" alt="" coords="1303,5,1445,47"/>
 <area shape="rect" id="node18" href="$time__management_8cpp.html#a79f5fec2131038665d4240b7b761f15a" title="Loads the current time from LittleFS." alt="" coords="1516,265,1649,291"/>
 <area shape="rect" id="node20" href="$time__management_8cpp.html#a55657da39648ec7114a18e7cb7fbc915" title="Gets time from NTP server." alt="" coords="1543,113,1623,139"/>
-<area shape="rect" id="node21" href="$test__time__management_8cpp.html#a1e3f5cd42c40520d5fbfc9c70ba58f76" title="Unit test for the function &quot;get_NTP_time&quot;." alt="" coords="1301,127,1447,154"/>
+<area shape="rect" id="node21" href="$test__time__management_8cpp.html#a6e27ce37b55f747d8bd8ddf243400644" title="Unit test for the function &quot;get_NTP_time&quot;." alt="" coords="1318,127,1430,154"/>
 <area shape="rect" id="node22" href="$workflows_8cpp.html#ac66d9f916af4fef55538c5cf0be70989" title="This function loads a signal from a file and sends it." alt="" coords="1075,341,1215,367"/>
 <area shape="rect" id="node24" href="$test__filesystem_8cpp.html#ac493a0e24d2dff0c1de7362d234f2d29" title="Unit test for the function &quot;load_json&quot;." alt="" coords="1525,389,1641,415"/>
 <area shape="rect" id="node25" href="$time__management_8cpp.html#a11b9f043cd67f782c7b8c49ffd0f51cb" title="Updates the time in the LittleFS." alt="" coords="1531,477,1635,503"/>

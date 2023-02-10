@@ -20,7 +20,7 @@
 <area shape="rect" id="node8" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,391,64,418"/>
 <area shape="rect" id="node14" href="$test__workflows_8cpp.html#ac853f5e0d739b212618bd92ce084f9fd" title="Unit test for the function &quot;handle_wait_command&quot;." alt="" coords="804,290,1009,317"/>
 <area shape="rect" id="node18" href="$empirical__tests_8cpp.html#aabb22a5cfde24cd08a45763709e04503" title="Tests empirically the function get_NTP_time()" alt="" coords="1311,5,1453,47"/>
-<area shape="rect" id="node19" href="$test__time__management_8cpp.html#a1e3f5cd42c40520d5fbfc9c70ba58f76" title="Unit test for the function &quot;get_NTP_time&quot;." alt="" coords="1309,71,1455,98"/>
+<area shape="rect" id="node19" href="$test__time__management_8cpp.html#a6e27ce37b55f747d8bd8ddf243400644" title="Unit test for the function &quot;get_NTP_time&quot;." alt="" coords="1326,71,1438,98"/>
 <area shape="rect" id="node21" href="$workflows_8cpp.html#af3762d2fcc0a63fdbe4a96b6c6aedd5b" title="This function records and saves a signal." alt="" coords="1307,341,1457,367"/>
 <area shape="rect" id="node23" href="$test__filesystem_8cpp.html#a6eff92c8e6a62b4e284d4124c985edb2" title="Unit test for the function &quot;save_signal&quot;." alt="" coords="1317,391,1447,418"/>
 <area shape="rect" id="node22" href="$test__workflows_8cpp.html#a07e33087241b5482b475773f885015ed" title="Unit test for the function &quot;recording_workflow&quot;." alt="" coords="1057,442,1240,469"/>

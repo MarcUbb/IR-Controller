@@ -58,7 +58,7 @@ boolean \mbox{\hyperlink{tests_8h_ad26ff1c7b4c3bb2f4a1fb0ee31c9ecc8}{test\+\_\+t
 \begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}turn\+\_\+seconds\+\_\+in\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
 boolean \mbox{\hyperlink{tests_8h_a7beae3d56bddfc62d5ad4d00e31a4029}{test\+\_\+add\+\_\+time}} ()
 \begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}add\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
-boolean \mbox{\hyperlink{tests_8h_a1e3f5cd42c40520d5fbfc9c70ba58f76}{test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time}} ()
+boolean \mbox{\hyperlink{tests_8h_a6e27ce37b55f747d8bd8ddf243400644}{test\+\_\+init\+\_\+time}} ()
 \begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}get\+\_\+\+N\+T\+P\+\_\+time\char`\"{}. \end{DoxyCompactList}\item 
 boolean \mbox{\hyperlink{tests_8h_a57bbab4c6324d9f66a780319aa1c1866}{test\+\_\+check\+\_\+and\+\_\+update\+\_\+offset}} ()
 \begin{DoxyCompactList}\small\item\em Unit test for the function \char`\"{}check\+\_\+and\+\_\+update\+\_\+offset\char`\"{}. \end{DoxyCompactList}\item 
@@ -542,31 +542,6 @@ boolean -\/ true if the test passed, false if the test failed
 \begin{DoxySeeAlso}{See also}
 \mbox{\hyperlink{filesystem_8cpp_a57b2a7efc18f0e2b29d17382c2c9aca5}{get\+\_\+files}} 
 \end{DoxySeeAlso}
-\mbox{\Hypertarget{tests_8h_a1e3f5cd42c40520d5fbfc9c70ba58f76}\label{tests_8h_a1e3f5cd42c40520d5fbfc9c70ba58f76}} 
-\index{tests.h@{tests.h}!test\_get\_NTP\_time@{test\_get\_NTP\_time}}
-\index{test\_get\_NTP\_time@{test\_get\_NTP\_time}!tests.h@{tests.h}}
-\doxysubsubsection{\texorpdfstring{test\_get\_NTP\_time()}{test\_get\_NTP\_time()}}
-{\footnotesize\ttfamily boolean test\+\_\+get\+\_\+\+N\+T\+P\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
-
-
-
-Unit test for the function \char`\"{}get\+\_\+\+N\+T\+P\+\_\+time\char`\"{}. 
-
-\begin{DoxyReturn}{Returns}
-boolean -\/ true if the test passed, false if the test failed
-\end{DoxyReturn}
-
-\begin{DoxyItemize}
-\item Setup\+: -\/
-\end{DoxyItemize}
-\begin{DoxyEnumerate}
-\item checks if the document is empty (since Wifi is not available)
-\item functionality is tested empirically
-\end{DoxyEnumerate}
-
-\begin{DoxySeeAlso}{See also}
-get\+\_\+\+N\+T\+P\+\_\+time 
-\end{DoxySeeAlso}
 \mbox{\Hypertarget{tests_8h_a8bf77dec2d5c5c9fca6d6d9491e929d2}\label{tests_8h_a8bf77dec2d5c5c9fca6d6d9491e929d2}} 
 \index{tests.h@{tests.h}!test\_handle\_times\_commands@{test\_handle\_times\_commands}}
 \index{test\_handle\_times\_commands@{test\_handle\_times\_commands}!tests.h@{tests.h}}
@@ -617,6 +592,31 @@ boolean -\/ true if the test passed, false if the test failed
 
 \begin{DoxySeeAlso}{See also}
 \mbox{\hyperlink{workflows_8cpp_a4c38b70181fc74cd62f0a7529ffaf796}{handle\+\_\+wait\+\_\+command}} 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{tests_8h_a6e27ce37b55f747d8bd8ddf243400644}\label{tests_8h_a6e27ce37b55f747d8bd8ddf243400644}} 
+\index{tests.h@{tests.h}!test\_init\_time@{test\_init\_time}}
+\index{test\_init\_time@{test\_init\_time}!tests.h@{tests.h}}
+\doxysubsubsection{\texorpdfstring{test\_init\_time()}{test\_init\_time()}}
+{\footnotesize\ttfamily boolean test\+\_\+init\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Unit test for the function \char`\"{}get\+\_\+\+N\+T\+P\+\_\+time\char`\"{}. 
+
+\begin{DoxyReturn}{Returns}
+boolean -\/ true if the test passed, false if the test failed
+\end{DoxyReturn}
+
+\begin{DoxyItemize}
+\item Setup\+: -\/
+\end{DoxyItemize}
+\begin{DoxyEnumerate}
+\item checks if the document is empty (since Wifi is not available)
+\item functionality is tested empirically
+\end{DoxyEnumerate}
+
+\begin{DoxySeeAlso}{See also}
+get\+\_\+\+N\+T\+P\+\_\+time 
 \end{DoxySeeAlso}
 \mbox{\Hypertarget{tests_8h_ac493a0e24d2dff0c1de7362d234f2d29}\label{tests_8h_ac493a0e24d2dff0c1de7362d234f2d29}} 
 \index{tests.h@{tests.h}!test\_load\_json@{test\_load\_json}}

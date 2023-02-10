@@ -39,6 +39,8 @@ The project is structured as follows\+:
 \DoxyCodeLine{|   ├───...}
 \DoxyCodeLine{├───.vscode                           // VSCode}
 \DoxyCodeLine{|   ├───...}
+\DoxyCodeLine{├───assets                            // assets for documentation}
+\DoxyCodeLine{|   ├───...}
 \DoxyCodeLine{├───docs                              // Doxygen output}
 \DoxyCodeLine{│   ├───html}
 \DoxyCodeLine{|   |   ├───index.html                // Main Page of Code Documentation}
@@ -71,7 +73,7 @@ The project is structured as follows\+:
 \DoxyCodeLine{│   ├───filesystem.cpp}
 \DoxyCodeLine{│   ├───...}
 \DoxyCodeLine{├───Doxyfile                          // Doxygen Configuration}
-\DoxyCodeLine{├───platformio.ini                    // PlatformIO Configuration}
+\DoxyCodeLine{└───platformio.ini                    // PlatformIO Configuration}
 \end{DoxyCode}
 
 
@@ -96,7 +98,7 @@ Wi\+Fi\+Manager is a library that allows you to connect to a Wi\+Fi network by e
 
 \DoxyHorRuler{0}
  \hypertarget{index_autotoc_md18}{}\doxysubsection{Logical Structure}\label{index_autotoc_md18}
-In this section I want to give you a high level overview of the logical structure of the software. I grouped them into different parts that I found to be the most important. I will start each section with a diagram which should explain its structure for the most part but of cause I will also axplain each part in detail.\hypertarget{index_autotoc_md19}{}\doxysubsubsection{Setup}\label{index_autotoc_md19}
+In this section I want to give you a high level overview of the logical structure of the software. I grouped them into different parts that I found to be the most important. I will explain each section in detail.\hypertarget{index_autotoc_md19}{}\doxysubsubsection{Setup}\label{index_autotoc_md19}
 The device setup includes every step that is necessarey to reach the normal operation state which in best case will after the initial setup be the starting point after rebooting.
 
 Diagram of the Setup\+: 
@@ -105,38 +107,71 @@ As you can see in the diagram the device can operate in 2 different modes\+: A\+
 
 By default the device will enter S\+T\+A-\/mode which means that it wants to connect to a Wi\+Fi network. In order to do so the device makes use of the Wi\+Fi\+Manager library which enables it to briefly creates an access point to which the user has to connect. The user can then enter the credentials of the Wi\+Fi network he wants to connect to. The device will then try to connect to the network. If the connection is successful the device will now operate in S\+T\+A-\/mode. If the connection fails the device will reboot and ask you again to enter the credentials. Alternatively you can also connect to your router via W\+PS. In order to do so you have to press the W\+PS on your router and then the button on the UI. If you want to connect to the device directly without using a Wi\+Fi network you can switch to A\+P-\/mode by pressing the button in the UI.
 
-In A\+P-\/mode the device creates an access point in which it operates. The user connects to the access point via smartphone or computer. The access point is password secured and the user can change the password in the UI. Finally the time has to be set manually as the device does not have an external R\+TC.\hypertarget{index_autotoc_md20}{}\doxysubsubsection{Signal/\+Program Management}\label{index_autotoc_md20}
-The Signal/\+Program Management includes recording signals, saving and loading signals and programs and playing signals or executing programs.
+In A\+P-\/mode the device creates an access point in which it operates. The user connects to the access point via smartphone or computer. The access point is password secured and the user can change the password in the UI. Finally the time has to be set manually as the device does not have an external R\+TC.\hypertarget{index_autotoc_md20}{}\doxysubsubsection{Little\+FS}\label{index_autotoc_md20}
+The Little\+FS is the filesystem of the E\+S\+P8266. It is used to stors the signals and program the user creates. It is also used to store time data, the password of the access point and the mode the device is currently in. Let me start by explaining the structure of the filesystem.
 
-Diagram of the Signal/\+Program Management\+: !\mbox{[}Signal/\+Program\+\_\+\+Management\mbox{]}(\hypertarget{index_autotoc_md21}{}\doxysubsubsection{Webserver}\label{index_autotoc_md21}
+Diagram of the Little\+FS\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{ESP8266 LittleFS}
+\DoxyCodeLine{├───signals              // Folder for the signals}
+\DoxyCodeLine{│   ├───signal1.json}
+\DoxyCodeLine{│   ├───signal2.json}
+\DoxyCodeLine{│   ├───...}
+\DoxyCodeLine{├───programs            // Folder for the programs}
+\DoxyCodeLine{│   ├───program1.txt}
+\DoxyCodeLine{│   ├───program2.txt}
+\DoxyCodeLine{│   ├───...}
+\DoxyCodeLine{├───time.json           // File for the time data}
+\DoxyCodeLine{├───password.txt        // File for the password of the access point}
+\DoxyCodeLine{└───config.txt          // File for the mode the device is currently in (AP or STA)}
+\end{DoxyCode}
+
+
+As you can see the signals and programs are stored in their designated folders. What does the data inside the files look like? This differs from file to file. The data in the signal files is stored in json format and looks like this\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{  "name": <signal\_name>,}
+\DoxyCodeLine{  "length": <signal\_length>,}
+\DoxyCodeLine{  "sequence": <signal\_sequence>}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+
+
+The data in the program files however is stored as a normal C-\/\+String. This is because only the program code has to be stored in the file and this makes handling the data easier.
+
+In general the signal and program files are modified by the functions in the \href{src/filesystem.cpp}{\texttt{ filesystem.\+cpp}} file. The functions are called by functions from the \href{src/workflows.cpp}{\texttt{ workflows.\+cpp}} file which is responsible for the high level logic of the device.
+
+The files from the root directory define the configuration and state of the device and are modified partly directly by the handler functions in \href{src/main.cpp}{\texttt{ main.\+cpp}}.\hypertarget{index_autotoc_md21}{}\doxysubsubsection{Webserver}\label{index_autotoc_md21}
 The webserver is responsible for the communication between the device and the user. It therfore includes receive commands from the user and displaying the current state of the device to the user.
 
-Diagram of the Webserver\+: !\mbox{[}Webserver\mbox{]}(
+Diagram of the Webserver\+: 
 
-As you can see in the \href{include/website.html}{\texttt{ website.\+html}} file the website makes heavy use of the nature of the H\+T\+ML form element. Since H\+T\+ML form elements automatically trigger a get request on their specific action url containing the specified data they make it very easy to send data from the website to the device. To display the current state of the device which includes saved signals and programs or if the device is in Access Point or Station mode the website sends a get request to the device each time the website is reloaded.\hypertarget{index_autotoc_md22}{}\doxysubsubsection{Time Management}\label{index_autotoc_md22}
+Since I used a synchronous webserver UI updates are only possible after the user reloads the website. This means that after each input the website will be reloaded. This is not a problem since the website is very lightweight and the user will not notice any delay.
+
+As you can see in the \href{include/website.html}{\texttt{ website.\+html}} file the website makes heavy use of the nature of the H\+T\+ML form element. Since H\+T\+ML form elements automatically trigger a get request on their specific action url containing the specified data they make it very easy to send data from the website to the device. To display the current state of the device which includes saved signals and programs or if the device is in Access Point or Station mode the website sends a get request to the device each time the website is reloaded which the device then responds to with the current state.
+
+There is one exception which I would like to point out here. The edit function of the website is the only function that involves the device sending data which is dependant on the websites state. This means that the website hast to send a get request via the form element to the device which then responds with the data. Since the dropdown menu is part of a html form element that triggers a redirect to the url of the get the device has to answer with a redirect to the root url. So there is no space for another http header in the response. The solution I came up with is to let the backend set the variable P\+R\+O\+G\+R\+A\+M\+N\+A\+ME to the selected program whenever the edit button is pressed and then send the code of that program every time the website is reloaded. After each reload the variable is set to \char`\"{}\char`\"{} again. This results in the desired behavior.\hypertarget{index_autotoc_md22}{}\doxysubsubsection{Time Management}\label{index_autotoc_md22}
 Time Management turned out to be more complicated than I initially thought. This is mostly due to the fact that the millis() function overflows after about 49 days and that one requirement was to be able to execute timed programs even without internet connection. Thats why I want to dedicate this section to it.
 
 The time is saved in the /time.json and has following format\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\{}
-\DoxyCodeLine{    "hours": <hh>,}
-\DoxyCodeLine{    "minutes": <mm>,}
-\DoxyCodeLine{    "seconds": <ss>,}
-\DoxyCodeLine{    "weekday": <w>,}
-\DoxyCodeLine{    "timezone": GMT+<timezone>,}
-\DoxyCodeLine{    "init\_offset": <offset>,}
-\DoxyCodeLine{    "last\_offset": <offset>}
+\DoxyCodeLine{  "hours": <hh>,}
+\DoxyCodeLine{  "minutes": <mm>,}
+\DoxyCodeLine{  "seconds": <ss>,}
+\DoxyCodeLine{  "weekday": <w>,}
+\DoxyCodeLine{  "timezone": GMT+<timezone>,}
+\DoxyCodeLine{  "init\_offset": <offset>,}
+\DoxyCodeLine{  "last\_offset": <offset>}
 \DoxyCodeLine{\}}
 \end{DoxyCode}
 
 
-Hours, minutes and seconds dont need any explenation, weekday is saved as a number from 0 to 6 where 0 is Sunday and 6 is Saturday. The timezone is saved in seconds i. e. G\+M\+T+1 is saved as 3600. The init\+\_\+offset is the offset that was used to initialize the time. The last\+\_\+offset is the offset at which the last overflow check took place (this becomes important later). Lets look at the initialization and update of the time.
+Hours, minutes and seconds dont need any explenation, weekday is saved as a number from 0 to 6 where 0 is Sunday and 6 is Saturday. The timezone is saved in seconds i. e. G\+M\+T+1 is saved as 3600. The init\+\_\+offset is the offset that was used to initialize the time. The last\+\_\+offset is the offset at which the last overflow check took place (this becomes important later).
 
-Diagram of the Time initialization and update\+: !\mbox{[}Time\+\_\+\+Management\mbox{]}()
+The time gets initialized with time from an N\+TP server (saved timezone is respected if no timezone is saved G\+MT is used). If the device is not connected to the internet the request to the N\+TP server will fail and by N\+T\+P\+Client library default the time will be initialized with millis(). If that happens the user will have to update the time manually via the web interface. If the device is in A\+P-\/mode the user updates the time completly. If the device is in S\+T\+A-\/mode the user can only update the timezone. The rest was done automatically by the N\+T\+P\+Client library. Lets look at a diagram explaining both this an how the millis() overflow is handled.
 
-The time gets initialized with time from an N\+TP server (saved timezone is respected if no timezone is saved G\+MT is used). If the device is not connected to the internet the request to the N\+TP server will fail and by N\+T\+P\+Client library default the time will be initialized with millis(). If that happens the user will have to update the time manually via the web interface. If the device is in A\+P-\/mode the user updates the time completly. If the device is in S\+T\+A-\/mode the user can only update the timezone. The rest was done automatically by the N\+T\+P\+Client library. Lets look at how I prevented millis() from overflowing.
-
-Diagram of the millis() overflow prevention logic\+: !\mbox{[}Millis\+\_\+overflow\mbox{]}()
+Diagram of the time management\+: 
 
 As mentioned before the millis() funciton overflows after about 49 days. In order to prevent this in \href{src/time_management.cpp}{\texttt{ time\+\_\+management}} you can find the funcion check\+\_\+and\+\_\+update\+\_\+offset at the end of the file which is called every time long waiting periods are expected to occur. The function compares the current value of millis() to the last\+\_\+offset and if the current value is smaller than the last\+\_\+offset it means that millis() overflowed and the time and the init\+\_\+offset have to be updated. Since we wont hit exactly the moment of overflow the function now checks millis() to see how much time passed since the overflow and reinitializes the time with the current offset.
 
