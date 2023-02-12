@@ -109,12 +109,8 @@ String recording_workflow(String signal_name) {
  * @callergraph
  */
 String sending_workflow(String signal_name) {
-  // TODO: fix problem that signal name is not found when playing signals in program
-  Serial.println("|" + signal_name + "|");
   // generate filename
   String filename = "/signals/" + signal_name + ".json";
-
-  Serial.println(filename);
 
   // check if file exists
   if (check_if_file_exists(filename) == false) {
@@ -302,6 +298,8 @@ String program_parser(String code){
 
         // send signal
         error_message = sending_workflow(command_name);
+
+        Serial.println("-");
       }
       
       // wait command was found
@@ -361,13 +359,36 @@ String program_parser(String code){
       else if (command == "loop") {
         // slice loop time from line
         String loop_time = line.substring(5);
+        
+        // track loop lines
+        int loop_counter = 1;
 
-        // slice loop code from code
-        String loop_code = code.substring(0, code.lastIndexOf("end") - 1) + "\n";
+        // variable for current line
+        String loop_line = "";
 
-        // slice remaining code from code
-        code = code.substring(code.lastIndexOf("end"));
-        code = code.substring(code.indexOf("\n") + 1);
+        // variable for loop code
+        String loop_code = "";
+
+        // go through lines and find end of loop by adding 1 to loop_counter for every loop and 
+        // subtracting 1 for every end if the counter reches 0, the end of the loop was found
+        while(loop_counter != 0) {
+          // update loop line and remaining code
+          loop_line = code.substring(0, code.indexOf("\n"));
+          code = code.substring(code.indexOf("\n") + 1);
+
+          // check if "loop" or "end" was found and adjust counter
+          if (loop_line.indexOf("loop") == 0) {
+            loop_counter++;
+          }
+          else if (loop_line.indexOf("end") == 0) {
+            loop_counter--;
+          }
+
+          // add line to loop code if it is not the last line of the loop
+          if (loop_counter != 0) {
+            loop_code += loop_line + "\n";
+          }
+        }
 
         // loop is repeated indefinitely
         if (loop_time == "inf") {
