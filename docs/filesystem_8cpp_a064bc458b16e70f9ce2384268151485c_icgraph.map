@@ -1,0 +1,9 @@
+<map id="read_program" name="read_program">
+<area shape="rect" id="node1" title="Reads a program file and returns its content as a String." alt="" coords="523,56,636,83"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#aad3360fdec17398d0e5302151e4805a6" title="Handler function to display the program the user wants to edit." alt="" coords="133,5,261,32"/>
+<area shape="rect" id="node4" href="$workflows_8cpp.html#afbb6021d6f9112517cf664d3dccf3b77" title="This function loads a program from a file and hands it to the program_parser." alt="" coords="333,56,471,83"/>
+<area shape="rect" id="node7" href="$test__filesystem_8cpp.html#adbe98696af8d7cd62f4303909cd10f7a" title="Unit test for the function &quot;read_program&quot;." alt="" coords="329,107,475,133"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,31,64,57"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="145,56,249,83"/>
+<area shape="rect" id="node6" href="$test__workflows_8cpp.html#a5f3743734b6324bacb1c6332abc9eca2" title="Unit test for the function &quot;playing_workflow&quot;." alt="" coords="112,107,281,133"/>
+</map>

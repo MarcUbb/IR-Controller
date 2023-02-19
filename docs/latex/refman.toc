@@ -1,0 +1,231 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\contentsline {chapter}{\numberline {1}Main Page}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Software}{1}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Project Structure}{1}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Using this Repository}{2}{subsection.1.1.2}%
+\contentsline {subsubsection}{\numberline {1.1.2.1}Prerequisites}{2}{subsubsection.1.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.1.2.2}Setup}{2}{subsubsection.1.1.2.2}%
+\contentsline {subsubsection}{\numberline {1.1.2.3}Testing}{2}{subsubsection.1.1.2.3}%
+\contentsline {subsubsection}{\numberline {1.1.2.4}Documentation}{2}{subsubsection.1.1.2.4}%
+\contentsline {subsection}{\numberline {1.1.3}Libraries}{2}{subsection.1.1.3}%
+\contentsline {subsubsection}{\numberline {1.1.3.1}Arduino\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Json}{2}{subsubsection.1.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.1.3.2}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Rremote\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}S\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P8266}{3}{subsubsection.1.1.3.2}%
+\contentsline {subsubsection}{\numberline {1.1.3.3}N\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}T\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Client}{3}{subsubsection.1.1.3.3}%
+\contentsline {subsubsection}{\numberline {1.1.3.4}Regexp}{3}{subsubsection.1.1.3.4}%
+\contentsline {subsubsection}{\numberline {1.1.3.5}Wi\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Fi\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Manager}{3}{subsubsection.1.1.3.5}%
+\contentsline {subsection}{\numberline {1.1.4}Logical Structure}{3}{subsection.1.1.4}%
+\contentsline {subsubsection}{\numberline {1.1.4.1}Setup}{3}{subsubsection.1.1.4.1}%
+\contentsline {subsubsection}{\numberline {1.1.4.2}Little\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}FS}{3}{subsubsection.1.1.4.2}%
+\contentsline {subsubsection}{\numberline {1.1.4.3}Webserver}{4}{subsubsection.1.1.4.3}%
+\contentsline {subsubsection}{\numberline {1.1.4.4}Time Management}{4}{subsubsection.1.1.4.4}%
+\contentsline {subsection}{\numberline {1.1.5}Programs}{5}{subsection.1.1.5}%
+\contentsline {subsubsection}{\numberline {1.1.5.1}play}{5}{subsubsection.1.1.5.1}%
+\contentsline {subsubsection}{\numberline {1.1.5.2}wait}{5}{subsubsection.1.1.5.2}%
+\contentsline {subsubsection}{\numberline {1.1.5.3}time}{5}{subsubsection.1.1.5.3}%
+\contentsline {subsubsection}{\numberline {1.1.5.4}day}{5}{subsubsection.1.1.5.4}%
+\contentsline {subsubsection}{\numberline {1.1.5.5}skip}{5}{subsubsection.1.1.5.5}%
+\contentsline {subsubsection}{\numberline {1.1.5.6}loop}{5}{subsubsection.1.1.5.6}%
+\contentsline {section}{\numberline {1.2}Hardware}{5}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Components}{6}{subsection.1.2.1}%
+\contentsline {subsubsection}{\numberline {1.2.1.1}Microcontroller (\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}E\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}S\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}P8266)}{6}{subsubsection.1.2.1.1}%
+\contentsline {subsubsection}{\numberline {1.2.1.2}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}R-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}L\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}ED}{6}{subsubsection.1.2.1.2}%
+\contentsline {subsubsection}{\numberline {1.2.1.3}I\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}R-\/\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Receiver}{6}{subsubsection.1.2.1.3}%
+\contentsline {subsubsection}{\numberline {1.2.1.4}Power Supply}{6}{subsubsection.1.2.1.4}%
+\contentsline {subsection}{\numberline {1.2.2}Schematic}{6}{subsection.1.2.2}%
+\contentsline {chapter}{\numberline {2}File Index}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}File List}{7}{section.2.1}%
+\contentsline {chapter}{\numberline {3}File Documentation}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}include/base.h File Reference}{9}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Detailed Description}{10}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Function Documentation}{10}{subsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.1}add\_time()}{10}{subsubsection.3.1.2.1}%
+\contentsline {subsubsection}{\numberline {3.1.2.2}capture\_signal()}{11}{subsubsection.3.1.2.2}%
+\contentsline {subsubsection}{\numberline {3.1.2.3}check\_and\_update\_offset()}{12}{subsubsection.3.1.2.3}%
+\contentsline {subsubsection}{\numberline {3.1.2.4}check\_if\_file\_exists()}{12}{subsubsection.3.1.2.4}%
+\contentsline {subsubsection}{\numberline {3.1.2.5}check\_if\_string\_is\_alphanumeric()}{13}{subsubsection.3.1.2.5}%
+\contentsline {subsubsection}{\numberline {3.1.2.6}compare\_time()}{13}{subsubsection.3.1.2.6}%
+\contentsline {subsubsection}{\numberline {3.1.2.7}control\_led\_output()}{14}{subsubsection.3.1.2.7}%
+\contentsline {subsubsection}{\numberline {3.1.2.8}get\_current\_time()}{15}{subsubsection.3.1.2.8}%
+\contentsline {subsubsection}{\numberline {3.1.2.9}get\_files()}{15}{subsubsection.3.1.2.9}%
+\contentsline {subsubsection}{\numberline {3.1.2.10}init\_time()}{16}{subsubsection.3.1.2.10}%
+\contentsline {subsubsection}{\numberline {3.1.2.11}load\_json()}{17}{subsubsection.3.1.2.11}%
+\contentsline {subsubsection}{\numberline {3.1.2.12}read\_program()}{17}{subsubsection.3.1.2.12}%
+\contentsline {subsubsection}{\numberline {3.1.2.13}save\_json()}{18}{subsubsection.3.1.2.13}%
+\contentsline {subsubsection}{\numberline {3.1.2.14}save\_signal()}{19}{subsubsection.3.1.2.14}%
+\contentsline {subsubsection}{\numberline {3.1.2.15}send\_signal()}{19}{subsubsection.3.1.2.15}%
+\contentsline {subsubsection}{\numberline {3.1.2.16}turn\_seconds\_in\_time()}{20}{subsubsection.3.1.2.16}%
+\contentsline {subsubsection}{\numberline {3.1.2.17}update\_time()}{20}{subsubsection.3.1.2.17}%
+\contentsline {subsubsection}{\numberline {3.1.2.18}weekday\_to\_num()}{21}{subsubsection.3.1.2.18}%
+\contentsline {section}{\numberline {3.2}include/main.h File Reference}{22}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Detailed Description}{23}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Function Documentation}{23}{subsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.1}handle\_apinfo()}{24}{subsubsection.3.2.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2.2}handle\_apmode()}{24}{subsubsection.3.2.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.2.3}handle\_credentials()}{25}{subsubsection.3.2.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.2.4}handle\_error()}{25}{subsubsection.3.2.2.4}%
+\contentsline {subsubsection}{\numberline {3.2.2.5}handle\_files()}{26}{subsubsection.3.2.2.5}%
+\contentsline {subsubsection}{\numberline {3.2.2.6}handle\_form()}{27}{subsubsection.3.2.2.6}%
+\contentsline {subsubsection}{\numberline {3.2.2.7}handle\_not\_found()}{27}{subsubsection.3.2.2.7}%
+\contentsline {subsubsection}{\numberline {3.2.2.8}handle\_password()}{28}{subsubsection.3.2.2.8}%
+\contentsline {subsubsection}{\numberline {3.2.2.9}handle\_program()}{28}{subsubsection.3.2.2.9}%
+\contentsline {subsubsection}{\numberline {3.2.2.10}handle\_root()}{29}{subsubsection.3.2.2.10}%
+\contentsline {subsubsection}{\numberline {3.2.2.11}handle\_time()}{30}{subsubsection.3.2.2.11}%
+\contentsline {subsubsection}{\numberline {3.2.2.12}server()}{30}{subsubsection.3.2.2.12}%
+\contentsline {subsection}{\numberline {3.2.3}Variable Documentation}{30}{subsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.3.1}AP\_SETTING}{30}{subsubsection.3.2.3.1}%
+\contentsline {subsubsection}{\numberline {3.2.3.2}MESSAGE}{30}{subsubsection.3.2.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.3.3}PROGRAMNAME}{31}{subsubsection.3.2.3.3}%
+\contentsline {subsubsection}{\numberline {3.2.3.4}SESSION\_AP}{31}{subsubsection.3.2.3.4}%
+\contentsline {section}{\numberline {3.3}include/tests.h File Reference}{31}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Detailed Description}{33}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Function Documentation}{33}{subsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.2.1}clean\_LittleFS()}{33}{subsubsection.3.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.3.2.2}empirical\_test\_get\_NTP\_time()}{34}{subsubsection.3.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.3.2.3}run\_all\_empirical\_tests()}{35}{subsubsection.3.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.3.2.4}run\_all\_filesystem\_tests()}{35}{subsubsection.3.3.2.4}%
+\contentsline {subsubsection}{\numberline {3.3.2.5}run\_all\_tests()}{37}{subsubsection.3.3.2.5}%
+\contentsline {subsubsection}{\numberline {3.3.2.6}run\_all\_time\_management\_tests()}{38}{subsubsection.3.3.2.6}%
+\contentsline {subsubsection}{\numberline {3.3.2.7}run\_all\_workflows\_tests()}{39}{subsubsection.3.3.2.7}%
+\contentsline {subsubsection}{\numberline {3.3.2.8}test\_add\_time()}{41}{subsubsection.3.3.2.8}%
+\contentsline {subsubsection}{\numberline {3.3.2.9}test\_adding\_workflow()}{42}{subsubsection.3.3.2.9}%
+\contentsline {subsubsection}{\numberline {3.3.2.10}test\_capture\_signal()}{42}{subsubsection.3.3.2.10}%
+\contentsline {subsubsection}{\numberline {3.3.2.11}test\_check\_and\_update\_offset()}{42}{subsubsection.3.3.2.11}%
+\contentsline {subsubsection}{\numberline {3.3.2.12}test\_check\_if\_file\_exists()}{43}{subsubsection.3.3.2.12}%
+\contentsline {subsubsection}{\numberline {3.3.2.13}test\_check\_if\_string\_is\_alphanumeric()}{43}{subsubsection.3.3.2.13}%
+\contentsline {subsubsection}{\numberline {3.3.2.14}test\_compare\_time()}{43}{subsubsection.3.3.2.14}%
+\contentsline {subsubsection}{\numberline {3.3.2.15}test\_control\_led\_output()}{44}{subsubsection.3.3.2.15}%
+\contentsline {subsubsection}{\numberline {3.3.2.16}test\_deleting\_workflow()}{44}{subsubsection.3.3.2.16}%
+\contentsline {subsubsection}{\numberline {3.3.2.17}test\_get\_current\_time()}{44}{subsubsection.3.3.2.17}%
+\contentsline {subsubsection}{\numberline {3.3.2.18}test\_get\_files()}{45}{subsubsection.3.3.2.18}%
+\contentsline {subsubsection}{\numberline {3.3.2.19}test\_handle\_times\_commands()}{45}{subsubsection.3.3.2.19}%
+\contentsline {subsubsection}{\numberline {3.3.2.20}test\_handle\_wait\_command()}{45}{subsubsection.3.3.2.20}%
+\contentsline {subsubsection}{\numberline {3.3.2.21}test\_init\_time()}{46}{subsubsection.3.3.2.21}%
+\contentsline {subsubsection}{\numberline {3.3.2.22}test\_load\_json()}{46}{subsubsection.3.3.2.22}%
+\contentsline {subsubsection}{\numberline {3.3.2.23}test\_playing\_workflow()}{46}{subsubsection.3.3.2.23}%
+\contentsline {subsubsection}{\numberline {3.3.2.24}test\_program\_parser()}{47}{subsubsection.3.3.2.24}%
+\contentsline {subsubsection}{\numberline {3.3.2.25}test\_read\_program()}{47}{subsubsection.3.3.2.25}%
+\contentsline {subsubsection}{\numberline {3.3.2.26}test\_recording\_workflow()}{47}{subsubsection.3.3.2.26}%
+\contentsline {subsubsection}{\numberline {3.3.2.27}test\_save\_json()}{48}{subsubsection.3.3.2.27}%
+\contentsline {subsubsection}{\numberline {3.3.2.28}test\_save\_signal()}{48}{subsubsection.3.3.2.28}%
+\contentsline {subsubsection}{\numberline {3.3.2.29}test\_send\_signal()}{48}{subsubsection.3.3.2.29}%
+\contentsline {subsubsection}{\numberline {3.3.2.30}test\_sending\_workflow()}{49}{subsubsection.3.3.2.30}%
+\contentsline {subsubsection}{\numberline {3.3.2.31}test\_turn\_seconds\_in\_time()}{49}{subsubsection.3.3.2.31}%
+\contentsline {subsubsection}{\numberline {3.3.2.32}test\_update\_time()}{49}{subsubsection.3.3.2.32}%
+\contentsline {subsubsection}{\numberline {3.3.2.33}test\_weekday\_to\_num()}{50}{subsubsection.3.3.2.33}%
+\contentsline {section}{\numberline {3.4}include/website\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}string.h File Reference}{50}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Detailed Description}{51}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Variable Documentation}{51}{subsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.2.1}PROGMEM}{51}{subsubsection.3.4.2.1}%
+\contentsline {section}{\numberline {3.5}include/workflows.h File Reference}{51}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Detailed Description}{52}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Function Documentation}{52}{subsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.2.1}adding\_workflow()}{52}{subsubsection.3.5.2.1}%
+\contentsline {subsubsection}{\numberline {3.5.2.2}deleting\_workflow()}{53}{subsubsection.3.5.2.2}%
+\contentsline {subsubsection}{\numberline {3.5.2.3}handle\_times\_commands()}{53}{subsubsection.3.5.2.3}%
+\contentsline {subsubsection}{\numberline {3.5.2.4}handle\_wait\_command()}{54}{subsubsection.3.5.2.4}%
+\contentsline {subsubsection}{\numberline {3.5.2.5}playing\_workflow()}{55}{subsubsection.3.5.2.5}%
+\contentsline {subsubsection}{\numberline {3.5.2.6}program\_parser()}{56}{subsubsection.3.5.2.6}%
+\contentsline {subsubsection}{\numberline {3.5.2.7}recording\_workflow()}{57}{subsubsection.3.5.2.7}%
+\contentsline {subsubsection}{\numberline {3.5.2.8}sending\_workflow()}{58}{subsubsection.3.5.2.8}%
+\contentsline {section}{\numberline {3.6}src/filesystem.cpp File Reference}{59}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Detailed Description}{60}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Function Documentation}{60}{subsection.3.6.2}%
+\contentsline {subsubsection}{\numberline {3.6.2.1}capture\_signal()}{60}{subsubsection.3.6.2.1}%
+\contentsline {subsubsection}{\numberline {3.6.2.2}check\_if\_file\_exists()}{61}{subsubsection.3.6.2.2}%
+\contentsline {subsubsection}{\numberline {3.6.2.3}check\_if\_string\_is\_alphanumeric()}{61}{subsubsection.3.6.2.3}%
+\contentsline {subsubsection}{\numberline {3.6.2.4}control\_led\_output()}{62}{subsubsection.3.6.2.4}%
+\contentsline {subsubsection}{\numberline {3.6.2.5}get\_files()}{62}{subsubsection.3.6.2.5}%
+\contentsline {subsubsection}{\numberline {3.6.2.6}load\_json()}{63}{subsubsection.3.6.2.6}%
+\contentsline {subsubsection}{\numberline {3.6.2.7}read\_program()}{63}{subsubsection.3.6.2.7}%
+\contentsline {subsubsection}{\numberline {3.6.2.8}save\_json()}{64}{subsubsection.3.6.2.8}%
+\contentsline {subsubsection}{\numberline {3.6.2.9}save\_signal()}{65}{subsubsection.3.6.2.9}%
+\contentsline {subsubsection}{\numberline {3.6.2.10}send\_signal()}{66}{subsubsection.3.6.2.10}%
+\contentsline {section}{\numberline {3.7}src/main.cpp File Reference}{66}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Detailed Description}{67}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Function Documentation}{68}{subsection.3.7.2}%
+\contentsline {subsubsection}{\numberline {3.7.2.1}handle\_apinfo()}{68}{subsubsection.3.7.2.1}%
+\contentsline {subsubsection}{\numberline {3.7.2.2}handle\_apmode()}{68}{subsubsection.3.7.2.2}%
+\contentsline {subsubsection}{\numberline {3.7.2.3}handle\_credentials()}{69}{subsubsection.3.7.2.3}%
+\contentsline {subsubsection}{\numberline {3.7.2.4}handle\_error()}{69}{subsubsection.3.7.2.4}%
+\contentsline {subsubsection}{\numberline {3.7.2.5}handle\_files()}{70}{subsubsection.3.7.2.5}%
+\contentsline {subsubsection}{\numberline {3.7.2.6}handle\_form()}{71}{subsubsection.3.7.2.6}%
+\contentsline {subsubsection}{\numberline {3.7.2.7}handle\_not\_found()}{71}{subsubsection.3.7.2.7}%
+\contentsline {subsubsection}{\numberline {3.7.2.8}handle\_password()}{72}{subsubsection.3.7.2.8}%
+\contentsline {subsubsection}{\numberline {3.7.2.9}handle\_program()}{72}{subsubsection.3.7.2.9}%
+\contentsline {subsubsection}{\numberline {3.7.2.10}handle\_root()}{73}{subsubsection.3.7.2.10}%
+\contentsline {subsubsection}{\numberline {3.7.2.11}handle\_time()}{74}{subsubsection.3.7.2.11}%
+\contentsline {subsubsection}{\numberline {3.7.2.12}loop()}{74}{subsubsection.3.7.2.12}%
+\contentsline {subsubsection}{\numberline {3.7.2.13}setup()}{75}{subsubsection.3.7.2.13}%
+\contentsline {section}{\numberline {3.8}src/tests/empirical\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}tests.cpp File Reference}{75}{section.3.8}%
+\contentsline {subsection}{\numberline {3.8.1}Detailed Description}{75}{subsection.3.8.1}%
+\contentsline {subsection}{\numberline {3.8.2}Function Documentation}{76}{subsection.3.8.2}%
+\contentsline {subsubsection}{\numberline {3.8.2.1}empirical\_test\_get\_NTP\_time()}{76}{subsubsection.3.8.2.1}%
+\contentsline {section}{\numberline {3.9}src/tests/test\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}filesystem.cpp File Reference}{76}{section.3.9}%
+\contentsline {subsection}{\numberline {3.9.1}Detailed Description}{77}{subsection.3.9.1}%
+\contentsline {subsection}{\numberline {3.9.2}Function Documentation}{77}{subsection.3.9.2}%
+\contentsline {subsubsection}{\numberline {3.9.2.1}test\_capture\_signal()}{77}{subsubsection.3.9.2.1}%
+\contentsline {subsubsection}{\numberline {3.9.2.2}test\_check\_if\_file\_exists()}{77}{subsubsection.3.9.2.2}%
+\contentsline {subsubsection}{\numberline {3.9.2.3}test\_check\_if\_string\_is\_alphanumeric()}{78}{subsubsection.3.9.2.3}%
+\contentsline {subsubsection}{\numberline {3.9.2.4}test\_control\_led\_output()}{78}{subsubsection.3.9.2.4}%
+\contentsline {subsubsection}{\numberline {3.9.2.5}test\_get\_files()}{78}{subsubsection.3.9.2.5}%
+\contentsline {subsubsection}{\numberline {3.9.2.6}test\_load\_json()}{78}{subsubsection.3.9.2.6}%
+\contentsline {subsubsection}{\numberline {3.9.2.7}test\_read\_program()}{79}{subsubsection.3.9.2.7}%
+\contentsline {subsubsection}{\numberline {3.9.2.8}test\_save\_json()}{79}{subsubsection.3.9.2.8}%
+\contentsline {subsubsection}{\numberline {3.9.2.9}test\_save\_signal()}{80}{subsubsection.3.9.2.9}%
+\contentsline {subsubsection}{\numberline {3.9.2.10}test\_send\_signal()}{80}{subsubsection.3.9.2.10}%
+\contentsline {section}{\numberline {3.10}src/tests/test\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}main.cpp File Reference}{80}{section.3.10}%
+\contentsline {subsection}{\numberline {3.10.1}Detailed Description}{81}{subsection.3.10.1}%
+\contentsline {subsection}{\numberline {3.10.2}Function Documentation}{81}{subsection.3.10.2}%
+\contentsline {subsubsection}{\numberline {3.10.2.1}run\_all\_empirical\_tests()}{81}{subsubsection.3.10.2.1}%
+\contentsline {subsubsection}{\numberline {3.10.2.2}run\_all\_filesystem\_tests()}{81}{subsubsection.3.10.2.2}%
+\contentsline {subsubsection}{\numberline {3.10.2.3}run\_all\_tests()}{83}{subsubsection.3.10.2.3}%
+\contentsline {subsubsection}{\numberline {3.10.2.4}run\_all\_time\_management\_tests()}{84}{subsubsection.3.10.2.4}%
+\contentsline {subsubsection}{\numberline {3.10.2.5}run\_all\_workflows\_tests()}{85}{subsubsection.3.10.2.5}%
+\contentsline {section}{\numberline {3.11}src/tests/test\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}time\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}management.cpp File Reference}{87}{section.3.11}%
+\contentsline {subsection}{\numberline {3.11.1}Detailed Description}{88}{subsection.3.11.1}%
+\contentsline {subsection}{\numberline {3.11.2}Function Documentation}{88}{subsection.3.11.2}%
+\contentsline {subsubsection}{\numberline {3.11.2.1}test\_add\_time()}{88}{subsubsection.3.11.2.1}%
+\contentsline {subsubsection}{\numberline {3.11.2.2}test\_check\_and\_update\_offset()}{89}{subsubsection.3.11.2.2}%
+\contentsline {subsubsection}{\numberline {3.11.2.3}test\_compare\_time()}{89}{subsubsection.3.11.2.3}%
+\contentsline {subsubsection}{\numberline {3.11.2.4}test\_get\_current\_time()}{89}{subsubsection.3.11.2.4}%
+\contentsline {subsubsection}{\numberline {3.11.2.5}test\_init\_time()}{90}{subsubsection.3.11.2.5}%
+\contentsline {subsubsection}{\numberline {3.11.2.6}test\_turn\_seconds\_in\_time()}{90}{subsubsection.3.11.2.6}%
+\contentsline {subsubsection}{\numberline {3.11.2.7}test\_update\_time()}{90}{subsubsection.3.11.2.7}%
+\contentsline {subsubsection}{\numberline {3.11.2.8}test\_weekday\_to\_num()}{91}{subsubsection.3.11.2.8}%
+\contentsline {section}{\numberline {3.12}src/tests/test\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}utilities.cpp File Reference}{91}{section.3.12}%
+\contentsline {subsection}{\numberline {3.12.1}Detailed Description}{91}{subsection.3.12.1}%
+\contentsline {subsection}{\numberline {3.12.2}Function Documentation}{91}{subsection.3.12.2}%
+\contentsline {subsubsection}{\numberline {3.12.2.1}clean\_LittleFS()}{91}{subsubsection.3.12.2.1}%
+\contentsline {section}{\numberline {3.13}src/tests/test\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}workflows.cpp File Reference}{92}{section.3.13}%
+\contentsline {subsection}{\numberline {3.13.1}Detailed Description}{93}{subsection.3.13.1}%
+\contentsline {subsection}{\numberline {3.13.2}Function Documentation}{93}{subsection.3.13.2}%
+\contentsline {subsubsection}{\numberline {3.13.2.1}test\_adding\_workflow()}{93}{subsubsection.3.13.2.1}%
+\contentsline {subsubsection}{\numberline {3.13.2.2}test\_deleting\_workflow()}{94}{subsubsection.3.13.2.2}%
+\contentsline {subsubsection}{\numberline {3.13.2.3}test\_handle\_times\_commands()}{94}{subsubsection.3.13.2.3}%
+\contentsline {subsubsection}{\numberline {3.13.2.4}test\_handle\_wait\_command()}{94}{subsubsection.3.13.2.4}%
+\contentsline {subsubsection}{\numberline {3.13.2.5}test\_playing\_workflow()}{95}{subsubsection.3.13.2.5}%
+\contentsline {subsubsection}{\numberline {3.13.2.6}test\_program\_parser()}{95}{subsubsection.3.13.2.6}%
+\contentsline {subsubsection}{\numberline {3.13.2.7}test\_recording\_workflow()}{95}{subsubsection.3.13.2.7}%
+\contentsline {subsubsection}{\numberline {3.13.2.8}test\_sending\_workflow()}{96}{subsubsection.3.13.2.8}%
+\contentsline {section}{\numberline {3.14}src/time\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}\_\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}management.cpp File Reference}{96}{section.3.14}%
+\contentsline {subsection}{\numberline {3.14.1}Detailed Description}{97}{subsection.3.14.1}%
+\contentsline {subsection}{\numberline {3.14.2}Function Documentation}{97}{subsection.3.14.2}%
+\contentsline {subsubsection}{\numberline {3.14.2.1}add\_time()}{97}{subsubsection.3.14.2.1}%
+\contentsline {subsubsection}{\numberline {3.14.2.2}check\_and\_update\_offset()}{97}{subsubsection.3.14.2.2}%
+\contentsline {subsubsection}{\numberline {3.14.2.3}compare\_time()}{98}{subsubsection.3.14.2.3}%
+\contentsline {subsubsection}{\numberline {3.14.2.4}get\_current\_time()}{99}{subsubsection.3.14.2.4}%
+\contentsline {subsubsection}{\numberline {3.14.2.5}init\_time()}{100}{subsubsection.3.14.2.5}%
+\contentsline {subsubsection}{\numberline {3.14.2.6}turn\_seconds\_in\_time()}{100}{subsubsection.3.14.2.6}%
+\contentsline {subsubsection}{\numberline {3.14.2.7}update\_time()}{101}{subsubsection.3.14.2.7}%
+\contentsline {subsubsection}{\numberline {3.14.2.8}weekday\_to\_num()}{102}{subsubsection.3.14.2.8}%
+\contentsline {section}{\numberline {3.15}src/workflows.cpp File Reference}{102}{section.3.15}%
+\contentsline {subsection}{\numberline {3.15.1}Detailed Description}{103}{subsection.3.15.1}%
+\contentsline {subsection}{\numberline {3.15.2}Function Documentation}{103}{subsection.3.15.2}%
+\contentsline {subsubsection}{\numberline {3.15.2.1}adding\_workflow()}{103}{subsubsection.3.15.2.1}%
+\contentsline {subsubsection}{\numberline {3.15.2.2}deleting\_workflow()}{104}{subsubsection.3.15.2.2}%
+\contentsline {subsubsection}{\numberline {3.15.2.3}handle\_times\_commands()}{104}{subsubsection.3.15.2.3}%
+\contentsline {subsubsection}{\numberline {3.15.2.4}handle\_wait\_command()}{105}{subsubsection.3.15.2.4}%
+\contentsline {subsubsection}{\numberline {3.15.2.5}playing\_workflow()}{106}{subsubsection.3.15.2.5}%
+\contentsline {subsubsection}{\numberline {3.15.2.6}program\_parser()}{107}{subsubsection.3.15.2.6}%
+\contentsline {subsubsection}{\numberline {3.15.2.7}recording\_workflow()}{108}{subsubsection.3.15.2.7}%
+\contentsline {subsubsection}{\numberline {3.15.2.8}sending\_workflow()}{109}{subsubsection.3.15.2.8}%

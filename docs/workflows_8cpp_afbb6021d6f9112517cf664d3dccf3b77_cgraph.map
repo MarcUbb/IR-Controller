@@ -1,0 +1,21 @@
+<map id="playing_workflow" name="playing_workflow">
+<area shape="rect" id="node1" title="This function loads a program from a file and hands it to the program_parser." alt="" coords="5,157,143,184"/>
+<area shape="rect" id="node2" href="$base_8h.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="808,5,959,32"/>
+<area shape="rect" id="node3" href="$workflows_8cpp.html#aebc60e6c0ad4b332f2f1da7da6707f03" title="This function parses the code of a program line by line and executes the commands." alt="" coords="191,157,316,184"/>
+<area shape="rect" id="node18" href="$base_8h.html#a064bc458b16e70f9ce2384268151485c" title="Reads a program file and returns its content as a String." alt="" coords="197,233,310,260"/>
+<area shape="rect" id="node4" href="$workflows_8cpp.html#ae38fa40d61cf9aecaf82ebf6c2cc2977" title="This function executes timed commands." alt="" coords="364,157,553,184"/>
+<area shape="rect" id="node13" href="$workflows_8cpp.html#ac66d9f916af4fef55538c5cf0be70989" title="This function loads a signal from a file and sends it." alt="" coords="601,107,741,133"/>
+<area shape="rect" id="node16" href="$workflows_8cpp.html#a4c38b70181fc74cd62f0a7529ffaf796" title="This function waits a certain amount of time." alt="" coords="372,208,545,235"/>
+<area shape="rect" id="node5" href="$base_8h.html#a6291345b0a1a1141c8d11458ff2f5cd4" title="Compare specified time with current time." alt="" coords="613,208,729,235"/>
+<area shape="rect" id="node15" href="$base_8h.html#a3510cfe664c5b740d746a31e79b0f158" title="Converts a weekday String to a weekday number." alt="" coords="603,157,740,184"/>
+<area shape="rect" id="node6" href="$time__management_8cpp.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="789,259,977,285"/>
+<area shape="rect" id="node12" href="$time__management_8cpp.html#a79f5fec2131038665d4240b7b761f15a" title="Loads the current time from LittleFS." alt="" coords="817,208,950,235"/>
+<area shape="rect" id="node7" href="$time__management_8cpp.html#a2df1ab5ae345f8373541fdadc380d0cf" title="adds two times together" alt="" coords="1066,259,1149,285"/>
+<area shape="rect" id="node8" href="$time__management_8cpp.html#a55657da39648ec7114a18e7cb7fbc915" title="Gets time from NTP server." alt="" coords="1067,411,1147,437"/>
+<area shape="rect" id="node9" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="1239,157,1323,184"/>
+<area shape="rect" id="node10" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="1237,411,1324,437"/>
+<area shape="rect" id="node11" href="$time__management_8cpp.html#a9302635144807a7f7063815f116ac129" title="This function converts seconds to time format." alt="" coords="1025,208,1189,235"/>
+<area shape="rect" id="node14" href="$base_8h.html#ae92ea0f99679274f490c7e2d8a61ddd7" title="This function sends a signal provided in JSON format." alt="" coords="834,107,933,133"/>
+<area shape="rect" id="node17" href="$base_8h.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="789,335,977,361"/>
+<area shape="rect" id="node19" href="$filesystem_8cpp.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="383,259,534,285"/>
+</map>

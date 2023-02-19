@@ -1,0 +1,6 @@
+<map id="get_current_time" name="get_current_time">
+<area shape="rect" id="node1" title="Loads the current time from LittleFS." alt="" coords="5,56,139,83"/>
+<area shape="rect" id="node2" href="$time__management_8cpp.html#a2df1ab5ae345f8373541fdadc380d0cf" title="adds two times together" alt="" coords="227,5,310,32"/>
+<area shape="rect" id="node3" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="227,56,311,83"/>
+<area shape="rect" id="node4" href="$time__management_8cpp.html#a9302635144807a7f7063815f116ac129" title="This function converts seconds to time format." alt="" coords="187,107,351,133"/>
+</map>

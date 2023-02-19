@@ -1,0 +1,13 @@
+<map id="include/workflows.h" name="include/workflows.h">
+<area shape="rect" id="node1" title="Header file for workflows.cpp." alt="" coords="451,5,603,32"/>
+<area shape="rect" id="node2" href="$main_8h.html" title="Header File for main.cpp." alt="" coords="5,162,124,189"/>
+<area shape="rect" id="node4" href="$tests_8h.html" title="Header File for all test files." alt="" coords="469,80,586,107"/>
+<area shape="rect" id="node11" href="$workflows_8cpp.html" title="This file contains high level functions." alt="" coords="610,80,749,107"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title="Main file of the program." alt="" coords="12,244,117,271"/>
+<area shape="rect" id="node5" href="$empirical__tests_8cpp.html" title="collection of empirical tests" alt="" coords="148,155,291,196"/>
+<area shape="rect" id="node6" href="$test__filesystem_8cpp.html" title="This file contains unit tests for all functions from the filesystem.cpp." alt="" coords="315,162,524,189"/>
+<area shape="rect" id="node7" href="$test__main_8cpp.html" title="main file for all tests" alt="" coords="549,162,722,189"/>
+<area shape="rect" id="node8" href="$test__time__management_8cpp.html" title="This file contains unit tests for all functions from the time_management.cpp." alt="" coords="747,155,889,196"/>
+<area shape="rect" id="node9" href="$test__utilities_8cpp.html" title="This file contains functions that are used in multiple tests." alt="" coords="914,162,1103,189"/>
+<area shape="rect" id="node10" href="$test__workflows_8cpp.html" title="This file contains unit tests for all functions from the workflows.cpp." alt="" coords="1128,162,1335,189"/>
+</map>

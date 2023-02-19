@@ -1,0 +1,11 @@
+<map id="run_all_workflows_tests" name="run_all_workflows_tests">
+<area shape="rect" id="node1" title="runs all tests for workflows.cpp" alt="" coords="5,183,184,209"/>
+<area shape="rect" id="node2" href="$tests_8h.html#a660ae5c1e5e0a91b8b123cb73e98377c" title="Unit test for the function &quot;adding_workflow&quot;." alt="" coords="260,5,425,32"/>
+<area shape="rect" id="node3" href="$tests_8h.html#a898c623ea78e7d61bcfa0390c5abe742" title="Unit test for the function &quot;deleting_workflow&quot;." alt="" coords="255,56,430,83"/>
+<area shape="rect" id="node4" href="$tests_8h.html#a8bf77dec2d5c5c9fca6d6d9491e929d2" title="Unit test for the function &quot;handle_times_commands&quot;." alt="" coords="232,107,453,133"/>
+<area shape="rect" id="node5" href="$tests_8h.html#ac853f5e0d739b212618bd92ce084f9fd" title="Unit test for the function &quot;handle_wait_command&quot;." alt="" coords="240,157,445,184"/>
+<area shape="rect" id="node6" href="$tests_8h.html#a5f3743734b6324bacb1c6332abc9eca2" title="Unit test for the function &quot;playing_workflow&quot;." alt="" coords="258,208,427,235"/>
+<area shape="rect" id="node7" href="$tests_8h.html#a7c5aac3f0870893d1a6beaaae8d63bc3" title="Unit test for the function &quot;program_parser&quot;." alt="" coords="264,259,421,285"/>
+<area shape="rect" id="node8" href="$tests_8h.html#a07e33087241b5482b475773f885015ed" title="Unit test for the function &quot;recording_workflow&quot;." alt="" coords="251,309,434,336"/>
+<area shape="rect" id="node9" href="$tests_8h.html#a58a5d4b443bfc228d6b118aa6968e835" title="Unit test for the function &quot;sending_workflow&quot;." alt="" coords="257,360,429,387"/>
+</map>

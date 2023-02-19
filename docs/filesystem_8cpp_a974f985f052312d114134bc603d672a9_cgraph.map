@@ -1,0 +1,4 @@
+<map id="capture_signal" name="capture_signal">
+<area shape="rect" id="node1" title="This function captures a signal and returns it as a String." alt="" coords="5,5,123,32"/>
+<area shape="rect" id="node2" href="$filesystem_8cpp.html#ae9e99c2db47fcc4b52086d16296a49aa" title="Controls the LED output." alt="" coords="171,5,313,32"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="recording_workflow" name="recording_workflow">
+<area shape="rect" id="node1" title="This function records and saves a signal." alt="" coords="343,31,493,57"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="151,5,255,32"/>
+<area shape="rect" id="node4" href="$test__workflows_8cpp.html#a07e33087241b5482b475773f885015ed" title="Unit test for the function &quot;recording_workflow&quot;." alt="" coords="112,56,295,83"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,5,64,32"/>
+</map>

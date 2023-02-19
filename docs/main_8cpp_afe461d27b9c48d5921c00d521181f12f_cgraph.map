@@ -1,0 +1,10 @@
+<map id="loop" name="loop">
+<area shape="rect" id="node1" title="Arduino Loop function." alt="" coords="5,132,56,159"/>
+<area shape="rect" id="node2" href="$base_8h.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="104,107,292,133"/>
+<area shape="rect" id="node8" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="167,157,229,184"/>
+<area shape="rect" id="node3" href="$time__management_8cpp.html#a2df1ab5ae345f8373541fdadc380d0cf" title="adds two times together" alt="" coords="381,5,463,32"/>
+<area shape="rect" id="node4" href="$time__management_8cpp.html#a55657da39648ec7114a18e7cb7fbc915" title="Gets time from NTP server." alt="" coords="382,107,462,133"/>
+<area shape="rect" id="node5" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="553,81,637,108"/>
+<area shape="rect" id="node6" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="552,132,639,159"/>
+<area shape="rect" id="node7" href="$time__management_8cpp.html#a9302635144807a7f7063815f116ac129" title="This function converts seconds to time format." alt="" coords="340,208,504,235"/>
+</map>

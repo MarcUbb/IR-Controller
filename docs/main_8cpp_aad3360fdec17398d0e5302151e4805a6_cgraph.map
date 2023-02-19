@@ -1,0 +1,6 @@
+<map id="handle_program" name="handle_program">
+<area shape="rect" id="node1" title="Handler function to display the program the user wants to edit." alt="" coords="5,31,133,57"/>
+<area shape="rect" id="node2" href="$base_8h.html#a064bc458b16e70f9ce2384268151485c" title="Reads a program file and returns its content as a String." alt="" coords="181,5,295,32"/>
+<area shape="rect" id="node4" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="207,56,269,83"/>
+<area shape="rect" id="node3" href="$filesystem_8cpp.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="343,5,493,32"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="deleting_workflow" name="deleting_workflow">
+<area shape="rect" id="node1" title="This function deletes a file from the LittleFS filesystem." alt="" coords="335,31,477,57"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="147,5,251,32"/>
+<area shape="rect" id="node4" href="$test__workflows_8cpp.html#a898c623ea78e7d61bcfa0390c5abe742" title="Unit test for the function &quot;deleting_workflow&quot;." alt="" coords="112,56,287,83"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,5,64,32"/>
+</map>

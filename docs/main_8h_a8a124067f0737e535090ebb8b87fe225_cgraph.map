@@ -1,0 +1,4 @@
+<map id="handle_apmode" name="handle_apmode">
+<area shape="rect" id="node1" title="Handler function to switch between AP mode and normal mode." alt="" coords="5,5,132,32"/>
+<area shape="rect" id="node2" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="180,5,243,32"/>
+</map>

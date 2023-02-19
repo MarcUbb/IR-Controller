@@ -1,0 +1,9 @@
+<map id="control_led_output" name="control_led_output">
+<area shape="rect" id="node1" title="Controls the LED output." alt="" coords="707,81,849,108"/>
+<area shape="rect" id="node2" href="$filesystem_8cpp.html#a974f985f052312d114134bc603d672a9" title="This function captures a signal and returns it as a String." alt="" coords="541,56,659,83"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,56,64,83"/>
+<area shape="rect" id="node3" href="$workflows_8cpp.html#af3762d2fcc0a63fdbe4a96b6c6aedd5b" title="This function records and saves a signal." alt="" coords="343,5,493,32"/>
+<area shape="rect" id="node7" href="$test__filesystem_8cpp.html#af5c2ce0c5931b603a4db2595b15fe86c" title="Unit test for the function &quot;capture_signal&quot;." alt="" coords="343,56,493,83"/>
+<area shape="rect" id="node4" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="151,5,255,32"/>
+<area shape="rect" id="node6" href="$test__workflows_8cpp.html#a07e33087241b5482b475773f885015ed" title="Unit test for the function &quot;recording_workflow&quot;." alt="" coords="112,56,295,83"/>
+</map>

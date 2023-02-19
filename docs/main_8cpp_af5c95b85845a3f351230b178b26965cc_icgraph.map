@@ -1,0 +1,4 @@
+<map id="handle_credentials" name="handle_credentials">
+<area shape="rect" id="node1" title="Handler function to erase the wifi credentials saved on the ESP." alt="" coords="112,5,257,32"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,5,64,32"/>
+</map>

@@ -1,0 +1,10 @@
+<map id="compare_time" name="compare_time">
+<area shape="rect" id="node1" title="Compare specified time with current time." alt="" coords="5,89,121,115"/>
+<area shape="rect" id="node2" href="$time__management_8cpp.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="169,114,357,141"/>
+<area shape="rect" id="node8" href="$time__management_8cpp.html#a79f5fec2131038665d4240b7b761f15a" title="Loads the current time from LittleFS." alt="" coords="197,51,330,78"/>
+<area shape="rect" id="node3" href="$time__management_8cpp.html#a2df1ab5ae345f8373541fdadc380d0cf" title="adds two times together" alt="" coords="446,89,529,115"/>
+<area shape="rect" id="node4" href="$time__management_8cpp.html#a55657da39648ec7114a18e7cb7fbc915" title="Gets time from NTP server." alt="" coords="447,190,527,217"/>
+<area shape="rect" id="node5" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="619,139,703,166"/>
+<area shape="rect" id="node6" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="617,215,704,242"/>
+<area shape="rect" id="node7" href="$time__management_8cpp.html#a9302635144807a7f7063815f116ac129" title="This function converts seconds to time format." alt="" coords="405,38,569,65"/>
+</map>

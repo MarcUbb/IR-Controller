@@ -1,0 +1,6 @@
+<map id="adding_workflow" name="adding_workflow">
+<area shape="rect" id="node1" title="This function creates a file with the programs name and writes the code to it." alt="" coords="325,31,459,57"/>
+<area shape="rect" id="node2" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="143,5,247,32"/>
+<area shape="rect" id="node4" href="$test__workflows_8cpp.html#a660ae5c1e5e0a91b8b123cb73e98377c" title="Unit test for the function &quot;adding_workflow&quot;." alt="" coords="112,56,277,83"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,5,64,32"/>
+</map>

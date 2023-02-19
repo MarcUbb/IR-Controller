@@ -1,0 +1,4 @@
+<map id="handle_credentials" name="handle_credentials">
+<area shape="rect" id="node1" title="Handler function to erase the wifi credentials saved on the ESP." alt="" coords="5,5,151,32"/>
+<area shape="rect" id="node2" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="199,5,261,32"/>
+</map>

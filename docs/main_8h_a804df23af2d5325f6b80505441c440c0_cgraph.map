@@ -1,0 +1,7 @@
+<map id="handle_time" name="handle_time">
+<area shape="rect" id="node1" title="Handler funciton to synchronize the time and/or timezone provided by the user." alt="" coords="5,31,108,57"/>
+<area shape="rect" id="node2" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="177,5,239,32"/>
+<area shape="rect" id="node3" href="$base_8h.html#a11b9f043cd67f782c7b8c49ffd0f51cb" title="Updates the time in the LittleFS." alt="" coords="156,56,260,83"/>
+<area shape="rect" id="node4" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="309,31,393,57"/>
+<area shape="rect" id="node5" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="308,81,395,108"/>
+</map>
