@@ -1,7 +1,7 @@
 \mainpage
 
 
-This repository contains the software for an infrared controller, the purpose of which is to be able to control devices with an infrared interface using a smartphone.
+This repository contains the software for an infrared controller, the purpose of which is to be able to control devices with an infrared interface using a smartphone. You find a more detailed documentation of the project [here](https://marcubb.github.io/IR-Controller/).
 
 In this guide you find information about following topics:
 
@@ -20,8 +20,6 @@ In this guide you find information about following topics:
 
 # Software
 Lets talk about the software which you can find in this repository. I want to start by explaining the general structure of this projects software and list the libraries used while explaining a bit which role each of them plays. After that I will go into more detail about the logical structure of the software and explain the different parts of it. Finally I will go into more detail about the programs and how they work.
-
-If you are interested in a detailed documentation of the code you can find it [here](docs/html/index.html).
 
 ---
 ## Project Structure
