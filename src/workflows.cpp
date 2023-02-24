@@ -306,7 +306,9 @@ String program_parser(String code){
       else if (command == "wait"){
         // slice delay time from line
         String delay_time = line.substring(5);
+        // typecast
         unsigned long delay_time_long = atol(delay_time.c_str());
+        // check if number is not too high
         if (delay_time_long == 0 && delay_time != "0"){
           error_message = "invalid delay time";
         }

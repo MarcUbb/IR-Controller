@@ -1,4 +1,5 @@
 <map id="run_all_filesystem_tests" name="run_all_filesystem_tests">
-<area shape="rect" id="node1" title="runs all tests for filesystem.cpp" alt="" coords="159,5,301,47"/>
-<area shape="rect" id="node2" href="$test__main_8cpp.html#ae3c32f603677f6b9f8616bb50afc6a32" title="runs all tests for all files" alt="" coords="5,13,111,39"/>
+<area shape="rect" id="node1" title="runs all tests for filesystem.cpp" alt="" coords="265,5,408,47"/>
+<area shape="rect" id="node2" href="$test__main_8cpp.html#ae3c32f603677f6b9f8616bb50afc6a32" title="runs all tests for all files" alt="" coords="112,13,217,39"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title="Arduino Setup function." alt="" coords="5,13,64,39"/>
 </map>

@@ -74,40 +74,39 @@ $(function() {
 <div class="contents">
 <a href="base_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;Arduino.h&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;assert.h&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;IRrecv.h&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;IRremoteESP8266.h&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;IRtext.h&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;IRutils.h&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;IRsend.h&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;ArduinoJson.h&gt;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;LittleFS.h&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;ESP8266WiFi.h&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;NTPClient.h&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;WiFiUdp.h&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// forward declarations</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// filesystem</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;String <a class="code" href="base_8h.html#a974f985f052312d114134bc603d672a9">capture_signal</a>();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;String <a class="code" href="base_8h.html#a0282f0219ae51dc8d2b578908b8a70de">save_signal</a>(String result_string, String name);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce">save_json</a>(String filename, DynamicJsonDocument doc);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;DynamicJsonDocument <a class="code" href="base_8h.html#a56820dcc580395e119d9de2ad4ad2400">load_json</a>(String filename);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;String <a class="code" href="base_8h.html#ae92ea0f99679274f490c7e2d8a61ddd7">send_signal</a>(DynamicJsonDocument doc);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;String <a class="code" href="base_8h.html#a57b2a7efc18f0e2b29d17382c2c9aca5">get_files</a>(String folder_signals, String folder_programs);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">boolean</span> <a class="code" href="base_8h.html#a5689133a917d901606c1d294bfda5785">check_if_file_exists</a>(String filename);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;String <a class="code" href="base_8h.html#a064bc458b16e70f9ce2384268151485c">read_program</a>(String program_name);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#ae9e99c2db47fcc4b52086d16296a49aa">control_led_output</a>(String signal);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">boolean</span> <a class="code" href="base_8h.html#ae91cb438a8dccf51f04a58947ad577e1">check_if_string_is_alphanumeric</a> (String word);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">// time_management</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;String <a class="code" href="base_8h.html#a3510cfe664c5b740d746a31e79b0f158">weekday_to_num</a> (String weekday);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">boolean</span> <a class="code" href="base_8h.html#a6291345b0a1a1141c8d11458ff2f5cd4">compare_time</a> (String time, <span class="keywordtype">boolean</span> weekday_included);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#a11b9f043cd67f782c7b8c49ffd0f51cb">update_time</a>(String time, <span class="keywordtype">boolean</span> AP_mode);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;String <a class="code" href="base_8h.html#a79f5fec2131038665d4240b7b761f15a">get_current_time</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;String <a class="code" href="base_8h.html#a9302635144807a7f7063815f116ac129">turn_seconds_in_time</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> input_seconds);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;String <a class="code" href="base_8h.html#a2df1ab5ae345f8373541fdadc380d0cf">add_time</a>(String time, String offset_time);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#a55657da39648ec7114a18e7cb7fbc915">init_time</a>();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#ac98cf9eca3c34ed8b3fb2c93625a0c18">check_and_update_offset</a>();</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;IRrecv.h&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;IRremoteESP8266.h&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;IRtext.h&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;IRutils.h&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;IRsend.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;ArduinoJson.h&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;LittleFS.h&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;ESP8266WiFi.h&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;NTPClient.h&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;WiFiUdp.h&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// forward declarations</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// filesystem</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;String <a class="code" href="base_8h.html#a974f985f052312d114134bc603d672a9">capture_signal</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;String <a class="code" href="base_8h.html#a0282f0219ae51dc8d2b578908b8a70de">save_signal</a>(String result_string, String name);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce">save_json</a>(String filename, DynamicJsonDocument doc);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;DynamicJsonDocument <a class="code" href="base_8h.html#a56820dcc580395e119d9de2ad4ad2400">load_json</a>(String filename);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;String <a class="code" href="base_8h.html#ae92ea0f99679274f490c7e2d8a61ddd7">send_signal</a>(DynamicJsonDocument doc);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;String <a class="code" href="base_8h.html#a57b2a7efc18f0e2b29d17382c2c9aca5">get_files</a>(String folder_signals, String folder_programs);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">boolean</span> <a class="code" href="base_8h.html#a5689133a917d901606c1d294bfda5785">check_if_file_exists</a>(String filename);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;String <a class="code" href="base_8h.html#a064bc458b16e70f9ce2384268151485c">read_program</a>(String program_name);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#ae9e99c2db47fcc4b52086d16296a49aa">control_led_output</a>(String signal);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">boolean</span> <a class="code" href="base_8h.html#ae91cb438a8dccf51f04a58947ad577e1">check_if_string_is_alphanumeric</a> (String word);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// time_management</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;String <a class="code" href="base_8h.html#a3510cfe664c5b740d746a31e79b0f158">weekday_to_num</a> (String weekday);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordtype">boolean</span> <a class="code" href="base_8h.html#a6291345b0a1a1141c8d11458ff2f5cd4">compare_time</a> (String time, <span class="keywordtype">boolean</span> weekday_included);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#a11b9f043cd67f782c7b8c49ffd0f51cb">update_time</a>(String time, <span class="keywordtype">boolean</span> AP_mode);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;String <a class="code" href="base_8h.html#a79f5fec2131038665d4240b7b761f15a">get_current_time</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;String <a class="code" href="base_8h.html#a9302635144807a7f7063815f116ac129">turn_seconds_in_time</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> input_seconds);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;String <a class="code" href="base_8h.html#a2df1ab5ae345f8373541fdadc380d0cf">add_time</a>(String time, String offset_time);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#a55657da39648ec7114a18e7cb7fbc915">init_time</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">void</span> <a class="code" href="base_8h.html#ac98cf9eca3c34ed8b3fb2c93625a0c18">check_and_update_offset</a>();</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="abase_8h_html_a79f5fec2131038665d4240b7b761f15a"><div class="ttname"><a href="base_8h.html#a79f5fec2131038665d4240b7b761f15a">get_current_time</a></div><div class="ttdeci">String get_current_time()</div><div class="ttdoc">Loads the current time from LittleFS.</div><div class="ttdef"><b>Definition:</b> time_management.cpp:168</div></div>
 <div class="ttc" id="abase_8h_html_a6291345b0a1a1141c8d11458ff2f5cd4"><div class="ttname"><a href="base_8h.html#a6291345b0a1a1141c8d11458ff2f5cd4">compare_time</a></div><div class="ttdeci">boolean compare_time(String time, boolean weekday_included)</div><div class="ttdoc">Compare specified time with current time.</div><div class="ttdef"><b>Definition:</b> time_management.cpp:84</div></div>

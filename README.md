@@ -1,7 +1,7 @@
 \mainpage
 
 
-This repository contains the software for an infrared controller, the purpose of which is to be able to control devices with an infrared interface using a smartphone. You find a more detailed documentation of the project [here](https://marcubb.github.io/IR-Controller/).
+This repository contains the software for an infrared controller, the purpose of which is to be able to control devices with an infrared interface using a smartphone. You find a more detailed documentation of the project [here](https://marcubb.github.io/IR-Controller/). When you successfully connected the device to your local network you can access the UI by typing "irr.local" in your browser. Same goes for AP mode, just make sure you are connected to the same network as the device.
 
 In this guide you find information about following topics:
 
