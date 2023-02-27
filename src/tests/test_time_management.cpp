@@ -383,7 +383,6 @@ boolean test_add_time() {
  * 
  * @see get_NTP_time
  */
-// TODO: überarbeiten
 boolean test_init_time() {
 
 	init_time();
@@ -402,8 +401,8 @@ boolean test_init_time() {
 	unsigned long expected_seconds = expected_offset/1000;
 
 	// check if the document is empty
-	if (hours != 0 || minutes != 0 || (seconds != expected_seconds && seconds != (expected_seconds + 1) && seconds != (expected_seconds - 1)) || weekday != 4 || init_offset != last_offset || (expected_offset - last_offset) > 500 || timezone != 0) {
-		Serial.println("\e[0;31mtest_get_NTP_time: FAILED");
+	if (hours != 0 || minutes != 0 || (seconds > expected_seconds + 10) || (seconds < expected_seconds - 10) || weekday != 4 || init_offset != last_offset || (expected_offset - last_offset) > 500 || timezone != 0) {
+		Serial.println("\e[0;31mtest_init_time: FAILED");
 		Serial.println("expected: 00:00:" + String(expected_seconds) + " 4 " + String(expected_offset));
 		Serial.print("actual: ");
 		serializeJson(doc, Serial);

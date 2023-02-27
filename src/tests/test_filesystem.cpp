@@ -395,12 +395,12 @@ boolean test_get_files() {
 	file1.close();
 	File file2 = LittleFS.open("/signals/test2.json", "w");
 	file2.close();
-	File file3 = LittleFS.open("/programs/test3.json", "w");
+	File file3 = LittleFS.open("/programs/test3.txt", "w");
 	file3.close();
 	LittleFS.end();
 
 	// test if files are returned correctly
-	String files1 = get_files("signals", "programs");
+	String files1 = get_files("/signals", "/programs");
 
 	if (files1 != "test1,test2;test3") {
 		Serial.println("\e[0;31mtest_get_files: FAILED");
@@ -497,7 +497,7 @@ boolean test_read_program() {
 
 	// create test file
 	LittleFS.begin();
-	File file = LittleFS.open("/programs/test.json", "w");
+	File file = LittleFS.open("/programs/test.txt", "w");
 	file.println(String("play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend").c_str());
 	file.close();
 	LittleFS.end();
@@ -505,10 +505,10 @@ boolean test_read_program() {
 	// test if program is read correctly
 	String program1 = read_program("test");
 
-	if (program1 != "play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend") {
+	if (program1 != "play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend\r\n") {
 		Serial.println("\e[0;31mtest_read_program: FAILED");
 		Serial.println("program was not read correctly");
-		Serial.println("expected: play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend");
+		Serial.println("expected: play abc\nwait 500\nplay def\nloop 3\nplay ghi\nwait 100\nend\r\n");
 		Serial.println("actual: " + program1 + "\e[0;37m");
 		clean_LittleFS();
 		return(false);

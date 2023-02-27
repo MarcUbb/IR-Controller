@@ -32,12 +32,18 @@ boolean test_deleting_workflow() {
 
 	File file2 = LittleFS.open("/signals/test_signal3.json", "w");
 	file2.close();
+
+	File file3 = LittleFS.open("/programs/test_program1.txt", "w");
+	file3.close();
 	LittleFS.end();
 
 	// create test data
 	String test_directory = "signals";
 	String name_fake = "test_signal2";
 	String name = "test_signal";
+
+	String test_directory2 = "programs";
+	String name2 = "test_program1";
 
 	String output1;
 
@@ -70,8 +76,19 @@ boolean test_deleting_workflow() {
 	if (output2 != "successfully deleted " + test_directory + ": " + name) {
 		Serial.println("\e[0;31mtest_deleting_workflow: FAILED");
 		Serial.println("function did not return correct message when file was deleted");
-		Serial.println("expected: deleted " + test_directory + ": " + name);
+		Serial.println("expected: successfully deleted " + test_directory + ": " + name);
 		Serial.println("actual: " + output2 + "\e[0;37m");
+		clean_LittleFS();
+		return(false);
+	}
+
+	// tests if file is deleted correctly
+	String output3 = deleting_workflow(test_directory2, name2);
+	if (output3 != "successfully deleted " + test_directory2 + ": " + name2) {
+		Serial.println("\e[0;31mtest_deleting_workflow: FAILED");
+		Serial.println("function did not return correct message when file was deleted");
+		Serial.println("expected: successfully deleted " + test_directory2 + ": " + name2);
+		Serial.println("actual: " + output3 + "\e[0;37m");
 		clean_LittleFS();
 		return(false);
 	}
@@ -254,7 +271,7 @@ boolean test_adding_workflow() {
 
 	// tests if program code is correctly written to file
 	LittleFS.begin();
-	File file = LittleFS.open("/programs/test_program.json", "r");
+	File file = LittleFS.open("/programs/test_program.txt", "r");
 	String output2 = file.readString();
 	file.close();
 	LittleFS.end();
@@ -298,12 +315,12 @@ boolean test_playing_workflow() {
 
 	// correct program
 	LittleFS.begin();
-	File file1 = LittleFS.open("/programs/test_program.json", "w");
+	File file1 = LittleFS.open("/programs/test_program.txt", "w");
 	file1.println("wait 500");
 	file1.close();
 
 	// faulty program
-	File file2 = LittleFS.open("/programs/test_program2.json", "w");
+	File file2 = LittleFS.open("/programs/test_program2.txt", "w");
 	file2.println("play abc");
 	file2.close();
 	LittleFS.end();

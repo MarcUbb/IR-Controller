@@ -31,6 +31,7 @@ String deleting_workflow(String directory, String name) {
   
   // generate filename
   String filename = "/" + directory + "/" + name + ".json";
+  String filename2 = "/" + directory + "/" + name + ".txt";
 
   // start filesystem
   LittleFS.begin();
@@ -38,6 +39,12 @@ String deleting_workflow(String directory, String name) {
   // check if file exists and delet if found
   if(LittleFS.exists(filename)){
     LittleFS.remove(filename);
+    LittleFS.end();
+    return("successfully deleted " + directory + ": " + name);
+  }
+
+  if(LittleFS.exists(filename2)){
+    LittleFS.remove(filename2);
     LittleFS.end();
     return("successfully deleted " + directory + ": " + name);
   }
