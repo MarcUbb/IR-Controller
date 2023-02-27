@@ -33,25 +33,28 @@ The project is a Platform\+IO project and is for the most parts structured as su
 The project is structured as follows\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{IR-\/Controller}
-\DoxyCodeLine{├───.pio                              // PlatformIO}
+\DoxyCodeLine{├───.pio                              // PlatformIO Konfiguration}
+\DoxyCodeLine{|   ├───build                         // Binärdateien}
+\DoxyCodeLine{|   |   ├───...}
+\DoxyCodeLine{|   ├───libdeps                       // Bibliotheksabhängigkeiten}
+\DoxyCodeLine{|   |   ├───...}
+\DoxyCodeLine{├───.vscode                           // VSCode Konfiguration}
 \DoxyCodeLine{|   ├───...}
-\DoxyCodeLine{├───.vscode                           // VSCode}
+\DoxyCodeLine{├───assets                            // Bilder für Code-\/Dokumentation}
 \DoxyCodeLine{|   ├───...}
-\DoxyCodeLine{├───assets                            // assets for documentation}
-\DoxyCodeLine{|   ├───...}
-\DoxyCodeLine{├───docs                              // Doxygen output}
+\DoxyCodeLine{├───docs                              // Ausgabe von Doxygen}
 \DoxyCodeLine{│   ├───html}
-\DoxyCodeLine{|   |   ├───index.html                // Main Page of Code Documentation}
+\DoxyCodeLine{|   |   ├───index.html                // Hauptseite der Code-\/Dokumentation}
 \DoxyCodeLine{|   |   ├───...}
 \DoxyCodeLine{│   ├───latex}
 \DoxyCodeLine{|   ├───...}
-\DoxyCodeLine{├───examples                          // Examples (may be deleted)}
+\DoxyCodeLine{├───examples                          // Beispielcode}
 \DoxyCodeLine{|   ├───...}
-\DoxyCodeLine{├───include                           // Header Files}
+\DoxyCodeLine{├───include                           // Header-\/Dateien}
 \DoxyCodeLine{│   ├───main.h}
 \DoxyCodeLine{│   ├───base.h}
 \DoxyCodeLine{│   ├───...}
-\DoxyCodeLine{├───lib                               // Libraries}
+\DoxyCodeLine{├───lib                               // Bibliotheken}
 \DoxyCodeLine{│   ├───ArduinoJson}
 \DoxyCodeLine{|   |   ├───...}
 \DoxyCodeLine{│   ├───IRremoteESP8266}
@@ -62,16 +65,17 @@ The project is structured as follows\+:
 \DoxyCodeLine{|   |   ├───...}
 \DoxyCodeLine{│   ├───WiFiManager}
 \DoxyCodeLine{|   |   ├───...}
-\DoxyCodeLine{├───src                               // Source Files}
-\DoxyCodeLine{│   ├───tests                         // Unit Tests}
+\DoxyCodeLine{├───src                               // CPP-\/Dateien}
+\DoxyCodeLine{│   ├───tests                         // Softwaretests}
 \DoxyCodeLine{│   │   ├───test\_main.cpp}
 \DoxyCodeLine{│   │   ├───test\_filesystem.cpp}
 \DoxyCodeLine{│   │   ├───...}
 \DoxyCodeLine{│   ├───main.cpp}
 \DoxyCodeLine{│   ├───filesystem.cpp}
 \DoxyCodeLine{│   ├───...}
-\DoxyCodeLine{├───Doxyfile                          // Doxygen Configuration}
-\DoxyCodeLine{└───platformio.ini                    // PlatformIO Configuration}
+\DoxyCodeLine{├───Doxyfile                          // Doxygen Konfiguration}
+\DoxyCodeLine{├───platformio.ini                    // PlatformIO Konfiguration}
+\DoxyCodeLine{└───README.md                         // Projektbeschreibung}
 \end{DoxyCode}
 
 

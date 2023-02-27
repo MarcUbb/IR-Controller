@@ -1,52 +1,50 @@
 <map id="setup" name="setup">
-<area shape="rect" id="node1" title="Arduino Setup function." alt="" coords="5,385,64,412"/>
+<area shape="rect" id="node1" title="Arduino Setup function." alt="" coords="5,360,64,387"/>
 <area shape="rect" id="node2" href="$base_8h.html#ae9e99c2db47fcc4b52086d16296a49aa" title="Controls the LED output." alt="" coords="127,5,270,32"/>
-<area shape="rect" id="node3" href="$main_8cpp.html#af19e4342307c909a6199729eca7749d7" title="Handler function to send the current AP mode setting to the frontend." alt="" coords="141,107,256,133"/>
-<area shape="rect" id="node4" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="401,309,463,336"/>
-<area shape="rect" id="node5" href="$main_8cpp.html#a8a124067f0737e535090ebb8b87fe225" title="Handler function to switch between AP mode and normal mode." alt="" coords="135,157,262,184"/>
-<area shape="rect" id="node6" href="$main_8cpp.html#af5c95b85845a3f351230b178b26965cc" title="Handler function to erase the wifi credentials saved on the ESP." alt="" coords="126,208,271,235"/>
-<area shape="rect" id="node7" href="$main_8cpp.html#a3c215e38d85a8d3c7e6dcc57b9581784" title="Handler function to display the error message." alt="" coords="147,259,251,285"/>
+<area shape="rect" id="node3" href="$main_8cpp.html#af19e4342307c909a6199729eca7749d7" title="Handler function to send the current AP mode setting to the frontend." alt="" coords="141,56,256,83"/>
+<area shape="rect" id="node4" href="$main_8h.html#a58141c4f251beaa1fee89b632d87152f" title="Constructor of the webserver that is used to serve the website." alt="" coords="377,335,440,361"/>
+<area shape="rect" id="node5" href="$main_8cpp.html#a8a124067f0737e535090ebb8b87fe225" title="Handler function to switch between AP mode and normal mode." alt="" coords="135,107,262,133"/>
+<area shape="rect" id="node6" href="$main_8cpp.html#af5c95b85845a3f351230b178b26965cc" title="Handler function to erase the wifi credentials saved on the ESP." alt="" coords="126,157,271,184"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#a3c215e38d85a8d3c7e6dcc57b9581784" title="Handler function to display the error message." alt="" coords="147,208,251,235"/>
 <area shape="rect" id="node8" href="$main_8cpp.html#af34fc8222bc1516385d025f1c386783b" title="Handler function to send a list of all signals and programs to the forntend." alt="" coords="148,461,249,488"/>
-<area shape="rect" id="node10" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="147,613,251,640"/>
-<area shape="rect" id="node25" href="$main_8cpp.html#abbb2c8533d3382aff50c25132e42be24" title="Handler function for any page that is not found." alt="" coords="129,309,268,336"/>
-<area shape="rect" id="node26" href="$main_8cpp.html#a4396215f1508823a1e88adf1f2ee7314" title="Handler function that receives new password entries." alt="" coords="131,360,266,387"/>
-<area shape="rect" id="node27" href="$main_8cpp.html#aad3360fdec17398d0e5302151e4805a6" title="Handler function to display the program the user wants to edit." alt="" coords="135,512,263,539"/>
-<area shape="rect" id="node28" href="$main_8cpp.html#a91f7b87e7f7bfe06d679424d3972d949" title="Handler function for the root page." alt="" coords="149,411,248,437"/>
-<area shape="rect" id="node29" href="$main_8cpp.html#a804df23af2d5325f6b80505441c440c0" title="Handler funciton to synchronize the time and/or timezone provided by the user." alt="" coords="147,563,250,589"/>
-<area shape="rect" id="node32" href="$base_8h.html#a55657da39648ec7114a18e7cb7fbc915" title="Gets time from NTP server." alt="" coords="392,781,472,808"/>
-<area shape="rect" id="node33" href="$tests_8h.html#a76d71e77bfa42929b874bbdfbe896517" title="runs all empirical tests" alt="" coords="112,803,285,829"/>
-<area shape="rect" id="node35" href="$tests_8h.html#ae3c32f603677f6b9f8616bb50afc6a32" title="runs all tests for all files" alt="" coords="146,1293,251,1320"/>
-<area shape="rect" id="node9" href="$base_8h.html#a57b2a7efc18f0e2b29d17382c2c9aca5" title="Returns List of saved signals and programs." alt="" coords="393,360,471,387"/>
-<area shape="rect" id="node11" href="$workflows_8h.html#a0f4135299af112fd833a2547da41297d" title="This function creates a file with the programs name and writes the code to it." alt="" coords="365,664,499,691"/>
-<area shape="rect" id="node12" href="$base_8h.html#ae91cb438a8dccf51f04a58947ad577e1" title="Checks if a String is alphanumeric." alt="" coords="363,715,501,757"/>
-<area shape="rect" id="node13" href="$workflows_8h.html#a114fb778076fa16b71370a0ac86e5064" title="This function deletes a file from the LittleFS filesystem." alt="" coords="361,613,503,640"/>
-<area shape="rect" id="node14" href="$workflows_8h.html#afbb6021d6f9112517cf664d3dccf3b77" title="This function loads a program from a file and hands it to the program_parser." alt="" coords="363,461,501,488"/>
-<area shape="rect" id="node19" href="$workflows_8h.html#aa5346f0ba92231fdbb04dceaf96145c5" title="This function records and saves a signal." alt="" coords="357,832,507,859"/>
-<area shape="rect" id="node22" href="$workflows_8h.html#ac7698db658d3e187c03e75ff9ac81591" title="This function loads a signal from a file and sends it." alt="" coords="362,512,502,539"/>
-<area shape="rect" id="node15" href="$base_8h.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="591,512,741,539"/>
-<area shape="rect" id="node16" href="$workflows_8cpp.html#aebc60e6c0ad4b332f2f1da7da6707f03" title="This function parses the code of a program line by line and executes the commands." alt="" coords="603,461,729,488"/>
-<area shape="rect" id="node17" href="$base_8h.html#a064bc458b16e70f9ce2384268151485c" title="Reads a program file and returns its content as a String." alt="" coords="609,411,723,437"/>
-<area shape="rect" id="node18" href="$filesystem_8cpp.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="801,411,952,437"/>
-<area shape="rect" id="node20" href="$base_8h.html#a974f985f052312d114134bc603d672a9" title="This function captures a signal and returns it as a String." alt="" coords="607,781,725,808"/>
-<area shape="rect" id="node21" href="$base_8h.html#a0282f0219ae51dc8d2b578908b8a70de" title="This function saves a captured signal." alt="" coords="617,832,715,859"/>
-<area shape="rect" id="node23" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="624,613,708,640"/>
-<area shape="rect" id="node24" href="$base_8h.html#ae92ea0f99679274f490c7e2d8a61ddd7" title="This function sends a signal provided in JSON format." alt="" coords="617,563,715,589"/>
-<area shape="rect" id="node30" href="$base_8h.html#a11b9f043cd67f782c7b8c49ffd0f51cb" title="Updates the time in the LittleFS." alt="" coords="380,563,484,589"/>
-<area shape="rect" id="node31" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="623,697,709,724"/>
-<area shape="rect" id="node34" href="$tests_8h.html#aabb22a5cfde24cd08a45763709e04503" title="Tests empirically the function get_NTP_time()" alt="" coords="361,883,503,925"/>
-<area shape="rect" id="node36" href="$test__main_8cpp.html#a54d5f87e6031ca9d0ce27d48e6079032" title="runs all tests for filesystem.cpp" alt="" coords="361,1159,503,1201"/>
-<area shape="rect" id="node47" href="$test__main_8cpp.html#aa7d1d7dcdf9dfb99e8af73d4adea3d9e" title="runs all tests for time_management.cpp" alt="" coords="333,1350,531,1391"/>
-<area shape="rect" id="node50" href="$test__main_8cpp.html#a00ef4d5ed3618cf7ba7f43447acef68b" title="runs all tests for workflows.cpp" alt="" coords="343,1416,521,1443"/>
-<area shape="rect" id="node37" href="$tests_8h.html#af5c2ce0c5931b603a4db2595b15fe86c" title="Unit test for the function &quot;capture_signal&quot;." alt="" coords="591,883,741,909"/>
-<area shape="rect" id="node38" href="$tests_8h.html#a41e633e4caee0888f37e1d967f84dda6" title="Unit test for the function &quot;check_if_file_exists&quot;." alt="" coords="598,934,734,975"/>
-<area shape="rect" id="node39" href="$tests_8h.html#aadf2be03b5e13707dafde4ae9ac1259b" title="Unit test for the function &quot;test_check_if_string_is_alphanumeric&quot;." alt="" coords="590,999,742,1041"/>
-<area shape="rect" id="node40" href="$tests_8h.html#a23216414e9ff8c254a6cc718e109634b" title="Unit test for the function &quot;test_control_led_output&quot;." alt="" coords="579,1065,753,1092"/>
-<area shape="rect" id="node41" href="$tests_8h.html#af8322e01dc3fc896ac9fda7c1f62a0dc" title="Unit test for the function &quot;get_files&quot;." alt="" coords="611,1116,721,1143"/>
-<area shape="rect" id="node42" href="$tests_8h.html#ac493a0e24d2dff0c1de7362d234f2d29" title="Unit test for the function &quot;load_json&quot;." alt="" coords="608,1167,724,1193"/>
-<area shape="rect" id="node43" href="$tests_8h.html#adbe98696af8d7cd62f4303909cd10f7a" title="Unit test for the function &quot;read_program&quot;." alt="" coords="593,1217,739,1244"/>
-<area shape="rect" id="node44" href="$tests_8h.html#a33ae18a47ca66a146cee114bf712d718" title="Unit test for the function &quot;save_json&quot;." alt="" coords="607,1268,725,1295"/>
-<area shape="rect" id="node45" href="$tests_8h.html#a6eff92c8e6a62b4e284d4124c985edb2" title="Unit test for the function &quot;save_signal&quot;." alt="" coords="601,1319,731,1345"/>
-<area shape="rect" id="node46" href="$tests_8h.html#ab8010bf8e97ecf011275d22d5d300cbc" title="Unit test for the function &quot;send_signal&quot;." alt="" coords="601,1369,731,1396"/>
-<area shape="rect" id="node48" href="$tests_8h.html#a7beae3d56bddfc62d5ad4d00e31a4029" title="Unit test for the function &quot;add_time&quot;." alt="" coords="609,1420,723,1447"/>
-<area shape="rect" id="node49" href="$tests_8h.html#a57bbab4c6324d9f66a780319aa1c1866" title="Unit test for the function &quot;check_and_update_offset&quot;." alt="" coords="579,1471,753,1513"/>
+<area shape="rect" id="node10" href="$main_8cpp.html#ab2a21540700dc92473c6acd2eaf11720" title="Handler function that receives GET requests from all form elements related to signals and programs." alt="" coords="147,816,251,843"/>
+<area shape="rect" id="node40" href="$main_8cpp.html#abbb2c8533d3382aff50c25132e42be24" title="Handler function for any page that is not found." alt="" coords="129,259,268,285"/>
+<area shape="rect" id="node41" href="$main_8cpp.html#a4396215f1508823a1e88adf1f2ee7314" title="Handler function that receives new password entries." alt="" coords="131,309,266,336"/>
+<area shape="rect" id="node42" href="$main_8cpp.html#aad3360fdec17398d0e5302151e4805a6" title="Handler function to display the program the user wants to edit." alt="" coords="135,512,263,539"/>
+<area shape="rect" id="node43" href="$main_8cpp.html#a91f7b87e7f7bfe06d679424d3972d949" title="Handler function for the root page." alt="" coords="149,360,248,387"/>
+<area shape="rect" id="node44" href="$main_8cpp.html#a804df23af2d5325f6b80505441c440c0" title="Handler funciton to synchronize the time and/or timezone provided by the user." alt="" coords="147,563,250,589"/>
+<area shape="rect" id="node46" href="$base_8h.html#a55657da39648ec7114a18e7cb7fbc915" title="Gets time from NTP server." alt="" coords="1409,512,1489,539"/>
+<area shape="rect" id="node47" href="$tests_8h.html#a76d71e77bfa42929b874bbdfbe896517" title="runs all empirical tests" alt="" coords="112,980,285,1007"/>
+<area shape="rect" id="node9" href="$base_8h.html#a57b2a7efc18f0e2b29d17382c2c9aca5" title="Returns List of saved signals and programs." alt="" coords="369,461,448,488"/>
+<area shape="rect" id="node11" href="$workflows_8h.html#a0f4135299af112fd833a2547da41297d" title="This function creates a file with the programs name and writes the code to it." alt="" coords="342,892,475,919"/>
+<area shape="rect" id="node12" href="$base_8h.html#ae91cb438a8dccf51f04a58947ad577e1" title="Checks if a String is alphanumeric." alt="" coords="339,943,478,985"/>
+<area shape="rect" id="node13" href="$workflows_8h.html#a114fb778076fa16b71370a0ac86e5064" title="This function deletes a file from the LittleFS filesystem." alt="" coords="337,740,480,767"/>
+<area shape="rect" id="node14" href="$workflows_8h.html#afbb6021d6f9112517cf664d3dccf3b77" title="This function loads a program from a file and hands it to the program_parser." alt="" coords="340,791,477,817"/>
+<area shape="rect" id="node33" href="$workflows_8h.html#aa5346f0ba92231fdbb04dceaf96145c5" title="This function records and saves a signal." alt="" coords="333,841,484,868"/>
+<area shape="rect" id="node39" href="$workflows_8h.html#ac7698db658d3e187c03e75ff9ac81591" title="This function loads a signal from a file and sends it." alt="" coords="943,993,1083,1020"/>
+<area shape="rect" id="node15" href="$base_8h.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="1149,867,1300,893"/>
+<area shape="rect" id="node16" href="$workflows_8cpp.html#aebc60e6c0ad4b332f2f1da7da6707f03" title="This function parses the code of a program line by line and executes the commands." alt="" coords="532,816,657,843"/>
+<area shape="rect" id="node31" href="$base_8h.html#a064bc458b16e70f9ce2384268151485c" title="Reads a program file and returns its content as a String." alt="" coords="538,512,651,539"/>
+<area shape="rect" id="node17" href="$workflows_8cpp.html#ae38fa40d61cf9aecaf82ebf6c2cc2977" title="This function executes timed commands." alt="" coords="705,816,895,843"/>
+<area shape="rect" id="node26" href="$workflows_8cpp.html#ac66d9f916af4fef55538c5cf0be70989" title="This function loads a signal from a file and sends it." alt="" coords="943,917,1083,944"/>
+<area shape="rect" id="node29" href="$workflows_8cpp.html#a4c38b70181fc74cd62f0a7529ffaf796" title="This function waits a certain amount of time." alt="" coords="713,689,887,716"/>
+<area shape="rect" id="node18" href="$base_8h.html#a6291345b0a1a1141c8d11458ff2f5cd4" title="Compare specified time with current time." alt="" coords="955,715,1071,741"/>
+<area shape="rect" id="node28" href="$base_8h.html#a3510cfe664c5b740d746a31e79b0f158" title="Converts a weekday String to a weekday number." alt="" coords="944,816,1081,843"/>
+<area shape="rect" id="node19" href="$time__management_8cpp.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="1131,715,1319,741"/>
+<area shape="rect" id="node25" href="$time__management_8cpp.html#a79f5fec2131038665d4240b7b761f15a" title="Loads the current time from LittleFS." alt="" coords="1158,765,1291,792"/>
+<area shape="rect" id="node20" href="$time__management_8cpp.html#a2df1ab5ae345f8373541fdadc380d0cf" title="adds two times together" alt="" coords="1407,765,1490,792"/>
+<area shape="rect" id="node21" href="$time__management_8cpp.html#a55657da39648ec7114a18e7cb7fbc915" title="Gets time from NTP server." alt="" coords="1409,563,1489,589"/>
+<area shape="rect" id="node22" href="$base_8h.html#a56820dcc580395e119d9de2ad4ad2400" title="This function loads a JSON document from a specified file." alt="" coords="1580,740,1664,767"/>
+<area shape="rect" id="node23" href="$base_8h.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="1579,512,1665,539"/>
+<area shape="rect" id="node24" href="$time__management_8cpp.html#a9302635144807a7f7063815f116ac129" title="This function converts seconds to time format." alt="" coords="1367,715,1531,741"/>
+<area shape="rect" id="node27" href="$base_8h.html#ae92ea0f99679274f490c7e2d8a61ddd7" title="This function sends a signal provided in JSON format." alt="" coords="1175,968,1274,995"/>
+<area shape="rect" id="node30" href="$base_8h.html#ac98cf9eca3c34ed8b3fb2c93625a0c18" title="Checks if millis() overflowed and updates time if necessary." alt="" coords="1131,664,1319,691"/>
+<area shape="rect" id="node32" href="$filesystem_8cpp.html#a5689133a917d901606c1d294bfda5785" title="Checks if a file exists." alt="" coords="725,512,875,539"/>
+<area shape="rect" id="node34" href="$base_8h.html#a974f985f052312d114134bc603d672a9" title="This function captures a signal and returns it as a String." alt="" coords="536,892,653,919"/>
+<area shape="rect" id="node36" href="$base_8h.html#a0282f0219ae51dc8d2b578908b8a70de" title="This function saves a captured signal." alt="" coords="545,968,644,995"/>
+<area shape="rect" id="node35" href="$filesystem_8cpp.html#ae9e99c2db47fcc4b52086d16296a49aa" title="Controls the LED output." alt="" coords="729,917,871,944"/>
+<area shape="rect" id="node37" href="$filesystem_8cpp.html#ae91cb438a8dccf51f04a58947ad577e1" title="Checks if a String is alphanumeric." alt="" coords="731,1019,869,1061"/>
+<area shape="rect" id="node38" href="$filesystem_8cpp.html#a8de3bbf584592c6a6c216ce738ca24ce" title="This function saves a JSON document to a specified file." alt="" coords="757,968,843,995"/>
+<area shape="rect" id="node45" href="$base_8h.html#a11b9f043cd67f782c7b8c49ffd0f51cb" title="Updates the time in the LittleFS." alt="" coords="1397,461,1501,488"/>
+<area shape="rect" id="node48" href="$tests_8h.html#aabb22a5cfde24cd08a45763709e04503" title="Tests empirically the function get_NTP_time()" alt="" coords="337,1137,480,1178"/>
 </map>

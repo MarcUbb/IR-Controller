@@ -28,25 +28,28 @@ The project is a PlatformIO project and is for the most parts structured as such
 The project is structured as follows:
 ```
 IR-Controller
-├───.pio                              // PlatformIO
+├───.pio                              // PlatformIO Konfiguration
+|   ├───build                         // Binärdateien
+|   |   ├───...
+|   ├───libdeps                       // Bibliotheksabhängigkeiten
+|   |   ├───...
+├───.vscode                           // VSCode Konfiguration
 |   ├───...
-├───.vscode                           // VSCode
+├───assets                            // Bilder für Code-Dokumentation
 |   ├───...
-├───assets                            // assets for documentation
-|   ├───...
-├───docs                              // Doxygen output
+├───docs                              // Ausgabe von Doxygen
 │   ├───html
-|   |   ├───index.html                // Main Page of Code Documentation
+|   |   ├───index.html                // Hauptseite der Code-Dokumentation
 |   |   ├───...
 │   ├───latex
 |   ├───...
-├───examples                          // Examples (may be deleted)
+├───examples                          // Beispielcode
 |   ├───...
-├───include                           // Header Files
+├───include                           // Header-Dateien
 │   ├───main.h
 │   ├───base.h
 │   ├───...
-├───lib                               // Libraries
+├───lib                               // Bibliotheken
 │   ├───ArduinoJson
 |   |   ├───...
 │   ├───IRremoteESP8266
@@ -57,16 +60,17 @@ IR-Controller
 |   |   ├───...
 │   ├───WiFiManager
 |   |   ├───...
-├───src                               // Source Files
-│   ├───tests                         // Unit Tests
+├───src                               // CPP-Dateien
+│   ├───tests                         // Softwaretests
 │   │   ├───test_main.cpp
 │   │   ├───test_filesystem.cpp
 │   │   ├───...
 │   ├───main.cpp
 │   ├───filesystem.cpp
 │   ├───...
-├───Doxyfile                          // Doxygen Configuration
-└───platformio.ini                    // PlatformIO Configuration
+├───Doxyfile                          // Doxygen Konfiguration
+├───platformio.ini                    // PlatformIO Konfiguration
+└───README.md                         // Projektbeschreibung
 ```
 As you can see the project structure is kept quiet simple and should look familiar if you already worked with PlatformIO. The only difference is that the unit tests are located in the src folder instead of the test folder. This is because out of simplicity I decided to write the tests by myself instead of using a framework like Unity.
 
@@ -112,7 +116,7 @@ In this section I want to give you a high level overview of the logical structur
 The device setup includes every step that is necessarey to reach the normal operation state which in best case will after the initial setup be the starting point after rebooting.
 
 Diagram of the Setup:
-![Setup](assets/setup.png)
+![Setup](assets/Setup_deutsch.png)
 
 As you can see in the diagram the device can operate in 2 different modes: AP-mode or STA-mode.
 
@@ -159,7 +163,7 @@ The files from the root directory define the configuration and state of the devi
 The webserver is responsible for the communication between the device and the user. It therfore includes receive commands from the user and displaying the current state of the device to the user.
 
 Diagram of the Webserver:
-![Webserver](assets/webserver.png)
+![Webserver](assets/Webserver_deutsch.png)
 
 Since I used a synchronous webserver UI updates are only possible after the user reloads the website. This means that after each input the website will be reloaded. This is not a problem since the website is very lightweight and the user will not notice any delay.
 
@@ -187,7 +191,7 @@ Hours, minutes and seconds dont need any explenation, weekday is saved as a numb
 The time gets initialized with time from an NTP server (saved timezone is respected if no timezone is saved GMT is used). If the device is not connected to the internet the request to the NTP server will fail and by NTPClient library default the time will be initialized with millis(). If that happens the user will have to update the time manually via the web interface. If the device is in AP-mode the user updates the time completly. If the device is in STA-mode the user can only update the timezone. The rest was done automatically by the NTPClient library. Lets look at a diagram explaining both this an how the millis() overflow is handled.
 
 Diagram of the time management:
-![time_management](assets/time_management.png)
+![time_management](assets/time_management_deutsch.png)
 
 As mentioned before the millis() funciton overflows after about 49 days. In order to prevent this in [time_management](src/time_management.cpp) you can find the funcion check_and_update_offset at the end of the file which is called every time long waiting periods are expected to occur. The function compares the current value of millis() to the last_offset and if the current value is smaller than the last_offset it means that millis() overflowed and the time and the init_offset have to be updated. Since we wont hit exactly the moment of overflow the function now checks millis() to see how much time passed since the overflow and reinitializes the time with the current offset.
 
@@ -274,6 +278,6 @@ The Powersupply is the last component that I want to talk about. It is the Mean 
 The schematic of the device is shown below. It is a very simple circuit that is easy to understand. All devices are powered by the power supply which is filtered by several condensators. The IR-LED is controlled by a n-channel transistor (IRLML6344) which is pulled down. The device features 2 push buttons and 1 on/off switch. Both the reset and stop button are pulled down. The ESP8266-12F can be programmed via a USB to serial converter (i.e. FT232RL) that has to be connected to the J1 Header Pin connector. Note that RXD has to be connected to TXD on the Serial to USB converter (and TXD to RXD). Additionally the device has to be powered by the power supply since the Serial to USB Converter is not able to power the ESP by itself. Also make sure the Serial to USB Converter is set to 3.3V.
 
 Schematic:
-![schematic](assets/schematic.png)
+![schematic](assets/Schaltplan.png)
 
 ---

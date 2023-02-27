@@ -66,8 +66,8 @@ boolean empirical_test_get_NTP_time() {
 
 	// check 100 times if the time is correct
 	for (int i = 0; i < 100; i++) {
-		// wait random time between checks from 1.5s to 3s (problems occured when frequency was below or at 1 request per second)
-		unsigned long random_time = random(2500, 3500);
+		// wait random time between checks from 5s to 10s (problems occured when frequency was below or at 3 request per second)
+		unsigned long random_time = random(5000, 10000);
 		delay(random_time);
 		unsigned long start_time = millis();
 
