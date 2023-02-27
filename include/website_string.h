@@ -19,6 +19,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>IR Remote</title>
+  <!-- CSS -->
   <style>
     html {font-family: Arial; display: inline-block;}
     body {max-width: 500px; margin: 5%; padding-bottom: 25px;} 
@@ -34,10 +35,13 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
   </style>
 </head>
 <body onload="get_data();">
+  <!-- status messages on top of page -->
   <h2>IR-Controller</h2>
   <p id="apinfo">AP-Mode</p>
   <div id="error_message">System message: error message</div>
   <br>
+
+
   <h3>Signals:</h3>
 
   <form action="/form">
@@ -77,6 +81,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
 
   <br><hr><br>
 
+  <!-- buttons at the bottom of page -->
   <button id="sync_button" name="time_sync_button" onclick="send_time()">sync timezone</button>
 
   <br><br>
@@ -103,7 +108,7 @@ const char index_html[] PROGMEM = R"rawliteral(<!DOCTYPE HTML><html>
     <input type="submit" name="change_password_button" value="change password">
   </form>
 
-
+  <!-- JavaScript -->
   <script>
     function removeOptions(select_element) {
       /*

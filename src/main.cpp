@@ -32,7 +32,7 @@ void setup() {
   // optional: run tests (uncomment "include tests.h" in main.h before production)
   // note that the LittleFS is reset after executing the tests
   //run_all_tests(false);
-  run_all_empirical_tests(false);
+  //run_all_empirical_tests(false);
 
   // start LittleFS
   LittleFS.begin();
@@ -103,6 +103,8 @@ void setup() {
   if (MDNS.begin("irr") == false) {
 	Serial.println("Error setting up MDNS responder!");
 	control_led_output("no_mDNS");
+  // reset wifi credentials
+  ESP.eraseConfig();
 	// stalls program execution if mDNS fails
 	while (1) { delay(1000); }
   }
